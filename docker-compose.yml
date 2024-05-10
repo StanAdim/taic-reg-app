@@ -1,0 +1,25 @@
+services:
+  taic-reg-api:
+    container_name: taic-reg-api
+    build: .
+    volumes:
+      - ./backend-api:/var/www/html
+    ports:
+      - 2230:80
+
+  taic-reg_mysql_db:
+    container_name: taic-reg-ictc-db
+    image: mysql:8.0.33
+    environment:
+      MYSQL_ROOT_PASSWORD: BeyondOrder24
+      MYSQL_DATABASE: taic_reg_ictc
+    ports:
+    - 2231:3306
+
+  taic-reg_phpmyadmin:
+    container_name: taic-reg-phpmyadmin
+    image: phpmyadmin:5.2.1
+    ports:
+      - 2233:80
+    environment:
+      - PMA_ARBITRARY=1
