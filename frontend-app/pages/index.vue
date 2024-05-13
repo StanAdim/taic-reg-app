@@ -6,17 +6,17 @@ definePageMeta({
 const globalData = useGlobalDataStore()
 const authStore = useAuthStore()
 const credentials = ref({
-  email:'test@example.com',
-  password: 'password'
+  email:'',
+  password: ''
 })
 const handleLogin = async ()=>{
   globalData.toggleLoadingState('on')
   const response = await authStore.login(credentials.value)
-  console.log(response)
+  credentials.value = {}
 }
+const date = new Date();
 
 </script>
-
 <template>
   <!-- component -->
   <div class="flex flex-col">
@@ -26,12 +26,13 @@ const handleLogin = async ()=>{
           <div class=" w-full md:w-1/2 bg-white">
             <div class="mx-auto flex h-full w-2/3 flex-col justify-center text-blue-950 xl:w-1/2">
               <div>
-                <p class="text-2xl">Login|
+                <p class="text-xl">TAIC {{ date.getUTCFullYear() }} |
                   <span class="text-sm text-blue-600 hover:cursor-pointer p-1 border-b-2 m-2  rounded-md border-blue-500 hover:bg-sky-50"
                         @click="globalData.toggleRegistrationForm()">Register Now</span></p>
                 <p>Please login to continue|</p>
 
               </div>
+
               <div class="mt-10">
                 <form @submit.prevent="handleLogin()">
                   <div>

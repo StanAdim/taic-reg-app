@@ -17,12 +17,14 @@ const formData = ref({
   email:'',
   password:'',
 })
+const authStore = useAuthStore()
 const globalData = useGlobalDataStore()
 const closeModal = ()=> {
   globalData.toggleRegistrationForm()
 }
-const handleRegistration = ()=> {
-  console.log(formData.value)
+const handleRegistration = async ()=> {
+  globalData.toggleLoadingState('on')
+  await  authStore.register(formData.value)
 }
 </script>
 <template>

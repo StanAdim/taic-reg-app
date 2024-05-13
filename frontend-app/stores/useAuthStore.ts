@@ -1,7 +1,10 @@
+import {error} from "vscode-jsonrpc/lib/common/is";
 
 type User = {
     id:number,
-    name: string,
+    firstName: string,
+    middleName: string,
+    lastName: string,
     email:string,
 
 }
@@ -11,7 +14,9 @@ type Credential = {
 }
 type LoggedUser ={
     id:number,
-    name:string,
+    firstName:string,
+    middleName:string,
+    lastName:string,
     token:string,
     email:string,
     email_verified_at:string,
@@ -20,7 +25,9 @@ type LoggedUser ={
     message:string
 }
 type RegistrationInfo = {
-    name: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
     email: string;
     password: string;
     password_confirmation: string;
@@ -30,6 +37,10 @@ export const useAuthStore = defineStore('auth', ()=> {
     const  user = ref<User | null>(null)
     const isLoggedIn = computed(()=> !!user.value)
     const globalStore = useGlobalDataStore()
+    const authErrors = ref()
+
+    const getLoggedUser = computed(()=>{return user.value})
+    const getAuthErrors = computed(()=>{return authErrors.value})
     //Fetch Logout
     async function fetchUser(){
         const {data,error} = await useApiFetch('/api/auth/user');
@@ -48,28 +59,44 @@ export const useAuthStore = defineStore('auth', ()=> {
             method: 'POST',
             body : credentials
         });
-        await fetchUser();
+        if (data.value){
+            await fetchUser();
+            globalStore.assignAlertMessage('Login Success','success')
         if (user.value){ navigateTo('/crm/');}
+        }else {
+            authErrors.value = error.value?.data
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage(authErrors.value?.errors, 'danger')
+        }
         return {data, error};
     }
     //Logout
     async function logout(){
         const logout =  await useApiFetch('/logout', {method: 'POST'});
         user.value = null;
-        navigateTo('/auth/login')
+        navigateTo('/')
         return logout
     }
     //Register
     async function register(userInfo : RegistrationInfo){
         await useApiFetch("/sanctum/csrf-cookie");
-        const register = await useApiFetch("/register", {
+        const registrationResponse = await useApiFetch("/register", {
             method: "POST",
             body: userInfo,
         });
-        await fetchUser();
-        return register;
+        if(registrationResponse?.data.value?.code == 200){
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage('Registration Success: Check your Email','success')
+            globalStore.toggleRegistrationForm()
+        }else{
+            authErrors.value = registrationResponse?.error.value?.data
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage(authErrors.value?.errors, 'danger')
+        }
+        return registrationResponse;
     }
     return {
-        user,login,isLoggedIn,logout,fetchUser,register
+        user,login,isLoggedIn,getAuthErrors,
+        logout,fetchUser,register,getLoggedUser
     }
 })
