@@ -34,9 +34,8 @@ export const useAuthStore = defineStore('auth', ()=> {
     async function fetchUser(){
         const {data,error} = await useApiFetch('/api/auth/user');
         if(data.value){
-            globalStore.setLoadingTo('off')
+            globalStore.toggleLoadingState('off')
             user.value = data.value as LoggedUser
-
         }
         return {
             data,error
@@ -45,17 +44,17 @@ export const useAuthStore = defineStore('auth', ()=> {
     // Login
     async function login(credentials: Credential){
         await useApiFetch("/sanctum/csrf-cookie");
-        const {data, error} = await useApiFetch('/auth/login',{
+        const {data, error} = await useApiFetch('/login',{
             method: 'POST',
             body : credentials
         });
         await fetchUser();
-        if (user.value){ navigateTo('/crm/dashboard');}
+        if (user.value){ navigateTo('/crm/');}
         return {data, error};
     }
     //Logout
     async function logout(){
-        const logout =  await useApiFetch('/auth/logout', {method: 'POST'});
+        const logout =  await useApiFetch('/logout', {method: 'POST'});
         user.value = null;
         navigateTo('/auth/login')
         return logout
@@ -63,7 +62,7 @@ export const useAuthStore = defineStore('auth', ()=> {
     //Register
     async function register(userInfo : RegistrationInfo){
         await useApiFetch("/sanctum/csrf-cookie");
-        const register = await useApiFetch("/api/auth/register", {
+        const register = await useApiFetch("/register", {
             method: "POST",
             body: userInfo,
         });

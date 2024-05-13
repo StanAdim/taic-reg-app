@@ -1,26 +1,26 @@
 <script lang="ts" setup>
-
-import RegisterModal from "~/components/registerModal.vue";
-
 definePageMeta({
-  layout:'auth'
+  layout:'auth',
+  middleware:'guest'
 })
-const credentials = ref({
-  email:'',
-  password: ''
-})
-const handleLogin = ()=>{
-  console.log(credentials.value)
-}
 const globalData = useGlobalDataStore()
+const authStore = useAuthStore()
+const credentials = ref({
+  email:'test@example.com',
+  password: 'password'
+})
+const handleLogin = async ()=>{
+  globalData.toggleLoadingState('on')
+  const response = await authStore.login(credentials.value)
+  console.log(response)
+}
+
 </script>
 
 <template>
   <!-- component -->
   <div class="flex flex-col">
-        <top-labels />
     <register-modal :showStatus="globalData.getRegistrationModalStatus" />
-
     <div class="">
         <div class="flex flex-row flex-wrap justify-center md:justify-between lg:justify-between w-full">
           <div class=" w-full md:w-1/2 bg-white">
@@ -41,8 +41,8 @@ const globalData = useGlobalDataStore()
                            placeholder="mail@user.com" />
                   </div>
                   <div class="mt-4">
-                    <label class="mb-2.5 block" for="email">Password</label>
-                    <input type="password" id="email"  v-model="credentials.password"
+                    <label class="mb-2.5 block" for="password">Password</label>
+                    <input type="password" id="password"  v-model="credentials.password"
                            class="inline-block w-full rounded-full bg-emerald-50 p-3 leading-none text-black placeholder-indigo-900 shadow" />
                   </div>
                   <div class="mt-4 flex w-full flex-col justify-between sm:flex-row">

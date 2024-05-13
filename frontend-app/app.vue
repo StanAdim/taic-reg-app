@@ -2,6 +2,7 @@
 </script>
 <template>
   <div>
+    <top-labels />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
