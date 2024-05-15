@@ -6,8 +6,8 @@ definePageMeta({
 const globalData = useGlobalDataStore()
 const authStore = useAuthStore()
 const credentials = ref({
-  email:'',
-  password: ''
+  email:'test@example.com',
+  password: 'password'
 })
 const handleLogin = async ()=>{
   globalData.toggleLoadingState('on')

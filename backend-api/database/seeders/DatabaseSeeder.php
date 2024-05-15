@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\District;
 use App\Models\User;
+use App\Region;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +17,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
+            RegionSeeder::class,
+            DistrictSeeder::class
         ]);
     }
 }

@@ -10,10 +10,10 @@ defineProps({
 </script>
 
 <template>
-  <div class="mx-4 floating" v-for="item in errors" :key="item" :class="{'hidden': hide}">
+  <div class="flex  justify-end align-top mx-4 " v-for="item in errors" :key="item" :class="{'hidden': hide}">
     <div
         id="toast-success"
-        class="flex justify-center alert-dan text-2xl px-5 py-2  items-center max-w-xs  my-2  text-white rounded-lg shadow  z-10000"
+        class="z-50 alert-dan text-2xl px-5 py-2  max-w-xs  my-2  text-white rounded-lg shadow "
         role="alert"
     >
       <div class="ms-3 text-sm font-normal" > {{item[0]}} </div>
@@ -24,9 +24,5 @@ defineProps({
 .alert-dan {
   background-color: rgba(193, 5, 5, 0.87);
 }
-.floating {
-  position:relative;
-  top:0;
-  z-index: 200;
-}
+
 </style>

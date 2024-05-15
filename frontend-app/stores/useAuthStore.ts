@@ -1,37 +1,4 @@
-import {error} from "vscode-jsonrpc/lib/common/is";
-
-type User = {
-    id:number,
-    firstName: string,
-    middleName: string,
-    lastName: string,
-    email:string,
-
-}
-type Credential = {
-    email:string,
-    password:string,
-}
-type LoggedUser ={
-    id:number,
-    firstName:string,
-    middleName:string,
-    lastName:string,
-    token:string,
-    email:string,
-    email_verified_at:string,
-    created_at:string,
-    updated_at:string,
-    message:string
-}
-type RegistrationInfo = {
-    firstName: string;
-    middleName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    password_confirmation: string;
-}
+import type {Credential, LoggedUser, User} from "~/types/interfaces";
 
 export const useAuthStore = defineStore('auth', ()=> {
     const  user = ref<User | null>(null)
@@ -48,9 +15,7 @@ export const useAuthStore = defineStore('auth', ()=> {
             globalStore.toggleLoadingState('off')
             user.value = data.value as LoggedUser
         }
-        return {
-            data,error
-        }
+        return {data,error}
     }
     // Login
     async function login(credentials: Credential){
@@ -61,7 +26,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         });
         if (data.value){
             await fetchUser();
-            globalStore.assignAlertMessage('Login Success','success')
+            globalStore.assignAlertMessage('Welcome back!!','success')
         if (user.value){ navigateTo('/crm/');}
         }else {
             authErrors.value = error.value?.data
@@ -95,8 +60,25 @@ export const useAuthStore = defineStore('auth', ()=> {
         }
         return registrationResponse;
     }
+    async function saveUserInfo(userInfo : RegistrationInfo){
+        await useApiFetch("/sanctum/csrf-cookie");
+        const userInfoResponse = await useApiFetch("/api/user-info-create", {
+            method: "POST",
+            body: userInfo,
+        });
+        if(userInfoResponse.data.value?.code == 200){
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage(userInfoResponse.data.value?.message,'success')
+            globalStore.toggleUserInfoModal()
+        }else{
+            authErrors.value = userInfoResponse.error.value?.data
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage(authErrors.value?.errors, 'danger')
+        }
+        return userInfoResponse
+    }
     return {
-        user,login,isLoggedIn,getAuthErrors,
+        user,login,isLoggedIn,getAuthErrors,saveUserInfo,
         logout,fetchUser,register,getLoggedUser
     }
 })

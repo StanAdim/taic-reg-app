@@ -1,61 +1,47 @@
 <script lang="ts" setup>
 
 const authStore = useAuthStore()
-const handleLogout = async  (req, res) => {
+const globalData = useGlobalDataStore()
+const handleLogout = async  () => {
   await authStore.logout()
 }
+const hideSideBar = ref(true)
+const handleSidebar = ()=> {
+  return hideSideBar.value = !hideSideBar.value
+}
+
+const sidebarRoutes = ref([
+  {name: 'Dashboard', path: '/'},
+  {name: 'Events', path: '/'},
+  {name: 'Payments', path: '/'},
+])
 </script>
 
 <template>
+  <user-info-form-modal :showStatus="globalData.getUserInfoModalStatus" />
+
   <div class="">
     <!-- component -->
     <div class="flex w-screen h-screen text-gray-700">
       <!-- Component Start -->
-      <div class="flex flex-col items-center w-16 pb-4 overflow-auto border-r border-gray-300">
-        <a class="flex items-center justify-center flex-shrink-0 w-full h-16 bg-gray-300" href="#"
-        @click="handleLogout()">
-          <svg class="w-8 h-8"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-          </svg>
-        </a>
-
-      </div>
-      <div class="flex flex-col w-56 border-r border-gray-300">
-        <button class="relative text-sm focus:outline-none group">
+      <div class="flex flex-col w-56 border-r border-gray-300" :class="{'hidden':hideSideBar}">
+        <div class="relative text-sm focus:outline-none">
           <div class="flex items-center justify-between w-full h-16 px-4 border-b border-gray-300 hover:bg-gray-300">
-                        <span class="font-medium">
-                            Dropdown
-                        </span>
-            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
+                        <i class="fa fa-home-user"></i>
+            <span @click="handleSidebar()" class="">
+                        <i class="fa fa-arrow-left"></i>
+            </span>
           </div>
-          <div class="absolute z-10 flex-col items-start hidden w-full pb-1 bg-white shadow-lg group-focus:flex">
-            <a class="w-full px-4 py-2 text-left hover:bg-gray-300" href="#">Menu Item 1</a>
-            <a class="w-full px-4 py-2 text-left hover:bg-gray-300" href="#">Menu Item 1</a>
-            <a class="w-full px-4 py-2 text-left hover:bg-gray-300" href="#">Menu Item 1</a>
-          </div>
-        </button>
+        </div>
         <div class="flex flex-col flex-grow p-4 overflow-auto">
-          <a class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-gray-300" href="#">
-            <span class="leading-none">Item 1</span>
-          </a>
-          <a class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-gray-300" href="#">
-            <span class="leading-none">Item 2</span>
-          </a>
-          <a class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-gray-300" href="#">
-            <span class="leading-none">Item 3</span>
-          </a>
-          <a class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-gray-300" href="#">
-            <span class="leading-none">Item 4</span>
-          </a>
-          <a class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-gray-300" href="#">
-            <span class="leading-none">Item 5</span>
-          </a>
-          <a class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-gray-300" href="#">
-            <span class="leading-none">Item 6</span>
-          </a>
-          <a class="flex items-center flex-shrink-0 h-10 px-3 mt-auto text-sm font-medium bg-gray-200 rounded hover:bg-gray-300"
+          <nuxt-link v-for="route in sidebarRoutes"
+                     :key="route"
+                     :to="route.path"
+                     class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-emerald-100" >
+            <span class="leading-none">{{ route.name }}</span>
+          </nuxt-link>
+
+          <a class="flex items-center flex-shrink-0 h-10 px-3 mt-auto text-sm font-medium bg-gray-200 rounded hover:bg-emerald-300"
              href="#">
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -66,14 +52,16 @@ const handleLogout = async  (req, res) => {
 
       </div>
       <div class="flex flex-col flex-grow">
-        <div class="flex items-center flex-shrink-0 h-16 px-8 border-b border-gray-300">
-          <h1 class="text-lg font-medium">Page Title</h1>
-          <button class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded hover:bg-gray-300">
-            {{authStore.getLoggedUser?.firstName}} {{authStore.getLoggedUser?.lastName}}
-          </button>
-          <button class="flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300">
-            Action 2
-          </button>
+        <div class="flex items-center justify-end flex-shrink-0 h-16 px-1 border-b border-gray-300">
+          <span @click="handleSidebar()" :class="{'hidden': !hideSideBar}" class="bg-zinc-100 rounded-md hover:cursor-pointer hover:bg-sky-700 p-0.5 ">
+            <i class="fa fa-bars mx-2 text-sky-400"></i></span>
+          <h1 class="hidden md:block text-lg font-medium ml-2"><i class="fa fa-user mx-1"></i>{{authStore.getLoggedUser?.firstName}} {{authStore.getLoggedUser?.lastName}}</h1>
+          <div class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded " :class="{'hidden': !hideSideBar}">
+
+          </div>
+          <div @click="handleLogout()" class="flex items-center hover:cursor-pointer justify-center py-1 border-2 px-2 ml-2 text-sm font-medium bg-orange-50  rounded hover:border-orange-600">
+            <i class="fa fa-hand-point-left mx-1"></i>Logout
+          </div>
           <button class="relative ml-2 text-sm focus:outline-none group">
             <div class="flex items-center justify-between w-10 h-10 rounded hover:bg-gray-300">
               <svg class="w-5 h-5 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,4 +86,6 @@ const handleLogout = async  (req, res) => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

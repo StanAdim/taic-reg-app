@@ -33,6 +33,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    
 
     /**
      * Get the attributes that should be cast.
@@ -45,5 +46,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function userInfo()
+    {
+        return $this->hasOne(UserInfo::class);
     }
 }
