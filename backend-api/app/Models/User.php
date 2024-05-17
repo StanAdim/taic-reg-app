@@ -21,6 +21,8 @@ class User extends Authenticatable
         'middleName',
         'lastName',
         'email',
+        'role_id',
+        'hasInfo',
         'password',
     ];
 
@@ -50,5 +52,9 @@ class User extends Authenticatable
     public function userInfo()
     {
         return $this->hasOne(UserInfo::class);
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

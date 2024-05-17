@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\RoleResource;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -35,5 +37,19 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return response()->noContent();
+    }
+    
+    public function  authUserCall(Request $request){
+        $user = $request->user();
+        if($user){
+            // Customize the response
+            $role = RoleResource::collection(Role::where('id',$user->role_id)->get())->first();
+             return response()->json([
+            'user' => $user,
+            'role' => $role,
+            'message' => 'Authenticated user success'
+        ]);
+        }
+        return $request->user();
     }
 }

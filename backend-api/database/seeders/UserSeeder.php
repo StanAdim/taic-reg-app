@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,11 +14,40 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $attendeeRole = Role::where('name', 'attendee')->first();
+        $AdminRole = Role::where('name', 'admin')->first();
+        $accountantRole = Role::where('name', 'accountant')->first();
+        $promotorRole = Role::where('name', 'promotor')->first();
         User::create([
-            'firstName' => 'Test',
+            'firstName' => 'Attendee',
             'middleName' => '',
-            'lastName' => 'User',
-            'email' => 'test@example.com',
+            'lastName' => 'Test',
+            'role_id' => $attendeeRole->id,
+            'email' => 'attendee@example.com',
+            'password'=> bcrypt('password')
+        ]);
+        User::create([
+            'firstName' => 'Admin',
+            'middleName' => '',
+            'lastName' => 'Test',
+            'role_id' => $AdminRole->id,
+            'email' => 'admin@example.com',
+            'password'=> bcrypt('password')
+        ]);
+        User::create([
+            'firstName' => 'Accountant',
+            'middleName' => '',
+            'lastName' => 'Test',
+            'role_id' => $accountantRole->id,
+            'email' => 'accountant@example.com',
+            'password'=> bcrypt('password')
+        ]);
+        User::create([
+            'firstName' => 'Promotor ',
+            'middleName' => '',
+            'lastName' => 'Test',
+            'role_id' => $promotorRole->id,
+            'email' => 'promotor@example.com',
             'password'=> bcrypt('password')
         ]);
     }

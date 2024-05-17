@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -27,18 +28,18 @@ class UserInfoController extends Controller
             ],422);
         }
         $newItem = $validator->validate();
-        $newData = UserInfo::create($newItem);
-        return response()->json([
-            'message'=> "User Info Created",
-            'data' => $newData,
-            'code'=> 200
-        ],200);
+        $user  = User::where('id',$newItem['user_id'] )->get()->first();
+            if($user){
+                $user->update(['hasInfo'=>1]);
+                $newData = UserInfo::create($newItem);
+                return response()->json([
+                    'message'=> "User Info Created",
+                    'data' => $newData,
+                    'code'=> 200
+                ],200);
+            }
     }
-    public function store(Request $request)
-    {
-        //
-    }
-
+   
     /**
      * Display the specified resource.
      */
