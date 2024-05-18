@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
@@ -39,15 +40,24 @@ class UserInfoController extends Controller
                 ],200);
             }
     }
-   
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserInfo $userInfo)
+
+    public function systemUsers()
     {
         //
+        $users = UserResource::collection(User::all());
+        if($users){
+            return response()->json([
+                'message'=> "Application Users",
+                'data' => $users,
+                'code' => 200,
+            ]);
+        }
+        return response()->json([
+            'message'=> "No users Found",
+            'code' => 300,
+        ]);
+        
     }
-
     /**
      * Show the form for editing the specified resource.
      */

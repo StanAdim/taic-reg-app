@@ -46,12 +46,11 @@ const keySpeakerStore = useSpeakerStore()
 const itemToUpdate = ref(null)
 const setAction = ref('')
 const handleInitializing = async ()=>{
-    keySpeakerStore.retriveConferenceSpeakers()
+    await keySpeakerStore.retrieveConferenceSpeakers()
 }
 const openDialog = (method)=>{
     setAction.value = method
-    keySpeakerStore.toogleDialog('open');
-    // console.log(method);
+    keySpeakerStore.toggleKeySpeakerModal('open');
 }
 handleInitializing()
 </script>

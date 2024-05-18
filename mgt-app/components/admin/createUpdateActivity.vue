@@ -23,7 +23,7 @@ const panelistList = ref([])
 const handlePanelist = ()=>{
     panelistList.value.push(statusChecker.value.singlePanelist)
 }
-const handleRemovePanelis = (itemToRemove)=>{
+const handleRemovePanelist = (itemToRemove)=>{
     panelistList.value = panelistList.value.filter(item => item !== itemToRemove)
 }
 
@@ -35,7 +35,7 @@ const day = ref({
     id: ''
 })
 const initialize = async ()=> {
-    await speakerStore.retriveConferenceSpeakers();
+    await speakerStore.retrieveConferenceSpeakers();
 }
 let timeslots = ref([])
 const handleTimeSlotCall = async (id)=> {
@@ -44,8 +44,8 @@ const handleTimeSlotCall = async (id)=> {
     timeslots.value = Object.values(timeslots.value)
 }
 const handleForm = async ()=> {
-    globalStore.setLoadingTo('on')
-    if(props.dialogAction == 'update'){
+    globalStore.toggleLoadingState('on')
+    if(props.dialogAction === 'update'){
         formData.value.id = props.passedItem
     }
     formData.value.action = props.dialogAction
@@ -130,12 +130,12 @@ initialize()
                
             </div>
             
-            <div class="mb-4 border-b-2 border-teal-500 py-2  mx-2" v-if="statusChecker.hasMinActivity == 1">
+            <div class="mb-4 border-b-2 border-teal-500 py-2  mx-2" v-if="statusChecker.hasMinActivity === 1">
                 <label for="subactivity" class="block text-sm font-medium text-gray-700">Min Activity</label>
                 <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                 type="text" v-model="formData.minActivity" placeholder="Activity Description" id="subactivity">
             </div>
-            <template v-if="statusChecker.hasPanelist == 1">
+            <template v-if="statusChecker.hasPanelist === 1">
                 <div class="border-b-2 border-teal-500 py-2 mx-2">
                     <label for="conference" class="block text-sm font-medium text-gray-700">Select Panelist</label>
                     <select  id="conference" @change="handlePanelist()" v-model="statusChecker.singlePanelist"
@@ -157,12 +157,12 @@ initialize()
                 <div class="mb-4 border-b-2 border-teal-500 py-2 mx-2">
                     <label for="name" class="block text-sm font-medium text-gray-700">Selected Panelist Names</label>
                     <p v-for="item in panelistList" :key="item" class=" my-2 border-none w-full text-gray-700  leading-tight "
-                    >{{item}} <span @click="handleRemovePanelis(item)" class="bg-white p-0.5 my-0.5 ml-2 text-sm rounded-md "><i class=" text-red-600 fa-solid fa-trash"></i></span></p>
+                    >{{item}} <span @click="handleRemovePanelist(item)" class="bg-white p-0.5 my-0.5 ml-2 text-sm rounded-md "><i class=" text-red-600 fa-solid fa-trash"></i></span></p>
                 </div>
             </template>
         <div class="mt-6">
           <button class="bg-green-500 text-white px-4 py-0.5 mx-3  rounded-md hover:bg-green-600">Save <i class="fa-regular fa-floppy-disk mx-2"></i></button>
-          <button @click="scheduleStore.toogleActivityDialog('close')" class="flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500
+          <button @click="scheduleStore.toggleActivityDialog('close')" class="flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500
                     hover:border-teal-700 text-sm border-4 text-white py-0.5 px-4 rounded"
                 type="button">
                 Close <i class="fa-regular fa-circle-xmark mx-2"></i>

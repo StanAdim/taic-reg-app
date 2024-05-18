@@ -18,7 +18,7 @@ class ConferenceController extends Controller
         $conferences = ConferenceResource::collection(Conference::all()->sortBy('conferenceYear'));
         if($conferences){
             return response()->json([
-                'message'=> "TAIC Conferences",
+                'message'=> "Conferences Fetch Success",
                 'data' => $conferences,
                 'code' => 200,
             ]);
@@ -60,7 +60,7 @@ class ConferenceController extends Controller
 
     public function getConferenceData(string $uuid)
     {
-        $tgtConference = Conference::where('id',$uuid)->get()->first();
+        $tgtConference = ConferenceResource::collection(Conference::where('id',$uuid)->get())->first();
         if($tgtConference){
             return response()->json([
                 'message'=> 'Conference Details: Found',

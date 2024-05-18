@@ -15,17 +15,16 @@ const props = defineProps({
 })
 
 const keySpeakerStore = useSpeakerStore()
-
-const configStore = useConfigurationStore()
+const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
 const formData = ref({
 })
 const initialize = async ()=> {
-    await configStore.retriveConferences();
+    await eventStore.retrieveEvents();
 }
 const handleForm = async ()=> {
-    globalStore.setLoadingTo('on')
-    if(props.dialogAction == 'update'){
+    globalStore.toggleLoadingState('on')
+    if(props.dialogAction === 'update'){
         formData.value.id = props.passedItem
     }
     formData.value.action = props.dialogAction
@@ -46,7 +45,7 @@ initialize()
                 <label for="StartDate" class="block text-sm font-medium text-gray-700">Select Conference</label>
                 <select v-model="formData.conference_id" id="" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none">
                     <option value="conference" disabled>Choose Year</option>
-                    <option v-for="conference in configStore.getConferences" :key="conference" :value="conference.id">{{conference.conferenceYear}}</option>
+                    <option v-for="conference in eventStore.getEvents" :key="conference" :value="conference.id">{{conference.conferenceYear}}</option>
                 </select>
             </div>
             <div class="flex flex-row justify-evenly">
@@ -105,7 +104,7 @@ initialize()
             </div>
         <div class="mt-6">
           <button class="bg-green-500 text-white px-4 py-0.5 mx-3  rounded-md hover:bg-green-600">Save <i class="fa-regular fa-floppy-disk mx-2"></i></button>
-          <button @click="keySpeakerStore.toogleDialog('close')" class="flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500
+          <button @click="keySpeakerStore.toggleKeySpeakerModal('close')" class="flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500
                     hover:border-teal-700 text-sm border-4 text-white py-0.5 px-4 rounded"
                 type="button">
                 Close <i class="fa-regular fa-circle-xmark mx-2"></i>

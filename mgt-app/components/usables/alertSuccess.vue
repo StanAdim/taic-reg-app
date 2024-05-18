@@ -21,7 +21,7 @@ defineProps({
 </template>
 <style  scoped>
 .alert-suc {
-  background-color: rgba(4, 115, 4, 0.87);
+  background-color: rgba(1, 152, 1, 0.9);
 }
 
 </style>

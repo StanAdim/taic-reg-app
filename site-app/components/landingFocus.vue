@@ -1,24 +1,18 @@
 <script setup>
 const global = useGlobalDataStore()
-// const siteStore = useSiteDataStore()
+const siteStore = useSiteDataStore()
 
-// async function retriveSitedata() {
-//   const {data, error}  = await siteStore.retriveSiteData()
-// }
-// retriveSitedata()
-const getSitedData = ref({
-    conferenceYear: 2024,
-    theme: 'Unleashing the Power of Artificial Intelligence and Robotics for socio-economic Transformation',
-    venue: 'Julius Nyerere International Convention Centre (JNICC)',
-    location:'Dar es salaam'
-})
+async function retriveSitedata() {
+  await siteStore.retriveSiteData()
+}
+retriveSitedata()
+
 </script>
 <template>
     <section id="hero" class="hero sticked-header-offset">
         <particle />
         <!-- <div id="repulse-circle-div"></div> -->
-        <!-- <div class="container position-relative landing-focus" v-if="siteStore.getSitedData"> -->
-        <div class="container position-relative landing-focus" >
+        <div class="container position-relative landing-focus" v-if="siteStore.getSitedData">
             <div class="row gy-5 aos-init aos-animate">
                 <div class="col-lg-7 offset-lg-5 dark-bg order-lg-1 d-flex flex-column justify-content-start text-left caption">
                     <!-- <h2 data-aos="fade-up">Delivering Superior Services <span>IT Solutions</span><span class="circle" data-aos="fade-right" data-aos-delay="800">.</span></h2> -->

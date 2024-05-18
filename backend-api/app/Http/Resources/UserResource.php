@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,8 +20,10 @@ class UserResource extends JsonResource
             'firstName'=> $this->firstName,
             'lastName'=> $this->lastName,
             'middleName'=> $this->middleName,
-            'userName'=> $this->firstName. ' '. $this->lastName,
-            'id'=> $this->id,
+            'email'=> $this->email,
+            'userName'=> $this->firstName.' '. $this->middleName. ' '. $this->lastName,
+            'role'=> $this->role->name,
+            'registrationDate'=> Carbon::parse($this->created_at)->format('M j, Y'),
         ];
     }
 }

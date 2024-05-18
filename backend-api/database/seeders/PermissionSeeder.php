@@ -26,10 +26,9 @@ class PermissionSeeder extends Seeder
             ["code"=>"can_view_event","name"=>"View event",],
             ["code"=>"can_view_all_events","name"=>"View all events",],
             ["code"=>"can_create_event","name"=>"Create event",],
-            ["code"=>"can_edit_event","name"=>"Edit event",],
             ["code"=>"can_delete_event","name"=>"Delete event",],
             ["code"=>"can_subscribe_event","name"=>"Subscribe event",],
-            ["code"=>"can_set_event","name"=>"Set event",],
+            ["code"=>"can_modify_event","name"=>"Modify event",],
 
             ####-----auth Roles
             ["code"=>"can_view_role","name"=>"View role",],

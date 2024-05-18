@@ -17,8 +17,8 @@ class ConferenceResource extends JsonResource
         return  [
             'id' => $this->id,
             'conferenceYear' => $this->conferenceYear,
-            'startDate' => $this->startDate,
-            'endDate' => $this->endDate,
+            'startDate' => date('j F Y', strtotime($this->startDate)),
+            'endDate' => date('j F Y', strtotime($this->endDate)),
             'venue' => $this->venue,
             'theme' => $this->theme,
             'aboutConference' => $this->aboutConference,
@@ -28,7 +28,7 @@ class ConferenceResource extends JsonResource
             'guestFee' => $this->guestFee,
             'lock' => $this->lock,
             'createdTime' => date('h:i A', strtotime($this->created_at)),
-            'createdDate' => date('F j, Y', strtotime($this->created_at)),
+            'createdDate' => date('j F Y', strtotime($this->created_at)),
             'speakers' => $this->speakers,
             'days'=> DayResource::collection($this-> days) 
             ];   

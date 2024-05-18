@@ -53,10 +53,8 @@ class RoleSeeder extends Seeder
             Permission::where('code','can_view_event')->first()->id,
             Permission::where('code','can_view_all_events')->first()->id,
             Permission::where('code','can_create_event')->first()->id,
-            Permission::where('code','can_edit_event')->first()->id,
-            Permission::where('code','can_delete_event')->first()->id,
+            Permission::where('code','can_modify_event')->first()->id,
             Permission::where('code','can_subscribe_event')->first()->id,
-            Permission::where('code','can_set_event')->first()->id,
         ];
         foreach ($promotoPermissions as $permission) {
             DB::table('role_permission')->insert([

@@ -13,7 +13,7 @@ const props = defineProps({
         default: false
     }
 })
-const Daylabels = ref([
+const dayLabels = ref([
     {value: 1,tag: "Day 1"},
     {value: 2,tag: "Day 2"},
     {value: 3,tag: "Day 3"},
@@ -27,15 +27,15 @@ const statusList = ref([
 
 ])
 const scheduleStore = useScheduleStore()
-const conferenceStore = useConfigurationStore()
+const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
 const formData = ref({})
 const initialize = async ()=> {
-    await conferenceStore.retriveConferences();
+    await eventStore.retrieveEvents();
 }
 const handleForm = async ()=> {
-    globalStore.setLoadingTo('on')
-    if(props.dialogAction == 'update'){
+    globalStore.toggleLoadingState('on')
+    if(props.dialogAction === 'update'){
         formData.value.id = props.passedItem
     }
     formData.value.action = props.dialogAction
@@ -56,7 +56,7 @@ initialize()
                 <select v-model="formData.conference_id" id="conference" 
                 class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none">
                     <option value="conference" disabled>Choose Year</option>
-                    <option v-for="conference in conferenceStore.getConferences" 
+                    <option v-for="conference in eventStore.getEvents"
                     :key="conference" :value="conference.id">{{conference.conferenceYear}}</option>
                 </select>
             </div>
@@ -72,7 +72,7 @@ initialize()
                     <select v-model="formData.label" id="label" 
                     class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none">
                     <option value="conference" disabled>Choose Label</option>
-                    <option v-for="singleDay in Daylabels" 
+                    <option v-for="singleDay in dayLabels"
                     :key="singleDay.tag" :value="singleDay.value">{{singleDay.tag}}</option>
                 </select>
                 </div>
@@ -88,7 +88,7 @@ initialize()
             </div>
         <div class="mt-6">
           <button class="bg-green-500 text-white px-4 py-0.5 mx-3  rounded-md hover:bg-green-600">Save <i class="fa-regular fa-floppy-disk mx-2"></i></button>
-          <button @click="scheduleStore.toogleDayDialog('close')" class="flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500
+          <button @click="scheduleStore.toggleDayDialog('close')" class="flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500
                     hover:border-teal-700 text-sm border-4 text-white py-0.5 px-4 rounded"
                 type="button">
                 Close <i class="fa-regular fa-circle-xmark mx-2"></i>

@@ -2,6 +2,8 @@
 
 namespace App\Models\Taic;
 
+use App\Models\Event\Subscription;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,5 +33,14 @@ class Conference extends Model
     public function days()
     {
         return $this->hasMany(Day::class);
+    }
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'subscriptions');
     }
 }

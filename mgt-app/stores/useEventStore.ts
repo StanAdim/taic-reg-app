@@ -3,9 +3,10 @@ import type { ConferenceData,ApiResponse } from "~/types/interfaces";
 export const useEventStore = defineStore('eventStore', () => {
 
     const eventDialogStatus = ref(false);
-    const taicConferences = ref([])
+    const events = ref([])
+    const singleEventDetail = ref<ConferenceData | null>(null)
     const globalStore = useGlobalDataStore()
-   
+
       const getYearsArray = computed(() => {
         const currentYear = new Date().getFullYear();
         const startYear = currentYear;
@@ -15,23 +16,23 @@ export const useEventStore = defineStore('eventStore', () => {
         }
         return yearsArray;
       })
-        const getConferences = computed(() => {return taicConferences.value})
+        const getEvents = computed(() => {return events.value})
+        const getSingleEventDetail = computed(() => {return singleEventDetail.value})
         // toggle Loading
-        const toggleLoading = ()=> {
-        return eventDialogStatus.value = !eventDialogStatus.value
-      }
+        const toggleEventModal = ()=> { return eventDialogStatus.value = !eventDialogStatus.value }
 
-      async function retrieveEvent(){
+      async function retrieveEvents(){
         await useApiFetch("/sanctum/csrf-cookie");
         const {data, error} = await useApiFetch(`/api/taic-conferences`);
         const response = data.value as ApiResponse
         if(response.code == 200){
-          globalStore.setLoadingTo('off')
-          taicConferences.value = response.data 
+          globalStore.toggleLoadingState('off')
+          globalStore.assignAlertMessage(response?.message,'success')
+          events.value = response.data
         }
         return {data, error};
       }
-      async function createUpdateConfiguration(passEvent: ConferenceData){
+      async function createUpdateEvent(passEvent: ConferenceData){
         await useApiFetch("/sanctum/csrf-cookie");
         const action = passEvent.action
         const {data, error} = await useApiFetch(`/api/${action}-conference-data`,{
@@ -40,33 +41,45 @@ export const useEventStore = defineStore('eventStore', () => {
         });
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
-          globalStore.setLoadingTo('off')
-          globalStore.AssignNotificationMessage(dataResponse?.message)
+          globalStore.toggleLoadingState('off')
+          globalStore.assignAlertMessage(dataResponse?.message,'success')
           eventDialogStatus.value = false;
-          await retrieveEvent()
+          await retrieveEvents()
         }
         return {data, error};
       }
       
       async function handleConferenceActivation(passId: string){
-        globalStore.setLoadingTo('on')
+        globalStore.toggleLoadingState('on')
         await useApiFetch("/sanctum/csrf-cookie");
         const {data, error} = await useApiFetch(`/api/conference/activate/${passId}`);
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
-          globalStore.AssignNotificationMessage(dataResponse?.message)
+          globalStore.assignAlertMessage(dataResponse?.message, 'success')
           eventDialogStatus.value = false;
-          globalStore.setLoadingTo('off')
-          await retrieveEvent()
+          globalStore.toggleLoadingState('off')
+          await retrieveEvents()
+        }
+        return {data, error};
+      }
+      async function fetchSingleEvent(eventId: string){
+        await useApiFetch("/sanctum/csrf-cookie");
+        globalStore.toggleLoadingState('on')
+        const {data, error} = await useApiFetch(`/api/conference-data/${eventId}`);
+        const dataResponse = data.value as ApiResponse
+        if(dataResponse?.code === 200){
+          singleEventDetail.value = dataResponse.data
+          globalStore.assignAlertMessage(dataResponse?.message, 'success')
+          globalStore.toggleLoadingState('off')
         }
         return {data, error};
       }
 
       return {
-        toggleLoading,getYearsArray,
-         eventDialogStatus,retrieveEvent,
-         getConferences,
-         createUpdateConfiguration,
-         handleConferenceActivation,
+        toggleEventModal,getYearsArray,
+         eventDialogStatus,retrieveEvents,
+        getEvents,
+         createUpdateEvent,getSingleEventDetail,
+         handleConferenceActivation,fetchSingleEvent
         }
     })

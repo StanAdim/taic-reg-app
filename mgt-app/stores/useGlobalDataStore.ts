@@ -2,6 +2,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const authStore = useAuthStore()
     const registrationDialogStatus= ref(false);
     const userInfoDialogStatus= ref(false);
+    const userProfileModalStatus= ref(false);
     const alertMessage = ref('');
     const isLoading = ref(false);
     const showSuccessStatus = ref(true);
@@ -13,6 +14,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
 
     //computed property
     const getRegistrationModalStatus = computed(() => {return registrationDialogStatus.value})
+    const getUserProfileStatus = computed(() => {return userProfileModalStatus.value})
     const getUserInfoModalStatus = computed(() => {return userInfoDialogStatus.value})
     const getLoadingState = computed(() => {return isLoading.value})
     const getSuccessStatus = computed(() => {return showSuccessStatus.value})
@@ -34,6 +36,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     }
     const toggleRegistrationForm = ()=> { registrationDialogStatus.value = !registrationDialogStatus.value  }
     const toggleUserInfoModal = ()=> { userInfoDialogStatus.value = !userInfoDialogStatus.value  }
+    const toggleUserProfileModalStatus = ()=> { userProfileModalStatus.value = !userProfileModalStatus.value  }
     const toggleShowMessage = (type)=> {
         switch (type) {
             case 'success': showSuccessStatus.value = !showSuccessStatus.value; break;
@@ -62,6 +65,11 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         }
         return {data,error}
     }
+    function separateNumber(number) {
+        let numStr = number.toString();
+        numStr = numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return numStr;
+    }
     const hasPermission = (permissionCode)=> {   return authStore.getUserPermissions.includes(permissionCode)}
 
     return {
@@ -70,6 +78,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         toggleRegistrationForm,toggleLoadingState,toggleUserInfoModal,
         getSuccessStatus,getDangerStatus,getWarningStatus,toggleUserInfoDialogStatus,
         assignAlertMessage,toggleShowMessage,getAlertMessage,
-        getRegions,getDistricts, retrieveRegions,retrieveRegionDistricts, hasPermission
+        getRegions,getDistricts, retrieveRegions,retrieveRegionDistricts, hasPermission,
+        separateNumber,getUserProfileStatus,toggleUserProfileModalStatus
     }
 })

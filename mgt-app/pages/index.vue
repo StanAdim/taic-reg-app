@@ -6,7 +6,7 @@ definePageMeta({
 const globalData = useGlobalDataStore()
 const authStore = useAuthStore()
 const credentials = ref({
-  email:'attendee@example.com',
+  email:'admin@example.com',
   password: 'password'
 })
 const handleLogin = async ()=>{

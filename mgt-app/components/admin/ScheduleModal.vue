@@ -10,8 +10,8 @@ const props = defineProps({
         default:false
     }
 })
-const closepassedScheduleModal = ()=> {
-    scheduleStore.toogleScheduleModal('close')
+const closeModal = ()=> {
+    scheduleStore.toggleScheduleModal('close')
 }
 </script>
 <template>
@@ -19,7 +19,7 @@ const closepassedScheduleModal = ()=> {
     <div class="flex  justify-center">
         <div class="relative bg-blue-100 w-4/5 rounded-lg shadow-xl py-2">
             <div class="border-b-2 border-teal-500">
-                <div for="Theme" class=" bg-blue-50 py-2 block text-xl font-bold text-blue-600 text-center">SCHEDULE FOR DAY {{props.passedSchedule?.label}} OF {{ props.passedSchedule?.conferenceYear }} CONFERENCE
+                <div  class=" bg-blue-50 py-2 block text-xl font-bold text-blue-600 text-center">SCHEDULE FOR DAY {{props.passedSchedule?.label}} OF {{ props.passedSchedule?.conferenceYear }} CONFERENCE
                     <span v-if="!props.passedSchedule?.is_visible" class="bg-blue-500 text-white hover:bg-blue-700 cursor-pointer py-1 px-2 rounded-full text-sm">
                         <i  class=" fa-solid fa-eye"></i></span>
                     <span v-if="props.passedSchedule?.is_visible" class="bg-gray-500 text-white hover:bg-gray-700 cursor-pointer py-1 px-2 rounded-full text-sm">
@@ -80,7 +80,7 @@ const closepassedScheduleModal = ()=> {
                     </tbody>
                 </table>
             </div>
-                <div @click="closepassedScheduleModal" class="text-right my-2 mx-2">
+                <div @click="closeModal" class="text-right my-2 mx-2">
                     <i class="fa-solid fa-xmark bg-red-100 text-red-600 p-2 rounded-sm"></i>
                 </div>
             </div>

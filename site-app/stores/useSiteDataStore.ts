@@ -14,6 +14,7 @@ export const useSiteDataStore = defineStore('siteData', () => {
       const dataResponse = data.value as ApiResponse
       if(dataResponse.code === 200){
         siteData.value = dataResponse.data
+        // console.log(siteData.value)
       }
       // console.log(data,error);
       return {data, error}

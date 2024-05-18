@@ -8,121 +8,121 @@ export const useScheduleStore = defineStore('schedules', () => {
     const openActivityDialog = ref(false);
 
     const conferenceDays = ref([])
-    const conferencetimetables = ref([])
+    const conferenceTimetable = ref([])
     const conferenceActivities = ref([])
 
     const globalStore = useGlobalDataStore()
       const getScheduleModalStatus = computed(()=> {return openScheduleModal.value})
       const getConferenceDays = computed(() => {return conferenceDays.value})
-      const getConferenceTimetables = computed(() => {return conferencetimetables.value})
+      const getConferenceTimetables = computed(() => {return conferenceTimetable.value})
       const getConferenceActivities = computed(() => {return conferenceActivities.value})
 
-      // toogle dialogs 
-      const toogleScheduleModal = (key: string = 'close')=> {
+      // toggle dialogs
+      const toggleScheduleModal = (key: string = 'close')=> {
         if(key === 'open') openScheduleModal.value = true
         if(key === 'close') openScheduleModal.value = false
       }
-      const toogleDayDialog = (key: string = 'close')=> {
+      const toggleDayDialog = (key: string = 'close')=> {
         if(key === 'open') openDayDialog.value = true
         if(key === 'close') openDayDialog.value = false
       }
-      const toogleTimetableDialog = (key: string = 'close')=> {
+      const toggleTimetableDialog = (key: string = 'close')=> {
         if(key === 'open') openTimetableDialog.value = true
         if(key === 'close') openTimetableDialog.value = false
       }
-      const toogleActivityDialog = (key: string = 'close')=> {
+      const toggleActivityDialog = (key: string = 'close')=> {
         if(key === 'open') openActivityDialog.value = true
         if(key === 'close') openActivityDialog.value = false
       }
 
-      async function retriveConferenceSchedules(){
+      async function retrieveConferenceSchedules(){
         await useApiFetch("/sanctum/csrf-cookie");
         const {data, error} = await useApiFetch(`/api/conference-schedules`);
         const response = data.value as ApiResponse
-        if(response.code = 200){
-          globalStore.setLoadingTo('off')
+        if(response.code === 200){
+          globalStore.toggleLoadingState('off')
           conferenceDays.value = response.data?.days
-          conferencetimetables.value = response.data?.timetable
+          conferenceTimetable.value = response.data?.timetable
           conferenceActivities.value = response.data?.activities
         }
         return {data, error};
       }
-      async function createUpdateDay(passedConfigration: ConferenceData){
+      async function createUpdateDay(passedItem: ConferenceData){
         await useApiFetch("/sanctum/csrf-cookie");
-        const action = passedConfigration.action
+        const action = passedItem.action
         const {data, error} = await useApiFetch(`/api/${action}-conference-day`,{
             method: 'POST',
-            body : passedConfigration 
+            body : passedItem
         });
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
-          globalStore.setLoadingTo('off')
-          toogleDayDialog('close')
-          globalStore.AssignNotificationMessage(dataResponse?.message)
+          globalStore.toggleLoadingState('off')
+          toggleDayDialog('close')
+          globalStore.assignAlertMessage(dataResponse?.message,'success')
           openDayDialog.value = false;
-          retriveConferenceSchedules()
+          await retrieveConferenceSchedules()
         }
         return {data, error};
       }
-      async function createUpdateTimetable(passedConfigration: ConferenceData){
+      async function createUpdateTimetable(passedItem: ConferenceData){
         await useApiFetch("/sanctum/csrf-cookie");
-        const action = passedConfigration.action
+        const action = passedItem.action
         const {data, error} = await useApiFetch(`/api/${action}-conference-timetable`,{
             method: 'POST',
-            body : passedConfigration 
+            body : passedItem
         });
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
-          globalStore.setLoadingTo('off')
-          toogleTimetableDialog('close')
-          globalStore.AssignNotificationMessage(dataResponse?.message)
+          globalStore.toggleLoadingState('off')
+          toggleTimetableDialog('close')
+          globalStore.assignAlertMessage(dataResponse?.message,'success')
           openDayDialog.value = false;
-          retriveConferenceSchedules()
+          await retrieveConferenceSchedules()
         }
         return {data, error};
       }
       
-      async function createUpdateActivity(passedConfigration: ConferenceData){
+      async function createUpdateActivity(passedItem: ConferenceData){
         await useApiFetch("/sanctum/csrf-cookie");
-        const action = passedConfigration.action
+        const action = passedItem.action
         const {data, error} = await useApiFetch(`/api/${action}-conference-activity`,{
             method: 'POST',
-            body : passedConfigration 
+            body : passedItem
         });
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
-          toogleActivityDialog('close')
-          globalStore.setLoadingTo('off')
-          globalStore.AssignNotificationMessage(dataResponse?.message)
+          toggleActivityDialog('close')
+          globalStore.toggleLoadingState('off')
+          globalStore.assignAlertMessage(dataResponse?.message,'success')
           openDayDialog.value = false;
-          retriveConferenceSchedules()
+          await retrieveConferenceSchedules()
         }
         return {data, error};
       }
       
-      async function handleActivateHorouble(passId: string){
-        globalStore.setLoadingTo('on')
+      async function handleActivateHonorable(passId: string){
+        globalStore.toggleLoadingState('on')
         await useApiFetch("/sanctum/csrf-cookie");
         const {data, error} = await useApiFetch(`/api/honorable-speaker/activate/${passId}`);
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
-          globalStore.AssignNotificationMessage(dataResponse?.message)
+          globalStore.assignAlertMessage(dataResponse?.message,'success')
           openDayDialog.value = false;
-          globalStore.setLoadingTo('off')
-          retriveConferenceSchedules()
+          globalStore.toggleLoadingState('off')
+          await retrieveConferenceSchedules()
         }
         return {data, error};
       }
       async function handleTimeSlotCall(passId: string){
-        globalStore.setLoadingTo('on')
+        globalStore.toggleLoadingState('on')
         await useApiFetch("/sanctum/csrf-cookie");
         const {data, error} = await useApiFetch(`/api/retrive-timetable/${passId}`);
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
-          globalStore.AssignNotificationMessage(dataResponse?.message)
+          globalStore.assignAlertMessage(dataResponse?.message,'success')
           openDayDialog.value = false;
-          globalStore.setLoadingTo('off')
-          retriveConferenceSchedules()
+          globalStore.toggleLoadingState('off')
+          await retrieveConferenceSchedules()
         }
         return {data, error};
       }
@@ -130,11 +130,11 @@ export const useScheduleStore = defineStore('schedules', () => {
       return { 
          
         openDayDialog, openTimetableDialog,openActivityDialog,
-          toogleDayDialog,toogleTimetableDialog, toogleActivityDialog,
-         retriveConferenceSchedules,
+          toggleDayDialog,toggleTimetableDialog, toggleActivityDialog,
+         retrieveConferenceSchedules,
          getConferenceDays,getConferenceTimetables,getConferenceActivities,
          createUpdateDay,createUpdateTimetable,createUpdateActivity,
-         handleActivateHorouble,
-         getScheduleModalStatus, toogleScheduleModal
+         handleActivateHonorable,
+         getScheduleModalStatus, toggleScheduleModal
         }
     })

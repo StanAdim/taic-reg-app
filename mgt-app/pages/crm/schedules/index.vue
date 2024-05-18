@@ -10,30 +10,30 @@ const scheduleStore = useScheduleStore()
 const itemToBePassed = ref({})
 
 const handleInitializing = async ()=>{
-    await scheduleStore.retriveConferenceSchedules();
+    await scheduleStore.retrieveConferenceSchedules();
 }
 const openDialog = (method, type) => {
     setAction.value = method
     switch(type) {
-  case 'dayDialogy':
-    scheduleStore.toogleDayDialog('open')
-    scheduleStore.toogleTimetableDialog('close')
-    scheduleStore.toogleActivityDialog('close')
+  case 'dayDialog':
+    scheduleStore.toggleDayDialog('open')
+    scheduleStore.toggleTimetableDialog('close')
+    scheduleStore.toggleActivityDialog('close')
     break;
-  case 'timetableDialogy':
-  scheduleStore.toogleTimetableDialog('open')
-  scheduleStore.toogleDayDialog('close')
-  scheduleStore.toogleActivityDialog('close')
+  case 'timetableDialog':
+  scheduleStore.toggleTimetableDialog('open')
+  scheduleStore.toggleDayDialog('close')
+  scheduleStore.toggleActivityDialog('close')
     break;
   default:
-  scheduleStore.toogleActivityDialog('open')
-  scheduleStore.toogleDayDialog('close')
-  scheduleStore.toogleTimetableDialog('close')
+  scheduleStore.toggleActivityDialog('open')
+  scheduleStore.toggleDayDialog('close')
+  scheduleStore.toggleTimetableDialog('close')
 }
 
 }
 const handleScheduleShow = (passedItem) => {
-    scheduleStore.toogleScheduleModal('open')
+    scheduleStore.toggleScheduleModal('open')
     itemToBePassed.value = passedItem
 } 
 handleInitializing()
@@ -41,22 +41,22 @@ handleInitializing()
 <template>
     <div>
         <AdminThePageTitle title="SCHEDULES" />
-        <AdminCreateUpdateDay :passedItem ="itemToUpdate"
+        <AdminCreateUpdateDay :passedItem ="itemToBePassed"
                 :showStatus="scheduleStore.openDayDialog"  
                 :dialogAction="setAction" />
-                <AdminCreateUpdateTimetable :passedItem ="itemToUpdate"
+                <AdminCreateUpdateTimetable :passedItem ="itemToBePassed"
                 :showStatus="scheduleStore.openTimetableDialog"  
                 :dialogAction="setAction" />
-                <AdminCreateUpdateActivity :passedItem ="itemToUpdate"
+                <AdminCreateUpdateActivity :passedItem ="itemToBePassed"
                         :showStatus="scheduleStore.openActivityDialog"  
                         :dialogAction="setAction" />
         <AdminScheduleModal :showStatus="scheduleStore.getScheduleModalStatus" :passedSchedule="itemToBePassed"/>
         <div class=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div class="w-full max-w-sm mx-auto px-4 py-4">
             <div class="flex justify-center items-center border-b-2 border-teal-500 py-2">
-                <UsablesTheButton  @click="openDialog('create','activityDialogy')" :is-normal="true" name="Add Activity" iconClass="fa-solid fa-plus" />  
-                <UsablesTheButton  @click="openDialog('create','timetableDialogy')" :is-normal="true" name="Add Timetable" iconClass="fa-solid fa-plus" />  
-                <UsablesTheButton  @click="openDialog('create', 'dayDialogy')" :is-normal="true" name="Add Day" iconClass="fa-solid fa-plus" />  
+                <UsablesTheButton  @click="openDialog('create','activityDialog')" :is-normal="true" name="Add Activity" iconClass="fa-solid fa-plus" />
+                <UsablesTheButton  @click="openDialog('create','timetableDialog')" :is-normal="true" name="Add Timetable" iconClass="fa-solid fa-plus" />
+                <UsablesTheButton  @click="openDialog('create', 'dayDialog')" :is-normal="true" name="Add Day" iconClass="fa-solid fa-plus" />
             </div>
         </div>
         <ul class="flex justify-center divide-y divide-gray-300 px-4">

@@ -5,8 +5,11 @@ export const useAuthStore = defineStore('auth', ()=> {
     const isLoggedIn = computed(()=> !!user.value)
     const globalStore = useGlobalDataStore()
     const authErrors = ref <any | null>(null)
+    const appUsers = ref <any>([])
 
     const getLoggedUser = computed(()=>{return user.value?.user})
+    const getLoggedUserInfo = computed(()=>{return user.value?.userInfo})
+    const getAppUsers = computed(()=>{return appUsers.value?.data})
     const getAuthErrors = computed(()=>{return authErrors.value})
     const getUserRole = computed(()=>{return user.value?.role?.name})
     const getUserPermissions = computed(()=>{
@@ -18,6 +21,16 @@ export const useAuthStore = defineStore('auth', ()=> {
             globalStore.toggleLoadingState('off')
             user.value = data.value as LoggedUser
             if(getLoggedUser.value?.hasInfo == 0)globalStore.toggleUserInfoDialogStatus('on') //close Extra infoDialog
+        }
+        return {data,error}
+    }
+    //Fetch Application Users
+    async function retrieveAppUsers(){
+        const {data,error} = await useApiFetch('/api/application-users');
+        if(data.value){
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage(data.value.message, 'success')
+            appUsers.value = data.value as LoggedUser
         }
         return {data,error}
     }
@@ -75,6 +88,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         if(userInfoResponse.data.value?.code == 200){
             globalStore.toggleLoadingState('off')
             globalStore.assignAlertMessage(userInfoResponse.data.value?.message,'success')
+            await  fetchUser()
             globalStore.toggleUserInfoDialogStatus('off')
         }else{
             authErrors.value = userInfoResponse.error.value?.data
@@ -85,6 +99,8 @@ export const useAuthStore = defineStore('auth', ()=> {
     }
     return {
         user,login,isLoggedIn,getAuthErrors,saveUserInfo,
-        logout,fetchUser,register,getLoggedUser,getUserRole,getUserPermissions
+        logout,fetchUser,register,getLoggedUser,getUserRole
+        ,getUserPermissions,getLoggedUserInfo,
+        getAppUsers,retrieveAppUsers
     }
 })
