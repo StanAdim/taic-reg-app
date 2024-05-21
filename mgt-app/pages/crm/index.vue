@@ -9,6 +9,7 @@ const globalStore = useGlobalDataStore()
   <div>
     <AdminThePageTitle title="APP DASHBOARD" />
     <!-- component -->
+            <p class="mx-2 ">Welcome to Dashboard</p>
 
   </div>
 </template>

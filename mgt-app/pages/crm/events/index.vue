@@ -29,8 +29,11 @@ handleCall();
     <adminCreateUpdateConference :passedItem ="itemToUpdate"
     :showStatus="eventStore.eventDialogStatus"
     :configurationAction="setAction"/>
-    <div class="">
-        <div class=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    <div class="flex flex-wrap justify-between flex-row border border-sky-100 p-4 rounded-md">
+        <div class="">
+          <p>Hello</p>
+        </div>
+        <div class="mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div class="w-full max-w-sm mx-auto px-4 py-2">
             <div class="flex justify-center items-center border-b-2 border-teal-500 py-2">
                 <UsablesTheButton  @click="handleCall()" :is-normal="true" name="Refresh" iconClass="fa-solid fa-arrows-rotate" />
@@ -76,7 +79,7 @@ handleCall();
                             class="mx-1 h-8 w-auto bg-orange-500 hover:bg-orange-700 border-orange-500
                             hover:border-orange-700 text-sm border-4 text-white py-0.5 px-2 rounded"
                             type="button">
-                            Edit <i class="fa-regular fa-pen-to-square mx-2"></i>
+                             <i class="fa-regular fa-pen-to-square mx-2"></i>
                         </button>
                         <button @click="eventStore.handleConferenceActivation(item.id)"
                             class="mx-1 h-8 w-auto bg-sky-500 hover:bg-sky-700 border-sky-500

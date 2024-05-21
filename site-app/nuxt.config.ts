@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+  const thisDate  = new Date
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
@@ -7,7 +8,7 @@ export default defineNuxtConfig({
   ],
   app: {
     head: {
-      title: 'TAIC - 2024', // Set the default title for your application
+      title: `TAIC - ${thisDate.getFullYear()}`, // Set the default title for your application
       meta: [
         { charset: 'utf-8' },
         { 'http-equiv': 'pragma', content: 'no-cache' },
@@ -38,7 +39,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig:{
     public:{
-      appName:  'TAIC',
+      appName:  'Tanzania Annual ICT Conference',
       apiBaseUlr: process.env.API_URL ,
       baseUrl: process.env.BASE_URL,
     }

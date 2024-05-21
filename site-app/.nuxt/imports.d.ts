@@ -28,12 +28,8 @@ export { withCtx, withDirectives, withKeys, withMemo, withModifiers, withScopeId
 export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerSeoMeta, useServerHeadSafe } from '@unhead/vue';
 export { useApiFetch } from '../composables/useApiFetch';
 export { useLocalStorage } from '../composables/useLocalStorage';
-export { useAuthStore } from '../stores/useAuthStore';
-export { useConfigurationStore } from '../stores/useConfigurationStore';
 export { useGlobalDataStore } from '../stores/useGlobalDataStore';
-export { useScheduleStore } from '../stores/useScheduleStore';
 export { useSiteDataStore } from '../stores/useSiteDataStore';
-export { useSpeakerStore } from '../stores/useSpeakerStore';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
 export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
 export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';

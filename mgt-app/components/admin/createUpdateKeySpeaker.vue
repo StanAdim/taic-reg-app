@@ -18,6 +18,7 @@ const keySpeakerStore = useSpeakerStore()
 const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
 const formData = ref({
+  conference_id:0
 })
 const initialize = async ()=> {
     await eventStore.retrieveEvents();
@@ -38,13 +39,12 @@ initialize()
     <div class="fixed z-10 inset-0 overflow-y-auto" :class="{'hide': !props.showStatus}" id="modal">
         <div class="flex items-center justify-center min-h-screen">
             <div class="relative bg-white w-3/5 rounded-lg shadow-xl p-8">
-                <h2 class="text-xl font-semibold mb-4 text-center capitalize">{{props.dialogAction}} Conference Configuration</h2>
+                <h2 class="text-xl font-semibold mb-4 text-center capitalize">{{props.dialogAction}} Conference Speakers</h2>
         <form @submit.prevent="handleForm()">
-            <pre>{{ props.passedItem }}</pre>
             <div class="mb-4 border-b-2 border-teal-500 py-2">
                 <label for="StartDate" class="block text-sm font-medium text-gray-700">Select Conference</label>
                 <select v-model="formData.conference_id" id="" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none">
-                    <option value="conference" disabled>Choose Year</option>
+                    <option value="0" disabled>Choose Year</option>
                     <option v-for="conference in eventStore.getEvents" :key="conference" :value="conference.id">{{conference.conferenceYear}}</option>
                 </select>
             </div>

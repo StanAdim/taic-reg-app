@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Event\Subscription;
 use App\Models\Taic\Conference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

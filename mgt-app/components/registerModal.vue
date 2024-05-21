@@ -28,14 +28,26 @@ const handleRegistration = async ()=> {
 }
 </script>
 <template>
-  <div class="fixed z-20 inset-0 overflow-y-auto mt-1" :class="{'hide': !props.showStatus}" id="modal">
+  <div class="fixed z-20 inset-0 overflow-y-auto rounded-lg mt-32" :class="{'hide': !props.showStatus}" id="modal">
     <div class="flex  justify-center">
-      <div class="relative bg-blue-100 w-4/5 md:w-1/5 lg:w-2/5 rounded-lg shadow-xl py-2">
+      <div class="relative bg-blue-100 w-4/5 md:w-1/5 lg:w-2/5 rounded-lg px-2 shadow-xl">
         <div class="border-b-2 border-teal-500">
-          <div class=" bg-blue-50 pt-2 block text-xl font-bold text-blue-600 text-center"> CREATE ACCOUNT</div>
-          <div class="shadow-lg rounded-lg overflow-hidden ">
+          <div class="border-b-2 border-teal-500 py-0.5 flex justify-between items-center">
+          <span class="text-emerald-800 p-0.5 bg-zinc-50/5 flex-shrink-0">
+            <i class="fa fa-xl  fa-user mx-2"></i>
+          </span>
+            <span class="text-emerald-800 my-2 p-0.5 bg-zinc-50/5 flex-grow text-xl text-center font-bold">
+            Register Your Account
+          </span>
+            <span class="text-emerald-800 p-0.5 bg-zinc-50/5 rounded-md hover:bg-red-500 hover:text-white flex-shrink-0"
+                  @click="closeModal()"
+            >
+            <i class="fa-solid  fa-xl fa-xmark mx-2"></i>
+          </span>
+          </div>
+          <div class="shadow-lg rounded-lg overflow-hidden">
             <!--     FORM       -->
-            <form class="max-w-md mx-auto p-6  my-2 border rounded-lg shadow-lg" @submit.prevent="handleRegistration()">
+            <form class="max-w-md p-6  my-2 px-2 border rounded-lg" @submit.prevent="handleRegistration()">
               <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="firstName">
                   First Name:
@@ -77,9 +89,6 @@ const handleRegistration = async ()=> {
               </button>
             </form>
 
-          </div>
-          <div @click="closeModal" class="text-right my-2 mx-2">
-            <i class="fa-solid fa-xmark bg-red-100 text-red-600 p-2 rounded-sm"></i>
           </div>
         </div>
 

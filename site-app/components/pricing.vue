@@ -1,24 +1,19 @@
 <script  setup>
 const hasPrice = ref(false)
-const global = useGlobalDataStore()
-// const siteStore = useSiteDataStore()
+const siteStore = useSiteDataStore()
 const feesSetup = ref([
 ])
-const getSitedData = ref({
-    defaultFee: 0,
-    guestFee: 0,
-    foreignerFee: 0
-})
-async function retriveSitedata() {
-    // const {data, error}  = await siteStore.retriveSiteData()
-    hasPrice.value = false;
+
+async function fetchSiteDate() {
+    await siteStore.retrieveSiteDate()
+    hasPrice.value = true;
     feesSetup.value = [
-    {name: 'Registered ICT professional', fee: getSitedData?.defaultFee, iconClass: 'fa-solid fa-user-tie', currency: 'Tsh' },
-    {name: 'Non registered ICT professionals and other participants', fee: getSitedData?.guestFee, iconClass: 'fa-solid fa-user-tag', currency: 'Tsh' },
-    {name: 'Foreign participants', fee: getSitedData?.foreignerFee, iconClass: 'fa-solid fa-earth-americas', currency: '$' },
+    {name: 'Registered ICT professional', fee: siteStore.getSitedData?.defaultFee, iconClass: 'fa-solid fa-user-tie', currency: 'Tsh' },
+    {name: 'Non registered ICT professionals and other participants', fee: siteStore.getSitedData?.guestFee, iconClass: 'fa-solid fa-user-tag', currency: 'Tsh' },
+    {name: 'Foreign participants', fee: siteStore.getSitedData?.foreignerFee, iconClass: 'fa-solid fa-earth-americas', currency: '$' },
     ]
 }
-retriveSitedata()
+fetchSiteDate()
 </script>
 
 <template>

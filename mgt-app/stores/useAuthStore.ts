@@ -57,8 +57,12 @@ export const useAuthStore = defineStore('auth', ()=> {
     //Logout
     async function logout(){
         const logout =  await useApiFetch('/logout', {method: 'POST'});
-        user.value = null;
-        navigateTo('/')
+        if (logout.status.value === 'success'){
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage([['You are logged out']], 'danger')
+            user.value = null;
+            navigateTo('/')
+        }
         return logout
     }
     //Register
@@ -87,8 +91,8 @@ export const useAuthStore = defineStore('auth', ()=> {
         });
         if(userInfoResponse.data.value?.code == 200){
             globalStore.toggleLoadingState('off')
+            await fetchUser();
             globalStore.assignAlertMessage(userInfoResponse.data.value?.message,'success')
-            await  fetchUser()
             globalStore.toggleUserInfoDialogStatus('off')
         }else{
             authErrors.value = userInfoResponse.error.value?.data

@@ -29,7 +29,8 @@ const statusList = ref([
 const scheduleStore = useScheduleStore()
 const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
-const formData = ref({})
+const thisDay = ref(new Date())
+const formData = ref({date: `${thisDay.value.getFullYear()}-10-10`})
 const initialize = async ()=> {
     await eventStore.retrieveEvents();
 }
@@ -50,7 +51,6 @@ initialize()
             <div class="relative bg-sky-100 w-3/5 rounded-lg shadow-xl p-8">
                 <h2 class="text-xl font-semibold mb-4 text-center capitalize">{{props.dialogAction}} Conference Day</h2>
         <form @submit.prevent="handleForm()">
-            <pre>{{ props.passedItem }}</pre>
             <div class="mb-4 border-b-2 border-teal-500 py-2">
                 <label for="conference" class="block text-sm font-medium text-gray-700">Select Conference</label>
                 <select v-model="formData.conference_id" id="conference" 

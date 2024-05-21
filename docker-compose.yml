@@ -13,6 +13,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: BeyondOrder24
       MYSQL_DATABASE: taic_reg_ictc
+    volumes:
+      - mysql_data:/var/lib/mysql
     ports:
     - 2231:3306
 
@@ -23,3 +25,6 @@ services:
       - 2233:80
     environment:
       - PMA_ARBITRARY=1
+
+volumes:
+  mysql_data:

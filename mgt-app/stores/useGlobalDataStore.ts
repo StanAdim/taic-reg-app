@@ -12,7 +12,18 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const regions = ref([])
     const districts = ref([])
 
+    const appRoutes  = ref([
+        {name: 'Dashboard', path: '/crm/', userRole: '', isActiveLink:true},
+        {name: 'All Events', path: '/crm/events', userRole: '', isActiveLink:false},
+        {name: 'Key Speakers', path: '/crm/speakers', userRole: 'admin', isActiveLink:false},
+        {name: 'Payments', path: '/crm/payments', userRole: '', isActiveLink:false},
+        {name: 'Schedules', path: '/crm/schedules', userRole: 'admin', isActiveLink:false},
+        {name: 'Users', path: '/crm/users', userRole: 'admin', isActiveLink:false},
+        {name: 'Agenda', path: '/crm/agenda', userRole: 'admin', isActiveLink:false},
+    ])
+
     //computed property
+    const getAppRoute = computed(() => {return appRoutes.value})
     const getRegistrationModalStatus = computed(() => {return registrationDialogStatus.value})
     const getUserProfileStatus = computed(() => {return userProfileModalStatus.value})
     const getUserInfoModalStatus = computed(() => {return userInfoDialogStatus.value})
@@ -72,12 +83,24 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     }
     const hasPermission = (permissionCode)=> {   return authStore.getUserPermissions.includes(permissionCode)}
 
+    // Function to change isActiveLink value and set others to false
+    function setActiveLink(path) {
+        for (let i = 0; i < appRoutes.value.length; i++) {
+            if (appRoutes.value[i].path === path) {
+                appRoutes.value[i].isActiveLink = true;
+            } else {
+                appRoutes.value[i].isActiveLink = false;
+            }
+        }
+    }
+
     return {
         longName,
+        setActiveLink,
         getRegistrationModalStatus,getLoadingState,getUserInfoModalStatus,
         toggleRegistrationForm,toggleLoadingState,toggleUserInfoModal,
         getSuccessStatus,getDangerStatus,getWarningStatus,toggleUserInfoDialogStatus,
-        assignAlertMessage,toggleShowMessage,getAlertMessage,
+        assignAlertMessage,toggleShowMessage,getAlertMessage,getAppRoute,
         getRegions,getDistricts, retrieveRegions,retrieveRegionDistricts, hasPermission,
         separateNumber,getUserProfileStatus,toggleUserProfileModalStatus
     }

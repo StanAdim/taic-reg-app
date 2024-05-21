@@ -1,4 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+definePageMeta({
+
+})
+useHead({
+  title: 'TAIC - HOME'
+})
+
+</script>
 
 <template>
   <div>

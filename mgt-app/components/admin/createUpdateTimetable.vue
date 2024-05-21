@@ -86,7 +86,6 @@ initialize()
             <div class="relative bg-sky-100 w-3/5 rounded-lg shadow-xl p-8">
                 <h2 class="text-xl font-semibold mb-4 text-center capitalize">{{props.dialogAction}} Conference Timetable</h2>
         <form @submit.prevent="handleForm()">
-            <pre>{{ props.passedItem }}</pre>
             <div class="flex flex-row justify-evenly">
                 <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
                     <label for="conference" class="block text-sm font-medium text-gray-700">Select Conference Day</label>

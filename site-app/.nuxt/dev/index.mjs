@@ -102,9 +102,9 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
-    "appName": "TAIC",
+    "appName": "Tanzania Annual ICT Conference",
     "apiBaseUlr": "http://localhost:2230",
-    "baseUrl": "http://localhost:3001"
+    "baseUrl": "http://localhost:3000"
   }
 };
 const envOptions = {
