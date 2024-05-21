@@ -1,11 +1,6 @@
 <script setup>
 const global = useGlobalDataStore()
 const siteStore = useSiteDataStore()
-
-async function retrieveSiteDate() {
-  const {data, error}  = await siteStore.retrieveSiteDate()
-}
-retrieveSiteDate()
 </script>
 <template>
     <section id="hero" class="hero sticked-header-offset">
@@ -15,7 +10,7 @@ retrieveSiteDate()
             <div class="row gy-5 aos-init aos-animate">
                 <div class="col-lg-7 offset-lg-5 dark-bg order-lg-1 d-flex flex-column justify-content-start text-left caption">
                     <!-- <h2 data-aos="fade-up">Delivering Superior Services <span>IT Solutions</span><span class="circle" data-aos="fade-right" data-aos-delay="800">.</span></h2> -->
-                    <h2 data-aos="fade-up">{{global.longName}}<span class="mx-2"> {{siteStore.getSitedData?.conferenceYear}}</span></h2>
+                    <h2 data-aos="fade-up">{{global.getAppLongName}}<span class="mx-2"> {{siteStore.getSitedData?.conferenceYear}}</span></h2>
                     <h3 data-aos="fade-up" data-aos-delay="500" class="my-2">{{siteStore.getSitedData?.theme}}</h3>
                     
                     <!-- <p data-aos="fade-up" data-aos-delay="400">You can easily change any design to your own. It is also highly customizable SEO friendly template.</p> -->

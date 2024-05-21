@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-
-definePageMeta({
-
-})
 useHead({
   title: 'TAIC - HOME'
 })
-
+const siteStore = useSiteDataStore()
+async function retrieveSiteDate() {
+  const {data, error}  = await siteStore.retrieveSiteDate()
+  console.log(data.value, error.value)
+}
+retrieveSiteDate()
 </script>
 
 <template>

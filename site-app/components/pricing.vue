@@ -24,7 +24,8 @@ fetchSiteDate()
             <div class="section-header">
                 <h2>CONFERENCE FEES</h2>
             </div>
-            <div class="row">
+          <div class="row justify-content-center">
+            <div class="col-md-10 row">
                 <div class="col-lg-4" v-for="item in feesSetup" :key="item.name">
                     <div class="card text-center">
                         <div class="title">
@@ -46,6 +47,7 @@ fetchSiteDate()
                 </div>
 
             </div>
+          </div>
         </div>
     </div>
 </div>
