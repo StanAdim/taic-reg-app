@@ -16,6 +16,7 @@ class ConferenceResource extends JsonResource
     {
         return  [
             'id' => $this->id,
+            'conferenceName'=> 'TAIC - '.$this->conferenceYear,
             'conferenceYear' => $this->conferenceYear,
             'startDate' => date('j F Y', strtotime($this->startDate)),
             'endDate' => date('j F Y', strtotime($this->endDate)),

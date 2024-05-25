@@ -6,6 +6,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const userInfoDialogStatus= ref(false);
     const userProfileModalStatus= ref(false);
     const confirmToAttendModalStatus= ref(false);
+    const doneCheckVisibility= ref(false);
     const alertMessage = ref('');
     const isLoading = ref(false);
     const showSuccessStatus = ref(true);
@@ -27,6 +28,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
 
     //computed property
     const getAppRoute = computed(() => {return appRoutes.value})
+    const getDoneCheckVisibility = computed(() => {return doneCheckVisibility.value})
     const getRegistrationModalStatus = computed(() => {return registrationDialogStatus.value})
     const getUserProfileStatus = computed(() => {return userProfileModalStatus.value})
     const getUserInfoModalStatus = computed(() => {return userInfoDialogStatus.value})
@@ -50,9 +52,12 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         if(key == 'off')userInfoDialogStatus.value = false;
     }
     const toggleRegistrationForm = ()=> { registrationDialogStatus.value = !registrationDialogStatus.value  }
+    const toggleDoneCheckVisibility = ()=> { doneCheckVisibility.value = !doneCheckVisibility.value  }
     const toggleUserInfoModal = ()=> { userInfoDialogStatus.value = !userInfoDialogStatus.value  }
     const toggleUserProfileModalStatus = ()=> { userProfileModalStatus.value = !userProfileModalStatus.value  }
-    const toggleConfirmToAttendModalStatus = ()=> { confirmToAttendModalStatus.value = !confirmToAttendModalStatus.value  }
+    const toggleConfirmToAttendModalStatus = ()=> {
+        confirmToAttendModalStatus.value = !confirmToAttendModalStatus.value
+        doneCheckVisibility.value = false  }
     const toggleShowMessage = (type)=> {
         switch (type) {
             case 'success': showSuccessStatus.value = !showSuccessStatus.value; break;
@@ -124,6 +129,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         getRegions,getDistricts, retrieveRegions,retrieveRegionDistricts, hasPermission,
         separateNumber,getUserProfileStatus,toggleUserProfileModalStatus,
         getConfirmToAttendModalStatus,toggleConfirmToAttendModalStatus,
+        getDoneCheckVisibility,toggleDoneCheckVisibility
 
     }
 })

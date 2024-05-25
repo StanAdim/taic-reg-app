@@ -16,8 +16,9 @@ return new class extends Migration
             $table->uuid('conference_id');  // Use UUID for the foreign key
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreign('conference_id')->references('id')->on('conferences')->onDelete('cascade');
-            $table->decimal('total_amount', 10, 2);
+            $table->decimal('event_fee', 10, 2);
             $table->string('status');
+            $table->integer('control_number')->nullable();
             $table->timestamps();
         });
     }

@@ -10,7 +10,7 @@ class Bill extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['user_id', 'conference_id', 'event_fee', 'status'];
+    protected $fillable = ['user_id', 'conference_id','control_number' ,'event_fee', 'status'];
 
     public function user()
     {
@@ -26,4 +26,6 @@ class Bill extends Model
     {
         return $this->hasMany(Payment::class);
     }
+    
+    
 }

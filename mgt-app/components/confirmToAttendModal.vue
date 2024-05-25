@@ -11,7 +11,26 @@ const props = defineProps({
 const authStore = useAuthStore()
 const globalData = useGlobalDataStore()
 const subscriptionStore = useSubscriptionStore()
+const showConfirmation = ref(false)
+const confirmAction = (type)=> {
+  if (type === 'open') {
+    showConfirmation.value = true
+  }else if(type === 'close') {
+   showConfirmation.value =false
+  closeModal()
 
+  }
+}
+const closeModal = ()=> {
+  globalData.toggleConfirmToAttendModalStatus()
+  showConfirmation.value = false
+}
+const handleSubscription = async ()=> {
+  const subscription = {eventId : props.eventDetail.id}
+  if(authStore.getLoggedUserInfo?.professionalStatus === 1)subscription.eventFee = props.eventDetail?.defaultFee
+  if(authStore.getLoggedUserInfo?.professionalStatus === 0)subscription.eventFee = props.eventDetail?.guestFee
+ await subscriptionStore.subscribeToAnEvent(subscription)
+}
 </script>
 <template>
   <div id="modal" :class="{'hide': !props.showStatus}" class="fixed z-20 inset-0 overflow-y-auto mt-1 top-48">
@@ -22,7 +41,7 @@ const subscriptionStore = useSubscriptionStore()
             CONFIRM TO ATTEND
           </span>
           <span class=" bg-rose-100 text-emerald-800 p-0.5 bg-zinc-50/5 rounded-md hover:bg-red-500 hover:text-white flex-shrink-0"
-                @click="globalData.toggleConfirmToAttendModalStatus()"
+                @click="closeModal"
           >
             <i class="fa-solid fa-xmark mx-2"></i>
           </span>
@@ -30,8 +49,9 @@ const subscriptionStore = useSubscriptionStore()
         <div class=" my-2 mx-2 p-1 ">
           <div class="bg-white rounded-lg shadow-md py-2 my-2 text-center">
             <div class="flex flex-wrap justify-evenly items-center">
+              <usables-done-check-anim v-if="globalData.getDoneCheckVisibility" />
               <div class=" mx-3 py-3">
-                <h2 class="font-bold">TAIC {{eventDetail?.conferenceYear}}</h2>
+                <h2 class="font-bold text-xl">TAIC {{eventDetail?.conferenceYear}}</h2>
                   <p class="my-2">You are about to confirm to attend to this Event</p>
                   <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 1" >
                       <p class="">Conference Fee <span class="bg-amber-600 text-white py-1 px-2 rounded-md">{{globalData.separateNumber(eventDetail?.defaultFee || 0)}}</span></p>
@@ -41,12 +61,23 @@ const subscriptionStore = useSubscriptionStore()
                   </template>
               </div>
               <div class="">
-                <button @click="subscriptionStore.subscribeToAnEvent(eventDetail?.id)"
+                <button @click="confirmAction('open')"  v-if="!showConfirmation"
                       class="mx-1 h-8 w-auto bg-sky-500 hover:bg-sky-700 border-sky-500
                          hover:border-sky-700 text-sm border-4 text-white py-0.5 px-2 rounded"
                         type="button">
                   Generate Control Number <i class="fa-solid fa-right-to-bracket mx-2"></i>
                 </button>
+                <div class="my-1" v-if="showConfirmation && !globalData.getDoneCheckVisibility">
+                    <p class="text-sm font-bold text-orange-600">Are you sure ?</p>
+                    <button @click="handleSubscription()"
+                        class="bg-sky-600 hover:bg-sky-500 border-sky-500 hover:border-green-300 text-sm border-1 text-white py-0.5 px-2 rounded mx-0.5">
+                      <i class="fa fa-check"></i>
+                      Yes</button>
+                    <button @click="confirmAction('close')"
+                        class="bg-gray-600 hover:bg-red-600 border-sky-500 hover:border-red-300 text-sm border-1 text-white hover:text-white py-0.5 px-2 rounded mx-0.5">
+                      <i class="fa fa-xmark"></i>
+                      No</button>
+                </div>
 
               </div>
             </div>

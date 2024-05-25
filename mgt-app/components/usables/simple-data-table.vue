@@ -13,15 +13,17 @@ const props = defineProps<{
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
       <thead class="text-xs text-gray-700 uppercase bg-sky-300 ">
           <tr>
+            <th class="px-6 py-3">SN</th>
             <th v-for="header in headers" :key="header" scope="col" class="px-6 py-3">
-              {{ header }}
+              {{ header.name }}
             </th>
           </tr>
       </thead>
       <tbody>
       <tr class="bg-white border-b" v-for="(row, index) in data" :key="index">
+        <td class="px-6 py-4">{{ index + 1 }}</td>
         <td class="px-6 py-4" v-for="header in headers" :key="header">
-          {{ row[header] }}
+          {{ row[header.key] }}
         </td>
       </tr>
       </tbody>

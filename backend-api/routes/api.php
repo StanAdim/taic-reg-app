@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BillController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Taic\ActivityController;
@@ -22,8 +23,9 @@ Route::get('/test',function(){return 'API: - Test route Active';});
  Route::middleware(['auth:sanctum'])->group(function(){
      Route::post('/user-info-create',[UserInfoController::class, 'create']);
      Route::get('/application-users',[UserInfoController::class, 'systemUsers']);
+     Route::get('/subscribe-event/{eventId}/{eventFee}', [SubscriptionController::class,'subscribeToEvent']);
+     Route::get('/user/subscribed-event-bills', [BillController::class,'userBill']);
     //Conferences ------------
-    Route::get('/subscribe-event/{eventId}', [SubscriptionController::class,'subscribeToEvent']);
 
     Route::get('/taic-conferences', [ConferenceController::class,'index']);
     Route::get('/conference-data/{uuid}', [ConferenceController::class,'getConferenceData']);
