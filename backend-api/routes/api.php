@@ -45,4 +45,7 @@ Route::get('/test',function(){return 'API: - Test route Active';});
     Route::post('/update-conference-timetable', [TimetableController::class,'update']);
     Route::post('/create-conference-activity', [ActivityController::class,'create']);
     // Route::get('/honorable-speaker/activate/{uuid}', [SpeakerController::class,'activateHonourable']);
+
+    Route::get('/event-bills', [BillController::class,'index']);
+
 });

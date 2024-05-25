@@ -29,6 +29,10 @@ class PermissionSeeder extends Seeder
             ["code"=>"can_delete_event","name"=>"Delete event",],
             ["code"=>"can_subscribe_event","name"=>"Subscribe event",],
             ["code"=>"can_modify_event","name"=>"Modify event",],
+            ####-----bills
+            ["code"=>"can_view_bills","name"=>"view bill",],
+            ["code"=>"can_refresh_bill","name"=>"refresh bill",],
+            ["code"=>"can_view_payments","name"=>"payment bill",],
 
             ####-----auth Roles
             ["code"=>"can_view_role","name"=>"View role",],

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Taic;
 
 use App\Models\Taic\Conference;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -31,7 +32,7 @@ class BillResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'userId'=>$this->user_id, 
+            'user'=>$this->user->firstName.' '.$this->user->middleName. ' '.$this->user->lastName, 
             'conferenceName'=> 'TAIC '.Conference::where('id',$this->conference_id)->first()->conferenceYear, 
             'conferenceFee'=>$this->separateNumber($this->event_fee), 
             'controlNumber'=>$this->control_number, 

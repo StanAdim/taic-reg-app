@@ -19,4 +19,13 @@ class BillController extends Controller
             'code'=> 200
         ],200);
     }
+    public function index()
+    {
+        $bills = BillResource::collection(Bill::all());
+        return response()->json([
+            'message'=> "All bills",
+            'data' => $bills,
+            'code'=> 200
+        ],200);
+    }
 }
