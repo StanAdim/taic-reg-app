@@ -13,8 +13,8 @@ const authStore = useAuthStore()
 const globalData = useGlobalDataStore()
 const formData = ref({
   phoneNumber: '+255',
-  user_id: authStore.getLoggedUser.id,
-  professionalStatus: false,
+  user_id: authStore.getLoggedUser?.id,
+  professionalStatus: '0',
   professionalNumber: '',
   institution: '',
   position: '',
@@ -29,34 +29,70 @@ const handleFormSubmission = async ()=> {
 const handleDistrictsCall = async ()=>{
   await  globalData.retrieveRegionDistricts(formData.value.region_id)
 }
+const showProfessionalInfo = ref(false)
+const closeProfessionalInfo = ()=> {showProfessionalInfo.value = false}
+const getShowProfessionalInfo = computed(()=> {return showProfessionalInfo.value})
+const handleCallProfessionalDetails = async (professionalCode)=>{
+  showProfessionalInfo.value = true
+  console.log(professionalCode)
+}
 const initialize = async () => {
   await  globalData.retrieveRegions()
 }
 initialize()
 </script>
 <template>
-  <div class="fixed z-20 inset-0 overflow-y-auto mt-1 top-24" :class="{'hide': !props.showStatus}" id="modal">
+  <div class="fixed z-20 inset-0 overflow-y-auto mt-1 top-32" :class="{'hide': !props.showStatus}" id="modal">
     <div class="flex  justify-center items-center">
       <div class="relative bg-blue-100 w-4/5 md:w-1/5 lg:w-2/5 rounded-lg shadow-xl py-2">
         <div class="border-b-2 border-teal-500">
-          <div class=" bg-blue-50 pt-2 block text-xl font-bold text-sky-600 text-center">Complete registration</div>
+          <div class=" bg-blue-50 pt-2 block text-xl font-bold text-sky-600 text-center">COMPLETE REGISTRATION</div>
           <div class="shadow-lg rounded-lg overflow-hidden ">
             <!--     FORM       -->
             <form class="max-w-md mx-auto p-6  my-2 border rounded-lg shadow-lg" @submit.prevent="handleFormSubmission()">
               <div class="mb-4">
-                <label class="block text-gray-700 font-bold mb-2" for="firstName">
+                <label class="block text-gray-700 font-bold mb-2" for="phoneNumber">
                   Your Phone Number:
                 </label>
                 <input class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
-                       id="firstName" type="text" v-model="formData.phoneNumber" placeholder="+255">
+                       id="phoneNumber" type="text" v-model="formData.phoneNumber" placeholder="+255">
               </div>
-              <div class="mb-4">
-                <label class="block text-gray-700 font-bold mb-2" for="professionalNumber">
-                  Professional Number:
-                </label>
-                <input class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
-                       id="professionalNumber" type="text" v-model="formData.professionalNumber" placeholder="">
+
+              <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
+                <label for="conference" class="block text-sm font-medium text-gray-700">Are you Registered ICT Professional ?</label>
+                <div class="flex flex-row">
+                  <div class="mx-1">
+                    <label class="flex items-center">
+                      <input type="radio" class="form-radio text-blue-500" name="professionalStatus" value="1" checked v-model="formData.professionalStatus" >
+                      <span class="ml-2 text-sm text-gray-700">Yes</span>
+                    </label>
+                  </div>
+                  <div class="mx-1">
+                    <label class="flex items-center">
+                      <input type="radio" class="form-radio text-blue-500" name="professionalStatus" value="0" v-model="formData.professionalStatus">
+                      <span class="ml-2 text-sm text-gray-700">No</span>
+                    </label>
+                  </div>
+                </div>
+
               </div>
+                <template v-if="formData.professionalStatus === '1'">
+                    <div class="mb-4" >
+                      <label class="block text-gray-700 font-bold mb-2" for="professionalNumber">Professional Number:</label>
+                      <input @change="handleCallProfessionalDetails(formData.professionalNumber)"
+                          class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
+                             id="professionalNumber" type="text" v-model="formData.professionalNumber" placeholder="">
+                    </div>
+                    <div v-if="getShowProfessionalInfo"
+                        class="mb-2 bg-amber-50 px-3 py-0.5 rounded-sm border-b-2 border-teal-500">
+                      <div class="flex flex-row justify-between">
+                          <p class="block text-sm font-medium text-gray-700">Confirm Name</p>
+                          <p class="bg-blue-500 hover:bg-blue-800 px-1 py-0.5 rounded-lg text-white"
+                          @click="closeProfessionalInfo"
+                          >Confirm</p>
+                      </div>
+                    </div>
+                </template>
               <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="institution">
                   Institution | Company:

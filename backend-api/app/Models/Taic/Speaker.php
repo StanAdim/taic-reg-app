@@ -21,7 +21,7 @@ class Speaker extends Model
         "twitterLink",
         "isMain",
         "conference_id",
-        "imgPath",
+        "imageFileName",
         'is_visible'
     ];
     public function conference()

@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+definePageMeta({
+  middleware:'auth'
+})
+import SimpleDataTable from "~/components/usables/simple-data-table.vue";
 const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
 const route = useRoute()
@@ -7,6 +11,8 @@ const initialize = async () => {
   await eventStore.fetchSingleEvent(route.params.id)
   eventData.value = eventStore.getSingleEventDetail
 }
+const headers = ['sn','name', 'email']
+const users = [{ sn: 1,name: 'Stanley Mahenge', email: 'stanjustine@gmail.com'}]
 initialize()
 </script>
 
@@ -14,11 +20,11 @@ initialize()
   <div class="">
     <AdminThePageTitle title="EVENT DETAILS"/>
     <template v-if="eventData">
-      <div class="flex justify-center mt-3">
-      <div class="container w-full md:w-3/5 border rounded-md p-1 border-sky-600 ">
+      <div class="flex justify-center flex-wrap md:flex-nowrap mt-3">
+      <div class="container w-full md:w-3/5 border rounded-md p-1 border-sky-600 mx-1 ">
         <div class="ml-3 text-gray-900 block">
           <p
-              class=" bg-blue-200 mt-0.5 my-0.5 py-1 px-4 rounded-sm pl-4 text-lg text-sky-900 font-bold">
+              class=" bg-sky-300 mt-0.5 my-0.5 py-1 px-4 rounded-sm pl-4 text-lg text-sky-900 font-bold">
             TAIC
             <span class="text-lg font-medium text-sky-900">{{ eventData?.conferenceYear }}</span>
             <span v-if="eventData?.lock" class=" ml-4 text-xl text-emerald-700 text-right"><i
@@ -55,9 +61,29 @@ initialize()
           </button>
         </div>
       </div>
+      <div class="container w-full md:w-3/5 border rounded-md p-1 border-sky-600 mx-1"
+           v-if="globalStore.hasPermission('can_modify_event')">
+        <div class="ml-3 text-gray-900 block">
+          <p
+              class=" bg-sky-300 mt-0.5 my-0.5 py-1 px-4 rounded-sm pl-4 text-lg text-sky-900 font-bold">
+            Event Summary
+          </p>
+        </div>
+        <div class="ml-3 block text-teal-900">
+          <p class="my-0.5 py-0 text-lg text-sky-800 font-medium">Progress</p>
+          <p class="mx-3 my-1 font-medium">Attendee: <em class="text-fuchsia-950 p-2">{{ eventData?.attendees }}</em></p>
+          <p class="mx-3 my-1 font-medium">Payments: <em class="text-fuchsia-950 p-2">0 Tsh</em></p>
+          <p class="mx-3 my-1 font-medium">Speakers: <em class="text-fuchsia-950 p-2">{{ eventData?.speakers}}</em></p>
+          <p class="mx-3 my-1 font-medium">Days: <em class="text-fuchsia-950 p-2">{{ eventData?.days.length }}</em></p>
+        </div>
       </div>
-
+      </div>
+          <div class="mx-1 my-2 " v-if="globalStore.hasPermission('can_modify_event')">
+            <h2 class="text-xl text-center font-bold">Event Subscribers</h2>
+              <simple-data-table :headers="headers" :data="users" />
+          </div>
     </template>
+
   </div>
 </template>
 

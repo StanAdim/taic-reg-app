@@ -18,6 +18,7 @@ const date = new Date();
 
 </script>
 <template>
+<!--  <usables-done-check-anim />-->
   <!-- component -->
   <div class="flex flex-col">
     <register-modal :showStatus="globalData.getRegistrationModalStatus" />

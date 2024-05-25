@@ -37,22 +37,22 @@ export const useAuthStore = defineStore('auth', ()=> {
     // Login
     async function login(credentials: Credential){
         await useApiFetch("/sanctum/csrf-cookie");
-        const {data, error} = await useApiFetch('/login',{
+        const loginResponse = await useApiFetch('/login',{
             method: 'POST',
             body : credentials
         });
-        if (data.value){
+        if (loginResponse.status.value === 'success'){
             await fetchUser();
             globalStore.assignAlertMessage('Welcome back!!','success')
         if (user.value){
             navigateTo('/crm/');
         }
         }else {
-            authErrors.value = error.value?.data
+            authErrors.value = loginResponse.error.value
             globalStore.toggleLoadingState('off')
             globalStore.assignAlertMessage(authErrors.value?.errors, 'danger')
         }
-        return {data, error};
+        return loginResponse;
     }
     //Logout
     async function logout(){
@@ -92,8 +92,8 @@ export const useAuthStore = defineStore('auth', ()=> {
         if(userInfoResponse.data.value?.code == 200){
             globalStore.toggleLoadingState('off')
             await fetchUser();
-            globalStore.assignAlertMessage(userInfoResponse.data.value?.message,'success')
             globalStore.toggleUserInfoDialogStatus('off')
+            globalStore.assignAlertMessage(userInfoResponse.data.value?.message,'success')
         }else{
             authErrors.value = userInfoResponse.error.value?.data
             globalStore.toggleLoadingState('off')

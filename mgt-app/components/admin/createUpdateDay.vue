@@ -30,7 +30,7 @@ const scheduleStore = useScheduleStore()
 const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
 const thisDay = ref(new Date())
-const formData = ref({date: `${thisDay.value.getFullYear()}-10-10`})
+const formData = ref({conference_id: 0,date: `${thisDay.value.getFullYear()}-10-10`})
 const initialize = async ()=> {
     await eventStore.retrieveEvents();
 }
@@ -41,7 +41,7 @@ const handleForm = async ()=> {
     }
     formData.value.action = props.dialogAction
     const {error}  = await scheduleStore.createUpdateDay(formData.value)
-    console.log(error.value)
+
 }
 initialize()
 </script>
@@ -55,7 +55,7 @@ initialize()
                 <label for="conference" class="block text-sm font-medium text-gray-700">Select Conference</label>
                 <select v-model="formData.conference_id" id="conference" 
                 class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none">
-                    <option value="conference" disabled>Choose Year</option>
+                    <option value="0" disabled>Choose Year</option>
                     <option v-for="conference in eventStore.getEvents"
                     :key="conference" :value="conference.id">{{conference.conferenceYear}}</option>
                 </select>

@@ -5,15 +5,22 @@ definePageMeta({
 useHead({
     title: 'TAIC - App Configuration'
 })
+const createUpdateConference = ref(null);
 const events = ref([])
 const globalStore = useGlobalDataStore()
 const eventStore = useEventStore()
 const setAction = ref('create')
 const itemToUpdate = ref({})
 const openDialog = (method, passedItem = '' )=>{
-    itemToUpdate.value = passedItem
+  itemToUpdate.value = passedItem
     setAction.value = method
     eventStore.toggleEventModal()
+    createUpdateConference.value.setValueOfEvent();
+}
+const itemToBePassed = ref({})
+const handleEventConfirmation = (passedItem)=> {
+  globalStore.toggleConfirmToAttendModalStatus()
+  itemToBePassed.value = passedItem
 }
 async function handleCall(){
     globalStore.toggleLoadingState('on')
@@ -25,19 +32,19 @@ handleCall();
 </script>
 <template>
 <div>
+    <confirm-to-attend-modal :show-status="globalStore.getConfirmToAttendModalStatus" :event-detail="itemToBePassed"/>
     <AdminThePageTitle title="EVENTS" />
-    <adminCreateUpdateConference :passedItem ="itemToUpdate"
+    <adminCreateUpdateConference :passedItem ="itemToUpdate" ref="createUpdateConference"
     :showStatus="eventStore.eventDialogStatus"
-    :configurationAction="setAction"/>
+    :eventAction="setAction"/>
     <div class="flex flex-wrap justify-between flex-row border border-sky-100 p-4 rounded-md">
-        <div class="">
-          <p>Hello</p>
-        </div>
         <div class="mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div class="w-full max-w-sm mx-auto px-4 py-2">
             <div class="flex justify-center items-center border-b-2 border-teal-500 py-2">
                 <UsablesTheButton  @click="handleCall()" :is-normal="true" name="Refresh" iconClass="fa-solid fa-arrows-rotate" />
-                <UsablesTheButton v-if="globalStore.hasPermission('can_create_event')"  @click="openDialog('create', '')" :is-normal="true" name="Add Conference" iconClass="fa-solid fa-plus" />
+                <UsablesTheButton v-if="globalStore.hasPermission('can_create_event')"
+                                  @click="openDialog('create', '')"
+                                  :is-normal="true" name="Add Conference" iconClass="fa-solid fa-plus" />
             </div>
         </div>
         <ul class="divide-y divide-gray-300 px-4" v-if="eventStore.getEvents">
@@ -61,13 +68,14 @@ handleCall();
 
                     </div>
                     <div class="ml-3 block text-teal-900">
-                        <p class="my-0.5 py-0 text-lg text-sky-800 font-medium">Fees</p>
+                        <p class="my-0.5 py-0 text-lg text-sky-800 font-medium">Event fees</p>
                         <span class="mx-3 font-medium">Default:<em class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(item.defaultFee) }} Tsh</em></span>
                         <span class="mx-3 font-medium">Guest: <em class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(item.guestFee) }} Tsh</em></span>
                         <span class="mx-3 font-medium">Foreigner: <em class="text-fuchsia-950 p-2">{{ item.foreignerFee }} $</em></span>
                     </div>
 
                     <div class="mx-2 flex justify-end" >
+<!--                          eventDetails-->
                         <nuxt-link :to="`events/event-${item.id}`"
                             class="mx-1 h-8 w-auto bg-green-500 hover:bg-green-700 border-green-500
                             hover:border-green-700 text-sm border-4 text-white py-0.5 px-2 rounded"
@@ -75,21 +83,23 @@ handleCall();
                           <i class="fa-solid fa-newspaper mx-2"></i>
                         </nuxt-link>
                       <template v-if="globalStore.hasPermission('can_modify_event')">
-                        <button @click="openDialog('update', item.id)"
+                        <button @click="openDialog('update', item)"
                             class="mx-1 h-8 w-auto bg-orange-500 hover:bg-orange-700 border-orange-500
                             hover:border-orange-700 text-sm border-4 text-white py-0.5 px-2 rounded"
                             type="button">
                              <i class="fa-regular fa-pen-to-square mx-2"></i>
                         </button>
-                        <button @click="eventStore.handleConferenceActivation(item.id)"
-                            class="mx-1 h-8 w-auto bg-sky-500 hover:bg-sky-700 border-sky-500
-                            hover:border-sky-700 text-sm border-4 text-white py-0.5 px-2 rounded"
-                            type="button">
-                            Activate <i class="fa-brands fa-creative-commons-sampling"></i>
-                        </button>
+                        <template v-if="!item?.lock">
+                            <button @click="eventStore.handleConferenceActivation(item.id)"
+                                class="mx-1 h-8 w-auto bg-sky-500 hover:bg-sky-700 border-sky-500
+                                hover:border-sky-700 text-sm border-4 text-white py-0.5 px-2 rounded"
+                                type="button">
+                                Activate <i class="fa-brands fa-creative-commons-sampling"></i>
+                            </button>
+                        </template>
                       </template>
-                      <button
-                              v-if="globalStore.hasPermission('can_subscribe_event')"
+                      <button v-if="globalStore.hasPermission('can_subscribe_event')"
+                              @click="handleEventConfirmation(item)"
                               class="mx-1 h-8 w-auto bg-teal-500 hover:bg-teal-700 border-teal-500
                             hover:border-teal-700 text-sm border-4 text-white py-0.5 px-2 rounded"
                               type="button">

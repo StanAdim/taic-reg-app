@@ -27,7 +27,6 @@ export const useEventStore = defineStore('eventStore', () => {
         const response = data.value as ApiResponse
         if(response.code == 200){
           globalStore.toggleLoadingState('off')
-          globalStore.assignAlertMessage(response?.message,'success')
           events.value = response.data
         }
         return {data, error};

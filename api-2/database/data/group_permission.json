@@ -1,0 +1,24 @@
+[
+    { "auth_group_id": 1, "auth_permission_id":1}, 
+    { "auth_group_id": 1, "auth_permission_id":2}, 
+    { "auth_group_id": 1, "auth_permission_id":3}, 
+    { "auth_group_id": 1, "auth_permission_id":4}, 
+    { "auth_group_id": 1, "auth_permission_id":5}, 
+    { "auth_group_id": 1, "auth_permission_id":6}, 
+    { "auth_group_id": 1, "auth_permission_id":7}, 
+    { "auth_group_id": 1, "auth_permission_id":8}, 
+    { "auth_group_id": 1, "auth_permission_id":9}, 
+    { "auth_group_id": 1, "auth_permission_id":10}, 
+    { "auth_group_id": 1, "auth_permission_id":11}, 
+    { "auth_group_id": 1, "auth_permission_id":12}, 
+    { "auth_group_id": 1, "auth_permission_id":13}, 
+    { "auth_group_id": 1, "auth_permission_id":14}, 
+    { "auth_group_id": 1, "auth_permission_id":15},
+    { "auth_group_id": 1, "auth_permission_id":16},
+    { "auth_group_id": 1, "auth_permission_id":17},
+    { "auth_group_id": 1, "auth_permission_id":18},
+    { "auth_group_id": 1, "auth_permission_id":19},
+    { "auth_group_id": 1, "auth_permission_id":20},
+    { "auth_group_id": 1, "auth_permission_id":21}
+
+]

@@ -79,6 +79,7 @@ class ConferenceController extends Controller
         $validator = Validator::make($request->all(), [
             "id" => 'required',
             "startDate" => '',
+            "conferenceYear" => '',
             "endDate" => '',
             "venue" => '',
             "theme" => '',

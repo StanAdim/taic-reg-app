@@ -1,8 +1,11 @@
+import {integer} from "vscode-languageserver-types";
+
 export const useGlobalDataStore = defineStore('globalData', () => {
     const authStore = useAuthStore()
     const registrationDialogStatus= ref(false);
     const userInfoDialogStatus= ref(false);
     const userProfileModalStatus= ref(false);
+    const confirmToAttendModalStatus= ref(false);
     const alertMessage = ref('');
     const isLoading = ref(false);
     const showSuccessStatus = ref(true);
@@ -27,6 +30,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const getRegistrationModalStatus = computed(() => {return registrationDialogStatus.value})
     const getUserProfileStatus = computed(() => {return userProfileModalStatus.value})
     const getUserInfoModalStatus = computed(() => {return userInfoDialogStatus.value})
+    const getConfirmToAttendModalStatus = computed(() => {return confirmToAttendModalStatus.value})
     const getLoadingState = computed(() => {return isLoading.value})
     const getSuccessStatus = computed(() => {return showSuccessStatus.value})
     const getDangerStatus = computed(() => {return showDangerStatus.value})
@@ -48,6 +52,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const toggleRegistrationForm = ()=> { registrationDialogStatus.value = !registrationDialogStatus.value  }
     const toggleUserInfoModal = ()=> { userInfoDialogStatus.value = !userInfoDialogStatus.value  }
     const toggleUserProfileModalStatus = ()=> { userProfileModalStatus.value = !userProfileModalStatus.value  }
+    const toggleConfirmToAttendModalStatus = ()=> { confirmToAttendModalStatus.value = !confirmToAttendModalStatus.value  }
     const toggleShowMessage = (type)=> {
         switch (type) {
             case 'success': showSuccessStatus.value = !showSuccessStatus.value; break;
@@ -76,11 +81,26 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         }
         return {data,error}
     }
-    function separateNumber(number) {
-        let numStr = number.toString();
+    function separateNumber(passedNum) {
+        if (passedNum === undefined || passedNum === null) {
+            throw new TypeError("Input number is undefined or null");
+        }
+
+        if (typeof passedNum !== 'number' && typeof passedNum !== 'string') {
+            throw new TypeError("Input must be a number or a string representing a number");
+        }
+
+        // Convert to number first if it's a string representing a number
+        let num = Number(passedNum);
+        if (isNaN(num)) {
+            throw new TypeError("Input is not a valid number");
+        }
+
+        let numStr = num.toString();
         numStr = numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return numStr;
     }
+
     const hasPermission = (permissionCode)=> {   return authStore.getUserPermissions.includes(permissionCode)}
 
     // Function to change isActiveLink value and set others to false
@@ -102,6 +122,8 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         getSuccessStatus,getDangerStatus,getWarningStatus,toggleUserInfoDialogStatus,
         assignAlertMessage,toggleShowMessage,getAlertMessage,getAppRoute,
         getRegions,getDistricts, retrieveRegions,retrieveRegionDistricts, hasPermission,
-        separateNumber,getUserProfileStatus,toggleUserProfileModalStatus
+        separateNumber,getUserProfileStatus,toggleUserProfileModalStatus,
+        getConfirmToAttendModalStatus,toggleConfirmToAttendModalStatus,
+
     }
 })

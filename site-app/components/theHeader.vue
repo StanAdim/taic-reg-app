@@ -6,7 +6,7 @@ const config = useRuntimeConfig()
     <header id="header" class="header d-flex align-items-center sticked stikcy-menu">
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
             <nuxt-link to="/" class="logo d-flex align-items-center">
-              <span>8 <sup>th</sup> TAIC </span>
+              <span>8<sup>th</sup>TAIC </span>
                 <!-- <img src="assets/images/logo.png" alt="logo"> -->
             </nuxt-link>
             <nav id="navbar" class="navbar">

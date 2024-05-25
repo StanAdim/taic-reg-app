@@ -17,12 +17,12 @@ initialize()
   <div id="modal" :class="{'hide': !props.showStatus}" class="fixed z-20 inset-0 overflow-y-auto mt-1 top-32">
     <div class="flex  justify-center items-center">
       <div class="relative bg-blue-100 w-4/5 md:w-3/5 lg:w-3/5 rounded-lg shadow-xl py-2">
-        <div class="border-b-2 border-teal-500 py-0.5 flex justify-between items-center">
+        <div class="border-b-2 border-teal-500 flex justify-between items-center py-1">
           <span class="text-emerald-800 p-0.5 bg-zinc-50/5 flex-shrink-0">
             <i class="fa fa-xl  fa-user mx-2"></i>
           </span>
           <span class="text-emerald-800 p-0.5 bg-zinc-50/5 flex-grow text-xl text-center font-bold">
-            Profile Information
+            YOUR PROFILE INFORMATION
           </span>
           <span class="text-emerald-800 p-0.5 bg-zinc-50/5 rounded-md hover:bg-red-500 hover:text-white flex-shrink-0"
             @click="globalData.toggleUserProfileModalStatus()"

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Taic\ActivityController;
 use App\Http\Controllers\Taic\ConferenceController;
 use App\Http\Controllers\Taic\DayController;
@@ -22,6 +23,8 @@ Route::get('/test',function(){return 'API: - Test route Active';});
      Route::post('/user-info-create',[UserInfoController::class, 'create']);
      Route::get('/application-users',[UserInfoController::class, 'systemUsers']);
     //Conferences ------------
+    Route::get('/subscribe-event/{eventId}', [SubscriptionController::class,'subscribeToEvent']);
+
     Route::get('/taic-conferences', [ConferenceController::class,'index']);
     Route::get('/conference-data/{uuid}', [ConferenceController::class,'getConferenceData']);
     Route::get('/conference/activate/{uuid}', [ConferenceController::class,'conferenceActiveate']);

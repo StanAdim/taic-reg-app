@@ -13,28 +13,49 @@ const props = defineProps({
         default: false
     }
 })
-
 const year = ref(new Date().getFullYear());
 const eventStore = useEventStore()
-const formData = ref({defaultFee:400000, guestFee:400000,foreignerFee: 300,
-  conferenceYear:year.value,
-  startDate: `${year.value}-10-10`,
-  endDate: `${year.value}-10-15`,
-})
+const formData = ref({})
+const initialize = () => {
+  formData.value.defaultFee = 400000
+  formData.value.guestFee =400000
+  formData.value.foreignerFee = 300
+  formData.value.conferenceYear =year.value
+  formData.value.startDate = `${year.value}-10-10`
+  formData.value.endDate = `${year.value}-10-15`
+}
 const setDates = ()=> {
   formData.value.startDate = `${formData.value.conferenceYear}-10-10`
   formData.value.endDate =`${formData.value.conferenceYear}-10-15`
+}
+const setValueOfEvent = () => {
+  formData.value = {}
+  initialize()
+  if(props.eventAction === 'update'){
+    formData.value.id = props.passedItem?.id
+    formData.value.conferenceYear = props.passedItem?.conferenceYear
+    formData.value.theme = props.passedItem?.theme
+    formData.value.venue = props.passedItem?.venue
+    formData.value.venue = props.passedItem?.venue
+    formData.value.defaultFee = props.passedItem?.defaultFee
+    formData.value.guestFee =props.passedItem?.guestFee
+    formData.value.foreignerFee = props.passedItem?.foreignerFee
+    formData.value.aboutConference = props.passedItem?.aboutConference
+  }
 }
 const globalStore = useGlobalDataStore()
 const handleForm = async ()=> {
     globalStore.toggleLoadingState('on')
     if(props.eventAction === 'update'){
-        formData.value.id = props.passedItem
+        formData.value.id = props.passedItem?.id
     }
     formData.value.action = props.eventAction
-    const {data, error}  = await eventStore.createUpdateEvent(formData.value)
+    const {error}  = await eventStore.createUpdateEvent(formData.value)
+  if(error.value){
     console.log(error.value)
+  }
 }
+defineExpose({setValueOfEvent})
 </script>
 <template>
     <div class="fixed z-10 inset-0 overflow-y-auto" :class="{'hide': !props.showStatus}" id="modal">
@@ -42,7 +63,6 @@ const handleForm = async ()=> {
             <div class="relative bg-white w-3/5 rounded-lg shadow-xl p-8">
                 <h2 class="text-xl font-semibold mb-4 text-center capitalize">{{props.eventAction}} Conference Configuration</h2>
         <form @submit.prevent="handleForm()">
-            <pre>{{ props.passedItem }}</pre>
             <div class="mb-4 border-b-2 border-teal-500 py-2">
                 <label for="Theme" class="block text-sm font-medium text-gray-700">Theme</label>
                 <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"

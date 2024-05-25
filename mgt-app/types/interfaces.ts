@@ -26,6 +26,19 @@ export interface User {
     email:string,
 
 }
+export interface  SpeakerData {
+    id: string,
+    name:string,
+    email:string,
+    designation:string,
+    institution:string,
+    linkedinLink:string,
+    twitterLink:string,
+    isMain:string,
+    conference_id:string,
+    imageFileName:string,
+    is_visible:boolean
+}
 export interface Credential {
     email:string,
     password:string,

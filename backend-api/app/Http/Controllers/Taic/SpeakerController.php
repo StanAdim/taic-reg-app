@@ -7,9 +7,17 @@ use App\Http\Resources\Taic\SpeakerResource;
 use App\Models\Taic\Speaker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+
 
 class SpeakerController extends Controller
 {
+    protected $localImgPath;
+    public function __construct()
+    {
+        $this->localImgPath = 'Uploads/Speakers';
+        
+    }
     public function index()
     {
         $conferenceSpeakers = SpeakerResource::collection(Speaker::all()->sortBy('created_at'));
@@ -37,7 +45,6 @@ class SpeakerController extends Controller
             "linkedinLink" => '',
             "twitterLink" => '',
             "conference_id" => 'required|min:3',
-            "imgPath" => ''
         ]);
         if($validator->fails()){
             return response()->json([
@@ -46,6 +53,22 @@ class SpeakerController extends Controller
             ],422);
         }
         $newSpeakerInfo = $validator->validate();
+
+          // Handling files 
+          $imageFile = $request->file('imgPath');
+          $imageOwnerName = $request->name;
+          //Move Uploaded File
+          if ($imageFile) {
+              $imageFileName = $imageOwnerName. '-'.Str::random(8) . '.' . $imageFile->getClientOriginalExtension();
+              $imageFile->move($this->localImgPath, $imageFileName);
+          } else {
+              $imageFileName = 'noFileUpload.pdf';
+          }
+          $fileName = [
+            'imageFileName' => $imageFileName,
+          ];
+        $newSpeakerInfo = array_merge($newSpeakerInfo,$fileName);
+        return $newSpeakerInfo;
         $newSpeaker = Speaker::create($newSpeakerInfo);
         return response()->json([
             'message'=> "Conference Speaker Created",

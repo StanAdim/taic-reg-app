@@ -81,13 +81,12 @@ const handleLinkActive = (routeLink: string) => {
                 <i class="fa-solid fa-ellipsis-vertical fa-xl"></i>
               </span>
             </div>
-            <div
-                class="absolute right-0 flex-col items-start hidden w-40 pb-1 bg-white border border-gray-300 shadow-lg group-focus:flex">
-              <p class="w-full px-4 py-2 text-left hover:bg-sky-100 rounded-md border-2 hover:border-blue-500"
+            <div class="absolute right-0 flex-col items-start hidden w-40 pb-1 bg-white border border-gray-300 shadow-lg group-focus:flex">
+              <p class="w-full px-4 py-2 text-left hover:bg-sky-600 hover:text-white rounded-md"
                  @click.prevent="globalData.toggleUserProfileModalStatus()"
-              >Your Profile</p>
-              <p class="w-full px-4 py-2 text-left  hover:cursor-pointer justify-center border-2 text-sm font-medium bg-orange-50  rounded hover:border-orange-600"
-                 @click="handleLogout()"><i class="fa fa-hand-point-left"></i>Logout</p>
+              ><i class="fa fa-user px-2"></i> Profile</p>
+              <p class="w-full px-4 py-2 text-left hover:bg-red-600 hover:text-white hover:cursor-pointer justify-center text-sm font-medium bg-orange-50  rounded"
+                 @click="handleLogout()"><i class="fa px-2 fa-hand-point-left"></i>Logout</p>
             </div>
           </button>
         </div>

@@ -11,7 +11,7 @@ const props = defineProps({
     }
 })
 const closeModal = ()=> {
-    scheduleStore.toggleScheduleModal('close')
+    scheduleStore.toggleScheduleModal('close');
 }
 </script>
 <template>

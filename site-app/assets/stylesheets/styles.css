@@ -118,7 +118,15 @@ h6 {
 .toggle-container {
     position: relative;
 }
-
+.event-duration {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 200;
+    font-size: medium;
+    color:#13E8E9;
+    background-color: #ffffff;
+    padding:.3rem .4rem;
+    border-radius: 10px;
+}
 .theme-btn {
     width: 6em;
     height: 6em;
@@ -462,8 +470,13 @@ img:hover {
     font-size:xx-large;
     font-weight: 600;
     color: #2ec5fb;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
     margin-right: 6px;
+}
+.header .logo span sup{
+    padding:0px;
+    margin:0px;
+    color:rgb(10, 161, 236)
 }
 
 .header.stikcy-menu {

@@ -32,7 +32,7 @@ const speakerStore = useSpeakerStore()
 const globalStore = useGlobalDataStore()
 const formData = ref({})
 const day = ref({
-    id: ''
+    id: '0'
 })
 const initialize = async ()=> {
     await speakerStore.retrieveConferenceSpeakers();
@@ -69,7 +69,7 @@ initialize()
                 <label for="conference" class="block text-sm font-medium text-gray-700">Activity Date</label>
                 <select v-model="day.id" id="conference" @change="handleTimeSlotCall(day.id)"
                 class="bg-teal-100 border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none">
-                    <option value="conference" disabled>Choose Day</option>
+                    <option value="0" disabled>Choose Day</option>
                     <option v-for="conferenceDay in scheduleStore.getConferenceDays" 
                     :key="conferenceDay.id" :value="conferenceDay.id">Date {{conferenceDay.date}} </option>
                 </select>
@@ -130,12 +130,12 @@ initialize()
                
             </div>
             
-            <div class="mb-4 border-b-2 border-teal-500 py-2  mx-2" v-if="statusChecker.hasMinActivity === 1">
-                <label for="subactivity" class="block text-sm font-medium text-gray-700">Min Activity</label>
+            <div class="mb-4 border-b-2 border-teal-500 py-2  mx-2" v-if="statusChecker.hasMinActivity === '1'">
+                <label for="activityActivity" class="block text-sm font-medium text-gray-700">Min Activity</label>
                 <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                type="text" v-model="formData.minActivity" placeholder="Activity Description" id="subactivity">
+                type="text" v-model="formData.minActivity" placeholder="Activity Description" id="activityActivity">
             </div>
-            <template v-if="statusChecker.hasPanelist === 1">
+            <template v-if="statusChecker.hasPanelist === '1'">
                 <div class="border-b-2 border-teal-500 py-2 mx-2">
                     <label for="conference" class="block text-sm font-medium text-gray-700">Select Panelist</label>
                     <select  id="conference" @change="handlePanelist()" v-model="statusChecker.singlePanelist"

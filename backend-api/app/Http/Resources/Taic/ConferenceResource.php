@@ -29,7 +29,8 @@ class ConferenceResource extends JsonResource
             'lock' => $this->lock,
             'createdTime' => date('h:i A', strtotime($this->created_at)),
             'createdDate' => date('j F Y', strtotime($this->created_at)),
-            'speakers' => $this->speakers,
+            'attendees' => count($this->subscriptions),
+            'speakers' => count($this->speakers),
             'days'=> DayResource::collection($this-> days) 
             ];   
     }

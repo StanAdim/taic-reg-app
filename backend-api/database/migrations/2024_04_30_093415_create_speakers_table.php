@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('institution');
             $table->string('linkedinLink')->nullable();
             $table->string('twitterLink')->nullable();
-            $table->string('imgPath')->default('/speakers/placeholder.png');
+            $table->string('imageFileName')->default('/speakers/placeholder.png');
             $table->boolean('isMain')->default(false);
             $table->uuid('conference_id')->nullable()
                     ->constrained('speakers')->cascadeOnDelete();

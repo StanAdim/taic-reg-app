@@ -4,16 +4,16 @@ namespace App\Models\Event;
 
 use App\Models\Taic\Conference;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
 {
-    use HasFactory ;
+    use HasFactory, HasUuids ;
 
 
     protected $fillable = ['user_id', 'conference_id'];
-
     public function user()
     {
         return $this->belongsTo(User::class);

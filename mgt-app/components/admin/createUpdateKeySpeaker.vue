@@ -23,16 +23,22 @@ const formData = ref({
 const initialize = async ()=> {
     await eventStore.retrieveEvents();
 }
+const handleFileUpload = (event) => {
+  const selectedFile = event.target.files[0];
+  if (selectedFile) {
+    formData.value.imageFile = selectedFile;
+  }
+};
 const handleForm = async ()=> {
-    globalStore.toggleLoadingState('on')
+  globalStore.toggleLoadingState('on')
     if(props.dialogAction === 'update'){
         formData.value.id = props.passedItem
     }
     formData.value.action = props.dialogAction
-    const {error}  = await keySpeakerStore.createUpdateSpeaker(formData.value)
-    console.log(error.value)
-    formData.value = {}
+   await keySpeakerStore.createUpdateSpeaker(formData.value)
+
 }
+
 initialize()
 </script>
 <template>
@@ -93,8 +99,11 @@ initialize()
                         <div class="mt-4 flex text-sm leading-6 text-gray-600">
                         <label for="file-upload" class="relative cursor-pointer rounded-md p-2 bg-white font-semibold text-teal-600 
                         focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-teal-500">
-                            <span>Upload a passport size img</span>
-                            <input id="file-upload" name="file-upload" type="file" class="sr-only" />
+                            <span>{{formData.imageFile?.name || 'Upload a passport size img'}}</span>
+                            <input id="file-upload" name="path" type="file" class="sr-only"
+                                   accept=".jpg"
+                                   @change="handleFileUpload"
+                            />
                         </label>
                         </div>
                         <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>

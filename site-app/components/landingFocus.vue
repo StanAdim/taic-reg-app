@@ -14,7 +14,16 @@ const siteStore = useSiteDataStore()
                     <h3 data-aos="fade-up" data-aos-delay="500" class="my-2">{{siteStore.getSitedData?.theme}}</h3>
                     
                     <!-- <p data-aos="fade-up" data-aos-delay="400">You can easily change any design to your own. It is also highly customizable SEO friendly template.</p> -->
-                    <p class="event-dates" data-aos="fade-up" data-aos-delay="400">{{siteStore.getSitedData?.startDate}} - {{siteStore.getSitedData?.endDate}}</p>
+                    <p  class="event-dates" data-aos="fade-up" data-aos-delay="400">Start
+                        <span class="event-duration">
+                            {{siteStore.getSitedData?.startDate}}
+                        </span>
+                    </p>
+                    <p  class="event-dates" data-aos="fade-up" data-aos-delay="400">Closing
+                        <span class="event-duration">
+                            {{siteStore.getSitedData?.endDate}}                        
+                        </span>
+                    </p>
                     <p class="event-dates" data-aos="fade-up" data-aos-delay="400">Location: {{siteStore.getSitedData?.venue}}</p>
                     <p class="event-dates" data-aos="fade-up" data-aos-delay="400">{{siteStore.getSitedData?.venue}}</p>
                     <div class="d-flex justify-content-start">
