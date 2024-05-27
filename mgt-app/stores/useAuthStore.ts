@@ -16,6 +16,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         return  user.value?.role?.permissions.map(obj => obj.code)})
     //Fetch Logout
     async function fetchUser(){
+        await useApiFetch("/sanctum/csrf-cookie");
         const {data,error} = await useApiFetch('/api/auth/user');
         if(data.value){
             globalStore.toggleLoadingState('off')
