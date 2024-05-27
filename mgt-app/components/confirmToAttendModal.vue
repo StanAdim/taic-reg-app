@@ -52,13 +52,24 @@ const handleSubscription = async ()=> {
               <usables-done-check-anim v-if="globalData.getDoneCheckVisibility" />
               <div class=" mx-3 py-3">
                 <h2 class="font-bold text-xl">TAIC {{eventDetail?.conferenceYear}}</h2>
-                  <p class="my-2">You are about to confirm to attend to this Event</p>
-                  <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 1" >
+                  <template v-if="!globalData.getDoneCheckVisibility">
+                    <p class="my-2">You are about to confirm to attend to this Event</p>
+                    <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 1" >
                       <p class="">Conference Fee <span class="bg-amber-600 text-white py-1 px-2 rounded-md">{{globalData.separateNumber(eventDetail?.defaultFee || 0)}}</span></p>
-                  </template>
-                <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 0" >
+                    </template>
+                    <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 0" >
                       <p class="">Conference Fee <span class="bg-amber-600 text-white py-1 px-2 rounded-md">{{globalData.separateNumber(eventDetail?.guestFee || 0)}}</span></p>
+                    </template>
                   </template>
+                  <template v-if="globalData.getDoneCheckVisibility && showConfirmation">
+                      <p class="my-2">Oh yes!, Your bill is generated successful! </p>
+                      <nuxt-link :to="`payments/`"
+                                 class="mx-1 h-8 w-auto bg-sky-500 hover:bg-sky-700 border-sky-500
+                              hover:border-sky-700 text-sm border-4 text-white py-0.5 px-2 rounded"
+                                 type="button">
+                        <i class="fa-solid fa-newspaper mx-2"></i>Proceed with payment
+                      </nuxt-link>
+                    </template>
               </div>
               <div class="">
                 <button @click="confirmAction('open')"  v-if="!showConfirmation"

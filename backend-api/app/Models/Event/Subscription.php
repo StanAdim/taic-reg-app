@@ -22,4 +22,5 @@ class Subscription extends Model
     public function conference()
     {
         return $this->belongsTo(Conference::class);
-    }}
+    }
+}

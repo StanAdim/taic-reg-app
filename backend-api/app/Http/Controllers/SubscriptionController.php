@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SubscribedEvents;
 use App\Models\Bill;
 use App\Models\Event\Subscription;
 use Illuminate\Http\Request;
@@ -10,6 +11,16 @@ use Illuminate\Support\Facades\Validator;
 
 class SubscriptionController extends Controller
 {
+    public function subscribedEvents(){
+        $authUser = Auth::user();
+        $events = SubscribedEvents::collection($authUser->subscriptions);
+            return response()->json([
+                'message'=> "Subscribed events",
+                'data' => $events,
+                'code'=> 200
+            ],200);
+
+    }
     public function subscribeToEvent($eventId,$eventFee)
     {
         $user_id = Auth::id();

@@ -11,8 +11,10 @@ const initialize = async () => {
   await eventStore.fetchSingleEvent(route.params.id)
   eventData.value = eventStore.getSingleEventDetail
 }
-const headers = ['sn','name', 'email']
-const users = [{ sn: 1,name: 'Stanley Mahenge', email: 'stanjustine@gmail.com'}]
+const headers = [
+    {key:'userName', name:'Name'},{key:'phoneNumber',
+    name:' Phone'},{key:'institution',
+    name:'Institution'},{key:'region', name:'Region'},{key:'payment', name:'Status'},]
 initialize()
 </script>
 
@@ -80,7 +82,7 @@ initialize()
       </div>
           <div class="mx-1 my-2 " v-if="globalStore.hasPermission('can_modify_event')">
             <h2 class="text-xl text-center font-bold">Event Subscribers</h2>
-              <simple-data-table :headers="headers" :data="users" />
+              <simple-data-table :headers="headers" :data="eventData?.subscribers" />
           </div>
     </template>
 

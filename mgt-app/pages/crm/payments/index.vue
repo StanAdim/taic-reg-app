@@ -5,12 +5,14 @@ definePageMeta({
   middleware:'auth'
 })
 const billStore = useBillStore();
-const billsHeader = [ {key:'conferenceName',name:'Event'} , {key:'conferenceFee',name:'Fee'},{key:'controlNumber',name:'Control Number'}, {key:'status',name:"Status"}]
+const billsHeader = [ {key:'conferenceName',name:'Event'} , {key:'conferenceFee',name:'Fee'},{key:'controlNumber',name:'Control Number'},{key:'created_at',name:'Created On'}, {key:'status',name:"Status"}]
 const globalStore = useGlobalDataStore();
 const initialize = async  () => {
   globalStore.toggleLoadingState('on')
+  if(globalStore.hasPermission('can_view_bills')){
+      await billStore.retrieveAllBills()
+  }
   await  billStore.retrieveUserPayments()
-  await billStore.retrieveAllBills()
 }
 const allBillsHeader =
     [{key:'user',name:'Attendee Name'}, {key:'conferenceName',name:'Event'} , {key:'conferenceFee',name:'Fee'},{key:'controlNumber',name:'Control Number'}, {key:'status',name:"Status"}]

@@ -3,7 +3,7 @@ definePageMeta({
     middleware:'auth'
 })
 useHead({
-    title: 'TAIC - App Configuration'
+    title: 'ICTC - Events'
 })
 const createUpdateConference = ref(null);
 const events = ref([])
@@ -45,6 +45,7 @@ handleCall();
                 <UsablesTheButton v-if="globalStore.hasPermission('can_create_event')"
                                   @click="openDialog('create', '')"
                                   :is-normal="true" name="Add Conference" iconClass="fa-solid fa-plus" />
+                <UsablesTheButton  :is-normal="true" name="Add Mini Event" iconClass="fa-solid fa-plus" />
             </div>
         </div>
         <ul class="divide-y divide-gray-300 px-4" v-if="eventStore.getEvents">
@@ -76,35 +77,33 @@ handleCall();
 
                     <div class="mx-2 flex justify-end" >
 <!--                          eventDetails-->
-                        <nuxt-link :to="`events/event-${item.id}`"
-                            class="mx-1 h-8 w-auto bg-green-500 hover:bg-green-700 border-green-500
-                            hover:border-green-700 text-sm border-4 text-white py-0.5 px-2 rounded"
-                            type="button">
-                          <i class="fa-solid fa-newspaper mx-2"></i>
+                        <nuxt-link :to="`events/event-${item.id}`">
+                          <usables-default-btn
+                              name=""
+                              color-name="green"
+                              icon-class="fa-solid fa-newspaper mx-2"/>
                         </nuxt-link>
                       <template v-if="globalStore.hasPermission('can_modify_event')">
-                        <button @click="openDialog('update', item)"
-                            class="mx-1 h-8 w-auto bg-orange-500 hover:bg-orange-700 border-orange-500
-                            hover:border-orange-700 text-sm border-4 text-white py-0.5 px-2 rounded"
-                            type="button">
-                             <i class="fa-regular fa-pen-to-square mx-2"></i>
-                        </button>
+                        <usables-default-btn
+                            @click="openDialog('update', item)"
+                            name=""
+                            color-name="zinc"
+                            icon-class="fa-regular fa-pen-to-square mx-2"/>
+
                         <template v-if="!item?.lock">
-                            <button @click="eventStore.handleConferenceActivation(item.id)"
-                                class="mx-1 h-8 w-auto bg-sky-500 hover:bg-sky-700 border-sky-500
-                                hover:border-sky-700 text-sm border-4 text-white py-0.5 px-2 rounded"
-                                type="button">
-                                Activate <i class="fa-brands fa-creative-commons-sampling"></i>
-                            </button>
+                            <usables-default-btn
+                                @click="eventStore.handleConferenceActivation(item.id)"
+                                name="Activate"
+                                color-name="sky"
+                                icon-class="fa-brands fa-creative-commons-sampling"/>
                         </template>
                       </template>
-                      <button v-if="globalStore.hasPermission('can_subscribe_event')"
-                              @click="handleEventConfirmation(item)"
-                              class="mx-1 h-8 w-auto bg-teal-500 hover:bg-teal-700 border-teal-500
-                            hover:border-teal-700 text-sm border-4 text-white py-0.5 px-2 rounded"
-                              type="button">
-                          Attend <i class="fa-solid fa-right-to-bracket mx-2"></i>
-                      </button>
+                      <usables-default-btn v-if="globalStore.hasPermission('can_subscribe_event')"
+                          @click="handleEventConfirmation(item)"
+                          name="Attend"
+                          color-name="teal"
+                          icon-class="fa-solid fa-right-to-bracket mx-2"/>
+
                     </div>
                 </div>
             </li>

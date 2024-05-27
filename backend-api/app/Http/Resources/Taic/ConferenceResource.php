@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Taic;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -32,7 +33,8 @@ class ConferenceResource extends JsonResource
             'createdDate' => date('j F Y', strtotime($this->created_at)),
             'attendees' => count($this->subscriptions),
             'speakers' => count($this->speakers),
-            'days'=> DayResource::collection($this-> days) 
+            'days'=> DayResource::collection($this-> days),
+            'subscribers' => UserResource::collection($this->users)
             ];   
     }
 }

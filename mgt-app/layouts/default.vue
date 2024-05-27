@@ -9,7 +9,7 @@ const handleLogout = async () => {
 const handleEmailVerificationRequest = async ()=> {
   globalData.toggleLoadingState('on');
 }
-const hideSideBar = ref(true)
+const hideSideBar = useLocalStorage(true,'showSideBar')
 const handleSidebar = () => {
   return hideSideBar.value = !hideSideBar.value
 }
@@ -104,7 +104,9 @@ const handleLinkActive = (routeLink: string) => {
 
           </template>
           <template v-else>
+            <div class="bg-sky-100 mx-1 px-4 py-2">
                 <slot/>
+            </div>
           </template>
         </div>
       </div>

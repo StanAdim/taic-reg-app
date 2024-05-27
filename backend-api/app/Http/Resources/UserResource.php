@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Region;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,7 +24,12 @@ class UserResource extends JsonResource
             'email'=> $this->email,
             'userName'=> $this->firstName.' '. $this->middleName. ' '. $this->lastName,
             'role'=> $this->role->name,
-            'registrationDate'=> Carbon::parse($this->created_at)->format('M j, Y'),
+            'phoneNumber'=> $this->userInfo->phoneNumber,
+            'institution'=> $this->userInfo->institution,
+            'position'=> $this->userInfo->position,
+            'region'=> Region::where('id',$this->userInfo->region_id)->first()->region,
+            'district'=> $this->userInfo->district_id,
+            'registrationDate'=> Carbon::parse($this->created_at)->format('M j, Y, H:i'),
         ];
     }
 }

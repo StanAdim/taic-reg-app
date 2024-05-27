@@ -6,6 +6,8 @@ use App\Models\Taic\Conference;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
+
 
 class BillResource extends JsonResource
 {
@@ -36,7 +38,8 @@ class BillResource extends JsonResource
             'conferenceName'=> 'TAIC '.Conference::where('id',$this->conference_id)->first()->conferenceYear, 
             'conferenceFee'=>$this->separateNumber($this->event_fee), 
             'controlNumber'=>$this->control_number, 
-            'status'=>$this->status
+            'status'=>$this->status,
+            'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y, H:i')
         ];
     }
     
