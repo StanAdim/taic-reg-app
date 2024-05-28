@@ -15,9 +15,9 @@ and we are thrilled to have you join us for these important events.
     Please click the link below to verify your email and complete your registration:  
 </p>
 
-<button class="button" style="position: relative; transition: all 0.3s ease-in-out; box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); padding-block: 0.5rem; padding-inline: 1.25rem; background-color: rgb(0 107 179); border-radius: 9999px; display: flex; align-items: center; justify-content: center; color: #ffff; gap: 10px; font-weight: bold; border: 3px solid #ffffff4d; outline: none; overflow: hidden; font-size: 15px;">
-    Verify Account Now
-  </button>
+    <a href="" style="background-color:#0884cb;color:#ffffff;font-size:medium; border-radius:.6rem; padding:.5rem .6rem; border: 1px #156694 solid; ">
+        Verify Account Now
+    </a>
   
   <style>
   .button:hover {
