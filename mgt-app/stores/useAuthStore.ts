@@ -1,5 +1,6 @@
 import type {Credential, LoggedUser, User} from "~/types/interfaces";
-
+import {defineStore} from "pinia";
+import {useApiFetch} from "~/composables/useApiFetch";
 export const useAuthStore = defineStore('auth', ()=> {
     const  user = ref<User | null>(null)
     const isLoggedIn = computed(()=> !!user.value)
@@ -16,7 +17,6 @@ export const useAuthStore = defineStore('auth', ()=> {
         return  user.value?.role?.permissions.map(obj => obj.code)})
     //Fetch Logout
     async function fetchUser(){
-        await useApiFetch("/sanctum/csrf-cookie");
         const {data,error} = await useApiFetch('/api/auth/user');
         if(data.value){
             globalStore.toggleLoadingState('off')
