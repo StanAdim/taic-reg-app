@@ -35,6 +35,17 @@ export const useAuthStore = defineStore('auth', ()=> {
         }
         return {data,error}
     }
+    async function resendEmailVerification(){
+        await useApiFetch("/sanctum/csrf-cookie");
+        const {data,error} = await useApiFetch('/email/verification-notification',{
+            method: 'POST',
+        });
+        if(data.value){
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage(data.value.message, 'success')
+        }
+        return {data,error}
+    }
     // Login
     async function login(credentials: Credential){
         await useApiFetch("/sanctum/csrf-cookie");
@@ -106,6 +117,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         user,login,isLoggedIn,getAuthErrors,saveUserInfo,
         logout,fetchUser,register,getLoggedUser,getUserRole
         ,getUserPermissions,getLoggedUserInfo,
-        getAppUsers,retrieveAppUsers
+        getAppUsers,retrieveAppUsers,
+        resendEmailVerification,
     }
 })

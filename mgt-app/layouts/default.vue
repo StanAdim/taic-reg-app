@@ -8,6 +8,7 @@ const handleLogout = async () => {
 }
 const handleEmailVerificationRequest = async ()=> {
   globalData.toggleLoadingState('on');
+  await  authStore.resendEmailVerification()
 }
 const hideSideBar = useLocalStorage(true,'showSideBar')
 const handleSidebar = () => {
@@ -17,6 +18,7 @@ const sidebarRoutes = globalData.getAppRoute
 const handleLinkActive = (routeLink: string) => {
   globalData.setActiveLink(routeLink)
 }
+
 </script>
 
 <template>
