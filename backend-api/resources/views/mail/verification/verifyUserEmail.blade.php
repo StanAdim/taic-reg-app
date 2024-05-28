@@ -17,9 +17,6 @@ and we are thrilled to have you join us for these important events.
 
 <button class="button" style="position: relative; transition: all 0.3s ease-in-out; box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); padding-block: 0.5rem; padding-inline: 1.25rem; background-color: rgb(0 107 179); border-radius: 9999px; display: flex; align-items: center; justify-content: center; color: #ffff; gap: 10px; font-weight: bold; border: 3px solid #ffffff4d; outline: none; overflow: hidden; font-size: 15px;">
     Verify Account Now
-    <svg fill="currentColor" viewBox="0 0 24 24" class="icon" style="width: 24px; height: 24px; transition: all 0.3s ease-in-out;">
-      <path clip-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" fill-rule="evenodd"></path>
-    </svg>
   </button>
   
   <style>
