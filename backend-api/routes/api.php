@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionController::class,'authUserCall']);
 Route::get('/test',function(){return 'API: - Test route Active';});
+Route::get('/mail',function(){return view('mail.verification.verifyUserEmail');});
  // ================ LOCATION API ============================================
  Route::get('/get-country-regions',[GeneralController::class, 'getRegions']);
  Route::get('/send-verification-email',[GeneralController::class, 'sendVerificationEmail']);
