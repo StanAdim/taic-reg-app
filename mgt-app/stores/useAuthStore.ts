@@ -37,12 +37,9 @@ export const useAuthStore = defineStore('auth', ()=> {
     }
     async function resendEmailVerification(){
         await useApiFetch("/sanctum/csrf-cookie");
-        const {data,error} = await useApiFetch('/email/verification-notification',{
-            method: 'POST',
-        });
+        const {data,error} = await useApiFetch('/api/send-verification-email');
         if(data.value){
             globalStore.toggleLoadingState('off')
-            globalStore.assignAlertMessage(data.value.message, 'success')
         }
         return {data,error}
     }

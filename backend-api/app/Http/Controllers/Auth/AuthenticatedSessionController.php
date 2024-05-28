@@ -56,4 +56,5 @@ class AuthenticatedSessionController extends Controller
         }
         return $request->user();
     }
+    
 }

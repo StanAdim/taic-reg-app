@@ -18,6 +18,7 @@ Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionCont
 Route::get('/test',function(){return 'API: - Test route Active';});
  // ================ LOCATION API ============================================
  Route::get('/get-country-regions',[GeneralController::class, 'getRegions']);
+ Route::get('/send-verification-email',[GeneralController::class, 'sendVerificationEmail']);
  Route::get('/site-data', [SiteController::class , 'fetchSiteData']);
  Route::get('/get-districts/{targetRegion}',[GeneralController::class, 'getDistricts']);
  Route::middleware(['auth:sanctum'])->group(function(){

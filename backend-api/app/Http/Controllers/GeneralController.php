@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\DistrictResource;
 use App\Http\Resources\RegionResource;
+use App\Mail\CustomEmailVerification;
 use App\Models\District;
 use App\Models\Region;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class GeneralController extends Controller
 {
@@ -40,5 +43,13 @@ class GeneralController extends Controller
            ],404);
        }
    
+      }
+      public function sendVerificationEmail(){
+        $user = Auth::user();
+        Mail::to($user->email)->send(new CustomEmailVerification($user));
+        return response()->json([
+            'message' => 'message sent',
+        ]); 
+
       }
 }
