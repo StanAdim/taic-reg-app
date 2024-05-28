@@ -41,7 +41,6 @@ handleCall();
         <div class="mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div class="w-full max-w-sm mx-auto px-4 py-2">
             <div class="flex justify-center items-center border-b-2 border-teal-500 py-2">
-                <UsablesTheButton  @click="handleCall()" :is-normal="true" name="Refresh" iconClass="fa-solid fa-arrows-rotate" />
                 <UsablesTheButton v-if="globalStore.hasPermission('can_create_event')"
                                   @click="openDialog('create', '')"
                                   :is-normal="true" name="Add Conference" iconClass="fa-solid fa-plus" />
@@ -87,7 +86,7 @@ handleCall();
                         <usables-default-btn
                             @click="openDialog('update', item)"
                             name=""
-                            color-name="zinc"
+                            color-name="emerald"
                             icon-class="fa-regular fa-pen-to-square mx-2"/>
 
                         <template v-if="!item?.lock">

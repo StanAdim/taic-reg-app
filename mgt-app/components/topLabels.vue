@@ -10,7 +10,7 @@ const globalStore = useGlobalDataStore()
       <div class="text-center font-bold">
         <p class="text-md md:text-2xl mt-4">UNITED REPUBLIC OF TANZANIA</p>
         <p class="text-sm md:text-l">INFORMATION AND COMMUNICATION TECHNOLOGIES COMMISSION</p>
-        <p class="text-md md:text-2xl text-sky-600">TAIC Registration App</p>
+        <p class="text-md md:text-2xl text-sky-600">ICTC Event Management System</p>
       </div>
       <div class="hidden md:block"><img class="h-12 md:h-24 ml-2" src="/image/logo/logo-min.png" alt=""></div>
     </div>

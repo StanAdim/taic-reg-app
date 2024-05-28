@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SystemUser;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\UserInfo;
@@ -44,7 +45,7 @@ class UserInfoController extends Controller
     public function systemUsers()
     {
         //
-        $users = UserResource::collection(User::all());
+        $users = SystemUser::collection(User::all());
         if($users){
             return response()->json([
                 'message'=> "Application Users",

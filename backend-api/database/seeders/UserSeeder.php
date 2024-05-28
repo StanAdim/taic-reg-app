@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             'role_id' => $attendeeRole->id,
             'email' => 'attendee@example.com',
             'password'=> bcrypt('password'),
-            'email_verified_at'=> "1122333"
+            'email_verified_at'=> now()
         ]);
         User::create([
             'firstName' => 'Admin',
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             'role_id' => $AdminRole->id,
             'email' => 'admin@example.com',
             'password'=> bcrypt('password'),
-            'email_verified_at'=> '1122333'
+            'email_verified_at'=> now()
         ]);
         User::create([
             'firstName' => 'Accountant',
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
             'role_id' => $accountantRole->id,
             'email' => 'accountant@example.com',
             'password'=> bcrypt('password'),
-            'email_verified_at'=> '1122333'
+            'email_verified_at'=> now()
         ]);
         User::create([
             'firstName' => 'Promotor ',
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
             'role_id' => $promotorRole->id,
             'email' => 'promotor@example.com',
             'password'=> bcrypt('password'),
-            'email_verified_at'=> '1122333'
+            'email_verified_at'=>now()
         ]);
     }
 }

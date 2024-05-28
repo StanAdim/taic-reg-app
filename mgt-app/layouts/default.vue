@@ -52,11 +52,11 @@ const handleLinkActive = (routeLink: string) => {
             <p class="text-sm text-white bg-red-600 px-2 py-0.5 rounded-md text-center">Verify your Email First</p>
           </template>
 
-          <a class="flex items-center flex-shrink-0 h-10 px-3 mt-auto text-sm font-medium bg-gray-200 rounded hover:bg-emerald-300"
-             href="#">
-            <i class="fa fa-plus"></i>
+<!--          <a class="flex items-center flex-shrink-0 h-10 px-3 mt-auto text-sm font-medium bg-gray-200 rounded hover:bg-emerald-300"-->
+<!--             href="#">-->
+<!--            <i class="fa fa-plus"></i>-->
 <!--            <span class="ml-2 leading-none">New Item</span>-->
-          </a>
+<!--          </a>-->
         </div>
 
       </div>
