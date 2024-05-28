@@ -30,7 +30,7 @@ class CustomEmailVerification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ICTC Events - User Email Verification',
+            subject: 'User Email Verification',
         );
     }
 
