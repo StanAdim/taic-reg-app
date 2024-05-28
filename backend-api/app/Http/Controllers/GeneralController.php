@@ -46,7 +46,9 @@ class GeneralController extends Controller
       }
       public function sendVerificationEmail(){
         $user = Auth::user();
-        Mail::to($user->email)->send(new CustomEmailVerification($user));
+        if($user){
+            Mail::to($user->email)->send(new CustomEmailVerification($user));
+        }
         return response()->json([
             'message' => 'message sent',
         ]); 
