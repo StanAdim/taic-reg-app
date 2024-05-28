@@ -22,8 +22,8 @@ and we are thrilled to have you join us for these important events.
 </p>
 <p style="padding:1px 2px; margin: 4px 1px;">Hotline : <span style="color: #105f8d;font-weight:600;">+255 738 171 742</span></p>
 <p style="padding:1px 2px; margin: 4px 1px;">Email : 
-    <span style="color: #105f8d;font-weight:600;">info@ictc.go.tz</span> or 
-    <span style="color: #105f8d;font-weight:600">ictsupport@ictc.go.tz</span>
+    <span style="color: #0884cb;font-weight:600;">info@ictc.go.tz</span> or 
+    <span style="color: #0884cb;font-weight:600">ictsupport@ictc.go.tz</span>
 </p>
 <p style="padding:1px 2px; margin: 4px 1px;">Thank you!</p>
 <p style="padding:1px 2px; margin: 4px 1px;">--------------</p>
