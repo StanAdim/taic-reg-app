@@ -7,13 +7,13 @@
     </p>
 <p style="padding:4px 2px; margin: 4px 1px;">
     {{-- Email message --}}
-We hope this email finds you well. The ICT Commission is delighted to inform you that your 
+The ICT Commission is delighted to inform you that your 
 registration for the upcoming events has been successfully received. Your participation is greatly appreciated, 
 and we are thrilled to have you join us for these important events.
-
-Please click the link below to verify your email and complete your registration:  
-[Verification Link]
-
+</p>
+<p style="padding:4px 2px; margin: 4px 1px;">
+    Please click the link below to verify your email and complete your registration:  
+    [Verification Link]
 </p>
 
 <p style="padding:4px 2px; margin: 4px 1px;">
