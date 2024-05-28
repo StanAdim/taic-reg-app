@@ -12,7 +12,6 @@ const credentials = ref({
 const handleLogin = async ()=>{
   globalData.toggleLoadingState('on')
   const response = await authStore.login(credentials.value)
-  credentials.value = {}
 }
 const date = new Date();
 

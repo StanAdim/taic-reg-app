@@ -51,7 +51,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         }else {
             authErrors.value = loginResponse.error.value
             globalStore.toggleLoadingState('off')
-            globalStore.assignAlertMessage(authErrors.value?.errors, 'danger')
+            globalStore.assignAlertMessage([[authErrors.value?.data?.message]], 'danger')
         }
         return loginResponse;
     }
@@ -80,7 +80,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         }else{
             authErrors.value = registrationResponse?.error.value?.data
             globalStore.toggleLoadingState('off')
-            globalStore.assignAlertMessage(authErrors.value?.errors, 'danger')
+            globalStore.assignAlertMessage([[authErrors.value?.message]], 'danger')
         }
         return registrationResponse;
     }
