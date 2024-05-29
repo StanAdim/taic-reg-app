@@ -1,4 +1,6 @@
 <script setup>
+import NoData from "~/components/usables/noData.vue";
+
 definePageMeta({
     middleware:'auth'
 })
@@ -49,6 +51,7 @@ handleCall();
             </div>
         </div>
         <ul class="divide-y divide-gray-300 px-4" v-if="eventStore.getEvents">
+          <no-data v-if="eventStore.getEvents.length === 0" source="Events" />
             <li class="mb-3 mt-0.5" v-for="item in eventStore.getEvents" :key="item">
                 <div class="flex flex-md-column flex-wrap mt-3">
                     <div class="ml-3 text-gray-900 block">

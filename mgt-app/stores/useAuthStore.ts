@@ -43,6 +43,10 @@ export const useAuthStore = defineStore('auth', ()=> {
             globalStore.toggleLoadingState('off')
             globalStore.assignAlertMessage(data.value.message, 'success');
         }
+        else {
+            globalStore.assignAlertMessage([[error.value.message]], 'danger');
+
+        }
         return {data,error}
     }
     // resend Verification
@@ -51,7 +55,11 @@ export const useAuthStore = defineStore('auth', ()=> {
         const verifyResponse = await useApiFetch(`/api/verify-user-email-${verificationKey}`);
         if(verifyResponse.status.value === 'success'){
             globalStore.toggleLocalLoaderStatus()
-            globalStore.assignAlertMessage(verifyResponse.data.value.message, 'success');
+            globalStore.assignAlertMessage(verifyResponse.data?.value.message, 'success');
+        }
+        else {
+            globalStore.assignAlertMessage([[verifyResponse.error.value?.data?.message]], 'danger');
+
         }
         return verifyResponse
     }

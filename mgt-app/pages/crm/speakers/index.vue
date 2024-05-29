@@ -1,4 +1,6 @@
 <script setup>
+import NoData from "~/components/usables/noData.vue";
+
 useHead({
     title: 'TAIC - Speakers'
 })
@@ -6,42 +8,7 @@ definePageMeta({
     middleware:'auth'
 })
 const globalData = useGlobalDataStore()
-const confSpeaker = ref([
-    {   name: 'James Askari',
-        email: 'james@mail.com',
-        designation: 'Director',
-        institution: 'Askari Mtaa',
-        linkedinLink: '#....',
-        twitterLink: '#....',
-        isMain: false,
-        conference_id: '___',
-        imgPath: '/team/placeholder2.png',
-        is_visible: true
-    },
-    {   name: 'Harris Kundi Malafyalekise',
-        email: 'harris@mail.com',
-        designation: 'Chief Executive',
-        institution: 'Ndani Parmount',
-        linkedinLink: '#....',
-        twitterLink: '#....',
-        isMain: false,
-        conference_id: '___',
-        imgPath: '/team/placeholder2.png',
-        is_visible: false
-    },
-    {   name: 'Henry Stanley',
-        email: 'henry@mail.com',
-        designation: 'Managing Director',
-        institution: 'Poontana Technologies',
-        linkedinLink: '#....',
-        twitterLink: '#....',
-        isMain: false,
-        conference_id: '___',
-        imgPath: '/team/placeholder2.png',
-        is_visible: true
-    },
-   
-])
+const confSpeaker = ref([])
 const keySpeakerStore = useSpeakerStore()
 const itemToUpdate = ref(null)
 const setAction = ref('')
@@ -70,7 +37,8 @@ handleInitializing()
         <ul class="flex justify-center divide-y divide-gray-300 px-4">
             <li class="mb-3 mt-2" >
                 <div class="flex flex-initial flex-wrap" v-if="keySpeakerStore.getSpeakers">
-                    <div class=" text-gray-900 " v-for="item in keySpeakerStore.getSpeakers" :key="item.email">
+                  <no-data v-if="keySpeakerStore.getSpeakers.length === 0" source="Events Speakers" />
+                  <div class=" text-gray-900 " v-for="item in keySpeakerStore.getSpeakers" :key="item.email">
                         <AdminSpeakerCard :info="item" />
                     </div>
 

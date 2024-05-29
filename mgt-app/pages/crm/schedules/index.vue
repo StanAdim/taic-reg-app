@@ -1,4 +1,6 @@
 <script setup>
+import NoData from "~/components/usables/noData.vue";
+
 useHead({
     title: 'TAIC - Schedules'
 })
@@ -54,13 +56,17 @@ handleInitializing()
         <div class=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div class="w-full max-w-sm mx-auto px-4 py-4">
             <div class="flex justify-center items-center border-b-2 border-teal-500 py-2">
-                <UsablesTheButton  @click="openDialog('create','activityDialog')" :is-normal="true" name="Add Activity" iconClass="fa-solid fa-plus" />
-                <UsablesTheButton  @click="openDialog('create','timetableDialog')" :is-normal="true" name="Add Timetable" iconClass="fa-solid fa-plus" />
-                <UsablesTheButton  @click="openDialog('create', 'dayDialog')" :is-normal="true" name="Add Day" iconClass="fa-solid fa-plus" />
+                <UsablesTheButton  @click="openDialog('create','activityDialog')"
+                                   :is-normal="true" name="Add Activity" iconClass="fa-solid fa-plus" />
+                <UsablesTheButton  @click="openDialog('create','timetableDialog')"
+                                   :is-normal="true" name="Add Timetable" iconClass="fa-solid fa-plus" />
+                <UsablesTheButton  @click="openDialog('create', 'dayDialog')"
+                                   :is-normal="true" name="Add Day" iconClass="fa-solid fa-plus" />
             </div>
         </div>
         <ul class="flex justify-center divide-y divide-gray-300 px-4">
-            <li class="mb-3 m-2"  v-if="scheduleStore.getConferenceDays">
+          <no-data v-if="scheduleStore.getConferenceDays.length === 0" source="Schedules" />
+          <li class="mb-3 m-2"  v-if="scheduleStore.getConferenceDays">
                 <div class="flex flex-initial flex-wrap justify-center" >
                     <div class=" text-gray-900 m-2" v-for="item in scheduleStore.getConferenceDays" :key="item.id">
                         <div class="flex items-center">

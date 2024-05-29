@@ -59,14 +59,24 @@ class UserInfoController extends Controller
         ]);
         
     }
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserInfo $userInfo)
-    {
-        //
-    }
+    public function retrieveSystemUserDetails($user_key){
+        $user = new SystemUser(User::where('verificationKey',$user_key)->first());
+         
+        if ($user) { 
+            $subscriptions = $user->subscriptions ;
+            $bills = $user->bills ;
+            $data = array_merge(['user'=> $user], ['subscriptions'=>$subscriptions, 'bills'=> $bills]);          // Update the email verification status
+            return response()->json([
+                'message' => 'User Details retrieved',
+                'data' => $data 
+            ],200);
+        } else {
+            return response()->json([
+                'message' => 'Account is not found',
+            ],404);
+        }
 
+      }
     /**
      * Update the specified resource in storage.
      */

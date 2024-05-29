@@ -3,7 +3,7 @@ const globalStore = useGlobalDataStore()
 </script>
 
 <template>
-  <div class="bg-sky-100 pb-1">
+  <div class="bg-sky-100 pb-1 w-full">
     <usables-loading v-if="globalStore.getLoadingState" />
     <div class="flex flex-row flex-wrap justify-center md:justify-between lg:justify-between flex-initial mx-4">
       <div class="hidden md:block"><img class="h-12 md:h-24 ml-2" src="/image/logo/nembo.png" alt="nation-emblem"></div>

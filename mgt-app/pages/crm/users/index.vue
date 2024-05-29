@@ -8,9 +8,12 @@ useHead({
 const authStore = useAuthStore()
 const initialize = async () => {
   await authStore.retrieveAppUsers()
-  console.log(authStore.getAppUsers)
 }
-initialize()
+const handleSelected = (selectedIds) => {
+  const selectedUser = []
+  selectedUser.push(selectedIds)
+}
+await initialize()
 </script>
 
 <template>
@@ -42,7 +45,7 @@ initialize()
           </th>
 
           <th class="px-4 py-3.5 text-sm  text-center" scope="col">
-            User Type
+            Role
           </th>
 
           <th class="px-4 py-3.5 text-sm  text-center" scope="col">
@@ -50,6 +53,9 @@ initialize()
           </th>
           <th class="px-4 py-3.5 text-sm  text-center" scope="col">
             Registered On
+          </th>
+          <th class="px-4 py-3.5 text-sm  text-center" scope="col">
+            Verified
           </th>
 
           <th class="px-4 py-3.5 text-sm  text-center" scope="col">
@@ -63,25 +69,33 @@ initialize()
         <tr v-for="item in authStore.getAppUsers" :key="item">
           <td class="px-4 py-4 text-sm font-medium text-gray-700  whitespace-nowrap">
             <div class="inline-flex items-center gap-x-3">
-              <input class="text-blue-500 border-gray-300 rounded  dark:ring-offset-gray-900 " type="checkbox">
+              <input class="text-blue-500 border-gray-300 rounded" @change="handleSelected(item.userKey)" type="checkbox">
               <span>{{ item.userName }}</span>
             </div>
           </td>
           <td class="px-4 py-4 text-sm  whitespace-nowrap">{{ item.role }}</td>
           <td class="px-4 py-4 text-sm  whitespace-nowrap">{{ item.email }}</td>
           <td class="px-4 py-4 text-sm  whitespace-nowrap">{{ item.registrationDate }}</td>
+          <td class="px-4 py-4 text-sm  whitespace-nowrap text-center">
+            <span v-if="item.isVerified" class="text-green-600"><i class="fa fa-dot-circle fa-xl"></i></span>
+            <span v-else class="text-red-600"><i class="fa fa-dot-circle fa-xl"></i></span>
+          </td>
           <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-            <div
+            <nuxt-link :to="`users/user-${item.userKey}`"
                 class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-sky-400 bg-sky-600 ">
               <p class="text-sm font-normal mx-3"><i class="fa-solid fa-receipt"></i></p>
-            </div>
+            </nuxt-link>
             <div
-                class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-red-400 bg-red-600 ">
-              <p class="text-sm font-normal mx-3"><i class="fa fa-trash"></i></p>
+                class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-yellow-400 bg-yellow-600 ">
+              <p class="text-sm font-normal mx-3"><i class="fa fa-lock"></i></p>
             </div>
             <div
                 class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-violet-400 bg-violet-600">
               <p class="text-sm font-normal mx-3"><i class="fa-solid fa-pen"></i></p>
+            </div>
+            <div
+                class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-zinc-400 bg-zinc-600">
+              <p class="text-sm font-normal mx-3"><i class="fa fa-anchor-circle-check"></i></p>
             </div>
           </td>
         </tr>

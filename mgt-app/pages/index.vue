@@ -7,6 +7,9 @@ const globalData = useGlobalDataStore()
 const authStore = useAuthStore()
 const credentials = ref({ email:'', password: ''})
 const handleLogin = async ()=>{
+  if(credentials.value.password === '' && credentials.value.email === ''){
+    return globalData.assignAlertMessage([['Enter your email & password']], 'danger')
+  }
   globalData.toggleLoadingState('on')
   const response = await authStore.login(credentials.value)
 }
@@ -27,7 +30,6 @@ const date = new Date();
                   <span class="text-sm text-blue-600 hover:cursor-pointer p-1 border-b-2 m-2  rounded-md border-blue-500 hover:bg-sky-50"
                         @click="globalData.toggleRegistrationForm()">Register Now</span></p>
                 <p>Please login to continue|</p>
-
               </div>
 
               <div class="mt-10">
@@ -35,12 +37,12 @@ const date = new Date();
                   <div>
                     <label class="mb-2.5 block" for="email">Email</label>
                     <input type="email" id="email"  v-model="credentials.email"
-                           class="inline-block w-full rounded-full bg-emerald-50 p-3 leading-none text-black placeholder-indigo-900 shadow placeholder:opacity-30"
-                           placeholder="mail@user.com" />
+                           class="inline-block w-full rounded-full bg-emerald-50 p-3 leading-none text-black placeholder-zinc-600 shadow placeholder:opacity-50"
+                           placeholder="Enter your email" />
                   </div>
                   <div class="mt-4">
                     <label class="mb-2.5 block" for="password">Password</label>
-                    <input type="password" id="password"  v-model="credentials.password"
+                    <input type="password" id="password"  v-model="credentials.password" placeholder="**********"
                            class="inline-block w-full rounded-full bg-emerald-50 p-3 leading-none text-black placeholder-indigo-900 shadow" />
                   </div>
                   <div class="mt-4 flex w-full flex-col justify-between sm:flex-row">

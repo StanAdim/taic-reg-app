@@ -23,6 +23,9 @@ const formData = ref({
 })
 
 const handleFormSubmission = async ()=> {
+  if(formData.value.district_id === '0'){
+    return globalData.assignAlertMessage([['Select District']],'danger')
+  }
   globalData.toggleLoadingState('on')
   await  authStore.saveUserInfo(formData.value)
 }

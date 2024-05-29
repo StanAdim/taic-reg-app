@@ -2,7 +2,6 @@
 definePageMeta({
   middleware:'auth'
 })
-import SimpleDataTable from "~/components/usables/simple-data-table.vue";
 const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
 const route = useRoute()
