@@ -55,7 +55,7 @@ class GeneralController extends Controller
             Mail::to($user->email)->send(new CustomEmailVerification($user,$url));
         }
         return response()->json([
-            'message' => 'message sent',
+            'message' => 'Activation Link sent to your Email',
         ],200); 
 
       }
