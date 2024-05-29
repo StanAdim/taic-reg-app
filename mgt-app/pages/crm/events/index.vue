@@ -44,7 +44,8 @@ handleCall();
                 <UsablesTheButton v-if="globalStore.hasPermission('can_create_event')"
                                   @click="openDialog('create', '')"
                                   :is-normal="true" name="Add Conference" iconClass="fa-solid fa-plus" />
-                <UsablesTheButton  :is-normal="true" name="Add Mini Event" iconClass="fa-solid fa-plus" />
+                <UsablesTheButton  v-if="globalStore.hasPermission('can_create_event')"
+                    :is-normal="true" name="Add Mini Event" iconClass="fa-solid fa-plus" />
             </div>
         </div>
         <ul class="divide-y divide-gray-300 px-4" v-if="eventStore.getEvents">
