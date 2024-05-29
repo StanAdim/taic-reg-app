@@ -2,7 +2,6 @@
 definePageMeta({
   title: 'Account Verification',
   layout: 'auth',
-  middleware: 'guest'
 })
 const route = useRoute()
 const message = ref('Verify Your Account')
