@@ -1,7 +1,7 @@
 
 <div style="padding:1.4rem;background-color: #e8e8ef; font-size:large; font-family: Verdana, Geneva, Tahoma, sans-serif">
     <p style="padding:1px 2px; margin: 4px 1px;">Dear<b style="color:#105f8d;"> 
-        {{$user->firstName}},
+        {{$user->firstName}} {{$user->middleName}} {{$user->lastName}},
     </b>
     </p>
 <p style="padding:4px 2px; margin: 4px 1px;">
@@ -14,7 +14,7 @@ and we are thrilled to have you join us for these important events.
     Please click the link below to verify your email and complete your registration:  
 </p>
 
-    <a href="http://staging.ictc.go.tz:2224/verify-user-account-111" target="_blank" style="background-color:#0884cb;color:#ffffff;font-size:medium; border-radius:.8rem; padding:.5rem .6rem; border: 1px #156694 solid; text-decoration:none">
+    <a href="http://staging.ictc.go.tz:2224/verify-user-account-{{$user->verificationKey}}" target="_blank" style="background-color:#0884cb;color:#ffffff;font-size:medium; border-radius:.8rem; padding:.5rem .6rem; border: 1px #156694 solid; text-decoration:none">
         Verify Account Now
     </a>
   
