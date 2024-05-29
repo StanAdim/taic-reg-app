@@ -27,7 +27,7 @@ const handleAccountVerification = async () => {
       <p class="cookieDescription">{{ message }}</p>
       <usables-local-loader v-if="globalStore.getLocalLoaderStatus" />
         <usables-done-check-anim v-if="verificationOnSuccess" />
-        <template v-if="!globalStore.getLocalLoaderStatus">
+        <template v-if="!globalStore.getLocalLoaderStatus && !verificationOnSuccess">
           <p class="cookieDescription">To complete registration and  get access to events features,
             kindly verify your account by clicking the button below
           </p>
