@@ -35,6 +35,7 @@ const handleAccountVerification = async () => {
           <button @click="handleAccountVerification()" class="acceptButton">Verify Account</button>
         </div>
         </template>
+        <nuxt-link to="/" v-if="verificationOnSuccess" class="text-blue-600 hover:cursor-pointer p-1 border-b-2 m-2  rounded-md border-blue-500 hover:bg-sky-200" >Go Home</nuxt-link>
 
 
     </div>
