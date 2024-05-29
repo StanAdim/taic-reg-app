@@ -15,7 +15,7 @@ and we are thrilled to have you join us for these important events.
     Please click the link below to verify your email and complete your registration:  
 </p>
 
-    <a href="" style="background-color:#0884cb;color:#ffffff;font-size:medium; border-radius:.6rem; padding:.5rem .6rem; border: 1px #156694 solid; ">
+    <a href="https://stagin.ictc.go.tz:2224" target="_blank" style="background-color:#0884cb;color:#ffffff;font-size:medium; border-radius:.8rem; padding:.5rem .6rem; border: 1px #156694 solid; text-decoration:none">
         Verify Account Now
     </a>
   

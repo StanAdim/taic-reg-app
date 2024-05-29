@@ -1,3 +1,6 @@
 #Ignore files
 Dockerfile
+Makefile
 docker-compose.yml
+./mgt-app/.env
+./site-app/.env
