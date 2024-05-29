@@ -6,6 +6,8 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
+
 
 class UserSeeder extends Seeder
 {
@@ -25,7 +27,9 @@ class UserSeeder extends Seeder
             'role_id' => $attendeeRole->id,
             'email' => 'attendee@example.com',
             'password'=> bcrypt('password'),
-            'email_verified_at'=> now()
+            'email_verified_at'=> now(),
+            'verificationKey' => strtolower(Str::random(32)),
+
         ]);
         User::create([
             'firstName' => 'Admin',
@@ -34,7 +38,9 @@ class UserSeeder extends Seeder
             'role_id' => $AdminRole->id,
             'email' => 'admin@example.com',
             'password'=> bcrypt('password'),
-            'email_verified_at'=> now()
+            'email_verified_at'=> now(),
+            'verificationKey' => strtolower(Str::random(32)),
+
         ]);
         User::create([
             'firstName' => 'Accountant',
@@ -43,7 +49,9 @@ class UserSeeder extends Seeder
             'role_id' => $accountantRole->id,
             'email' => 'accountant@example.com',
             'password'=> bcrypt('password'),
-            'email_verified_at'=> now()
+            'email_verified_at'=> now(),
+            'verificationKey' => strtolower(Str::random(32)),
+
         ]);
         User::create([
             'firstName' => 'Promotor ',
@@ -52,7 +60,9 @@ class UserSeeder extends Seeder
             'role_id' => $promotorRole->id,
             'email' => 'promotor@example.com',
             'password'=> bcrypt('password'),
-            'email_verified_at'=>now()
+            'email_verified_at'=>now(),
+            'verificationKey' => strtolower(Str::random(32)),
+
         ]);
     }
 }

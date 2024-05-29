@@ -20,6 +20,7 @@ Route::get('/mail',function(){return view('mail.verification.verifyUserEmail');}
  // ================ LOCATION API ============================================
  Route::get('/get-country-regions',[GeneralController::class, 'getRegions']);
  Route::get('/send-verification-email',[GeneralController::class, 'sendVerificationEmail']);
+ Route::get('/verify-user-email-{verificationKey}',[GeneralController::class, 'verifyUserEmail']);
  Route::get('/site-data', [SiteController::class , 'fetchSiteData']);
  Route::get('/get-districts/{targetRegion}',[GeneralController::class, 'getDistricts']);
  Route::middleware(['auth:sanctum'])->group(function(){

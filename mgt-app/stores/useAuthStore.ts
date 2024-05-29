@@ -35,11 +35,22 @@ export const useAuthStore = defineStore('auth', ()=> {
         }
         return {data,error}
     }
+    // resend Verification
     async function resendEmailVerification(){
         await useApiFetch("/sanctum/csrf-cookie");
         const {data,error} = await useApiFetch('/api/send-verification-email');
         if(data.value){
             globalStore.toggleLoadingState('off')
+        }
+        return {data,error}
+    }
+    // resend Verification
+    async function userEmailVerification(verificationKey:string){
+        await useApiFetch("/sanctum/csrf-cookie");
+        const {data,error} = await useApiFetch(`/api/verify-user-email-${verificationKey}`);
+        if(data.value){
+            globalStore.toggleLocalLoaderStatus()
+            console.log(data.value)
         }
         return {data,error}
     }
@@ -116,5 +127,6 @@ export const useAuthStore = defineStore('auth', ()=> {
         ,getUserPermissions,getLoggedUserInfo,
         getAppUsers,retrieveAppUsers,
         resendEmailVerification,
+        userEmailVerification
     }
 })

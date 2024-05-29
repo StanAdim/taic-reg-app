@@ -54,4 +54,15 @@ class GeneralController extends Controller
         ]); 
 
       }
+      public function verifyUserEmail($verificationKey){
+        return $verificationKey;
+        $user = Auth::user();
+        if($user){
+            Mail::to($user->email)->send(new CustomEmailVerification($user));
+        }
+        return response()->json([
+            'message' => 'message sent',
+        ]); 
+
+      }
 }

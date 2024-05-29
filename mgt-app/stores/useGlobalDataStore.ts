@@ -3,6 +3,7 @@ import {integer} from "vscode-languageserver-types";
 export const useGlobalDataStore = defineStore('globalData', () => {
     const authStore = useAuthStore()
     const registrationDialogStatus= ref(false);
+    const localLoader = ref(false);
     const userInfoDialogStatus= ref(false);
     const userProfileModalStatus= ref(false);
     const confirmToAttendModalStatus= ref(false);
@@ -12,7 +13,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const showSuccessStatus = ref(true);
     const showWarningStatus = ref(true);
     const showDangerStatus = ref(true);
-    const longName = ref('Tanzania Annual ICT Conference')
+    const longName = ref('ICTC Events System')
     const regions = ref([])
     const districts = ref([])
 
@@ -40,6 +41,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const getAlertMessage = computed(() => {return alertMessage.value})
     const getRegions = computed(() => {return regions.value})
     const getDistricts = computed(() => {return districts.value})
+    const getLocalLoaderStatus = computed(() => {return localLoader.value})
 
 
     // Transforms
@@ -55,6 +57,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const toggleDoneCheckVisibility = ()=> { doneCheckVisibility.value = !doneCheckVisibility.value  }
     const toggleUserInfoModal = ()=> { userInfoDialogStatus.value = !userInfoDialogStatus.value  }
     const toggleUserProfileModalStatus = ()=> { userProfileModalStatus.value = !userProfileModalStatus.value  }
+    const toggleLocalLoaderStatus = ()=> { localLoader.value = !localLoader.value  }
     const toggleConfirmToAttendModalStatus = ()=> {
         confirmToAttendModalStatus.value = !confirmToAttendModalStatus.value
         doneCheckVisibility.value = false  }
@@ -129,7 +132,8 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         getRegions,getDistricts, retrieveRegions,retrieveRegionDistricts, hasPermission,
         separateNumber,getUserProfileStatus,toggleUserProfileModalStatus,
         getConfirmToAttendModalStatus,toggleConfirmToAttendModalStatus,
-        getDoneCheckVisibility,toggleDoneCheckVisibility
+        getDoneCheckVisibility,toggleDoneCheckVisibility,
+        getLocalLoaderStatus, toggleLocalLoaderStatus
 
     }
 })
