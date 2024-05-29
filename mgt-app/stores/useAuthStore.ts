@@ -49,7 +49,7 @@ export const useAuthStore = defineStore('auth', ()=> {
     async function userEmailVerification(verificationKey:string){
         await useApiFetch("/sanctum/csrf-cookie");
         const verifyResponse = await useApiFetch(`/api/verify-user-email-${verificationKey}`);
-        if(verifyResponse.status === 'success'){
+        if(verifyResponse.status.value === 'success'){
             globalStore.toggleLocalLoaderStatus()
             globalStore.assignAlertMessage(verifyResponse.data.value.message, 'success');
         }

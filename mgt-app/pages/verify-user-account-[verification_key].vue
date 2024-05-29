@@ -11,8 +11,8 @@ const authStore = useAuthStore()
 const handleAccountVerification = async () => {
   message.value = 'Verifying...'
   globalStore.toggleLocalLoaderStatus()
-  const {verifyResponse}  = await authStore.userEmailVerification(route.params.verification_key)
-  if(verifyResponse.status === 'success'){
+  const verifyResponse = await authStore.userEmailVerification(route.params.verification_key)
+  if(verifyResponse.status.value === 'success'){
     message.value = 'Account verified'
     verificationOnSuccess.value = true;
   }

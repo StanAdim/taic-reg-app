@@ -21,31 +21,29 @@ class UserSeeder extends Seeder
         $accountantRole = Role::where('name', 'accountant')->first();
         $promotorRole = Role::where('name', 'promotor')->first();
         User::create([
-            'firstName' => 'Attendee',
-            'middleName' => '',
-            'lastName' => 'Test',
+            'firstName' => 'Stanley',
+            'middleName' => 'Justine',
+            'lastName' => 'Mahenge',
             'role_id' => $attendeeRole->id,
-            'email' => 'attendee@example.com',
-            'password'=> bcrypt('password'),
-            'email_verified_at'=> now(),
+            'email' => 'stanjustine@gmail.com',
+            'password'=> bcrypt('passpass'),
             'verificationKey' => strtolower(Str::random(32)),
 
         ]);
         User::create([
             'firstName' => 'Admin',
-            'middleName' => '',
-            'lastName' => 'Test',
+            'middleName' => 'User',
+            'lastName' => 'ICTC',
             'role_id' => $AdminRole->id,
-            'email' => 'admin@example.com',
-            'password'=> bcrypt('password'),
-            'email_verified_at'=> now(),
+            'email' => 'ictsupport@ictc.go.tz',
+            'password'=> bcrypt('passpass'),
             'verificationKey' => strtolower(Str::random(32)),
 
         ]);
         User::create([
             'firstName' => 'Accountant',
-            'middleName' => '',
-            'lastName' => 'Test',
+            'middleName' => 'User',
+            'lastName' => 'Accounts',
             'role_id' => $accountantRole->id,
             'email' => 'accountant@example.com',
             'password'=> bcrypt('password'),
@@ -54,12 +52,12 @@ class UserSeeder extends Seeder
 
         ]);
         User::create([
-            'firstName' => 'Promotor ',
-            'middleName' => '',
-            'lastName' => 'Test',
+            'firstName' => 'Info ',
+            'middleName' => 'Event',
+            'lastName' => 'Organiser',
             'role_id' => $promotorRole->id,
-            'email' => 'promotor@example.com',
-            'password'=> bcrypt('password'),
+            'email' => 'info@ictc.go.tz',
+            'password'=> bcrypt('passpass'),
             'email_verified_at'=>now(),
             'verificationKey' => strtolower(Str::random(32)),
 
