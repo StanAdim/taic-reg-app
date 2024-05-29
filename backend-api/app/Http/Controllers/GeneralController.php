@@ -56,7 +56,7 @@ class GeneralController extends Controller
         }
         return response()->json([
             'message' => 'message sent',
-        ]); 
+        ],200); 
 
       }
       public function verifyUserEmail($verificationKey){
@@ -69,7 +69,6 @@ class GeneralController extends Controller
 
             return response()->json([
                 'message' => 'Account verified successful',
-                'data' => $user
             ],200);
         } else {
             return response()->json([

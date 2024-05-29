@@ -41,18 +41,19 @@ export const useAuthStore = defineStore('auth', ()=> {
         const {data,error} = await useApiFetch('/api/send-verification-email');
         if(data.value){
             globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage(data.value.message, 'success');
         }
         return {data,error}
     }
     // resend Verification
     async function userEmailVerification(verificationKey:string){
         await useApiFetch("/sanctum/csrf-cookie");
-        const {data,error} = await useApiFetch(`/api/verify-user-email-${verificationKey}`);
-        if(data.value){
+        const verifyResponse = await useApiFetch(`/api/verify-user-email-${verificationKey}`);
+        if(verifyResponse.status === 'success'){
             globalStore.toggleLocalLoaderStatus()
-            console.log(data.value)
+            globalStore.assignAlertMessage(verifyResponse.data.value.message, 'success');
         }
-        return {data,error}
+        return verifyResponse
     }
     // Login
     async function login(credentials: Credential){
