@@ -47,7 +47,7 @@ class GeneralController extends Controller
       public function sendVerificationEmail(){
         $user = Auth::user();
         $baseUrl = config('app.frontend_url');
-        $url = $baseUrl . '/verify-user-account-' . $user->verificationKey;
+        $url = $baseUrl . '/verify-user-account-' . $user->id;
         if($user){
             Mail::to($user->email)->send(new CustomEmailVerification($user,$url));
         }
