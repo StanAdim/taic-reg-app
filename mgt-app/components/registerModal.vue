@@ -22,9 +22,9 @@ const handleRegistration = async ()=> {
 }
 </script>
 <template>
-  <div class="fixed z-20 inset-0 overflow-y-auto rounded-lg mt-32" :class="{'hide': !props.showStatus}" id="modal">
+  <div class="fixed z-20  inset-0 overflow-y-auto rounded-lg mt-32" :class="{'hide': !props.showStatus}" id="modal">
     <div class="flex  justify-center align-middle ">
-      <div class="relative bg-blue-100 rounded-lg px-2 shadow-xl">
+      <div class="bg-blue-100 rounded-lg px-2 shadow-xl">
         <div class="border-b-2 border-teal-500">
           <div class="border-b-2 border-teal-500 py-0.5 flex justify-between items-center">
           <span class="text-emerald-800 p-0.5 bg-zinc-50/5 flex-shrink-0">

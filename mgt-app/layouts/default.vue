@@ -77,20 +77,16 @@ const handleLinkActive = (routeLink: string) => {
           <div :class="{'hidden': !hideSideBar}"
                class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded ">
           </div>
-          <button class="relative ml-2 text-sm focus:outline-none group">
-            <div class="flex items-center justify-between w-10 h-10 rounded hover:bg-gray-300">
-              <span class="w-5 h-5 mx-auto">
-                <i class="fa-solid fa-ellipsis-vertical fa-xl"></i>
-              </span>
-            </div>
-            <div class="absolute right-0 flex-col items-start hidden w-40 pb-1 bg-white border border-gray-300 shadow-lg group-focus:flex">
-              <p class="w-full px-4 py-2 text-left hover:bg-sky-600 hover:text-white rounded-md"
+
+          <div class=" ml-2 text-sm focus:outline-none group">
+              <span class="w-full px-4 py-2 text-left hover:bg-sky-600 hover:text-white rounded-md"
                  @click.prevent="globalData.toggleUserProfileModalStatus()"
-              ><i class="fa fa-user px-2"></i> Profile</p>
-              <p class="w-full px-4 py-2 text-left hover:bg-red-600 hover:text-white hover:cursor-pointer justify-center text-sm font-medium bg-orange-50  rounded"
-                 @click="handleLogout()"><i class="fa px-2 fa-hand-point-left"></i>Logout</p>
-            </div>
-          </button>
+              ><i class="fa fa-user px-2"></i> Profile
+              </span>
+              <span  class="w-full px-4 py-2 text-left hover:bg-red-600 hover:text-white hover:cursor-pointer justify-center text-sm font-medium bg-red-100  rounded"
+                 @click="handleLogout()"><i class="fa-solid fa-lock mx-1"></i>Logout
+              </span>
+          </div>
         </div>
         <div class="flex-grow p-6 overflow-auto bg-white">
           <template v-if="!authStore.getLoggedUser?.email_verified_at">

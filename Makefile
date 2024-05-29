@@ -2,8 +2,9 @@ setup:
 	@make build
 	@make up
 	@make composer-update
+	@yarn
 build:
-	docker compose build
+	docker compose build 
 stop:
 	docker compose stop
 up:
@@ -25,3 +26,16 @@ rmi:
 	docker image rm -f taic-reg-api-taic-reg-api
 logs:
 	docker logs -f taic-reg-api
+
+# Define the directory and the command
+DIR1 := ./mgt-app 
+DIR2 := ./site-app 
+CMD := yarn && yarn build
+CMD1 := pm2 start ecosystem.config.cjs
+
+
+# Target to change to the specified directory and execute the command
+yarn:
+	@cd $(DIR1) && $(CMD) && $(CMD1)
+	@cd $(DIR2) && $(CMD) && $(CMD1)
+	@echo "Command executed in $(DIR1) and $(DIR2)"
