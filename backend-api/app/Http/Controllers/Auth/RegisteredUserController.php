@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomEmailVerification;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -10,7 +11,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Str;
+
 
 class RegisteredUserController extends Controller
 {
@@ -35,8 +39,14 @@ class RegisteredUserController extends Controller
             'middleName' => $request->middleName,
             'email' => $request->email,
             'role_id'=> $attendeeRole->id,
+            'verificationKey' => strtolower(Str::random(32)),
+
             'password' => Hash::make($request->password),
         ]);
+
+        $baseUrl = config('app.frontend_url');
+        $url = $baseUrl . '/verify-user-account-' . $user->verificationKey;
+        Mail::to($user->email)->send(new CustomEmailVerification($user,$url));
 
         event(new Registered($user));
 
