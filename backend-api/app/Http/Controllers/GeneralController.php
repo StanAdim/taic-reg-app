@@ -46,8 +46,10 @@ class GeneralController extends Controller
       }
       public function sendVerificationEmail(){
         $user = Auth::user();
+        $baseUrl = config('app.frontend_url');
+        $url = $baseUrl . '/verify-user-account-' . $user->verificationKey;
         if($user){
-            Mail::to($user->email)->send(new CustomEmailVerification($user));
+            Mail::to($user->email)->send(new CustomEmailVerification($user,$url));
         }
         return response()->json([
             'message' => 'message sent',
@@ -57,8 +59,10 @@ class GeneralController extends Controller
       public function verifyUserEmail($verificationKey){
         return $verificationKey;
         $user = Auth::user();
+        $baseUrl = config('app.frontend_url');
+        $url = $baseUrl . '/verify-user-account-' . $user->verificationKey;
         if($user){
-            Mail::to($user->email)->send(new CustomEmailVerification($user));
+            Mail::to($user->email)->send(new CustomEmailVerification($user, $url));
         }
         return response()->json([
             'message' => 'message sent',

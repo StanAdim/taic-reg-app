@@ -13,15 +13,15 @@ use Illuminate\Queue\SerializesModels;
 class CustomEmailVerification extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $url;
     /**
      * Create a new message instance.
      */
     public function __construct(
-        public User $user,
+        public User $user,$url
     )
     {
-       
+       $this -> url = $url;
     }
 
     /**
@@ -41,6 +41,9 @@ class CustomEmailVerification extends Mailable
     {
         return new Content(
             view: 'mail.verification.verifyUserEmail',
+            with: [
+                'url' => $this->url,
+            ],
         );
     }
 
