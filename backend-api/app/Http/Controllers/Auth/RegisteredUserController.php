@@ -40,7 +40,6 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'role_id'=> $attendeeRole->id,
             'verificationKey' => strtolower(Str::random(32)),
-
             'password' => Hash::make($request->password),
         ]);
 

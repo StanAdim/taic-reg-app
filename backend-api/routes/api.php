@@ -11,12 +11,11 @@ use App\Http\Controllers\Taic\SiteController;
 use App\Http\Controllers\Taic\SpeakerController;
 use App\Http\Controllers\Taic\TimetableController;
 use App\Http\Controllers\UserInfoController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionController::class,'authUserCall']);
 Route::get('/test',function(){return 'API: - Test route Active';});
-Route::get('/mail',function(){return view('mail.verification.verifyUserEmail');});
+Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmail']);
  // ================ LOCATION API ============================================
  Route::get('/get-country-regions',[GeneralController::class, 'getRegions']);
  Route::get('/send-verification-email',[GeneralController::class, 'sendVerificationEmail']);
