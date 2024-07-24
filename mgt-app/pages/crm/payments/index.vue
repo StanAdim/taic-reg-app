@@ -6,7 +6,12 @@ definePageMeta({
   middleware:'auth'
 })
 const billStore = useBillStore();
-const billsHeader = [ {key:'conferenceName',name:'Event'} , {key:'conferenceFee',name:'Fee'},{key:'controlNumber',name:'Control Number'},{key:'created_at',name:'Created On'}, {key:'status',name:"Status"}]
+const billsHeader = [{key: 'conferenceName', name: 'Event'},
+  {key: 'conferenceFee', name: 'Fee'},
+  {key: 'ReqId', name: 'ReqId'},
+  {key: 'controlNumber', name: 'Control Number'},
+  {key: 'created_at', name: 'Created On'},
+  {key: 'status', name: "Status"}]
 const globalStore = useGlobalDataStore();
 const initialize = async  () => {
   globalStore.toggleLoadingState('on')

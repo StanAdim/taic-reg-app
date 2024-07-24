@@ -26,7 +26,9 @@ rmi:
 	docker image rm -f taic-reg-api-taic-reg-api
 logs:
 	docker logs -f taic-reg-api
-
+update: 
+	 git pull && cd mgt-app &&  yarn build && pm2 restart taic-reg-app &&  cd  ../ && make start
+	 @boost
 # Define the directory and the command
 DIR1 := ./mgt-app 
 DIR2 := ./site-app 

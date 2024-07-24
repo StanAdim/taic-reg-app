@@ -8,7 +8,6 @@ class XmlRequestHelper
 {
     public static function GepgSubmissionRequest($billingData)
     {
-        // dd($billingData);
         $fileKeyPass = "passpass";
         $GepgBaseUrl = "https://uat1.gepg.go.tz";
         $requestUri = "/api/bill/20/submission";
@@ -125,8 +124,21 @@ class XmlRequestHelper
 
                 $resultCurlPost = curl_exec($ch);
                 curl_close($ch);
-
-                Log::info('Response Data', explode('---', $resultCurlPost));
+                try{
+                    $xml = simplexml_load_string($resultCurlPost, "SimpleXMLElement", LIBXML_NOCDATA);
+                    $json = json_encode($xml);
+                    $arrayFromXml = json_decode($json,TRUE);
+                    Log::info('Response Data: --', $arrayFromXml);
+                    return $arrayFromXml;
+                }
+                catch (\Exception $e) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Invalid XML data',
+                        'error' => $e->getMessage()
+                    ], 400);
+                }
+                
                 if(!empty($resultCurlPost)){
                     Log::info("Response Data Length:\n",[strlen($resultCurlPost)]);
 
@@ -162,8 +174,7 @@ class XmlRequestHelper
                         }
                     }
                 }
-                else
-                {  Log::info("No result Returned"."\n");}
+                else{  Log::info("No result Returned"."\n");}
 
             }
             else

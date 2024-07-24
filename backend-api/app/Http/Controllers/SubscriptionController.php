@@ -61,10 +61,13 @@ class SubscriptionController extends Controller
                 'status' => 1,
             ];
             $storeData = Bill::create($newBill);
-            XmlRequestHelper::GepgSubmissionRequest($storeData);
+            $returedXml = XmlRequestHelper::GepgSubmissionRequest($storeData);
+            $storeData->ReqId = $returedXml["billSubReqAck"]['ReqId'];
+            $storeData->save();
             return response()->json([
                 'message'=> "You have subscribed Successfull",
                 'data' => $storeData,
+                'GepgAck' => $returedXml['billSubReqAck'],
                 'code'=> 200
             ],200);
         }

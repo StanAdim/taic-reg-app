@@ -37,8 +37,9 @@ class BillResource extends JsonResource
             'user'=>$this->user->firstName.' '.$this->user->middleName. ' '.$this->user->lastName, 
             'conferenceName'=> 'TAIC '.Conference::where('id',$this->conference_id)->first()->conferenceYear, 
             'conferenceFee'=>$this->separateNumber($this->event_fee), 
-            'controlNumber'=>$this->control_number, 
+            'controlNumber'=>$this->cust_cntr_num, 
             'status'=>$this->status,
+            'ReqId'=>$this->ReqId,
             'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y, H:i')
         ];
     }
