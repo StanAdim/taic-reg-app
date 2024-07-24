@@ -56,4 +56,8 @@ class RegisteredUserController extends Controller
             ]
         );
     }
+    public function passwordResetting(Request $request)
+    {
+        return $request;
+    }
 }

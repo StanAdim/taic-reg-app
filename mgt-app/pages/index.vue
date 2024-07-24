@@ -21,6 +21,7 @@ const date = new Date();
   <!-- component -->
   <div class="flex flex-col">
     <register-modal :showStatus="globalData.getRegistrationModalStatus" />
+    <forgot-password-modal :showStatus="globalData.getForgotPassModalStatus" />
     <div class="">
         <div class="flex flex-row flex-wrap justify-center md:justify-between lg:justify-between w-full">
           <div class=" w-full md:w-1/2 bg-white">
@@ -48,7 +49,8 @@ const date = new Date();
                   <div class="mt-4 flex w-full flex-col justify-between sm:flex-row">
                     <!-- Forgot password -->
                     <div>
-                      <a href="#" class="text-sm hover:text-gray-200">Forgot password</a>
+                      <p  @click="globalData.toggleForgotPassDialog()"
+                          class="text-sm hover:cursor-pointer  hover:text-blue-800">Forgot password</p>
                     </div>
                   </div>
                   <div class="my-10 text-white">

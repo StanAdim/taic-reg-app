@@ -5,7 +5,7 @@ services:
     volumes:
       - ./backend-api:/var/www/html
     ports:
-      - 2230:80
+      - 6024:80
 
   taic-reg_mysql_db:
     container_name: taic-reg-ictc-db
@@ -16,13 +16,13 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-    - 2231:3306
+    - 3324:3306
 
   taic-reg_phpmyadmin:
     container_name: taic-reg-phpmyadmin
     image: phpmyadmin:5.2.1
     ports:
-      - 2233:80
+      - 6604:80
     environment:
       - PMA_ARBITRARY=1
 

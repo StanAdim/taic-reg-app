@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   ],
   app: {
     head: {
-      title: 'TAIC - Registration', // Set the default title for your application
+      title: 'EMS ICT Commission', // Set the default title for your application
       meta: [
         { charset: 'utf-8' },
         { 'http-equiv': 'pragma', content: 'no-cache' },
@@ -24,7 +24,15 @@ export default defineNuxtConfig({
       style: [
 
       ]
-    }
+    },
+    pageTransition: {
+      name: 'fade',
+      mode: 'out-in' // default
+    },
+    layoutTransition: {
+      name: 'slide',
+      mode: 'out-in' // default
+       },
   },
   runtimeConfig:{
     public:{

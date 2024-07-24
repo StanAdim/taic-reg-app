@@ -3,6 +3,7 @@ import {integer} from "vscode-languageserver-types";
 export const useGlobalDataStore = defineStore('globalData', () => {
     const authStore = useAuthStore()
     const registrationDialogStatus= ref(false);
+    const forgotPassDialogStatus= ref(false);
     const localLoader = ref(false);
     const userInfoDialogStatus= ref(false);
     const userProfileModalStatus= ref(false);
@@ -31,6 +32,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const getAppRoute = computed(() => {return appRoutes.value})
     const getDoneCheckVisibility = computed(() => {return doneCheckVisibility.value})
     const getRegistrationModalStatus = computed(() => {return registrationDialogStatus.value})
+    const getForgotPassModalStatus = computed(() => {return forgotPassDialogStatus.value})
     const getUserProfileStatus = computed(() => {return userProfileModalStatus.value})
     const getUserInfoModalStatus = computed(() => {return userInfoDialogStatus.value})
     const getConfirmToAttendModalStatus = computed(() => {return confirmToAttendModalStatus.value})
@@ -54,6 +56,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         if(key == 'off')userInfoDialogStatus.value = false;
     }
     const toggleRegistrationForm = ()=> { registrationDialogStatus.value = !registrationDialogStatus.value  }
+    const toggleForgotPassDialog = ()=> { forgotPassDialogStatus.value = !forgotPassDialogStatus.value  }
     const toggleDoneCheckVisibility = ()=> { doneCheckVisibility.value = !doneCheckVisibility.value  }
     const toggleUserInfoModal = ()=> { userInfoDialogStatus.value = !userInfoDialogStatus.value  }
     const toggleUserProfileModalStatus = ()=> { userProfileModalStatus.value = !userProfileModalStatus.value  }
@@ -133,7 +136,8 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         separateNumber,getUserProfileStatus,toggleUserProfileModalStatus,
         getConfirmToAttendModalStatus,toggleConfirmToAttendModalStatus,
         getDoneCheckVisibility,toggleDoneCheckVisibility,
-        getLocalLoaderStatus, toggleLocalLoaderStatus
+        getLocalLoaderStatus, toggleLocalLoaderStatus,
+        getForgotPassModalStatus, toggleForgotPassDialog
 
     }
 })

@@ -109,9 +109,7 @@ const handleLinkActive = (routeLink: string) => {
         </div>
       </div>
       <!-- Component End  -->
-
     </div>
-
   </div>
 </template>
 

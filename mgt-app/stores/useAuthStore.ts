@@ -130,12 +130,45 @@ export const useAuthStore = defineStore('auth', ()=> {
         }
         return userInfoResponse
     }
+    async function sendPasswordResetLink(userEmail : string){
+        await useApiFetch("/sanctum/csrf-cookie");
+        const {data, error} = await useApiFetch("/api/send-password-reset-link", {
+            method: "POST",
+            body: userEmail,
+        });
+        if(data.value){
+            globalStore.toggleLocalLoaderStatus()
+            globalStore.assignAlertMessage(data.value.message, 'success');
+        }
+        else {
+            globalStore.toggleLocalLoaderStatus()
+            globalStore.assignAlertMessage([[error.value?.data?.message]], 'danger');
+        }
+        return {data,error}
+    }
+    async function resetUserPassword(newUserPass : string){
+        await useApiFetch("/sanctum/csrf-cookie");
+        const {data, error} = await useApiFetch("/reset-password", {
+            method: "POST",
+            body: newUserPass,
+        });
+        if(data.value){
+            globalStore.toggleLocalLoaderStatus()
+            globalStore.assignAlertMessage(data.value.message, 'success');
+        }
+        else {
+            globalStore.toggleLocalLoaderStatus()
+            globalStore.assignAlertMessage([[error.value?.data?.message]], 'danger');
+        }
+        return {data,error}
+    }
     return {
         user,login,isLoggedIn,getAuthErrors,saveUserInfo,
         logout,fetchUser,register,getLoggedUser,getUserRole
         ,getUserPermissions,getLoggedUserInfo,
         getAppUsers,retrieveAppUsers,
         resendEmailVerification,
-        userEmailVerification
+        userEmailVerification,
+        sendPasswordResetLink,resetUserPassword,
     }
 })

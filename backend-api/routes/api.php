@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\SubscriptionController;
@@ -14,14 +15,19 @@ use App\Http\Controllers\UserInfoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionController::class,'authUserCall']);
-Route::get('/test',function(){return 'API: - Test route Active';});
+Route::get('/test',function(){return 'API: Is Active';});
 Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmail']);
- // ================ LOCATION API ============================================
+ // ================ public routes ============================================
  Route::get('/get-country-regions',[GeneralController::class, 'getRegions']);
  Route::get('/send-verification-email',[GeneralController::class, 'sendVerificationEmail']);
+ Route::post('/send-password-reset-link',[GeneralController::class, 'sendPasswordReset']);
  Route::get('/verify-user-email-{verificationKey}',[GeneralController::class, 'verifyUserEmail']);
  Route::get('/site-data', [SiteController::class , 'fetchSiteData']);
  Route::get('/get-districts/{targetRegion}',[GeneralController::class, 'getDistricts']);
+ Route::post('/reset-password', [RegisteredUserController::class, 'passwordResetting'])
+                ->middleware('guest')
+                ->name('password.reseting');
+ //--- Auth routes
  Route::middleware(['auth:sanctum'])->group(function(){
      Route::post('/user-info-create',[UserInfoController::class, 'create']);
      Route::get('/application-users',[UserInfoController::class, 'systemUsers']);

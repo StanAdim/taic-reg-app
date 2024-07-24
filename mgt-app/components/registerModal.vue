@@ -43,6 +43,8 @@ const handleRegistration = async ()=> {
           <div class="flex  justify-center">
             <div class="bg-white align-middle  shadow-md rounded-lg md:px-10 px-8 py-2 my-1">
               <form @submit.prevent="handleRegistration()">
+                <p class="my-2">To reserve your seat on the ICTC events, create your account</p>
+
                 <div class="mb-4">
                   <label for="firstNam" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
                   <input type="text" id="firstNam"  v-model="formData.firstName"
