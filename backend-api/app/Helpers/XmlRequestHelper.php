@@ -119,11 +119,13 @@ class XmlRequestHelper
                         'Content-Length:'.strlen($data_string))
                 );
 
-                curl_setopt($ch, CURLOPT_TIMEOUT, 50);
-                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 50);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 70);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 70);
 
                 $resultCurlPost = curl_exec($ch);
                 curl_close($ch);
+                Log::info("Response Data Length:---",[strlen($resultCurlPost)]);
+                Log::info("Response Data:---",[$resultCurlPost]);
                 try{
                     $xml = simplexml_load_string($resultCurlPost, "SimpleXMLElement", LIBXML_NOCDATA);
                     $json = json_encode($xml);
