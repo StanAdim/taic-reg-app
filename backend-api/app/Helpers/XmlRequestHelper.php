@@ -27,7 +27,7 @@ class XmlRequestHelper
         }
 
         if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate.pfx")) {
-            Log::info("Error: Unable to read the cert file\n");
+            Log::info(["Error: Unable to read the cert file\n"]);
             exit;
         }
         else
@@ -128,7 +128,7 @@ class XmlRequestHelper
                     $xml = simplexml_load_string($resultCurlPost, "SimpleXMLElement", LIBXML_NOCDATA);
                     $json = json_encode($xml);
                     $arrayFromXml = json_decode($json,TRUE);
-                    Log::info('Response Data: --', $arrayFromXml);
+                    Log::info('Response Data: --', [$arrayFromXml]);
                     return $arrayFromXml;
                 }
                 catch (\Exception $e) {
