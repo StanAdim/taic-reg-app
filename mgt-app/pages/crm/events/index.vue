@@ -73,8 +73,8 @@ handleCall();
                     </div>
                     <div class="ml-3 block text-teal-900">
                         <p class="my-0.5 py-0 text-lg text-sky-800 font-medium">Event fees</p>
-                        <span class="mx-3 font-medium">Default:<em class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(item.defaultFee) }} Tsh</em></span>
-                        <span class="mx-3 font-medium">Guest: <em class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(item.guestFee) }} Tsh</em></span>
+                        <span class="mx-3 font-medium">Register Professional:<em class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(item.defaultFee) }} Tsh</em></span>
+                        <span class="mx-3 font-medium">Not Registered | Others: <em class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(item.guestFee) }} Tsh</em></span>
                         <span class="mx-3 font-medium">Foreigner: <em class="text-fuchsia-950 p-2">{{ item.foreignerFee }} $</em></span>
                     </div>
 
