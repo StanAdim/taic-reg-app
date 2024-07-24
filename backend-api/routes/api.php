@@ -27,6 +27,9 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
  Route::post('/reset-password', [RegisteredUserController::class, 'passwordResetting'])
                 ->middleware('guest')
                 ->name('password.reseting');
+
+Route::post('/bill/receive-controll', [BillController::class,'receiveControlNumber']);
+
  //--- Auth routes
  Route::middleware(['auth:sanctum'])->group(function(){
      Route::post('/user-info-create',[UserInfoController::class, 'create']);
