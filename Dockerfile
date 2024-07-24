@@ -8,6 +8,7 @@ RUN a2enmod rewrite
 # Linux Library
 RUN apt-get update -y && apt-get install -y \
     git \
+    vim \
     curl \
     libicu-dev \
     libmariadb-dev \
