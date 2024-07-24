@@ -44,9 +44,9 @@ initialize()
         </div>
         <div class="ml-3 block text-teal-900">
           <p class="my-0.5 py-0 text-lg text-sky-800 font-medium">Fees</p>
-          <p class="mx-3 my-1 font-medium">Default:<em
+          <p class="mx-3 my-1 font-medium">Registered ICT Professional:<em
               class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(eventData.defaultFee) }} Tsh</em></p>
-          <p class="mx-3 my-1 font-medium">Guest: <em
+          <p class="mx-3 my-1 font-medium">Non Register | Others: <em
               class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(eventData.guestFee) }} Tsh</em></p>
           <p class="mx-3 my-1 font-medium">Foreigner: <em class="text-fuchsia-950 p-2">{{ eventData.foreignerFee }} $</em></p>
         </div>
