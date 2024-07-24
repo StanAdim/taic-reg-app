@@ -44,7 +44,7 @@ export const useAuthStore = defineStore('auth', ()=> {
             globalStore.assignAlertMessage(data.value.message, 'success');
         }
         else {
-            globalStore.assignAlertMessage([[error.value.message]], 'danger');
+            globalStore.assignAlertMessage(error.value.message, 'error');
 
         }
         return {data,error}
@@ -58,7 +58,7 @@ export const useAuthStore = defineStore('auth', ()=> {
             globalStore.assignAlertMessage(verifyResponse.data?.value.message, 'success');
         }
         else {
-            globalStore.assignAlertMessage([[verifyResponse.error.value?.data?.message]], 'danger');
+            globalStore.assignAlertMessage([[verifyResponse.error.value?.data?.message]], 'error');
 
         }
         return verifyResponse
@@ -79,7 +79,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         }else {
             authErrors.value = loginResponse.error.value
             globalStore.toggleLoadingState('off')
-            globalStore.assignAlertMessage([[authErrors.value?.data?.message]], 'danger')
+            globalStore.assignAlertMessage(authErrors.value?.data?.message, 'error')
         }
         return loginResponse;
     }
@@ -88,7 +88,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         const logout =  await useApiFetch('/logout', {method: 'POST'});
         if (logout.status.value === 'success'){
             globalStore.toggleLoadingState('off')
-            globalStore.assignAlertMessage([['You are logged out']], 'danger')
+            globalStore.assignAlertMessage('You are logged out', 'warning')
             user.value = null;
             navigateTo('/')
         }
@@ -108,7 +108,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         }else{
             authErrors.value = registrationResponse?.error.value?.data
             globalStore.toggleLoadingState('off')
-            globalStore.assignAlertMessage([[authErrors.value?.message]], 'danger')
+            globalStore.assignAlertMessage([[authErrors.value?.message]], 'error')
         }
         return registrationResponse;
     }
@@ -126,7 +126,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         }else{
             authErrors.value = userInfoResponse.error.value?.data
             globalStore.toggleLoadingState('off')
-            globalStore.assignAlertMessage(authErrors.value?.errors, 'danger')
+            globalStore.assignAlertMessage(authErrors.value?.errors, 'error')
         }
         return userInfoResponse
     }
@@ -142,7 +142,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         }
         else {
             globalStore.toggleLocalLoaderStatus()
-            globalStore.assignAlertMessage([[error.value?.data?.message]], 'danger');
+            globalStore.assignAlertMessage([[error.value?.data?.message]], 'error');
         }
         return {data,error}
     }
@@ -158,7 +158,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         }
         else {
             globalStore.toggleLocalLoaderStatus()
-            globalStore.assignAlertMessage([[error.value?.data?.message]], 'danger');
+            globalStore.assignAlertMessage([[error.value?.data?.message]], 'error');
         }
         return {data,error}
     }

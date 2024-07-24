@@ -104,6 +104,7 @@ class XmlRequestHelper
 
 
                 $data_string = $data;
+                Log::info('______');
                 Log::info('Message Length:',[strlen($data_string)]);
 
                 $ch = curl_init($serverIp.$uri);

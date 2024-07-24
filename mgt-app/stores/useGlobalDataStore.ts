@@ -73,11 +73,17 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     }
     const assignAlertMessage = (message,type)=> {
         alertMessage.value = message
-        toggleShowMessage(type)
-        setTimeout(function() {
-            toggleShowMessage(type)
-            alertMessage.value = ''
-        }, 5000);
+        const elementNotify = () => {
+            ElNotification({
+                title: 'Alert',
+                showClose: false,
+                offset: 5,
+                message: message,
+                type: type,
+                position: 'bottom-right',
+            })
+        }
+        elementNotify()
         }
     async function retrieveRegions(){
         const {data,error} = await useApiFetch('/api/get-country-regions');
