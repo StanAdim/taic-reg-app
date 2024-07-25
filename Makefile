@@ -48,9 +48,9 @@ yarn:
 #================
 
 setup.p:
-	@make build-prod
-	@make up-prod
-	@make composer-update-prod
+	@make build.p
+	@make up.p
+	@make composer-update.p
 	@yarn
 
 build.p:
