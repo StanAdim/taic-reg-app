@@ -60,22 +60,22 @@ stop.p:
 up.p:
 	docker compose -f docker-compose.prod.yml up -d
 composer-update.p:
-	docker exec  events-api bash -c "composer update"
+	docker exec  events-app bash -c "composer update"
 data.p:
-	docker exec  events-api bash -c "php artisan migrate:fresh --seed"
+	docker exec  events-app bash -c "php artisan migrate:fresh --seed"
 bash.p:
-	docker exec -it  events-api bash
+	docker exec -it  events-app bash
 start.p:
 	docker compose -f docker-compose.prod.yml restart
 boost.p:
-	docker exec  events-api bash -c "php artisan optimize"
-	docker exec  events-api bash -c "composer dump-autoload"
-	docker exec  events-api bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
-	docker exec  events-api bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
+	docker exec  events-app bash -c "php artisan optimize"
+	docker exec  events-app bash -c "composer dump-autoload"
+	docker exec  events-app bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
+	docker exec  events-app bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
 rmi.p:
-	docker image rm -f events-api-events-api
+	docker image rm -f events-app-events-app
 logs.p:
-	docker logs -f events-api
+	docker logs -f events-app
 update.p: 
 	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart taic-reg-app &&  cd  ../ && make start
 	 @boost
