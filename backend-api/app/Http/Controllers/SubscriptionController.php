@@ -62,7 +62,7 @@ class SubscriptionController extends Controller
             ];
             $storeData = Bill::create($newBill);
             $returedXml = XmlRequestHelper::GepgSubmissionRequest($storeData);
-            if($storeData){
+            if($returedXml){
             $storeData->ReqId = $returedXml["billSubReqAck"]['ReqId'];
             $storeData->save();
             }
