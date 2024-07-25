@@ -22,11 +22,15 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const appRoutes  = ref([
         {name: 'Dashboard', path: '/crm/', userRole: '', isActiveLink:true},
         {name: 'All Events', path: '/crm/events', userRole: '', isActiveLink:false},
-        {name: 'Key Speakers', path: '/crm/speakers', userRole: 'admin', isActiveLink:false},
         {name: 'Invoices', path: '/crm/payments', userRole: '', isActiveLink:false},
+        {name: 'Group Booking', path: '/crm/group-booking', userRole: '', isActiveLink:false},
+        {name: 'Key Speakers', path: '/crm/speakers', userRole: 'admin', isActiveLink:false},
         {name: 'Schedules', path: '/crm/schedules', userRole: 'admin', isActiveLink:false},
         {name: 'System Users', path: '/crm/users', userRole: 'admin', isActiveLink:false},
         {name: 'Agenda', path: '/crm/agenda', userRole: 'admin', isActiveLink:false},
+        {name: 'Invitation Letters', path: '/crm/invitation-letters', userRole: '', isActiveLink:false},
+        {name: 'Exhibition Booking', path: '/crm/exhibition-booking', userRole: '', isActiveLink:false},
+        {name: 'Documents', path: '/crm/documents', userRole: '', isActiveLink:false},
     ])
 
     //computed property
