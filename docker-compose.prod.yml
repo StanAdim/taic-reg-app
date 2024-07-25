@@ -2,42 +2,42 @@ version: '3.8'
 
 services:
 #events --app
-  events-stage:
+  events-app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: events-stage
+    container_name: events-app
     ports:
       - 7023:80
     restart: unless-stopped
     environment:
-      SERVICE_NAME: events-stage
+      SERVICE_NAME: events-app
       SERVICE_TAGS: dev
     working_dir: /var/www/html
     volumes:
       - ./backend-api:/var/www/html
     networks:
-      - events-stage-network
+      - events-app-network
     depends_on:
       - db_events_app
 
 # database
   db_events_app:
     image: mysql:8.0.33
-    container_name: db-events-stage
+    container_name: db-events-app
     restart: unless-stopped
     tty: true
     ports:
     - 3373:3306
     environment:
-      MYSQL_DATABASE: events_app
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_PASSWORD: secret
-      MYSQL_USER: ictc
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD} 
+      MYSQL_USER: ${MYSQL_USER}
     volumes:
-      - dbdata_stage_ems:/var/lib/mysql
+      - dbdata_events:/var/lib/mysql
     networks:
-      - events-stage-network
+      - events-app-network
 
       #php my admin
   phpmyadmin-events:
@@ -48,9 +48,9 @@ services:
     environment:
       - PMA_ARBITRARY=1
 volumes:
-  dbdata_stage_ems:
+  dbdata_events:
     driver: local
 
 networks:
-  events-stage-network:
+  events-app-network:
     driver: bridge
