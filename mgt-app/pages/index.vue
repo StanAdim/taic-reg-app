@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import HanceLoader from "~/components/usables/hanceLoader.vue";
+
 definePageMeta({
   layout:'auth',
   middleware:'guest'
@@ -29,9 +31,10 @@ const date = new Date();
                 <p class="text-[30px]">ICT Commission {{ date.getUTCFullYear() }}</p>
 
                 <p>Please login to continue|</p>
+                <usables-hance-loader />
               </div>
 
-              <div class="mt-10">
+              <div class="mt-4">
                 <form @submit.prevent="handleLogin()">
                   <div>
                     <label class="mb-2.5 block" for="email">Email</label>

@@ -37,8 +37,11 @@ const closeProfessionalInfo = ()=> {showProfessionalInfo.value = false}
 const getShowProfessionalInfo = computed(()=> {return showProfessionalInfo.value})
 const handleCallProfessionalDetails = async (professionalCode)=>{
   showProfessionalInfo.value = true
-  console.log(professionalCode)
+  globalData.toggleLoadingState('on')
+  await authStore.verifyProfessionalNumber(professionalCode)
+  // console.log(professionalCode)
 }
+
 const initialize = async () => {
   await  globalData.retrieveRegions()
 }
@@ -50,6 +53,7 @@ initialize()
       <div class="relative bg-blue-100 w-4/5 md:w-1/5 lg:w-2/5 rounded-lg shadow-xl py-2">
         <div class="border-b-2 border-teal-500">
           <div class=" bg-blue-50 pt-2 block text-xl font-bold text-sky-600 text-center">COMPLETE REGISTRATION</div>
+          <UsablesHanceLoader />
           <div class="shadow-lg rounded-lg overflow-hidden ">
             <!--     FORM       -->
             <form class="max-w-md mx-auto p-6  my-2 border rounded-lg shadow-lg" @submit.prevent="handleFormSubmission()">
@@ -72,7 +76,7 @@ initialize()
                   </div>
                   <div class="mx-1">
                     <label class="flex items-center">
-                      <input type="radio" class="form-radio text-blue-500" name="professionalStatus" value="0" v-model="formData.professionalStatus">
+                      <input type="radio" class="form-radio text-blue-500" name="professionalStatus"  value="0" v-model="formData.professionalStatus">
                       <span class="ml-2 text-sm text-gray-700">No</span>
                     </label>
                   </div>
@@ -89,7 +93,7 @@ initialize()
                     <div v-if="getShowProfessionalInfo"
                         class="mb-2 bg-amber-50 px-3 py-0.5 rounded-sm border-b-2 border-teal-500">
                       <div class="flex flex-row justify-between">
-                          <p class="block text-sm font-medium text-gray-700">Confirm Name</p>
+                          <p class="block text-sm font-medium text-gray-700">{{ authStore.getProfessionalDetails?.name || '' }}</p>
                           <p class="bg-blue-500 hover:bg-blue-800 px-1 py-0.5 rounded-lg text-white"
                           @click="closeProfessionalInfo"
                           >Confirm</p>

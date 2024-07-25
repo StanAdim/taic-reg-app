@@ -24,8 +24,11 @@ const confirmAction = (type)=> {
 const closeModal = ()=> {
   globalData.toggleConfirmToAttendModalStatus()
   showConfirmation.value = false
+  globalData.hanceLoaderTurn('off')
+
 }
 const handleSubscription = async ()=> {
+  globalData.hanceLoaderTurn('on')
   const subscription = {eventId : props.eventDetail.id}
   if(authStore.getLoggedUserInfo?.professionalStatus === 1)subscription.eventFee = props.eventDetail?.defaultFee
   if(authStore.getLoggedUserInfo?.professionalStatus === 0)subscription.eventFee = props.eventDetail?.guestFee
@@ -80,6 +83,7 @@ const handleSubscription = async ()=> {
                 </button>
                 <div class="my-1" v-if="showConfirmation && !globalData.getDoneCheckVisibility">
                     <p class="text-sm font-bold text-orange-600">Are you sure ?</p>
+                    <usables-hance-loader />
                     <button @click="handleSubscription()"
                         class="bg-sky-600 hover:bg-sky-500 border-sky-500 hover:border-green-300 text-sm border-1 text-white py-0.5 px-2 rounded mx-0.5">
                       <i class="fa fa-check"></i>

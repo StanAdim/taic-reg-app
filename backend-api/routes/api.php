@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Taic\ActivityController;
 use App\Http\Controllers\Taic\ConferenceController;
@@ -29,6 +30,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
                 ->name('password.reseting');
 
 Route::post('/bill/receive-controll', [BillController::class,'receiveControlNumber']);
+Route::post('/call/professional-details', [ProfessionalController::class,'getProfessionalDetails']);
 
  //--- Auth routes
  Route::middleware(['auth:sanctum'])->group(function(){

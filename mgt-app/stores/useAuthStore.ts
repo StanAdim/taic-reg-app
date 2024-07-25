@@ -7,8 +7,10 @@ export const useAuthStore = defineStore('auth', ()=> {
     const globalStore = useGlobalDataStore()
     const authErrors = ref <any | null>(null)
     const appUsers = ref <any>([])
+    const professionalDetails = ref <any>(null)
 
     const getLoggedUser = computed(()=>{return user.value?.user})
+    const getProfessionalDetails = computed(()=>{return professionalDetails.value})
     const getLoggedUserInfo = computed(()=>{return user.value?.userInfo})
     const getAppUsers = computed(()=>{return appUsers.value?.data})
     const getAuthErrors = computed(()=>{return authErrors.value})
@@ -158,9 +160,24 @@ export const useAuthStore = defineStore('auth', ()=> {
         }
         else {
             globalStore.toggleLocalLoaderStatus()
-            globalStore.assignAlertMessage([[error.value?.data?.message]], 'error');
+            globalStore.assignAlertMessage(error.value?.data?.message, 'error');
         }
         return {data,error}
+    }    async function verifyProfessionalNumber(userRegNo : string){
+        await useApiFetch("/sanctum/csrf-cookie");
+        const {data, error} = await useApiFetch("/api/call/professional-details", {
+            method: "POST",
+            body: {'reg_number' :userRegNo},
+        });
+        if(data.value){
+            globalStore.toggleLoadingState('off')
+            professionalDetails.value = data.value?.data
+            globalStore.assignAlertMessage(data.value.message, 'success');
+        }
+        else {
+            globalStore.toggleLocalLoaderStatus()
+            globalStore.assignAlertMessage(error.value?.data?.message, 'error');
+        }
     }
     return {
         user,login,isLoggedIn,getAuthErrors,saveUserInfo,
@@ -170,5 +187,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         resendEmailVerification,
         userEmailVerification,
         sendPasswordResetLink,resetUserPassword,
+        verifyProfessionalNumber,
+        getProfessionalDetails,
     }
 })

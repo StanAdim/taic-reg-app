@@ -28,7 +28,7 @@ const handleLinkActive = (routeLink: string) => {
     <!-- component -->
     <div class="flex w-screen h-screen text-gray-700">
       <!-- Component Start -->
-      <div :class="{'hidden':hideSideBar}" class="flex flex-col w-56 border-r border-gray-300">
+      <div :class="{'hidden':hideSideBar}" class="flex flex-col w-[200px] border-r border-gray-300">
         <div class="relative text-sm focus:outline-none">
           <div class="flex items-center justify-between w-full h-16 px-4 border-b border-gray-300 hover:bg-gray-300">
             <i class="fa fa-home-user"></i>

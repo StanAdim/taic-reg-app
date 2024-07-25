@@ -17,6 +17,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const longName = ref('ICTC Events System')
     const regions = ref([])
     const districts = ref([])
+    const isHanceLoader = ref(true)
 
     const appRoutes  = ref([
         {name: 'Dashboard', path: '/crm/', userRole: '', isActiveLink:true},
@@ -44,6 +45,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const getRegions = computed(() => {return regions.value})
     const getDistricts = computed(() => {return districts.value})
     const getLocalLoaderStatus = computed(() => {return localLoader.value})
+    const getHanceLoaderState = computed(() => {return isHanceLoader.value})
 
 
     // Transforms
@@ -55,6 +57,11 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         if(key == 'on')userInfoDialogStatus.value = true;
         if(key == 'off')userInfoDialogStatus.value = false;
     }
+    const hanceLoaderTurn = (key)=> {
+        if(key == 'on')isHanceLoader.value = true;
+        if(key == 'off')isHanceLoader.value = false;
+    }
+
     const toggleRegistrationForm = ()=> { registrationDialogStatus.value = !registrationDialogStatus.value  }
     const toggleForgotPassDialog = ()=> { forgotPassDialogStatus.value = !forgotPassDialogStatus.value  }
     const toggleDoneCheckVisibility = ()=> { doneCheckVisibility.value = !doneCheckVisibility.value  }
@@ -141,8 +148,8 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         getRegions,getDistricts, retrieveRegions,retrieveRegionDistricts, hasPermission,
         separateNumber,getUserProfileStatus,toggleUserProfileModalStatus,
         getConfirmToAttendModalStatus,toggleConfirmToAttendModalStatus,
-        getDoneCheckVisibility,toggleDoneCheckVisibility,
-        getLocalLoaderStatus, toggleLocalLoaderStatus,
+        getDoneCheckVisibility,toggleDoneCheckVisibility,hanceLoaderTurn,
+        getLocalLoaderStatus, toggleLocalLoaderStatus,getHanceLoaderState,
         getForgotPassModalStatus, toggleForgotPassDialog
 
     }

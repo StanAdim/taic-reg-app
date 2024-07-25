@@ -104,8 +104,8 @@ class XmlRequestHelper
 
 
                 $data_string = $data;
-                Log::info('______');
-                Log::info('Message Length:',[strlen($data_string)]);
+                Log::info("\n __________---  MESSAGING GEPG --__________-----");
+                Log::info("\n ----Message Length:",[strlen($data_string)]);
 
                 $ch = curl_init($serverIp.$uri);
                 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -122,28 +122,20 @@ class XmlRequestHelper
 
                 curl_setopt($ch, CURLOPT_TIMEOUT, 70);
                 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 70);
+                Log::info("\n\n__________--- END MESSAGEING GEPG --__________----- ");
 
                 $resultCurlPost = curl_exec($ch);
                 curl_close($ch);
-                Log::info("Response Data Length:---",[strlen($resultCurlPost)]);
-                Log::info("Response Data:---",[$resultCurlPost]);
-                try{
-                    $xml = simplexml_load_string($resultCurlPost, "SimpleXMLElement", LIBXML_NOCDATA);
-                    $json = json_encode($xml);
-                    $arrayFromXml = json_decode($json,TRUE);
-                    Log::info('Response Data: --', [$arrayFromXml]);
-                    return $arrayFromXml;
-                }
-                catch (\Exception $e) {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Invalid XML data',
-                        'error' => $e->getMessage()
-                    ], 400);
-                }
+                Log::info("\n \n __________---  RESULTING GEPG --__________----- ");
+
+                Log::info("\nResponse Data Length:",[strlen($resultCurlPost)]);
+
+                Log::info("\n ####### \n Response Data \n ################ \n ####### \n \n",[$resultCurlPost]);
+
+                Log::info("\n \n __________--- END RESULT GEPG --__________----- ");
                 
                 if(!empty($resultCurlPost)){
-                    Log::info("Response Data Length:\n",[strlen($resultCurlPost)]);
+                    Log::info("\nResponse Data Length: ################ \n",[strlen($resultCurlPost)]);
 
                     //Tags used in substring response content
                     $datatag = "billSubReqAck";
@@ -175,6 +167,21 @@ class XmlRequestHelper
 
                             }
                         }
+                    }
+                    try{
+                        $xml = simplexml_load_string($resultCurlPost, "SimpleXMLElement", LIBXML_NOCDATA);
+                        $json = json_encode($xml);
+                        $arrayFromXml = json_decode($json,TRUE);
+                        Log::info("\nResponse Data:\n ################ \n", [$arrayFromXml]);
+                        Log::info("\n \n __________--- END --__________----- ");
+                        return $arrayFromXml;
+                    }
+                    catch (\Exception $e) {
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => 'Invalid XML data',
+                            'error' => $e->getMessage()
+                        ], 400);
                     }
                 }
                 else{  Log::info("No result Returned"."\n");}
