@@ -1,8 +1,8 @@
 module.exports = {
     apps: [
         {
-            name: 'taic-reg-app',
-            port: '2224',
+            name: 'event-app',
+            port: '2370',
             exec_mode: 'cluster',
             instances: 'max',
             script: './.output/server/index.mjs'
