@@ -6,8 +6,10 @@ setup:
 
 build:
 	docker compose build 
+	cd  mgt-app/ && yarn build
 stop:
 	docker compose stop
+	cd  mgt-app/ && pm2 stop ecosystem.config.cjs
 up:
 	docker compose up -d
 composer-update:
@@ -56,10 +58,16 @@ setup.p:
 
 build.p:
 	docker compose -f docker-compose.prod.yml build 
+	cd  mgt-app/ && yarn build
+
 stop.p:
 	docker compose -f docker-compose.prod.yml stop
+	cd  mgt-app/ && pm2 stop ecosystem.config.cjs
+
 up.p:
 	docker compose -f docker-compose.prod.yml up -d
+		cd  mgt-app/ && pm2 start ecosystem.config.cjs
+
 composer-update.p:
 	docker exec  events-app bash -c "composer update"
 data.p:
@@ -68,6 +76,8 @@ bash.p:
 	docker exec -it  events-app bash
 start.p:
 	docker compose -f docker-compose.prod.yml restart
+	cd  mgt-app/ && pm2 restart ecosystem.config.cjs
+
 boost.p:
 	docker exec  events-app bash -c "php artisan optimize"
 	docker exec  events-app bash -c "composer dump-autoload"
