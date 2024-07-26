@@ -48,18 +48,26 @@ initialize()
               class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(eventData.defaultFee) }} Tsh</em></p>
           <p class="mx-3 my-1 font-medium">Non Register | Others: <em
               class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(eventData.guestFee) }} Tsh</em></p>
-          <p class="mx-3 my-1 font-medium">Foreigner: <em class="text-fuchsia-950 p-2">{{ eventData.foreignerFee }} $</em></p>
+          <p class="mx-3 my-1 font-medium">Foreigner: <em class="text-fuchsia-950 p-2"> {{ globalStore.separateNumber(eventData.foreignerFee) * 2760  }} Tsh &asymp; {{ globalStore.separateNumber(eventData.foreignerFee) }} USD </em></p>
         </div>
 
         <div class="mx-2 my-4 flex justify-center md:justify-normal">
+          <p class="mx-3 my-1 font-medium">Description:</p> <br>
+            <p class="mx-1 py-2">{{eventData.aboutConference}}</p>
+        </div>
+        <div class="mx-2 my-4 flex justify-center md:justify-normal">
+          <p class="mx-3 my-1 font-medium">Documents:</p> <br>
+            <p class="mx-1 py-2">Not Available</p>
+        </div>
+        <div class="mx-2 my-4 flex justify-center md:justify-normal">
 
-          <button
-              v-if="globalStore.hasPermission('can_subscribe_event')"
-              class="mx-1 h-8 w-auto bg-teal-500 hover:bg-teal-700 border-teal-500
-                            hover:border-teal-700 text-sm border-4 text-white py-0.5 px-2 rounded"
-              type="button">
-            Attend  <i class="fa-solid fa-right-to-bracket mx-2"></i>
-          </button>
+<!--          <button-->
+<!--              v-if="globalStore.hasPermission('can_subscribe_event')"-->
+<!--              class="mx-1 h-8 w-auto bg-teal-500 hover:bg-teal-700 border-teal-500-->
+<!--                            hover:border-teal-700 text-sm border-4 text-white py-0.5 px-2 rounded"-->
+<!--              type="button">-->
+<!--            Attend  <i class="fa-solid fa-right-to-bracket mx-2"></i>-->
+<!--          </button>-->
         </div>
       </div>
       <div class="container w-full md:w-3/5 border rounded-md p-1 border-sky-600 mx-1"

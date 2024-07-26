@@ -1,0 +1,98 @@
+:root {
+  scroll-behavior: smooth;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    /* background: linear-gradient(180deg, #09f, #134283); */
+    background-color: #a9a9a9;
+    border-radius: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px #0000004d;
+  }
+
+  body {
+    overflow-x: hidden !important;
+  }
+}
+
+/* Montserrat Fonts */
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat/Montserrat-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat-Bold";
+  src: url("/fonts/Montserrat/Montserrat-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat-Black";
+  src: url("/fonts/Montserrat/Montserrat-Black.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat-Medium";
+  src: url("/fonts/Montserrat/Montserrat-Medium.ttf") format("truetype");
+}
+
+/* QuickSand Fonts */
+
+@font-face {
+  font-family: "Quicksand";
+  src: url("/fonts/Quicksand/Quicksand-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Quicksand-Medium";
+  src: url("/fonts/Quicksand/Quicksand-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Quicksand-Light";
+  src: url("/fonts/Quicksand/Quicksand-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Quicksand-Bold";
+  src: url("/fonts/Quicksand/Quicksand-Bold.ttf") format("truetype");
+}
+
+/* Ropa Sans Fonts */
+@font-face {
+  font-family: "RopaSans";
+  src: url("/fonts/Ropa_Sans/RopaSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "RopaSans-Italic";
+  src: url("/fonts/Ropa_Sans/RopaSans-Italic.ttf") format("truetype");
+}
+
+/* Animations */
+@keyframes upDown {
+  0% {
+    transform: translateY(0); /* Starting position */
+  }
+  50% {
+    transform: translateY(-10px); /* Move up by 10px */
+  }
+  100% {
+    transform: translateY(0); /* Return to starting position */
+  }
+}
+
+@keyframes move-left-right {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

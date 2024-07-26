@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('professionalNumber')->nullable();
             $table->string('region_id');
             $table->string('district_id');
+            $table->string('notificationConsent')->default(0);
+            $table->string('nation');
+            $table->string('address');
             $table->integer('user_id');
             $table->timestamps();
         });

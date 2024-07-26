@@ -11,22 +11,23 @@ stop:
 up:
 	docker compose up -d
 composer-update:
-	docker exec  ems-stage-reg bash -c "composer update"
+	docker exec  events-stage bash -c "composer update"
 data:
-	docker exec  ems-stage-reg bash -c "php artisan migrate:fresh --seed"
+	docker exec  events-stage bash -c "php artisan migrate:fresh --seed"
 bash:
-	docker exec -it  ems-stage-reg bash
+	docker exec -it  events-stage bash
 start:
 	docker compose restart
 boost:
-	docker exec  ems-stage-reg bash -c "php artisan optimize"
-	docker exec  ems-stage-reg bash -c "composer dump-autoload"
-	docker exec  ems-stage-reg bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
-	docker exec  ems-stage-reg bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
+	docker exec  events-stage bash -c "php artisan optimize"
+	docker exec  events-stage bash -c "composer dump-autoload"
+	docker exec  events-stage bash -c "php artisan key:generate"
+	docker exec  events-stage bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
+	docker exec  events-stage bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
 rmi:
-	docker image rm -f ems-stage-reg-ems-stage-reg
+	docker image rm -f events-stage-events-stage
 logs:
-	docker logs -f ems-stage-reg
+	docker logs -f events-stage
 update: 
 	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart taic-reg-app &&  cd  ../ && make start
 	 @boost

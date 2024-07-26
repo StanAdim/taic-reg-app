@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\SystemUser;
 use App\Http\Resources\UserResource;
+use App\Models\Professional;
 use App\Models\User;
 use App\Models\UserInfo;
+use Database\Seeders\ProfessionalSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,12 +18,15 @@ class UserInfoController extends Controller
         $validator = Validator::make($request->all(), [
             "phoneNumber" => 'required',
             "user_id" => 'required',
-            "professionalNumber" => '',
             "professionalStatus" => 'required',
+            "professionalNumber" => 'required_if:professionalStatus,1',
             "institution" => '',
             "position" => '',
             "region_id" => 'required',
-            "district_id" => 'required',
+            "address" => 'required',
+            "district_id" => '',
+            "notificationConsent" => 'required',
+            "nation" => 'required',
         ]);
         if($validator->fails()){
             return response()->json([
@@ -30,6 +35,28 @@ class UserInfoController extends Controller
             ],422);
         }
         $newItem = $validator->validate();
+        // return $newItem;
+        if($newItem["professionalNumber"] && $newItem['professionalStatus']){
+
+            $exists = Professional::where('RegNo', $newItem["professionalNumber"] )->exists();
+            if($exists){
+                $user  = User::where('id',$newItem['user_id'] )->get()->first();
+                if($user){
+                    $user->update(['hasInfo'=>1]);
+                    $newData = UserInfo::create($newItem);
+                    return response()->json([
+                        'message'=> "User Info Created",
+                        'data' => $newData,
+                        'code'=> 200
+                    ],200);
+                }
+            }
+           else{
+            return response()->json([
+                'message'=> 'Wrong Professional Number',
+            ],422);
+           }
+        }
         $user  = User::where('id',$newItem['user_id'] )->get()->first();
             if($user){
                 $user->update(['hasInfo'=>1]);
@@ -40,6 +67,7 @@ class UserInfoController extends Controller
                     'code'=> 200
                 ],200);
             }
+        
     }
 
     public function systemUsers()
@@ -80,9 +108,11 @@ class UserInfoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserInfo $userInfo)
+    public function update(Request $request, UserInfo $infoId)
     {
-        //
+        $validator = Validator::make($request->all());
+        $info = $validator->validate();
+        UserInfo::where('id', $infoId)->first();
     }
 
     /**

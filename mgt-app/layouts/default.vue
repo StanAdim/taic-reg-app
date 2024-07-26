@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 
+import UpdateUserInfoFormModal from "~/components/UpdateUserInfoFormModal.vue";
+
 const authStore = useAuthStore()
 const globalData = useGlobalDataStore()
+const accountStore = useAccountStore()
 const handleLogout = async () => {
   globalData.toggleLoadingState('on')
   await authStore.logout()
@@ -23,12 +26,14 @@ const handleLinkActive = (routeLink: string) => {
 
 <template>
   <user-info-form-modal :showStatus="globalData.getUserInfoModalStatus"/>
+  <UpdateUserInfoFormModal :showStatus="accountStore.getUserInfoUpdateDialogStatus"/>
+  <UpdateAccountModal :show-status="accountStore.getAccountUpdateDialogStatus" />
   <user-profile-modal :show-status="globalData.getUserProfileStatus"/>
   <div class="">
     <!-- component -->
     <div class="flex w-screen h-screen text-gray-700">
       <!-- Component Start -->
-      <div :class="{'hidden':hideSideBar}" class="flex flex-col w-60 border-r border-gray-300">
+      <div :class="{'hidden':hideSideBar}" class="flex flex-col w-80 border-r border-gray-300">
         <div class="relative text-sm focus:outline-none">
           <div class="flex items-center justify-between h-16 px-4 border-b border-gray-300 hover:bg-gray-300">
             <i class="fa fa-home-user"></i>
@@ -51,7 +56,7 @@ const handleLinkActive = (routeLink: string) => {
             </template>
           </template>
           <template v-else>
-            <p class="text-sm text-white bg-red-600 px-2 py-0.5 rounded-md text-center">Verify your Email First</p>
+<!--            <p class="text-sm text-white bg-red-600 px-2 py-0.5 rounded-md text-center">Verify your Email First</p>-->
           </template>
 
 <!--          <a class="flex items-center flex-shrink-0 h-10 px-3 mt-auto text-sm font-medium bg-gray-200 rounded hover:bg-emerald-300"-->
@@ -78,7 +83,7 @@ const handleLinkActive = (routeLink: string) => {
                class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded ">
           </div>
 
-          <div class=" ml-2 text-sm focus:outline-none group">
+          <div class=" ml-4 text-sm focus:outline-none group">
               <span class="w-full px-4 py-2 text-left hover:bg-sky-600 hover:text-white rounded-md"
                  @click.prevent="globalData.toggleUserProfileModalStatus()"
               ><i class="fa fa-user px-2"></i> Profile

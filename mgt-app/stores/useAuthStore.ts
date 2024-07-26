@@ -93,8 +93,8 @@ export const useAuthStore = defineStore('auth', ()=> {
             globalStore.assignAlertMessage('You are logged out', 'warning')
             user.value = null;
             navigateTo('/')
+            location.reload()
         }
-        return logout
     }
     //Register
     async function register(userInfo : RegistrationInfo){

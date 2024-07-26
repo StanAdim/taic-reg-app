@@ -19,6 +19,7 @@ Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionCont
 Route::get('/test',function(){return 'API: Is Active';});
 Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmail']);
  // ================ public routes ============================================
+ Route::get('/get-nations',[GeneralController::class, 'getNations']);
  Route::get('/get-country-regions',[GeneralController::class, 'getRegions']);
  Route::get('/send-verification-email',[GeneralController::class, 'sendVerificationEmail']);
  Route::post('/send-password-reset-link',[GeneralController::class, 'sendPasswordReset']);
@@ -35,6 +36,7 @@ Route::post('/call/professional-details', [ProfessionalController::class,'getPro
  //--- Auth routes
  Route::middleware(['auth:sanctum'])->group(function(){
      Route::post('/user-info-create',[UserInfoController::class, 'create']);
+     Route::post('/user-info-update-[infoId]',[UserInfoController::class, 'update']);
      Route::get('/application-users',[UserInfoController::class, 'systemUsers']);
      Route::get('/system-user-{user_key}',[UserInfoController::class, 'retrieveSystemUserDetails']);
 

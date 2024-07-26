@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  passedSchedule: {
+  passedUserInfo: {
     type:String,
     default: null
   },
@@ -16,6 +16,10 @@ const formData = ref({
   user_id: authStore.getLoggedUser?.id,
   professionalStatus: '0',
   professionalNumber: '',
+  address: '',
+  nation: 214,
+  notificationConsent: '',
+  email: '',
   institution: '',
   position: '',
   region_id: '0',
@@ -44,11 +48,12 @@ const handleCallProfessionalDetails = async (professionalCode)=>{
 
 const initialize = async () => {
   await  globalData.retrieveRegions()
+  await  globalData.retrieveNations()
 }
 initialize()
 </script>
 <template>
-  <div class="fixed z-20 inset-0 overflow-y-auto mt-1 top-32" :class="{'hide': !props.showStatus}" id="modal">
+  <div class="fixed z-[40] inset-0 overflow-y-auto mt-1 top-32" :class="{'hide': !props.showStatus}" id="modal">
     <div class="flex  justify-center items-center">
       <div class="relative bg-blue-100 w-4/5 md:w-1/5 lg:w-2/5 rounded-lg shadow-xl py-2">
         <div class="border-b-2 border-teal-500">
@@ -81,7 +86,6 @@ initialize()
                     </label>
                   </div>
                 </div>
-
               </div>
                 <template v-if="formData.professionalStatus === '1'">
                     <div class="mb-4" >
@@ -107,12 +111,28 @@ initialize()
                 <input class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
                        id="institution" type="text" v-model="formData.institution" placeholder="Company | Institution">
               </div>
+
               <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="position">
                   Position|Designation:
                 </label>
                 <input class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
                        id="position" type="text" v-model="formData.position" placeholder="Position|Designation">
+              </div>
+              <div class="mb-4 border-b-2 border-teal-500 py-2">
+                <label for="region_id" class="block text-sm font-medium text-gray-700">Nationality</label>
+                <select v-model="formData.nation" id="region_id"
+                        class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none">
+                  <option value="0" disabled>Choose region</option>
+                  <option v-for="nation in globalData.getNations" :key="nation" :value="nation.id">{{nation.name}}</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2" for="position">
+                  Physical Address:
+                </label>
+                <input class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
+                       id="position" type="text" v-model="formData.address" placeholder="Position|Designation">
               </div>
               <div class="mb-4 border-b-2 border-teal-500 py-2">
                 <label for="region_id" class="block text-sm font-medium text-gray-700">Select Region</label>
@@ -128,6 +148,18 @@ initialize()
                   <option value="0" disabled>Choose District</option>
                   <option v-for="district in globalData.getDistricts" :key="district" :value="district.id">{{district.name}}</option>
                 </select>
+              </div>
+
+              <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
+                <label for="conference" class="block text-sm font-medium text-gray-700">Receive updates regarding  our events and related activities ?</label>
+                <div class="flex flex-row">
+                  <div class="mx-1">
+                    <label class="flex items-center">
+                      <input type="checkbox" class="form-radio text-blue-500" checked v-model="formData.notificationConsent" >
+                      <span class="ml-2 text-sm text-gray-700">Yes</span>
+                    </label>
+                  </div>
+                </div>
               </div>
 
 

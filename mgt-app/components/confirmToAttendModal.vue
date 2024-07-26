@@ -79,10 +79,10 @@ const handleSubscription = async ()=> {
                       class="mx-1 h-8 w-auto bg-sky-500 hover:bg-sky-700 border-sky-500
                          hover:border-sky-700 text-sm border-4 text-white py-0.5 px-2 rounded"
                         type="button">
-                  Generate Control Number <i class="fa-solid fa-right-to-bracket mx-2"></i>
+                  Confirm booking <i class="fa-solid fa-right-to-bracket mx-2"></i>
                 </button>
                 <div class="my-1" v-if="showConfirmation && !globalData.getDoneCheckVisibility">
-                    <p class="text-sm font-bold text-orange-600">Are you sure ?</p>
+                    <p class="text-sm font-bold text-orange-600">Generate Control number</p>
                     <usables-hance-loader />
                     <button @click="handleSubscription()"
                         class="bg-sky-600 hover:bg-sky-500 border-sky-500 hover:border-green-300 text-sm border-1 text-white py-0.5 px-2 rounded mx-0.5">

@@ -41,6 +41,8 @@ export default defineNuxtConfig({
     }
   },
   css:[
+    "~/assets/css/main.css",
+    "~/assets/css/tailwind.css",
     '~/assets/stylesheets/custom-styles.css',
     '~/assets/fontawesome/css/fontawesome.min.css',
     '~/assets/fontawesome/css/solid.min.css','~/assets/fontawesome/css/brands.min.css',

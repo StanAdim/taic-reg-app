@@ -18,8 +18,11 @@ class UserInfo extends Model
         "professionalNumber",
         "institution",
         "position",
+        "address",
         "region_id",
         "district_id",
+        "notificationConsent",
+        "nation",
        
     ];
 

@@ -3,3 +3,4 @@
 ./mgt-app/.env
 ./site-app/.env
 .DS_Store
+.idea

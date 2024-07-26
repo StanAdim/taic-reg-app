@@ -66,6 +66,7 @@ const date = new Date();
             </div>
           </div>
           <div class="w-1/2 bg-white hidden md:block lg:block">
+            
             <img src="/image/handling.png" class="h-full w-full" alt="img" />
           </div>
         </div>

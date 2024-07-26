@@ -35,10 +35,9 @@ class SubscriptionController extends Controller
         $userSubscribed = Subscription::where('conference_id', $eventId)
         ->where('user_id', $user_id)
         ->exists();
-        $userSubscribed = false;
-        if($userSubscribed){
+        if(!$userSubscribed){
             return response()->json([
-                'message'=> ["Your seat already placed!"],
+                'message'=> "You've booked! for this",
                 'code'=> 300
             ]);
         }else{
@@ -58,7 +57,7 @@ class SubscriptionController extends Controller
                 'bill_exp' => Carbon::parse('2030-07-24 12:00:00'),
                 'ccy' => "TZS",
                 'bill_pay_opt' => 1,
-                'status' => 1,
+                'status' => 0,
             ];
             $storeData = Bill::create($newBill);
             $returedXml = XmlRequestHelper::GepgSubmissionRequest($storeData);

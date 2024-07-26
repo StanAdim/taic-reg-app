@@ -6,6 +6,7 @@ use App\Http\Resources\DistrictResource;
 use App\Http\Resources\RegionResource;
 use App\Mail\CustomEmailVerification;
 use App\Models\District;
+use App\Models\Nation;
 use App\Models\Region;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,10 +16,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class GeneralController extends Controller
-{
-        //Get regions in tanzania
-     
-      //Get regions in tanzania
+{     
+      //Get nations
+      public function getNations(){
+       $nations = Nation::all() ;
+       if ($nations) {
+           return response()->json([
+               'message' => 'Success Fetching nations',
+               'data' => $nations
+           ],200);
+       } else {
+           return response()->json([
+               'message' => 'No nations',
+           ],404);
+       }
+      }
+            //Get regions in tanzania
       public function getRegions(){
        $regions = RegionResource::collection(Region::all()) ;
        if ($regions) {

@@ -15,6 +15,7 @@ class Conference extends Model
     protected $keyType = 'string'; // specify the primary key type as string
     public $incrementing = false; // ensure that primary key is not auto-incrementing
     protected $fillable = [
+        "name",
         "conferenceYear",
         "startDate",
         "endDate",
@@ -24,6 +25,7 @@ class Conference extends Model
         "defaultFee",
         "foreignerFee",
         "guestFee",
+        "status",
         "lock"
     ];
     public function speakers()

@@ -6,10 +6,21 @@ const props = defineProps({
   }
 })
 const authStore = useAuthStore()
+const accountStore = useAccountStore()
 const globalData = useGlobalDataStore()
 const userProfile = ref(null)
 const initialize = async () => {
   userProfile.value = authStore.getLoggedUser
+}
+const handleOpeningAccountEdit = async () => {
+  if (authStore.getLoggedUser){
+    accountStore.toggleAccountDialogState('on')
+  }else globalData.assignAlertMessage('User Not found', 'warning')
+}
+const handleUserDetailUpdateModal = async () => {
+  if (authStore.getLoggedUser){
+    accountStore.toggleUpdateUserInfoDialogState('on')
+  }else globalData.assignAlertMessage('User Not found', 'warning')
 }
 initialize()
 </script>
@@ -31,10 +42,10 @@ initialize()
           </span>
         </div>
           <div class=" my-2 mx-2 p-1 ">
-            <button class="mx-1 h-8 w-auto bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-0.5 px-2 rounded" type="button">
+            <button @click.prevent="handleOpeningAccountEdit()" class="mx-1 h-8 w-auto bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-0.5 px-2 rounded" type="button">
                Account <i class="fa-regular fa-pen-to-square mx-1"></i>
             </button>
-            <button class="mx-1 h-8 w-auto bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-0.5 px-2 rounded" type="button">
+            <button @click.prevent="handleUserDetailUpdateModal()" class="mx-1 h-8 w-auto bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-0.5 px-2 rounded" type="button">
                User Info <i class="fa-regular fa-pen-to-square mx-1"></i>
             </button>
             <div class="bg-white rounded-lg shadow-md p-6 my-2 text-center">

@@ -16,21 +16,23 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const showDangerStatus = ref(true);
     const longName = ref('ICTC Events System')
     const regions = ref([])
+    const nations = ref([])
     const districts = ref([])
     const isHanceLoader = ref(true)
 
     const appRoutes  = ref([
         {name: 'Dashboard', path: '/crm/', userRole: '', isActiveLink:true},
         {name: 'All Events', path: '/crm/events', userRole: '', isActiveLink:false},
-        {name: 'Invoices', path: '/crm/payments', userRole: '', isActiveLink:false},
+        {name: 'My Invoices', path: '/crm/payments', userRole: '', isActiveLink:false},
         {name: 'Group Booking', path: '/crm/group-booking', userRole: '', isActiveLink:false},
         {name: 'Key Speakers', path: '/crm/speakers', userRole: 'admin', isActiveLink:false},
         {name: 'Schedules', path: '/crm/schedules', userRole: 'admin', isActiveLink:false},
         {name: 'System Users', path: '/crm/users', userRole: 'admin', isActiveLink:false},
         {name: 'Agenda', path: '/crm/agenda', userRole: 'admin', isActiveLink:false},
-        {name: 'Invitation Letters', path: '/crm/invitation-letters', userRole: '', isActiveLink:false},
         {name: 'Exhibition Booking', path: '/crm/exhibition-booking', userRole: '', isActiveLink:false},
+        {name: 'Invitation Letters', path: '/crm/invitation-letters', userRole: '', isActiveLink:false},
         {name: 'Documents', path: '/crm/documents', userRole: '', isActiveLink:false},
+        {name: 'System Reports', path: '/crm/reports', userRole: 'admin', isActiveLink:false},
     ])
 
     //computed property
@@ -48,6 +50,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const getAlertMessage = computed(() => {return alertMessage.value})
     const getRegions = computed(() => {return regions.value})
     const getDistricts = computed(() => {return districts.value})
+    const getNations = computed(() => {return nations.value})
     const getLocalLoaderStatus = computed(() => {return localLoader.value})
     const getHanceLoaderState = computed(() => {return isHanceLoader.value})
 
@@ -99,6 +102,11 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     async function retrieveRegions(){
         const {data,error} = await useApiFetch('/api/get-country-regions');
         if(data.value){regions.value = data.value?.data}
+        return {data,error}
+    }
+    async function retrieveNations(){
+        const {data,error} = await useApiFetch('/api/get-nations');
+        if(data.value){nations.value = data.value?.data}
         return {data,error}
     }
     async function retrieveRegionDistricts(targetRegionId:string){
@@ -154,7 +162,8 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         getConfirmToAttendModalStatus,toggleConfirmToAttendModalStatus,
         getDoneCheckVisibility,toggleDoneCheckVisibility,hanceLoaderTurn,
         getLocalLoaderStatus, toggleLocalLoaderStatus,getHanceLoaderState,
-        getForgotPassModalStatus, toggleForgotPassDialog
+        getForgotPassModalStatus, toggleForgotPassDialog,
+        retrieveNations,getNations
 
     }
 })

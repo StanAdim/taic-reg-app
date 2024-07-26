@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('conferences', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('name')->default('ICT Commission Event');
             $table->integer('conferenceYear');
             $table->string('startDate');
             $table->string('endDate');
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->integer('foreignerFee');
             $table->integer('guestFee');
             $table->boolean('lock')->default(false);
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

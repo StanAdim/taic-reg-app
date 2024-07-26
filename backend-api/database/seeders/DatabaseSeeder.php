@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             ProfessionalSeeder::class,
+            NationSeeder::class,
         ]);
     }
 }

@@ -2,16 +2,37 @@
 
 namespace App\Helpers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class XmlRequestHelper
 {
+    
     public static function GepgSubmissionRequest($billingData)
     {
-        $fileKeyPass = "passpass";
-        $GepgBaseUrl = "https://uat1.gepg.go.tz";
-        $requestUri = "/api/bill/20/submission";
+        $fileKeyPass = env('GEPG_KEYPASS', 'passpass');
+        $GepgBaseUrl = env('GEPG_BASEURL');
+        $requestUri = env('GEPG_SUBMISSIONURI');
+        $collectionCenCode = env('GEPG_COLLECTIONCENCODE');
+        $Gsfcode = env('GEPG_GSFCODE');
         //Function to get Data string
+        // app/Helpers/gepgclientprivate_2.pfx
+
+
+        function generateReqID($length=16) {
+            $randomNumberString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomNumberString .= mt_rand(0, 9);
+            }
+            return $randomNumberString;
+        }
+
+        function getGenerationDate() {
+            $date = Carbon::now();
+            $formattedDate = $date->format('Y-m-d\TH:i:s');
+            return $formattedDate;
+        }
+
         function getDataString($inputstr,$datatag){
             $datastartpos = strpos($inputstr, $datatag);
             $dataendpos = strrpos($inputstr, $datatag);
@@ -26,7 +47,7 @@ class XmlRequestHelper
             return $signature;
         }
 
-        if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate.pfx")) {
+        if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
             Log::info(["Error: Unable to read the cert file\n"]);
             exit;
         }
@@ -36,11 +57,14 @@ class XmlRequestHelper
             {
                 //Bill Request
                 $id = $billingData->id;
-                $spcode ="SP19912";
-                $systemid ="TICTC001";
+                $spcode =env('GEPG_SPCODE');
+                $systemid =env('GEPG_SYSTEMID');
+
+                $reqID = generateReqID(16);
+                $genDate = getGenerationDate();
                 $content ="<billSubReq>
                         <BillHdr>
-                            <ReqId>1321307376409088</ReqId>
+                            <ReqId>".$reqID."</ReqId>
                             <SpGrpCode>".$spcode."</SpGrpCode>
                             <SysCode>".$systemid."</SysCode>
                             <BillTyp>1</BillTyp>
@@ -51,8 +75,8 @@ class XmlRequestHelper
                             <BillDtl>
                                 <BillId>".$id."</BillId>
                                 <SpCode>".$spcode."</SpCode>
-                                <CollCentCode>HQ</CollCentCode>
-                                <BillDesc>certificate invoice</BillDesc>
+                                <CollCentCode>".$collectionCenCode."</CollCentCode>
+                                <BillDesc>Bill code</BillDesc>
                                 <CustTin>111111111</CustTin>
                                 <CustId>111111111</CustId>
                                 <CustIdTyp>4</CustIdTyp>
@@ -60,13 +84,13 @@ class XmlRequestHelper
                                 <CustName>maasai furniture</CustName>
                                 <CustCellNum>255657871769</CustCellNum>
                                 <CustEmail>maasai@gmail.com</CustEmail>
-                                <BillGenDt>2024-02-08T10:13:29</BillGenDt>
-                                <BillExprDt>2024-02-22T10:13:29</BillExprDt>
+                                <BillGenDt>".$genDate."</BillGenDt>
+                                <BillExprDt>2025-12-22T10:13:29</BillExprDt>
                                 <BillGenBy>maasai furniture</BillGenBy>
                                 <BillApprBy>maasai furniture</BillApprBy>
-                                <BillAmt>100000.00</BillAmt>
-                                <BillEqvAmt>100000.00</BillEqvAmt>
-                                <MinPayAmt>100000.00</MinPayAmt>
+                                <BillAmt>100.00</BillAmt>
+                                <BillEqvAmt>100</BillEqvAmt>
+                                <MinPayAmt>100.00</MinPayAmt>
                                 <Ccy>TZS</Ccy>
                                 <ExchRate>1.0</ExchRate>
                                 <BillPayOpt>1</BillPayOpt>
@@ -78,12 +102,12 @@ class XmlRequestHelper
                                     <BillItem>
                                         <RefBillId>".$id."</RefBillId>
                                         <SubSpCode>1001</SubSpCode>
-                                        <GfsCode>140101</GfsCode>
+                                        <GfsCode>".$Gsfcode."</GfsCode>
                                         <BillItemRef>".$id."</BillItemRef>
                                         <UseItemRefOnPay>N</UseItemRefOnPay>
-                                        <BillItemAmt>100000.00</BillItemAmt>
-                                        <BillItemEqvAmt>100000.00</BillItemEqvAmt>
-                                        <CollSp>SP19928</CollSp>
+                                        <BillItemAmt>100.00</BillItemAmt>
+                                        <BillItemEqvAmt>100.00</BillItemEqvAmt>
+                                        <CollSp>".$spcode."</CollSp>
                                     </BillItem>
                                 </BillItems>
                                 </BillDtl>
