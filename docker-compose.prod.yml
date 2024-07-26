@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     container_name: events-app
     ports:
-      - 7023:80
+      - 4044:80
     restart: unless-stopped
     environment:
       SERVICE_NAME: events-app
@@ -28,7 +28,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-    - 3373:3306
+    - 4330:3306
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -44,7 +44,7 @@ services:
     container_name: events-phpmyadmin
     image: phpmyadmin:5.2.1
     ports:
-      - 2340:80
+      - 4310:80
     environment:
       - PMA_ARBITRARY=1
 volumes:
