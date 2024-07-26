@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Taic;
+namespace App\Http\Resources;
 
-use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ConferenceResource extends JsonResource
+class UpcomingEventResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,27 +14,23 @@ class ConferenceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return  [
+        return 
+        [
             'id' => $this->id,
             'conferenceName'=> 'TAIC - '.$this->conferenceYear,
             'year'=> $this->conferenceYear,
             'conferenceYear' => $this->conferenceYear,
             'startDate' => date('j F Y', strtotime($this->startDate)),
             'endDate' => date('j F Y', strtotime($this->endDate)),
+            'name' => $this->name,
             'venue' => $this->venue,
             'theme' => $this->theme,
             'aboutConference' => $this->aboutConference,
             'defaultFee' => $this->defaultFee,
             'foreignerFee' => $this->foreignerFee,
-            'businessSector' => $this->businessSector,
+            // 'businessSector' => $this->businessSector,
             'guestFee' => $this->guestFee,
             'lock' => $this->lock,
-            'createdTime' => date('h:i A', strtotime($this->created_at)),
-            'createdDate' => date('j F Y', strtotime($this->created_at)),
-            'attendees' => count($this->subscriptions),
-            'speakers' => count($this->speakers),
-            'days'=> DayResource::collection($this-> days),
-            'subscribers' => UserResource::collection($this->users)
-            ];   
+        ];
     }
 }

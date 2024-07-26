@@ -20,6 +20,7 @@ const initialize = () => {
   formData.value.defaultFee = 400000
   formData.value.guestFee =400000
   formData.value.foreignerFee = 300
+  formData.value.name = ""
   formData.value.conferenceYear =year.value
   formData.value.startDate = `${year.value}-10-10`
   formData.value.endDate = `${year.value}-10-15`
@@ -68,6 +69,11 @@ defineExpose({setValueOfEvent})
                 <h2 class="text-xl font-semibold mb-4 text-center capitalize">{{props.eventAction}} Conference Configuration</h2>
         <form @submit.prevent="handleForm()">
             <div class="mb-4 border-b-2 border-teal-500 py-2">
+                <label for="eventName" class="block text-sm font-medium text-gray-700">Name</label>
+                <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                type="text" v-model="formData.name" placeholder="Add a Event name" id="eventName">
+            </div>
+          <div class="mb-4 border-b-2 border-teal-500 py-2">
                 <label for="Theme" class="block text-sm font-medium text-gray-700">Theme</label>
                 <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                 type="text" v-model="formData.theme" placeholder="Add a Conference Theme" id="Theme">

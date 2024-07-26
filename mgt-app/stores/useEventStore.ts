@@ -4,6 +4,7 @@ export const useEventStore = defineStore('eventStore', () => {
 
     const eventDialogStatus = ref(false);
     const events = ref([])
+    const upComingEvents = ref([])
     const singleEventDetail = ref<ConferenceData | null>(null)
     const globalStore = useGlobalDataStore()
 
@@ -18,6 +19,7 @@ export const useEventStore = defineStore('eventStore', () => {
       })
         const getEvents = computed(() => {return events.value})
         const getSingleEventDetail = computed(() => {return singleEventDetail.value})
+        const getUpComingEvents = computed(() => {return upComingEvents.value})
         // toggle Loading
         const toggleEventModal = ()=> { return eventDialogStatus.value = !eventDialogStatus.value }
 
@@ -72,11 +74,22 @@ export const useEventStore = defineStore('eventStore', () => {
         }
         return {data, error};
       }
+      async function handleUpComingEvents(){
+        await useApiFetch("/sanctum/csrf-cookie");
+        globalStore.toggleLoadingState('on')
+        const {data, error} = await useApiFetch(`/api/get-upcoming-events`);
+        const dataResponse = data.value as ApiResponse
+        if(dataResponse?.code === 200){
+          upComingEvents.value = dataResponse.data
+          globalStore.toggleLoadingState('off')
+        }
+        return {data, error};
+      }
 
       return {
-        toggleEventModal,getYearsArray,
+        toggleEventModal,getYearsArray,getUpComingEvents,
          eventDialogStatus,retrieveEvents,
-        getEvents,
+          getEvents,handleUpComingEvents,
          createUpdateEvent,getSingleEventDetail,
          handleConferenceActivation,fetchSingleEvent
         }

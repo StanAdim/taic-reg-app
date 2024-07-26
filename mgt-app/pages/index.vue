@@ -24,13 +24,13 @@ const date = new Date();
     <register-modal :showStatus="globalData.getRegistrationModalStatus" />
     <forgot-password-modal :showStatus="globalData.getForgotPassModalStatus" />
     <div class="">
-        <div class="flex flex-row flex-wrap justify-center md:justify-between lg:justify-between w-full">
+        <div class="flex flex-row flex-wrap justify-center md:justify-between lg:justify-between w-full mt-5 md:mt-20">
           <div class=" w-full md:w-1/2 bg-white">
             <div class="mx-auto my-2 flex h-full w-2/3 flex-col justify-center text-blue-950 xl:w-1/2">
               <div class="my-2">
-                <p class="text-[30px]">ICT Commission {{ date.getUTCFullYear() }}</p>
+<!--                <p class="text-[30px]">ICT Commission {{ date.getUTCFullYear() }}</p>-->
 
-                <p>Please login to continue|</p>
+                <h2 class="font-bold text-xl">Please login to continue|</h2>
                 <usables-hance-loader />
               </div>
 
@@ -54,20 +54,26 @@ const date = new Date();
                           class="text-sm hover:cursor-pointer  hover:text-blue-800">Forgot password</p>
                     </div>
                   </div>
-                  <div class="my-10 text-white">
+                  <div class="my-6 text-white">
                     <button class="w-full rounded-full bg-sky-600 py-3 hover:bg-sky-800">Login</button>
                   </div>
 
                 </form>
-                <p class="text-sm text-blue-600 hover:cursor-pointer text-center py-2 px-3 border-b-2 m-2  rounded-md border-blue-500 hover:bg-sky-50">
-                  <span @click="globalData.toggleRegistrationForm()">Register Now</span>
-                </p>
+                <h2 class="font-light ">Don't have an account ? </h2>
+
+                <div class="my-2 text-white">
+                  <button @click="globalData.toggleRegistrationForm()" class="w-fit px-10 rounded-full bg-emerald-600 py-2 hover:bg-sky-800">Register Here</button>
+                </div>
               </div>
             </div>
           </div>
-          <div class="w-1/2 bg-white hidden md:block lg:block">
-            
-            <img src="/image/handling.png" class="h-full w-full" alt="img" />
+          <div class="w-1/2 pr-10 bg-white hidden md:block lg:block">
+            <div class=" w-full bg-white mt-10">
+              <div class="flex-col justify-center">
+                <LandingImageSlider />
+              </div>
+            </div>
+<!--            <img src="/image/handling.png" class="h-full w-full" alt="img" />-->
           </div>
         </div>
     </div>

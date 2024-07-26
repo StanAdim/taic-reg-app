@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Taic;
 use App\Events\ConferenceActivated;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Taic\ConferenceResource;
+use App\Http\Resources\UpcomingEventResource;
 use App\Models\Taic\Conference;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -35,6 +36,7 @@ class ConferenceController extends Controller
         $validator = Validator::make($request->all(), [
             "conferenceYear" => 'required|unique:conferences',
             "startDate" => 'required',
+            "name" => 'required',
             "endDate" => 'required',
             "venue" => 'required|max:225|min:3',
             "theme" => 'required|min:3',
@@ -79,6 +81,7 @@ class ConferenceController extends Controller
         $validator = Validator::make($request->all(), [
             "id" => 'required',
             "startDate" => '',
+            "name" => '',
             "conferenceYear" => '',
             "endDate" => '',
             "venue" => '',
@@ -128,8 +131,14 @@ class ConferenceController extends Controller
         ]);
     }
 
-    public function destroy(string $id)
+    public function getUpcomingEvents()
     {
         //
+        $targetUpdated = UpcomingEventResource::collection(Conference::where('lock', true)->get());
+        return response()->json([
+            'message'=> 'Conference Not Found',
+            'data' => $targetUpdated,
+            'code' => 200
+        ]);
     }
 }

@@ -27,12 +27,14 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
  Route::get('/site-data', [SiteController::class , 'fetchSiteData']);
  Route::get('/get-districts/{targetRegion}',[GeneralController::class, 'getDistricts']);
  Route::post('/reset-password', [RegisteredUserController::class, 'passwordResetting'])
-                ->middleware('guest')
-                ->name('password.reseting');
-
-Route::post('/bill/receive-controll', [BillController::class,'receiveControlNumber']);
-Route::post('/call/professional-details', [ProfessionalController::class,'getProfessionalDetails']);
-
+ ->middleware('guest')
+ ->name('password.reseting');
+ 
+ Route::post('/bill/receive-controll', [BillController::class,'receiveControlNumber']);
+ Route::post('/call/professional-details', [ProfessionalController::class,'getProfessionalDetails']);
+ 
+ //public events
+ Route::get('/get-upcoming-events',[ConferenceController::class, 'getUpcomingEvents']);
  //--- Auth routes
  Route::middleware(['auth:sanctum'])->group(function(){
      Route::post('/user-info-create',[UserInfoController::class, 'create']);

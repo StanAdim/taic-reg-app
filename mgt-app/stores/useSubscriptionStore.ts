@@ -20,7 +20,7 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
             globalStore.toggleDoneCheckVisibility()
         }
         if(dataResponse?.code === 300){
-            globalStore.assignAlertMessage([dataResponse?.message], 'danger')
+            globalStore.assignAlertMessage(dataResponse?.message, 'danger')
             eventDialogStatus.value = false;
             globalStore.toggleLoadingState('off')
             globalStore.toggleDoneCheckVisibility()
