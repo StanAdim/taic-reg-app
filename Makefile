@@ -33,7 +33,6 @@ logs:
 	docker logs -f events-stage
 update: 
 	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../ && make start
-	 @boost
 # Define the directory and the command
 DIR1 := ./mgt-app 
 DIR2 := ./site-app 
@@ -90,7 +89,7 @@ logs.p:
 	docker logs -f events-app
 update.p: 
 	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart production.config.cjs &&  cd  ../ && make start
-	 @boost
+
 # Define the directory and the command
 DIR1 := ./mgt-app 
 DIR2 := ./site-app 
