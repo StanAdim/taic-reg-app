@@ -6,12 +6,12 @@ setup:
 
 build:
 	docker compose build 
-	cd  mgt-app/ && yarn build
+
 stop:
 	docker compose stop
-	cd  mgt-app/ && pm2 stop ecosystem.config.cjs
 up:
 	docker compose up -d
+
 composer-update:
 	docker exec  events-stage bash -c "composer update"
 data:
@@ -20,6 +20,7 @@ bash:
 	docker exec -it  events-stage bash
 start:
 	docker compose restart
+	cd  mgt-app/ && pm2 restart ecosystem.config.cjs
 boost:
 	docker exec  events-stage bash -c "php artisan optimize"
 	docker exec  events-stage bash -c "composer dump-autoload"
@@ -31,7 +32,7 @@ rmi:
 logs:
 	docker logs -f events-stage
 update: 
-	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart taic-reg-app &&  cd  ../ && make start
+	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../ && make start
 	 @boost
 # Define the directory and the command
 DIR1 := ./mgt-app 
@@ -88,7 +89,7 @@ rmi.p:
 logs.p:
 	docker logs -f events-app
 update.p: 
-	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart taic-reg-app &&  cd  ../ && make start
+	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart production.config.cjs &&  cd  ../ && make start
 	 @boost
 # Define the directory and the command
 DIR1 := ./mgt-app 
