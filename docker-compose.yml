@@ -30,10 +30,10 @@ services:
     ports:
     - 3373:3306
     environment:
-      MYSQL_DATABASE: events_app
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_PASSWORD: secret
-      MYSQL_USER: ictc
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD} 
+      MYSQL_USER: ${MYSQL_USER}
     volumes:
       - dbdata_stage_ems:/var/lib/mysql
     networks:

@@ -6,6 +6,7 @@ setup:
 
 build:
 	docker compose build 
+	cd  mgt-app/ && yarn build
 
 stop:
 	docker compose stop
@@ -33,6 +34,7 @@ logs:
 	docker logs -f events-stage
 update: 
 	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../ && make start
+	 
 # Define the directory and the command
 DIR1 := ./mgt-app 
 DIR2 := ./site-app 
