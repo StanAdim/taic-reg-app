@@ -1,0 +1,32 @@
+services:
+  events-finalized:
+    container_name: events-finalized
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 2360:80
+
+  event_app_db:
+    container_name: event_app-ictc-db
+    image: mysql:8.0.33
+    environment:
+      MYSQL_ROOT_PASSWORD: CallForOrder123455
+      MYSQL_DATABASE: events_ictc_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+    - 3327:3306
+
+  event_app_phpmyadmin:
+    container_name: event_app-phpmyadmin
+    image: phpmyadmin:5.2.1
+    ports:
+      - 6234:80
+    environment:
+      - PMA_ARBITRARY=1
+
+volumes:
+  mysql_data:
