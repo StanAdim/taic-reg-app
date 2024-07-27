@@ -3,19 +3,28 @@ const globalStore = useGlobalDataStore()
 </script>
 
 <template>
-  <div class="bg-sky-100 pb-1 w-full">
-    <div class="flex flex-row flex-wrap pb-2 justify-center md:justify-between lg:justify-between flex-initial mx-4">
-      <div class="hidden md:block"><img class="h-12 md:h-24 ml-2" src="/image/logo/nembo.png" alt="nation-emblem"></div>
-      <div class="text-center font-bold">
-        <p class="text-md md:text-l mt-4">THE UNITED REPUBLIC OF TANZANIA</p>
-        <p class="text-sm md:text-2xl">INFORMATION AND COMMUNICATION TECHNOLOGIES COMMISSION</p>
-        <p class="text-md md:text-l text-sky-600">Event Management System</p>
-      </div>
-      <div class="hidden md:block"><img class="w-32 md:h-24 ml-2" src="/image/logo/logo-min.png" alt=""></div>
-    </div>
-    <!--    <usables-loading v-if="globalStore.getLoadingState" />-->
+  <div class="bg-sky-200 py-4 w-full">
+      <div class="">
+        <div class="w-max flex flex-col-reverse md:grid   md:grid-cols-5 mx-auto gap-1 md:gap-10">
+          <div class="md:col-span-1 hidden md:flex justify-center">
+            <div class=""><img class=" h-20 md:h-24 ml-2" src="/image/logo/nembo.png" alt="nation-emblem"></div>
+          </div>
 
+          <div class="md:col-span-3 px-4 content-stretch">
+            <div class="text-center font-bold">
+              <div class="text-xs md:text-lg mt-4">THE UNITED REPUBLIC OF TANZANIA</div>
+              <div class="text-s md:text-2xl">INFORMATION AND COMMUNICATION <br class="block md:hidden"> TECHNOLOGIES COMMISSION</div>
+              <div class="text-xs md:text-lg text-sky-600">Event Management System</div>
+            </div>
+          </div>
+          <div class="md:col-span-1 flex justify-center">
+            <div class=""><img class="h-20 md:h-24 ml-2" src="/image/logo/logo-min.png" alt="nation-emblem"></div>
+          </div>
+
+        </div>
+      </div>
   </div>
+
 </template>
 
 <style scoped></style>

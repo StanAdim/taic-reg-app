@@ -17,7 +17,7 @@ init()
 </script>
 <template>
   <div class="">
-    <AdminThePageTitle title="APP DASHBOARD" />
+    <AdminThePageTitle title="DASHBOARD" />
     <usables-type-text-anim  />
     <!-- component -->
     <h2  class="text-sky-700 font-bold text-lg my-1">Events you subscribed</h2>

@@ -8,9 +8,9 @@ init()
 </script>
 
 <template>
-  <div class="block text-center" style="height: 300px">
-    <h2 class="text-xl font-bold my-2 text-sky-600">Upcoming Events</h2>
-    <div class="bg-gray-100 rounded-md mt-2.5 shadow-md">
+  <div class="block text-center " >
+    <h2 class="text-2xl font-bold mb-4 text-sky-600">Upcoming Events</h2>
+    <div class="bg-gray-100 rounded-md mt-2.5 shadow-md md:h-96">
       <el-carousel :interval="5000" arrow="always">
         <el-carousel-item v-for="item in eventStore.getUpComingEvents" :key="item.id" style="height:auto">
           <div class=" my-2 mx-auto rounded ">
@@ -35,14 +35,12 @@ init()
                 <i class="fa-solid fa-location-dot fa-lg text-sky-600 mx-1"></i>{{item.venue}}
               </p>
             </div>
-            <div class="border-t border-gray-300 mt-10 flex justify-center p-0">
-              <div class="flex-1 text-center">
+              <div class="flex-1 relative md:top-2 text-center">
                 <nuxt-link :to="`/crm/events/event-${item.id}`"
                            class="text-blue-800 hover:text-white bg-sky-300 my-2 hover:bg-sky-600 rounded-bl-md w-full px-2 py-1"
                 >
                   Register To attend
                 </nuxt-link>
-              </div>
             </div>
           </div>
         </el-carousel-item>

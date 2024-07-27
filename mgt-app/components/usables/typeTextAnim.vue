@@ -2,7 +2,7 @@
 
 const props = defineProps({
   dataText:{
-    default: ['Welcome to ICTC event Management Dashboard'],
+    default: ['Welcome to ICT Commission event Management Dashboard'],
     type: Array
   }
 })
