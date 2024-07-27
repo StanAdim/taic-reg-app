@@ -26,7 +26,7 @@ services:
     image: mysql:8.0.33
     container_name: db-events-app
     restart: unless-stopped
-    tty: true
+    # tty: true
     ports:
     - 4330:3306
     environment:

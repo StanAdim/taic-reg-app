@@ -35,7 +35,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD} 
       MYSQL_USER: ${MYSQL_USER}
     volumes:
-      - dbdata_stage_ems:/var/lib/mysql
+      - dbdata_stage_ems:/var/lib/mysql`
     networks:
       - events-stage-network
 
