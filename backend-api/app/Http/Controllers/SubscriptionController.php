@@ -26,14 +26,14 @@ class SubscriptionController extends Controller
     }
     public function subscribeToEvent($eventId,$eventFee)
     {
+        // Initialize data 
         $event = Conference::where('id',$eventId)->first();
         $user_id = Auth::id();
         $user = Auth::user();
         $userInfo = $user->userInfo;
-        $newItem = [
-            'user_id' => $user_id,
-            'conference_id' => $eventId,
-        ];
+        $newItem = ['user_id' => $user_id, 'conference_id' => $eventId,];
+
+        //Check if user has  Subscribed already
         $isUserSubscribed = Subscription::where('conference_id', $eventId)
         ->where('user_id', $user_id)
         ->exists();
@@ -42,8 +42,9 @@ class SubscriptionController extends Controller
                 'message'=> "This event is Booked!",
                 'code'=> 300
             ]);
-        }else{
-            $storeData = Subscription::create($newItem);
+        }
+        //If not Created Bill for subscription
+        else{
             $newBill = [
                 'user_id' => $user_id,
                 'conference_id' =>$eventId,
@@ -65,17 +66,21 @@ class SubscriptionController extends Controller
                 if($returedXml){
                 $storeData->ReqId = $returedXml["billSubReqAck"]['ReqId'];
                 $storeData->save();
+                // Subcribe user 
+                $storeData = Subscription::create($newItem);
                 }
                 return response()->json([
-                    'message'=> "You have subscribed Successfull",
+                    'message'=> "Subscription Success",
                     'data' => $storeData,
                     'GepgAck' => $returedXml,
                     'code'=> 200
                 ],200);
 
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Failed to create bill', 
-                'message' => $e->getMessage(), 'code' => 300], 500);
+                return response()->json(
+                    ['error' => 'Failed to create bill', 
+                'message' => $e->getMessage(), 'code' => 300]
+                , 500);
             }
         }
     }
