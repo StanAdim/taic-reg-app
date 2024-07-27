@@ -8,6 +8,8 @@ dist
 
 # Node dependencies
 node_modules
+docker-compose.yml
+docker-compose.prod.yml
 
 # Logs
 logs
