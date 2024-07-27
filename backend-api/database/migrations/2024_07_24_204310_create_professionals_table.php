@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string("Mobile");
             $table->string("Gender");
             $table->string("Region");
-            $table->boolean("isVerified")->default(1);
+            $table->boolean("isVerified")->default(0);
             $table->timestamps();
         });
     }

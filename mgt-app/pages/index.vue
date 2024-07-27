@@ -67,8 +67,8 @@ const date = new Date();
               </div>
             </div>
           </div>
-          <div class="w-1/2 pr-10 bg-white hidden md:block lg:block">
-            <div class=" w-full bg-white mt-10">
+          <div class="md:w-1/2 bg-white md:block lg:block">
+            <div class="  bg-white mt-10 mr-5">
               <div class="flex-col justify-center">
                 <LandingImageSlider />
               </div>

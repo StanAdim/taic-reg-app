@@ -49,7 +49,7 @@ const handleCallProfessionalDetails = async (professionalCode)=>{
 }
 
 const initialize = async () => {
-  await  globalData.retrieveRegions()
+  await  globalData.retrieveLocation()
 }
 initialize()
 </script>

@@ -17,13 +17,17 @@ use Illuminate\Support\Facades\Mail;
 
 class GeneralController extends Controller
 {     
-      //Get nations
-      public function getNations(){
+      //Get nations and regions
+      public function getNationsRegions(){
        $nations = Nation::all() ;
-       if ($nations) {
+       $regions = RegionResource::collection(Region::all()) ;
+       if ($nations && $regions) {
            return response()->json([
                'message' => 'Success Fetching nations',
-               'data' => $nations
+               'data' => [
+                'nations'=> $nations,
+                'regions'=> $regions,
+               ]
            ],200);
        } else {
            return response()->json([
@@ -31,21 +35,7 @@ class GeneralController extends Controller
            ],404);
        }
       }
-            //Get regions in tanzania
-      public function getRegions(){
-       $regions = RegionResource::collection(Region::all()) ;
-       if ($regions) {
-           return response()->json([
-               'message' => 'Success Fetching Regions',
-               'data' => $regions
-           ],200);
-       } else {
-           return response()->json([
-               'message' => 'No regions',
-           ],404);
-       }
-      }
-   
+
       public function getDistricts(Region $targetRegion){
            $district = DistrictResource::collection(District::where('region' , $targetRegion['region'])->get());
        if ($district) {

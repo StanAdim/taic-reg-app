@@ -2,6 +2,7 @@
 definePageMeta({
   middleware:'auth'
 })
+const config = useRuntimeConfig().public
 const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
 const route = useRoute()
@@ -48,7 +49,7 @@ initialize()
               class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(eventData.defaultFee) }} Tsh</em></p>
           <p class="mx-3 my-1 font-medium">Non Register | Others: <em
               class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(eventData.guestFee) }} Tsh</em></p>
-          <p class="mx-3 my-1 font-medium">Foreigner: <em class="text-fuchsia-950 p-2"> {{ globalStore.separateNumber(eventData.foreignerFee) * 2760  }} Tsh &asymp; {{ globalStore.separateNumber(eventData.foreignerFee) }} USD </em></p>
+          <p class="mx-3 my-1 font-medium">Foreigner: <em class="text-fuchsia-950 p-2"> {{ globalStore.separateNumber(eventData.foreignerFee) * config?.UDSRate  }} Tsh &asymp; {{ globalStore.separateNumber(eventData.foreignerFee) }} USD </em></p>
         </div>
 
         <div class="mx-2 my-4 flex justify-center md:justify-normal">

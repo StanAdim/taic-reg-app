@@ -19,7 +19,7 @@ Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionCont
 Route::get('/test',function(){return 'API: Is Active';});
 Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmail']);
  // ================ public routes ============================================
- Route::get('/get-nations',[GeneralController::class, 'getNations']);
+ Route::get('/get-locations',[GeneralController::class, 'getNationsRegions']);
  Route::get('/get-country-regions',[GeneralController::class, 'getRegions']);
  Route::get('/send-verification-email',[GeneralController::class, 'sendVerificationEmail']);
  Route::post('/send-password-reset-link',[GeneralController::class, 'sendPasswordReset']);

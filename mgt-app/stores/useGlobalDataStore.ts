@@ -56,18 +56,9 @@ export const useGlobalDataStore = defineStore('globalData', () => {
 
 
     // Transforms
-    const toggleLoadingState = (key)=> {
-        if(key == 'on')isLoading.value = true;
-        if(key == 'off')isLoading.value = false;
-    }
-    const toggleUserInfoDialogStatus = (key)=> {
-        if(key == 'on')userInfoDialogStatus.value = true;
-        if(key == 'off')userInfoDialogStatus.value = false;
-    }
-    const hanceLoaderTurn = (key)=> {
-        if(key == 'on')isHanceLoader.value = true;
-        if(key == 'off')isHanceLoader.value = false;
-    }
+    const toggleLoadingState = (key)=> key == 'on' ? isLoading.value = true : isLoading.value = false
+    const toggleUserInfoDialogStatus = (key)=> key == 'on' ? userInfoDialogStatus.value = true :userInfoDialogStatus.value = false
+    const hanceLoaderTurn = (key)=> (key == 'on') ? isHanceLoader.value = true: isHanceLoader.value = false;
 
     const toggleRegistrationForm = ()=> { registrationDialogStatus.value = !registrationDialogStatus.value  }
     const toggleForgotPassDialog = ()=> { forgotPassDialogStatus.value = !forgotPassDialogStatus.value  }
@@ -99,14 +90,13 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         }
         elementNotify()
         }
-    async function retrieveRegions(){
-        const {data,error} = await useApiFetch('/api/get-country-regions');
-        if(data.value){regions.value = data.value?.data}
-        return {data,error}
-    }
-    async function retrieveNations(){
-        const {data,error} = await useApiFetch('/api/get-nations');
-        if(data.value){nations.value = data.value?.data}
+
+    async function retrieveLocation(){
+        const {data,error} = await useApiFetch('/api/get-locations');
+        if(data.value){
+            nations.value = data.value?.data?.nations
+            regions.value = data.value?.data?.regions
+        }
         return {data,error}
     }
     async function retrieveRegionDistricts(targetRegionId:string){
@@ -157,13 +147,13 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         toggleRegistrationForm,toggleLoadingState,toggleUserInfoModal,
         getSuccessStatus,getDangerStatus,getWarningStatus,toggleUserInfoDialogStatus,
         assignAlertMessage,toggleShowMessage,getAlertMessage,getAppRoute,
-        getRegions,getDistricts, retrieveRegions,retrieveRegionDistricts, hasPermission,
+        getDistricts,retrieveRegionDistricts, hasPermission,
         separateNumber,getUserProfileStatus,toggleUserProfileModalStatus,
         getConfirmToAttendModalStatus,toggleConfirmToAttendModalStatus,
         getDoneCheckVisibility,toggleDoneCheckVisibility,hanceLoaderTurn,
         getLocalLoaderStatus, toggleLocalLoaderStatus,getHanceLoaderState,
         getForgotPassModalStatus, toggleForgotPassDialog,
-        retrieveNations,getNations
+        retrieveLocation,getNations
 
     }
 })

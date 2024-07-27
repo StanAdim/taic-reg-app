@@ -8,6 +8,7 @@ const props = defineProps({
     type:Object,
   }
 })
+const config = useRuntimeConfig().public
 const authStore = useAuthStore()
 const globalData = useGlobalDataStore()
 const subscriptionStore = useSubscriptionStore()
@@ -30,6 +31,9 @@ const closeModal = ()=> {
 const handleSubscription = async ()=> {
   globalData.hanceLoaderTurn('on')
   const subscription = {eventId : props.eventDetail.id}
+  if(authStore.getLoggedUserInfo?.isForeigner){
+    subscription.eventFee = props.eventDetail?.foreignerFee
+  }
   if(authStore.getLoggedUserInfo?.professionalStatus === 1)subscription.eventFee = props.eventDetail?.defaultFee
   if(authStore.getLoggedUserInfo?.professionalStatus === 0)subscription.eventFee = props.eventDetail?.guestFee
  await subscriptionStore.subscribeToAnEvent(subscription)
@@ -57,11 +61,22 @@ const handleSubscription = async ()=> {
                 <h2 class="font-bold text-xl">TAIC {{eventDetail?.conferenceYear}}</h2>
                   <template v-if="!globalData.getDoneCheckVisibility">
                     <p class="my-2">You are about to confirm to attend to this Event</p>
-                    <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 1" >
-                      <p class="">Conference Fee <span class="bg-amber-600 text-white py-1 px-2 rounded-md">{{globalData.separateNumber(eventDetail?.defaultFee || 0)}}</span></p>
+
+                    <template v-if="authStore.getLoggedUserInfo?.isForeigner" >
+                      <p class="">Conference Fee <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
+                        {{(globalData.separateNumber(eventDetail?.foreignerFee || 0) * config?.UDSRate )}} Tsh  &asymp;
+                        {{globalData.separateNumber(eventDetail?.foreignerFee || 0)}} USD</span>
+                      </p>
                     </template>
-                    <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 0" >
-                      <p class="">Conference Fee <span class="bg-amber-600 text-white py-1 px-2 rounded-md">{{globalData.separateNumber(eventDetail?.guestFee || 0)}}</span></p>
+                    <template v-else>
+                      <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 1" >
+                        <p class="">Conference Fee <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
+                        {{globalData.separateNumber(eventDetail?.defaultFee || 0)}} Tsh</span></p>
+                      </template>
+                      <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 0" >
+                        <p class="">Conference Fee <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
+                        {{globalData.separateNumber(eventDetail?.guestFee || 0)}} Tsh</span></p>
+                      </template>
                     </template>
                   </template>
                   <template v-if="globalData.getDoneCheckVisibility && showConfirmation">

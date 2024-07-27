@@ -17,12 +17,6 @@ export default defineNuxtConfig({
       link: [
         // { rel: 'icon', type: 'image/x-icon', href: '/logo/ico.png' }
       ],
-      script: [
-
-      ],
-      style: [
-
-      ]
     },
     pageTransition: {
       name: 'fade',
@@ -35,9 +29,10 @@ export default defineNuxtConfig({
   },
   runtimeConfig:{
     public:{
-      appName:  'TAIC - Registration App',
+      appName:  'EMS - Registration',
       apiBaseUlr: process.env.API_URL ,
       baseUrl: process.env.BASE_URL,
+      UDSRate: 2760,
     }
   },
   css:[

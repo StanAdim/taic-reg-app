@@ -38,8 +38,13 @@ class UserInfoController extends Controller
         // return $newItem;
         if($newItem["professionalNumber"] && $newItem['professionalStatus']){
 
-            $exists = Professional::where('RegNo', $newItem["professionalNumber"] )->exists();
-            if($exists){
+            $professional = Professional::where('RegNo', $newItem["professionalNumber"] );
+            $exists = $professional ->exists();
+            $professional = $professional -> first();
+            if($exists && !$professional->isVerified){
+                // update used Professiona number  
+                $professional->isVerified = 1;
+                $professional->save();
                 $user  = User::where('id',$newItem['user_id'] )->get()->first();
                 if($user){
                     $user->update(['hasInfo'=>1]);

@@ -13,7 +13,7 @@ init()
     <div class="bg-gray-100 rounded-md mt-2.5 shadow-md">
       <el-carousel :interval="5000" arrow="always">
         <el-carousel-item v-for="item in eventStore.getUpComingEvents" :key="item.id" style="height:auto">
-          <div class="max-w-fit my-2 mx-auto rounded ">
+          <div class=" my-2 mx-auto rounded ">
             <div class="">
               <!--              <img src="/image/handling.png" class="w-fit" alt="img" />-->
             </div>

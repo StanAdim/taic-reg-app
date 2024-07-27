@@ -18,6 +18,8 @@ class UserInfoResource extends JsonResource
     {
         return [
             "phoneNumber" => $this->phoneNumber,
+            "nationality" => $this->nation,
+            "isForeigner" => $this->nation == 214 ? 0: 1,
             "professionalStatus" => $this->professionalStatus ? 'Registered Professional' : 'Non - Registered Professional',
             "professionalNumber" => $this->professionalNumber,
             "institution" => $this->institution,

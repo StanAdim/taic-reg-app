@@ -39,7 +39,7 @@ class SubscriptionController extends Controller
         ->exists();
         if($isUserSubscribed){
             return response()->json([
-                'message'=> "You've booked for Already!",
+                'message'=> "This event is Booked!",
                 'code'=> 300
             ]);
         }else{
@@ -59,18 +59,24 @@ class SubscriptionController extends Controller
                 'bill_pay_opt' => 1,
                 'status' => 0,
             ];
-            $storeData = Bill::create($newBill);
-            $returedXml = XmlRequestHelper::GepgSubmissionRequest($storeData);
-            if($returedXml){
-            $storeData->ReqId = $returedXml["billSubReqAck"]['ReqId'];
-            $storeData->save();
+            try {
+                $storeData = Bill::create($newBill);
+                $returedXml = XmlRequestHelper::GepgSubmissionRequest($storeData);
+                if($returedXml){
+                $storeData->ReqId = $returedXml["billSubReqAck"]['ReqId'];
+                $storeData->save();
+                }
+                return response()->json([
+                    'message'=> "You have subscribed Successfull",
+                    'data' => $storeData,
+                    'GepgAck' => $returedXml,
+                    'code'=> 200
+                ],200);
+
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Failed to create bill', 
+                'message' => $e->getMessage(), 'code' => 300], 500);
             }
-            return response()->json([
-                'message'=> "You have subscribed Successfull",
-                'data' => $storeData,
-                'GepgAck' => $returedXml,
-                'code'=> 200
-            ],200);
         }
     }
 }

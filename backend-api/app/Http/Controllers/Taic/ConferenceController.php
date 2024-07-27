@@ -135,10 +135,18 @@ class ConferenceController extends Controller
     {
         //
         $targetUpdated = UpcomingEventResource::collection(Conference::where('lock', true)->get());
-        return response()->json([
-            'message'=> 'Conference Not Found',
-            'data' => $targetUpdated,
-            'code' => 200
-        ]);
+        if($targetUpdated){
+            return response()->json([
+                'message'=> 'Active Conferences',
+                'data' => $targetUpdated,
+                'code' => 200
+            ]);
+        }
+        else{
+            return response()->json([
+                'message'=> 'Conference Not Found',
+                'code' => 300
+            ]);
+        }
     }
 }
