@@ -24,7 +24,6 @@ export const useEventStore = defineStore('eventStore', () => {
         const toggleEventModal = ()=> { return eventDialogStatus.value = !eventDialogStatus.value }
 
       async function retrieveEvents(){
-        await useApiFetch("/sanctum/csrf-cookie");
         const {data, error} = await useApiFetch(`/api/taic-conferences`);
         const response = data.value as ApiResponse
         if(response.code == 200){
@@ -52,7 +51,6 @@ export const useEventStore = defineStore('eventStore', () => {
       
       async function handleConferenceActivation(passId: string){
         globalStore.toggleLoadingState('on')
-        await useApiFetch("/sanctum/csrf-cookie");
         const {data, error} = await useApiFetch(`/api/conference/activate/${passId}`);
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
@@ -64,7 +62,6 @@ export const useEventStore = defineStore('eventStore', () => {
         return {data, error};
       }
       async function fetchSingleEvent(eventId: string){
-        await useApiFetch("/sanctum/csrf-cookie");
         globalStore.toggleLoadingState('on')
         const {data, error} = await useApiFetch(`/api/conference-data/${eventId}`);
         const dataResponse = data.value as ApiResponse
@@ -75,7 +72,6 @@ export const useEventStore = defineStore('eventStore', () => {
         return {data, error};
       }
       async function handleUpComingEvents(){
-        await useApiFetch("/sanctum/csrf-cookie");
         globalStore.toggleLoadingState('on')
         const {data, error} = await useApiFetch(`/api/get-upcoming-events`);
         const dataResponse = data.value as ApiResponse
