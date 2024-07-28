@@ -47,7 +47,7 @@ fi
 echo "---Running Application migrations..."
 docker-compose exec "$STAGING_CONTAINER_NAME" php artisan migrate --force
 
-# Optionally clear caches and optimize the application
+#  optimize the application
 echo "---Clearing caches..."
 docker-compose exec "$STAGING_CONTAINER_NAME" php artisan cache:clear
 docker-compose exec "$STAGING_CONTAINER_NAME" php artisan config:clear
