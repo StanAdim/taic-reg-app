@@ -33,7 +33,7 @@ const handleLinkActive = (routeLink: string) => {
     <!-- component -->
     <div class="flex w-screen h-screen text-gray-700">
       <!-- Component Start -->
-      <div :class="{'hidden':hideSideBar}" class="flex flex-col w-80 border-r border-gray-300">
+      <div :class="{'hidden':hideSideBar}" class="flex flex-col w-64 border-r border-gray-300">
         <div class="relative text-sm focus:outline-none">
           <div class="flex items-center justify-between h-16 px-4 border-b border-gray-300 hover:bg-gray-300">
             <i class="fa fa-home-user"></i>
@@ -68,7 +68,7 @@ const handleLinkActive = (routeLink: string) => {
 
       </div>
       <div class="flex flex-col flex-grow">
-        <div class="flex items-center justify-end flex-shrink-0 h-16 px-1 border-b border-gray-300 bg-gray-100">
+        <div class="flex items-center justify-end flex-shrink-0 h-16 px-1 border-b-2 border-blue-600/30 bg-gray-100">
           <span :class="{'hidden': !hideSideBar}" class="bg-zinc-100 rounded-md hover:cursor-pointer hover:bg-sky-700 p-0.5 "
                 @click="handleSidebar()">
             <i class="fa fa-bars mx-2 text-sky-400"></i></span>
@@ -83,12 +83,11 @@ const handleLinkActive = (routeLink: string) => {
                class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded ">
           </div>
 
-          <div class=" ml-4 text-sm focus:outline-none group">
-              <span class="w-full px-4 py-2 text-left hover:bg-sky-600 hover:text-white rounded-md"
+          <div class=" text-sm focus:outline-none group">
+              <span class="px-4 py-2 text-left hover:bg-sky-600 hover:text-white rounded-md"
                  @click.prevent="globalData.toggleUserProfileModalStatus()"
-              ><i class="fa fa-user px-2"></i> Profile
-              </span>
-              <span  class="w-full px-4 py-2 text-left hover:bg-red-600 hover:text-white hover:cursor-pointer justify-center text-sm font-medium bg-red-100  rounded"
+              ><i class="fa fa-user px-2"></i> Profile</span>
+              <span  class="px-4 py-2 text-left hover:bg-red-600 hover:text-white hover:cursor-pointer justify-center text-sm font-medium bg-red-100  rounded"
                  @click="handleLogout()"><i class="fa-solid fa-lock mx-1"></i>Logout
               </span>
           </div>

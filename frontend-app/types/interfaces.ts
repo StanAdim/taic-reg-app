@@ -7,6 +7,7 @@ export interface ApiResponse {
 export interface ConferenceData {
     action:string,
     year: number,
+    name: string,
     startDate: string,
     endDate: string,
     venue: string,

@@ -5,6 +5,10 @@ const  init = async  ()=> [
     await  eventStore.handleUpComingEvents()
 ]
 init()
+onNuxtReady(() => {
+  console.log('Nuxt is ready on the client');
+  init()
+});
 </script>
 
 <template>
@@ -15,7 +19,7 @@ init()
         <el-carousel-item v-for="item in eventStore.getUpComingEvents" :key="item.id" style="height:auto">
           <div class=" my-2 mx-auto rounded ">
             <div class="">
-              <!--              <img src="/image/handling.png" class="w-fit" alt="img" />-->
+<!--            <img src="/image/handling.png" class="w-fit" alt="img" />-->
             </div>
             <div class="text-center p-6 ">
               <div class="text-sky-600 w-full">
@@ -28,8 +32,8 @@ init()
               </p>
               <p class="text-sm mb-2">
 
-                <span class="text-blue-900">Commence on : </span><span class="text-emerald-700 font-medium"><i class="fa-solid fa-calendar-days"></i> {{item.startDate}}</span> <br>
-                <span class="text-blue-900">End on: </span><span class="text-yellow-800 font-medium"><i class="fa-solid fa-calendar-xmark"></i> {{item.startDate}}</span>
+                <span class="text-blue-900">Commence date </span> <br class="block md:hidden" /><span class="text-emerald-700 font-medium"><i class="fa-solid fa-calendar-days"></i> {{item.startDate}}</span> <br>
+                <span class="text-blue-900">End date </span> <br class="block md:hidden" /><span class="text-yellow-800 font-medium"><i class="fa-solid fa-calendar-xmark"></i> {{item.startDate}}</span>
               </p>
               <p class="text-sm mb-0">
                 <i class="fa-solid fa-location-dot fa-lg text-sky-600 mx-1"></i>{{item.venue}}

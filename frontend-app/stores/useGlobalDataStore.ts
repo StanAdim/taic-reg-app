@@ -16,7 +16,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const showDangerStatus = ref(true);
     const longName = ref('ICTC Events System')
     const regions = ref([])
-    const nations = ref([])
+    const locations = ref(null)
     const districts = ref([])
     const isHanceLoader = ref(true)
 
@@ -48,9 +48,9 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const getDangerStatus = computed(() => {return showDangerStatus.value})
     const getWarningStatus = computed(() => {return showWarningStatus.value})
     const getAlertMessage = computed(() => {return alertMessage.value})
-    const getRegions = computed(() => {return regions.value})
+    const getRegions = computed(() => {return locations.value?.regions})
     const getDistricts = computed(() => {return districts.value})
-    const getNations = computed(() => {return nations.value})
+    const getNations = computed(() => {return locations.value?.nations})
     const getLocalLoaderStatus = computed(() => {return localLoader.value})
     const getHanceLoaderState = computed(() => {return isHanceLoader.value})
 
@@ -94,8 +94,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     async function retrieveLocation(){
         const {data,error} = await useApiFetch('/api/get-locations');
         if(data.value){
-            nations.value = data.value?.data?.nations
-            regions.value = data.value?.data?.regions
+            locations.value = data.value?.data
         }
         return {data,error}
     }
@@ -153,7 +152,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         getDoneCheckVisibility,toggleDoneCheckVisibility,hanceLoaderTurn,
         getLocalLoaderStatus, toggleLocalLoaderStatus,getHanceLoaderState,
         getForgotPassModalStatus, toggleForgotPassDialog,
-        retrieveLocation,getNations
+        retrieveLocation,getNations,getRegions
 
     }
 })

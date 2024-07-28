@@ -35,8 +35,8 @@ const handleSubscription = async ()=> {
   if(authStore.getLoggedUserInfo?.isForeigner){
     subscription.eventFee = props.eventDetail?.foreignerFee
   }
-  if(authStore.getLoggedUserInfo?.professionalStatus === 1)subscription.eventFee = props.eventDetail?.defaultFee
-  if(authStore.getLoggedUserInfo?.professionalStatus === 0)subscription.eventFee = props.eventDetail?.guestFee
+  if(authStore.getLoggedUserInfo?.isProfessional)subscription.eventFee = props.eventDetail?.defaultFee
+  if(!authStore.getLoggedUserInfo?.isProfessional)subscription.eventFee = props.eventDetail?.guestFee
  await subscriptionStore.subscribeToAnEvent(subscription)
 }
 </script>
@@ -70,11 +70,11 @@ const handleSubscription = async ()=> {
                       </p>
                     </template>
                     <template v-else>
-                      <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 1" >
+                      <template v-if="authStore.getLoggedUserInfo?.isProfessional" >
                         <p class="">Conference Fee <br class="block md:hidden"> <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
                         {{globalData.separateNumber(eventDetail?.defaultFee || 0)}} Tsh</span></p>
                       </template>
-                      <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 0" >
+                      <template v-else>
                         <p class="">Conference Fee <br class="block md:hidden"> <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
                         {{globalData.separateNumber(eventDetail?.guestFee || 0)}} Tsh</span></p>
                       </template>

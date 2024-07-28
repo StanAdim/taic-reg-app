@@ -44,15 +44,17 @@ const handleCallProfessionalDetails = async (professionalCode)=>{
 
 const initialize = async () => {
   try {
-    // await  globalData.retrieveLocation()
-    console.log('Confirm')
+    await  globalData.retrieveLocation()
+    // console.log('Confirm')
   } catch (error) {
     console.error('Error retrieving regions:', error);
     throw error; // Rethrow if you want the caller to handle it
   }
 
 }
-initialize()
+onMounted(() => {
+  initialize()
+});
 </script>
 <template>
   <div class="fixed z-[40] inset-0 overflow-y-auto mt-1 top-32" :class="{'hide': !props.showStatus}" id="modal">

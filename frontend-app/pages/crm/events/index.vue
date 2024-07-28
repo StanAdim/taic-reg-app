@@ -57,7 +57,7 @@ handleCall();
                     <div class="ml-3 text-gray-900 block">
                         <p 
                         class=" bg-blue-200 mt-0.5 my-0.5 py-1 px-4 rounded-sm pl-4 text-lg text-sky-900 font-bold">
-                        TAIC
+                          {{ item?.name }}
                         <span class="text-lg font-medium text-sky-900">{{item?.conferenceYear}}</span>
                         <span v-if="item?.lock" class=" ml-4 text-xl text-emerald-700 text-right"><i class="fa fa-check-double mx-2"></i></span>
                      </p>

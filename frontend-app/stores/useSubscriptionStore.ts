@@ -10,7 +10,6 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
 
     async function subscribeToAnEvent(subscription: string){
         globalStore.toggleLoadingState('on')
-        await useApiFetch("/sanctum/csrf-cookie");
         const {data, error} = await useApiFetch(`/api/subscribe-event/${subscription.eventId}/${subscription.eventFee}`);
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
@@ -28,7 +27,6 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
         return {data, error};
     }
     async function retrieveSubscribedEvents(): Promise<ApiResponse>{
-        await useApiFetch("/sanctum/csrf-cookie");
         const {data, error} = await useApiFetch(`/api/user/subscribed-events`);
         const response = data.value as ApiResponse
         if(response.code == 200){
