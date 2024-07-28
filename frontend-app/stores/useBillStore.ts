@@ -10,17 +10,17 @@ export const useBillStore = defineStore('billStore', () => {
     const getAllBills = computed(() => {return allBillGenerated.value})
 
     async function retrieveUserPayments(){
-        await useApiFetch("/sanctum/csrf-cookie");
+        globalStore.toggleContentLoaderState('on')
         const {data, error} = await useApiFetch(`/api/user/subscribed-event-bills`);
         const response = data.value as ApiResponse
         if(response.code == 200){
             globalStore.toggleLoadingState('off')
+            globalStore.toggleContentLoaderState('off')
             userPayments.value = response.data
         }
         return {data, error};
     }
     async function retrieveAllBills(){
-        await useApiFetch("/sanctum/csrf-cookie");
         const {data, error} = await useApiFetch(`/api/event-bills`);
         const response = data.value as ApiResponse
         if(response.code == 200){

@@ -24,10 +24,12 @@ export const useEventStore = defineStore('eventStore', () => {
         const toggleEventModal = ()=> { return eventDialogStatus.value = !eventDialogStatus.value }
 
       async function retrieveEvents(){
+        globalStore.toggleContentLoaderState('on')
         const {data, error} = await useApiFetch(`/api/taic-conferences`);
         const response = data.value as ApiResponse
         if(response.code == 200){
           globalStore.toggleLoadingState('off')
+          globalStore.toggleContentLoaderState('off')
           events.value = response.data
         }
         return {data, error};

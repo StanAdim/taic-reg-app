@@ -19,6 +19,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const locations = ref(null)
     const districts = ref([])
     const isHanceLoader = ref(true)
+    const isContentLoading = ref(false)
 
     const appRoutes  = ref([
         {name: 'Dashboard', path: '/crm/', userRole: '', isActiveLink:true},
@@ -53,10 +54,12 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const getNations = computed(() => {return locations.value?.nations})
     const getLocalLoaderStatus = computed(() => {return localLoader.value})
     const getHanceLoaderState = computed(() => {return isHanceLoader.value})
+    const getContentLoadingState = computed(() => {return isContentLoading.value})
 
 
     // Transforms
     const toggleLoadingState = (key)=> key == 'on' ? isLoading.value = true : isLoading.value = false
+    const toggleContentLoaderState = (key)=> key == 'on' ? isContentLoading.value = true : isContentLoading.value = false
     const toggleUserInfoDialogStatus = (key)=> key == 'on' ? userInfoDialogStatus.value = true :userInfoDialogStatus.value = false
     const hanceLoaderTurn = (key)=> (key == 'on') ? isHanceLoader.value = true: isHanceLoader.value = false;
 
@@ -152,7 +155,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         getDoneCheckVisibility,toggleDoneCheckVisibility,hanceLoaderTurn,
         getLocalLoaderStatus, toggleLocalLoaderStatus,getHanceLoaderState,
         getForgotPassModalStatus, toggleForgotPassDialog,
-        retrieveLocation,getNations,getRegions
+        retrieveLocation,getNations,getRegions,getContentLoadingState,toggleContentLoaderState
 
     }
 })

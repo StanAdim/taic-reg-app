@@ -27,10 +27,11 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
         return {data, error};
     }
     async function retrieveSubscribedEvents(): Promise<ApiResponse>{
+        globalStore.toggleContentLoaderState('on')
         const {data, error} = await useApiFetch(`/api/user/subscribed-events`);
         const response = data.value as ApiResponse
         if(response.code == 200){
-            globalStore.toggleLoadingState('off')
+            globalStore.toggleContentLoaderState('off')
             subscribedEvents.value = response.data
         }
         return {data, error};

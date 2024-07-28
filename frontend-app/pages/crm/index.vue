@@ -13,7 +13,9 @@ const subscriptionStore = useSubscriptionStore()
 const init = async ()=>{
   await  subscriptionStore.retrieveSubscribedEvents()
 }
-init()
+onNuxtReady(() => {
+  init()
+});
 </script>
 <template>
   <div class="">
@@ -21,6 +23,7 @@ init()
     <usables-type-text-anim  />
     <!-- component -->
     <h2  class="text-sky-700 font-bold text-lg my-1">Events you subscribed</h2>
+    <UsablesContentLoading />
     <div class="flex flex-wrap   my-2">
       <no-data v-if="subscriptionStore.getSubscribedEvents.length === 0" source="Subscribed Events" />
 
