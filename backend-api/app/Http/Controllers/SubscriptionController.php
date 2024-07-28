@@ -54,6 +54,7 @@ class SubscriptionController extends Controller
                 'phone_number' => $userInfo->phoneNumber,
                 'name' => $event->name,
                 'amount' => number_format($eventFee, 2),
+                'event_fee' => number_format($eventFee, 2),
                 'email' => $user->email,
                 'bill_exp' => Carbon::parse('2030-07-24 12:00:00'),
                 'ccy' => "TZS",

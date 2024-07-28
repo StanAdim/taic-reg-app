@@ -16,7 +16,7 @@ class UserInfoController extends Controller
       public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            "phoneNumber" => 'required',
+            "phoneNumber" => 'required|starts_with:255',
             "user_id" => 'required',
             "professionalStatus" => 'required',
             "professionalNumber" => 'required_if:professionalStatus,1',
@@ -25,7 +25,7 @@ class UserInfoController extends Controller
             "region_id" => 'required',
             "address" => 'required',
             "district_id" => '',
-            "notificationConsent" => 'required',
+            "notificationConsent" => '',
             "nation" => 'required',
         ]);
         if($validator->fails()){
