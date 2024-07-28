@@ -21,7 +21,7 @@ services:
     - 3307:3306
 
   events_test_phpmyadmin:
-    container_name: event_app-phpmyadmin
+    container_name: events_test_phpmyadmin
     image: phpmyadmin:5.2.1
     ports:
       - 6207:80
