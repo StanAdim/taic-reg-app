@@ -12,7 +12,7 @@ class Subscription extends Model
 {
     use HasFactory, HasUuids ;
 
-
+    //App\Models\Event\Subscription
     protected $fillable = ['user_id', 'conference_id'];
     public function user()
     {

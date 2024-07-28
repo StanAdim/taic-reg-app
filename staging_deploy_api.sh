@@ -2,15 +2,12 @@
 
 # branch names
 STAGING_BRANCH="staging"
-PRODUCTION_BRANCH="main"
 
-#  Docker Compose files 
+#  Docker Compose files
 STAGING_COMPOSE_FILE="docker-compose.yml"
-PRODUCTION_COMPOSE_FILE="docker-compose.prod.yml"
 
 # Docker container names
 STAGING_CONTAINER_NAME="events-finalized"
-PRODUCTION_CONTAINER_NAME="events-app"
 
 #  Project directory
 PROJECT_DIR="./backend-api"
@@ -41,20 +38,13 @@ if [ "$CURRENT_BRANCH" == "$STAGING_BRANCH" ]; then
     docker-compose -f "$STAGING_COMPOSE_FILE" down
     docker-compose -f "$STAGING_COMPOSE_FILE" build
     docker-compose -f "$STAGING_COMPOSE_FILE" up -d
-elif [ "$CURRENT_BRANCH" == "$PRODUCTION_BRANCH" ]; then
-    echo "Deploying to Production Environment..."
-    # Use Docker Compose to build and run the application for production
-    docker-compose -f "$PRODUCTION_COMPOSE_FILE" down
-    docker-compose -f "$PRODUCTION_COMPOSE_FILE" build
-    docker-compose -f "$PRODUCTION_COMPOSE_FILE" up -d
 else
-    echo "The current branch ($CURRENT_BRANCH) is neither the staging nor production branch. Exiting..."
+    echo "The current branch ($CURRENT_BRANCH) is not the staging..."
     exit 1
 fi
 
 # Run specific commands
 echo "---Running Application migrations..."
-docker-compose exec "$STAGING_CONTAINER_NAME" php artisan migrate --force
 docker-compose exec "$STAGING_CONTAINER_NAME" php artisan migrate --force
 
 # Optionally clear caches and optimize the application

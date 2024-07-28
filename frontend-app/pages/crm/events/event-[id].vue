@@ -52,13 +52,12 @@ initialize()
           <p class="mx-3 my-1 font-medium">Foreigner: <em class="text-fuchsia-950 p-2"> {{ globalStore.separateNumber(eventData.foreignerFee) * config?.UDSRate  }} Tsh &asymp; {{ globalStore.separateNumber(eventData.foreignerFee) }} USD </em></p>
         </div>
 
-        <div class="mx-2 my-4 flex justify-center md:justify-normal">
-          <p class="mx-3 my-1 font-medium">Description:</p> <br>
+        <div class="md:mx-2 md:my-4 flex flex-row md:flex-col justify-center md:justify-normal">
+          <p class="mx-3 my-1 font-medium">Description:</p>
             <p class="mx-1 py-2">{{eventData.aboutConference}}</p>
         </div>
         <div class="mx-2 my-4 flex justify-center md:justify-normal">
-          <p class="mx-3 my-1 font-medium">Documents:</p> <br>
-            <p class="mx-1 py-2">Not Available</p>
+          <el-link type="primary"><nuxt-link  to="/crm/documents" class="mx-3 my-1 font-medium">Documents</nuxt-link></el-link>
         </div>
         <div class="mx-2 my-4 flex justify-center md:justify-normal">
 
