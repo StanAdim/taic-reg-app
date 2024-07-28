@@ -18,7 +18,7 @@ jobs:
       with:
         node-version: '18' # Specify the Node.js version your project uses
 
-    - name: Run Deployment Script 
+    - name: Run Deployment Script
       run: ./build_frontend_app.sh
 
     - name: Deploy to server
