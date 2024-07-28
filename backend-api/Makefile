@@ -50,41 +50,41 @@ yarn:
 #=== Production
 #================
 
-setup.p:
-	@make build.p
-	@make up.p
-	@make composer-update.p
+setup.production:
+	@make build.production
+	@make up.production
+	@make composer-update.production
 	@yarn
 
-build.p:
-	docker compose -f docker-compose.prod.yml build 
+build.production:
+	docker compose -f docker-compose.productionrod.yml build 
 
-stop.p:
-	docker compose -f docker-compose.prod.yml stop
+stop.production:
+	docker compose -f docker-compose.productionrod.yml stop
 
-up.p:
-	docker compose -f docker-compose.prod.yml up -d
+up.production:
+	docker compose -f docker-compose.productionrod.yml up -d
 
-composer-update.p:
+composer-update.production:
 	docker exec  events-app bash -c "composer update"
 
-data.p:
+data.production:
 	docker exec  events-app bash -c "php artisan migrate:fresh --seed"
-bash.p:
+bash.production:
 	docker exec -it  events-app bash
-start.p:
-	docker compose -f docker-compose.prod.yml restart
+start.production:
+	docker compose -f docker-compose.productionrod.yml restart
 
-boost.p:
+boost.production:
 	docker exec  events-app bash -c "php artisan optimize"
 	docker exec  events-app bash -c "composer dump-autoload"
 	docker exec  events-app bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
 	docker exec  events-app bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
-rmi.p:
+rmi.production:
 	docker image rm -f events-app-events-app
-logs.p:
+logs.production:
 	docker logs -f events-app
-update.p: 
+update.production: 
 	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart production.config.cjs &&  cd  ../ && make start
 
 # Define the directory and the command
@@ -95,7 +95,7 @@ CMD1 := pm2 start ecosystem.config.cjs
 
 
 # Target to change to the specified directory and execute the command
-yarn.p:
+yarn.production:
 	@cd $(DIR1) && $(CMD) && $(CMD1)
 	@cd $(DIR2) && $(CMD) && $(CMD1)
 	@echo "Command executed in $(DIR1) and $(DIR2)"

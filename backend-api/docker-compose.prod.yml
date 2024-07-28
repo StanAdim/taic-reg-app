@@ -16,7 +16,7 @@ services:
       MYSQL_ROOT_PASSWORD: CallForOrder123455
       MYSQL_DATABASE: events_ictc_db
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data_production:/var/lib/mysql
     ports:
     - 3397:3306
 
@@ -29,4 +29,4 @@ services:
       - PMA_ARBITRARY=1
 
 volumes:
-  mysql_data:
+  mysql_data_production:
