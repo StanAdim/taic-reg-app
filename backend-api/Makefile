@@ -13,24 +13,24 @@ up:
 	docker compose up -d
 
 composer-update:
-	docker exec  events-finalized bash -c "composer update"
+	docker exec  events-test bash -c "composer update"
 data:
-	docker exec  events-finalized bash -c "php artisan migrate:fresh --seed"
+	docker exec  events-test bash -c "php artisan migrate:fresh --seed"
 bash:
-	docker exec -it  events-finalized bash
+	docker exec -it  events-test bash
 start:
 	docker compose restart
 	# cd  mgt-app/ && pm2 restart ecosystem.config.cjs
 boost:
-	docker exec  events-finalized bash -c "php artisan optimize"
-	docker exec  events-finalized bash -c "composer dump-autoload"
-	docker exec  events-finalized bash -c "php artisan key:generate"
-	docker exec  events-finalized bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
-	docker exec  events-finalized bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
+	docker exec  events-test bash -c "php artisan optimize"
+	docker exec  events-test bash -c "composer dump-autoload"
+	docker exec  events-test bash -c "php artisan key:generate"
+	docker exec  events-test bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
+	docker exec  events-test bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
 rmi:
-	docker image rm -f events-finalized-events-finalized
+	docker image rm -f events-test-events-test
 logs:
-	docker logs -f events-finalized
+	docker logs -f events-test
 update: 
 	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../ && make start
 # Define the directory and the command
