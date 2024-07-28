@@ -22,5 +22,7 @@ logs
 
 # Local env files
 .env
+.env.staging
+.env.production
 .env.*
 !.env.example
