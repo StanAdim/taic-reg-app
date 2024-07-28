@@ -1,3 +1,5 @@
+version: '3.9'  # Use the latest version available
+
 services:
   events-test:
     container_name: events-test
@@ -8,25 +10,51 @@ services:
       - ./:/var/www/html
     ports:
       - 2007:80
+    environment:
+      APP_ENV: development  # Example environment variable
+      APP_DEBUG: 'true'
+    depends_on:
+      - events-test-db
+    networks:
+      - events_test_network
 
-  events_test_db:
-    container_name: event_test_db
+  events-test-db:
+    container_name: events-test-db
     image: mysql:8.0.33
     environment:
-      MYSQL_ROOT_PASSWORD: CallForOrder123455
-      MYSQL_DATABASE: events_test_db
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword} # Use environment variables for sensitive data
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}  # Optionally specify a user
+      MYSQL_PASSWORD: ${DB_PASSWORD}  # Optionally specify a password
     volumes:
-      - mysql_data_test_events:/var/lib/mysql
+      - db_data_test_events:/var/lib/mysql
     ports:
-    - 3307:3306
+      - 3307:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - events_test_network
 
-  events_test_phpmyadmin:
-    container_name: event_app-phpmyadmin
+  events-test-phpmyAd:
+    container_name: events-test-phpmyAd
     image: phpmyadmin:5.2.1
     ports:
       - 6207:80
     environment:
-      - PMA_ARBITRARY=1
+      PMA_ARBITRARY: 1
+      PMA_HOST: events-test-db
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    depends_on:
+      - events-test-db
+    networks:
+      - events_test_network
 
 volumes:
-  mysql_data_test_events:
+  db_data_test_events:
+
+networks:
+  events_test_network:
+    driver: bridge
