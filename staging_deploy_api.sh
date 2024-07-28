@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Staging script
 # branch names
 STAGING_BRANCH="staging"
 
