@@ -49,8 +49,13 @@ const handleCallProfessionalDetails = async (professionalCode)=>{
 }
 
 const initialize = async () => {
-  await  globalData.retrieveLocation()
-}
+  try {
+    // await  globalData.retrieveLocation()
+    console.log('Confirm')
+  } catch (error) {
+    console.error('Error retrieving regions:', error);
+    throw error; // Rethrow if you want the caller to handle it
+  }}
 initialize()
 </script>
 <template>

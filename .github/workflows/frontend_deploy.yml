@@ -1,0 +1,33 @@
+name: Deploy Frontend App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18' # Specify the Node.js version your project uses
+
+    - name: Run Deployment Script 
+      run: ./build_frontend_app.sh
+
+    - name: Deploy to server
+      env:
+        DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        DEPLOY_PATH: /path/to/nuxt/deployment
+      run: |
+        echo "${{ secrets.DEPLOY_KEY }}" > deploy_key.pem
+        chmod 600 deploy_key.pem
+        rsync -avz -e "ssh -i deploy_key.pem -o StrictHostKeyChecking=no" ./ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}

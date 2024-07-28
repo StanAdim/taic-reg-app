@@ -1,9 +1,5 @@
 <script setup>
 const props = defineProps({
-  passedUserInfo: {
-    type:String,
-    default: null
-  },
   showStatus:{
     type: Boolean,
     default:false
@@ -48,7 +44,8 @@ const handleCallProfessionalDetails = async (professionalCode)=>{
 
 const initialize = async () => {
   try {
-    await  globalData.retrieveLocation()
+    // await  globalData.retrieveLocation()
+    console.log('Confirm')
   } catch (error) {
     console.error('Error retrieving regions:', error);
     throw error; // Rethrow if you want the caller to handle it

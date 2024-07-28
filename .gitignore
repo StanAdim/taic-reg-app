@@ -1,6 +1,7 @@
 #Ignore files.
 .env
-./mgt-app/.env
+./frontend-app/.env
+./backend-api/.env
 ./site-app/.env
 .DS_Store
 .idea

@@ -5,7 +5,8 @@ const props = defineProps({
     default: false
   },
   eventDetail: {
-    type:Object,
+    type:String,
+    default: null
   }
 })
 const config = useRuntimeConfig().public
@@ -44,7 +45,7 @@ const handleSubscription = async ()=> {
     <div class="flex  justify-center items-center ">
       <div class="relative bg-blue-100  rounded-lg shadow-xl py-1 w-2/3 md:w-2/5">
         <div class="border-b-2 border-teal-500 flex justify-between items-center py-1 px-2">
-          <span class="text-emerald-800 px-1 py-0.5 bg-zinc-50/5 flex-shrink-0 font-bold text-center">
+          <span class="text-emerald-800 text-center px-1 py-0.5 bg-zinc-50/5 flex-shrink-0 font-bold text-center">
             CONFIRM TO ATTEND
           </span>
           <span class=" bg-rose-100 text-emerald-800 p-0.5 bg-zinc-50/5 rounded-md hover:bg-red-500 hover:text-white flex-shrink-0"
@@ -58,23 +59,23 @@ const handleSubscription = async ()=> {
             <div class="flex flex-wrap justify-evenly items-center">
               <usables-done-check-anim v-if="globalData.getDoneCheckVisibility" />
               <div class=" mx-3 py-3">
-                <h2 class="font-bold text-xl">TAIC {{eventDetail?.conferenceYear}}</h2>
+                <h2 class="font-bold text-xl">{{eventDetail?.name}}</h2>
                   <template v-if="!globalData.getDoneCheckVisibility">
                     <p class="my-2">You are about to confirm to attend to this Event</p>
 
                     <template v-if="authStore.getLoggedUserInfo?.isForeigner" >
-                      <p class="">Conference Fee <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
+                      <p class="">Conference Fee <br class="block md:hidden"> <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
                         {{(globalData.separateNumber(eventDetail?.foreignerFee || 0) * config?.UDSRate )}} Tsh  &asymp;
                         {{globalData.separateNumber(eventDetail?.foreignerFee || 0)}} USD</span>
                       </p>
                     </template>
                     <template v-else>
                       <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 1" >
-                        <p class="">Conference Fee <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
+                        <p class="">Conference Fee <br class="block md:hidden"> <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
                         {{globalData.separateNumber(eventDetail?.defaultFee || 0)}} Tsh</span></p>
                       </template>
                       <template v-if="authStore.getLoggedUserInfo?.professionalStatus === 0" >
-                        <p class="">Conference Fee <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
+                        <p class="">Conference Fee <br class="block md:hidden"> <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
                         {{globalData.separateNumber(eventDetail?.guestFee || 0)}} Tsh</span></p>
                       </template>
                     </template>
@@ -97,7 +98,7 @@ const handleSubscription = async ()=> {
                   Confirm booking <i class="fa-solid fa-right-to-bracket mx-2"></i>
                 </button>
                 <div class="my-1" v-if="showConfirmation && !globalData.getDoneCheckVisibility">
-                    <p class="text-sm font-bold text-orange-600">Generate Control number</p>
+                    <p class="text-sm font-bold text-orange-600">Generate Invoice</p>
                     <usables-hance-loader />
                     <button @click="handleSubscription()"
                         class="bg-sky-600 hover:bg-sky-500 border-sky-500 hover:border-green-300 text-sm border-1 text-white py-0.5 px-2 rounded mx-0.5">

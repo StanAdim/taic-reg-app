@@ -2,7 +2,7 @@ setup:
 	@make build
 	@make up
 	@make composer-update
-	@yarn
+	# @yarn
 
 build:
 	docker compose build 
@@ -20,7 +20,7 @@ bash:
 	docker exec -it  events-finalized bash
 start:
 	docker compose restart
-	cd  mgt-app/ && pm2 restart ecosystem.config.cjs
+	# cd  mgt-app/ && pm2 restart ecosystem.config.cjs
 boost:
 	docker exec  events-finalized bash -c "php artisan optimize"
 	docker exec  events-finalized bash -c "composer dump-autoload"
