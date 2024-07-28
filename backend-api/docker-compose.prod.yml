@@ -9,8 +9,8 @@ services:
     ports:
       - 6030:80
 
-  event_app_db_01:
-    container_name: events-app-db_01
+  events_app_db_01:
+    container_name: events_app_db_01
     image: mysql:8.0.33
     environment:
       MYSQL_ROOT_PASSWORD: CallForOrder123455
@@ -20,8 +20,8 @@ services:
     ports:
     - 3397:3306
 
-  event_app_phpmyadmin_01:
-    container_name: event-app-phpmyadmin_01
+  events_app_phpmyadmin_01:
+    container_name: events_app_phpmyadmin_01
     image: phpmyadmin:5.2.1
     ports:
       - 7334:80

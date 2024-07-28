@@ -21,12 +21,12 @@ clear_log() {
         > "$LOG_FILE"
         echo "Cleared the log file: $LOG_FILE"
     else
-        echo "Log file does not exist: $LOG_FILE"
+        echo "Log file does not exist: \n $LOG_FILE"
     fi
 }
 
 # Check for the 'clear' argument
-if [ "$1" == "clear" ]; then
+if [ "$1" == "--clear" ]; then
     clear_log
 else
     display_logs
