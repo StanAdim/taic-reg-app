@@ -18,6 +18,7 @@ class DocumentMaterialController extends Controller
     public function upload(Request $request )
     {
         // Validate the request
+        // return $request ;
         $request->validate([
             'document' => 'required|extensions:pdf,xlsx|max:2048', // less 2MB
             'name' => 'required', // 

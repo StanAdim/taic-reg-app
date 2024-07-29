@@ -24,13 +24,19 @@ class SubscriptionController extends Controller
             ],200);
 
     }
-    public function subscribeToEvent($eventId,$eventFee)
+    public function subscribeToEvent($eventId)
     {
         // Initialize data 
         $event = Conference::where('id',$eventId)->first();
         $user_id = Auth::id();
         $user = Auth::user();
         $userInfo = $user->userInfo;
+        $billTobePaid = 0;
+        if($userInfo->nation != 214){
+            $billTobePaid = number_format($event->foreignerFee, 2);
+        }else{
+            $userInfo->professionalStatus ? $billTobePaid = number_format($event->defaultFee, 2) : $billTobePaid = number_format($event->guestFee, 2);
+        }
         $newItem = ['user_id' => $user_id, 'conference_id' => $eventId,];
 
         //Check if user has  Subscribed already
@@ -53,8 +59,8 @@ class SubscriptionController extends Controller
                 'billApproveBy' => 'Billing system',
                 'phone_number' => $userInfo->phoneNumber,
                 'name' => $event->name,
-                'amount' => number_format($eventFee, 2),
-                'event_fee' => number_format($eventFee, 2),
+                'amount' => $billTobePaid,
+                'event_fee' => $billTobePaid,
                 'email' => $user->email,
                 'bill_exp' => Carbon::parse('2030-07-24 12:00:00'),
                 'ccy' => "TZS",

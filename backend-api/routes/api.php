@@ -44,7 +44,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
      Route::get('/application-users',[UserInfoController::class, 'systemUsers']);
      Route::get('/system-user-{user_key}',[UserInfoController::class, 'retrieveSystemUserDetails']);
 
-     Route::get('/subscribe-event/{eventId}/{eventFee}', [SubscriptionController::class,'subscribeToEvent']);
+     Route::get('/subscribe-event/{eventId}', [SubscriptionController::class,'subscribeToEvent']);
      Route::get('/user/subscribed-events', [SubscriptionController::class,'subscribedEvents']);
      Route::get('/user/subscribed-event-bills', [BillController::class,'userBill']);
 
