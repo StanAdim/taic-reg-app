@@ -45,7 +45,7 @@ const handleSubscription = async ()=> {
     <div class="flex  justify-center items-center ">
       <div class="relative bg-blue-100  rounded-lg shadow-xl py-1 w-2/3 md:w-2/5">
         <div class="border-b-2 border-teal-500 flex justify-between items-center py-1 px-2">
-          <span class="text-emerald-800 text-center px-1 py-0.5 bg-zinc-50/5 flex-shrink-0 font-bold text-center">
+          <span class="text-emerald-800 text-center px-1 py-0.5 bg-zinc-50/5 flex-shrink-0 font-bold">
             CONFIRM TO ATTEND
           </span>
           <span class=" bg-rose-100 text-emerald-800 p-0.5 bg-zinc-50/5 rounded-md hover:bg-red-500 hover:text-white flex-shrink-0"
@@ -65,7 +65,7 @@ const handleSubscription = async ()=> {
 
                     <template v-if="authStore.getLoggedUserInfo?.isForeigner" >
                       <p class="">Conference Fee <br class="block md:hidden"> <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
-                        {{(globalData.separateNumber(eventDetail?.foreignerFee || 0) * config?.UDSRate )}} Tsh  &asymp;
+<!--                        {{(globalData.separateNumber(eventDetail?.foreignerFee || 0) * config?.UDSRate )}} Tsh  &asymp;-->
                         {{globalData.separateNumber(eventDetail?.foreignerFee || 0)}} USD</span>
                       </p>
                     </template>

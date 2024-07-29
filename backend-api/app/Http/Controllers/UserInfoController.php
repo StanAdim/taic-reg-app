@@ -16,13 +16,13 @@ class UserInfoController extends Controller
       public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            "phoneNumber" => 'required|starts_with:255',
+            "phoneNumber" => 'required',
             "user_id" => 'required',
             "professionalStatus" => 'required',
             "professionalNumber" => 'required_if:professionalStatus,1',
             "institution" => '',
             "position" => '',
-            "region_id" => 'required',
+            "region_id" => '',
             "address" => 'required',
             "district_id" => '',
             "notificationConsent" => '',

@@ -52,9 +52,9 @@ const initialize = async () => {
   }
 
 }
-onMounted(() => {
-  initialize()
-});
+onNuxtReady(()=> {
+   initialize()
+})
 </script>
 <template>
   <div class="fixed z-[40] inset-0 overflow-y-auto mt-1 top-32" :class="{'hide': !props.showStatus}" id="modal">

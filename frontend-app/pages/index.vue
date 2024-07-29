@@ -16,6 +16,8 @@ const handleLogin = async ()=>{
   const response = await authStore.login(credentials.value)
 }
 const date = new Date();
+onNuxtReady(()=> {
+})
 </script>
 <template>
 <!--  <usables-done-check-anim />-->
