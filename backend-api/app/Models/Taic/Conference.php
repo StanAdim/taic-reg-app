@@ -2,6 +2,7 @@
 
 namespace App\Models\Taic;
 
+use App\Models\DocumentMaterial;
 use App\Models\Event\Subscription;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -44,5 +45,9 @@ class Conference extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'subscriptions');
+    }
+    public function documents()
+    {
+        return $this->hasMany(DocumentMaterial::class);
     }
 }

@@ -33,6 +33,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         {name: 'Exhibition Booking', path: '/crm/exhibition-booking', userRole: '', isActiveLink:false},
         {name: 'Invitation Letters', path: '/crm/invitation-letters', userRole: '', isActiveLink:false},
         {name: 'Documents', path: '/crm/documents', userRole: '', isActiveLink:false},
+        {name: 'Uploads', path: '/crm/documents/upload', userRole: 'admin', isActiveLink:false},
         {name: 'System Reports', path: '/crm/reports', userRole: 'admin', isActiveLink:false},
     ])
 

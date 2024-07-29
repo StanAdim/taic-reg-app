@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\DocumentMaterialController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\SubscriptionController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Taic\SiteController;
 use App\Http\Controllers\Taic\SpeakerController;
 use App\Http\Controllers\Taic\TimetableController;
 use App\Http\Controllers\UserInfoController;
+use App\Models\DocumentMaterial;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionController::class,'authUserCall']);
@@ -45,6 +47,10 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
      Route::get('/subscribe-event/{eventId}/{eventFee}', [SubscriptionController::class,'subscribeToEvent']);
      Route::get('/user/subscribed-events', [SubscriptionController::class,'subscribedEvents']);
      Route::get('/user/subscribed-event-bills', [BillController::class,'userBill']);
+
+     // Conference Document Material
+     Route::post('/upload-document', [DocumentMaterialController::class, 'upload']);
+
     //Conferences ------------
 
     Route::get('/taic-conferences', [ConferenceController::class,'index']);
