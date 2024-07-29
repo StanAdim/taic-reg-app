@@ -13,27 +13,27 @@ staging.up:
 	docker compose up -d
 
 staging.composer-update:
-	docker exec  events-test bash -c "composer update"
+	docker exec  test-ems-api bash -c "composer update"
 staging.data:
-	docker exec  events-test bash -c "php artisan migrate:fresh --seed"
+	docker exec  test-ems-api bash -c "php artisan migrate:fresh --seed"
 staging.bash:
-	docker exec -it  events-test bash
+	docker exec -it  test-ems-api bash
 staging.start:
 	docker compose restart
 staging.boost:
-	docker exec  events-test bash -c "php artisan optimize"
-	docker exec  events-test bash -c "composer dump-autoload"
-	docker exec  events-test bash -c "php artisan key:generate"
-	docker exec  events-test bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
-	docker exec  events-test bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
+	docker exec  test-ems-api bash -c "php artisan optimize"
+	docker exec  test-ems-api bash -c "composer dump-autoload"
+	docker exec  test-ems-api bash -c "php artisan key:generate"
+	docker exec  test-ems-api bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
+	docker exec  test-ems-api bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
 staging.rmi:
-	docker image rm -f events-test-events-test
+	docker image rm -f test-ems-api-test-ems-api
 staging.logs:
-	docker logs -f events-test
+	docker logs -f test-ems-api
 staging.update: 
 	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../ && make start
 # Define the directory and the command
-DIR1 := ./mgt-app 
+DIR1 := ../frontend-app 
 DIR2 := ./site-app 
 CMD := yarn && yarn build
 CMD1 := pm2 start ecosystem.config.cjs
@@ -63,7 +63,7 @@ production.reload:
 	@make production.up
 	@make production.boost
 
-build.production:
+production.build:
 	docker compose -f docker-compose.prod.yml build 
 
 production.stop:
@@ -96,7 +96,7 @@ production.update:
 	 git pull && cd ../frontend-app &&  yarn ; yarn build && pm2 restart production.config.cjs &&  cd  ../backend-api && make start
 
 # Define the directory and the command
-DIR1 := ./frontend-app 
+DIR1 := ../frontend-app 
 DIR2 := ./site-app 
 CMD := yarn && yarn build
 CMD1 := pm2 restart production.config.cjs

@@ -1,60 +1,57 @@
-version: '3.9'  # Use the latest version available
+version: '3'
 
 services:
   events-app-api:
+    build: .
     container_name: events-app-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./:/var/www/html
+    working_dir: /var/www/html
     ports:
       - 6030:80
-    environment:
-      APP_ENV: production  # Example environment variable
-      APP_DEBUG: 'false'
-    depends_on:
-      - events-app-db-01
-    networks:
-      - events_app_network_api
-
-  events-app-db-01:
-    container_name: events-app-db-01
-    image: mysql:8.0.33
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword} # Use environment variables for sensitive data
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}  # Optionally specify a user
-      MYSQL_PASSWORD: ${DB_PASSWORD}  # Optionally specify a password
     volumes:
-      - db_event_app_production:/var/lib/mysql
-    ports:
-      - 3397:3306
+      - .:/var/www/html
+    environment:
+      APP_ENV: ${APP_ENV}  # Example environment variable
+      APP_DEBUG: 'true'
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - events-ictc-app
+    depends_on:
+      - db-events-app
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 30s
       timeout: 10s
-      retries: 5
-    networks:
-      - events_app_network_api
+      retries: 3
 
-  events_app_phpmyadm_01:
-    container_name: events_app_phpmyadm_01
-    image: phpmyadmin:5.2.1
-    ports:
-      - 7334:80
+  db-events-app:
+    image: postgres:13.4
+    container_name: ${DB_HOST}
+    restart: unless-stopped
     environment:
-      PMA_ARBITRARY: 1
-      PMA_HOST: events-app-db-01
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
-    depends_on:
-      - events-app-db-01
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 6032:${DB_PORT}
     networks:
-      - events_app_network_api
+      - events-ictc-app
+    volumes:
+      - pgproductiondata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $DB_USERNAME"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
-  db_event_app_production:
+  pgproductiondata:
+    driver: local
 
 networks:
-  events_app_network_api:
+  events-ictc-app:
     driver: bridge

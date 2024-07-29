@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DistrictResource;
 use App\Http\Resources\RegionResource;
 use App\Mail\CustomEmailVerification;
+use App\Mail\PasswordResetMail;
 use App\Models\District;
 use App\Models\Nation;
 use App\Models\Region;
@@ -66,7 +67,7 @@ class GeneralController extends Controller
         $baseUrl = config('app.frontend_url');
         if($user){
             $url = $baseUrl . '/account-reset-password-' . $user->verificationKey;
-            Mail::to($user->email)->send(new CustomEmailVerification($user,$url));
+            Mail::to($user->email)->send(new PasswordResetMail($user,$url));
             return response()->json([
                 'message' => 'Password reset Link sent to your Email',
             ],200); 

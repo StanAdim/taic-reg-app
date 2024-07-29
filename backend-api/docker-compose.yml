@@ -1,60 +1,57 @@
-version: '3.9'  # Use the latest version available
+version: '3'
 
 services:
-  events-test:
-    container_name: events-test
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./:/var/www/html
+  test-ems-api:
+    build: .
+    container_name: test-ems-api
+    working_dir: /var/www/html
     ports:
       - 2007:80
-    environment:
-      APP_ENV: development  # Example environment variable
-      APP_DEBUG: 'true'
-    depends_on:
-      - events-test-db
-    networks:
-      - events_test_network
-
-  events-test-db:
-    container_name: events-test-db
-    image: mysql:8.0.33
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword} # Use environment variables for sensitive data
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}  # Optionally specify a user
-      MYSQL_PASSWORD: ${DB_PASSWORD}  # Optionally specify a password
     volumes:
-      - db_data_test_events:/var/lib/mysql
-    ports:
-      - 3307:3306
+      - .:/var/www/html
+    environment:
+      APP_ENV: ${APP_ENV}  # Example environment variable
+      APP_DEBUG: 'true'
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - testems-network
+    depends_on:
+      - test-ems-db
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 30s
       timeout: 10s
-      retries: 5
-    networks:
-      - events_test_network
+      retries: 3
 
-  events-test-phpmyAd:
-    container_name: events-test-phpmyAd
-    image: phpmyadmin:5.2.1
-    ports:
-      - 6207:80
+  test-ems-db:
+    image: postgres:13.4
+    container_name: ${DB_HOST}
+    restart: unless-stopped
     environment:
-      PMA_ARBITRARY: 1
-      PMA_HOST: events-test-db
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    depends_on:
-      - events-test-db
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 2008:${DB_PORT}
     networks:
-      - events_test_network
+      - testems-network
+    volumes:
+      - test_ems_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $DB_USERNAME"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
-  db_data_test_events:
+  test_ems_pgdata:
+    driver: local
 
 networks:
-  events_test_network:
+  testems-network:
     driver: bridge
