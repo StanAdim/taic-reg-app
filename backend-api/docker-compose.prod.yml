@@ -11,7 +11,7 @@ services:
     ports:
       - 6030:80
     environment:
-      APP_ENV: development  # Example environment variable
+      APP_ENV: production  # Example environment variable
       APP_DEBUG: 'false'
     depends_on:
       - events-app-db-01
