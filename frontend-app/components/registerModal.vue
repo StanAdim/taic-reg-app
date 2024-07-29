@@ -11,6 +11,11 @@ const props = defineProps({
 })
 
 const formData = ref({firstName: '', middleName: '', lastName: '', email: '', password: '',})
+const  inputType = ref('password');
+const togglePasswordVisibility = () => {
+  console.log(inputType.value)
+  inputType.value = inputType.value === 'password' ? 'text' : 'password'
+}
 const authStore = useAuthStore()
 const globalData = useGlobalDataStore()
 const closeModal = () => {
@@ -31,7 +36,7 @@ const handleRegistration = async () => {
             <i class="fa fa-xl  fa-user mx-2"></i>
           </span>
             <span class="text-emerald-800 my-2 p-0.5 bg-zinc-50/5 flex-grow text-xl text-center font-bold">
-             REGISTRATION
+             CREATE AND ACCOUNT
           </span>
             <span class="text-emerald-800 p-0.5 bg-zinc-50/5 rounded-md hover:bg-red-500 hover:text-white flex-shrink-0"
                   @click="closeModal()"
@@ -48,35 +53,48 @@ const handleRegistration = async () => {
                 <div class="mb-4">
                   <label for="firstNam" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
                   <input type="text" id="firstNam" v-model="formData.firstName"
-                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+                         class="block mt-2 w-full rounded-md border-1 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                          placeholder="Your first name" required>
                 </div>
                 <div class="mb-4">
                   <label for="middleName" class="block text-sm font-medium text-gray-700 mb-2">Middle Name</label>
                   <input type="text" id="middleName" v-model="formData.middleName"
-                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+                         class="block mt-2 w-full rounded-md border-1 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                          placeholder="middle name">
                 </div>
                 <div class="mb-4">
                   <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
                   <input type="text" id="lastName" v-model="formData.lastName"
-                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+                         class="block mt-2 w-full rounded-md border-1 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                          placeholder="last name" required>
                 </div>
                 <div class="mb-4">
                   <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                   <input type="email" id="email" v-model="formData.email"
-                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+                         class="block mt-2 w-full rounded-md border-1 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                          placeholder="your@email.com" required>
                 </div>
-                <div class="mb-4">
-                  <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                  <input type="password" id="password" v-model="formData.password"
-                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
-                         placeholder="Enter your password" required>
+                <div class="mt-2 relative">
+                  <label class="block mt-2" for="email">Password</label>
+                  <input
+                      :type="inputType"
+                      v-model="formData.password"
+                      id="password"
+                      placeholder="***********"
+                      class="block mt-2 w-full rounded-md border-1 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      required
+                  >
+                  <button
+                      @click.prevent="togglePasswordVisibility()"
+                      type="button"
+                      class="absolute inset-y-0 right-0 flex items-center top-8 px-3 text-gray-600"
+                  >
+                    <span v-if="inputType === 'password'">👁️</span>
+                    <span v-else>👁️‍🗨️</span>
+                  </button>
                 </div>
                 <button type="submit"
-                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+                        class="w-full flex justify-center mt-4 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                   Register
                 </button>
               </form>

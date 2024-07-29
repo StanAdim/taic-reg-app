@@ -23,9 +23,7 @@ const formData = ref({
 })
 
 const handleFormSubmission = async ()=> {
-  if(formData.value.district_id === '0'){
-    return globalData.assignAlertMessage(['Select District'],'danger')
-  }
+
   globalData.toggleLoadingState('on')
   await  authStore.saveUserInfo(formData.value)
 }
@@ -157,7 +155,7 @@ onNuxtReady(()=> {
               </template>
 
               <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
-                <label for="conference" class="block text-sm font-medium text-gray-700">Receive updates regarding  our events and related activities ?</label>
+                <label for="conference" class="block text-sm font-medium text-gray-700">Confirm to receive notification regarding  our events and related activities</label>
                 <div class="flex flex-row">
                   <div class="mx-1">
                     <label class="flex items-center">

@@ -44,6 +44,7 @@ class ConferenceController extends Controller
             "defaultFee" => 'required',
             "foreignerFee" => 'required',
             "guestFee" => 'required',
+            "foreignerFeeInTzs" => 'required',
         ]);
         if($validator->fails()){
             return response()->json([

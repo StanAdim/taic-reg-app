@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('defaultFee');
             $table->integer('foreignerFee');
             $table->integer('guestFee');
+            $table->integer('foreignerFeeInTzs');
             $table->boolean('lock')->default(false);
             $table->boolean('status')->default(false);
             $table->timestamps();

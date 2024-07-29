@@ -35,12 +35,14 @@ const setValueOfEvent = () => {
   if(props.eventAction === 'update'){
     formData.value.id = props.passedItem?.id
     formData.value.conferenceYear = props.passedItem?.conferenceYear
+    formData.value.name = props.passedItem?.name
     formData.value.theme = props.passedItem?.theme
     formData.value.venue = props.passedItem?.venue
     formData.value.venue = props.passedItem?.venue
     formData.value.defaultFee = props.passedItem?.defaultFee
     formData.value.guestFee =props.passedItem?.guestFee
     formData.value.foreignerFee = props.passedItem?.foreignerFee
+    formData.value.foreignerFeeInTzs = props.passedItem?.foreignerFeeInTzs
     formData.value.aboutConference = props.passedItem?.aboutConference
   }
 }
@@ -108,12 +110,17 @@ defineExpose({setValueOfEvent})
                 <input v-model="formData.guestFee" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                 type="number" placeholder="Amount in Tsh" id="guestFee">
             </div>
-            <div class="mb-4 border-b-2 border-teal-500 py-2">
-                <label for="foreignFee" class="block text-sm font-medium text-gray-700">Foreigner Fee</label>
-                <input v-model="formData.foreignerFee" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                type="number" placeholder="Amount in $" id="foreignFee">
+              <div class="mb-4 border-b-2 border-teal-500 py-2">
+                  <label for="foreignFee" class="block text-sm font-medium text-gray-700">Foreigner Fee</label>
+                  <input v-model="formData.foreignerFee" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                  type="number" placeholder="Amount in $" id="foreignFee">
+              </div>
             </div>
-        </div>
+          <div class="mb-4 border-b-2 border-teal-500 py-2">
+                <label for="foreignerFeeInTzs" class="block text-sm font-medium text-gray-700">Foreigner Fee in TZS</label>
+                <input v-model="formData.foreignerFeeInTzs" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                type="number" placeholder="Equivalent in Tsh" id="foreignerFeeInTzs">
+            </div>
         <div class="mb-4 border-b-2 border-teal-500 py-2">
             <label for="conferenceVenue" class="block text-sm font-medium text-gray-700">Conference Venue</label>
             <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"

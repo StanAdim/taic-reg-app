@@ -6,13 +6,10 @@
     </p>
 <p style="padding:4px 2px; margin: 4px 1px;">
     {{-- Email message --}}
-The ICT Commission is delighted to inform you that your 
-registration for the upcoming events has been successfully received. Your participation is greatly appreciated, 
-and we are thrilled to have you join us for these important events.
+    Thank you for registering for the Tanzania Annual ICT Conference 2024.
 </p>
 <p style="padding:4px 2px; margin:.6rem 1px;">
-    Please click the link below to verify your email and complete your registration:  
-</p>
+  To complete your registration, please verify your email address by clicking the link below:</p>
 
     <a href="{{$url}}" target="_blank" style="background-color:#0884cb;color:#ffffff;font-size:medium; border-radius:.8rem; padding:.5rem .6rem; border: 1px #156694 solid; text-decoration:none">
         Verify Account Now
@@ -65,14 +62,14 @@ and we are thrilled to have you join us for these important events.
   
 
 <p style="padding:4px 2px; margin: 4px 1px;">
-    Should you require any assistance please do not hesitate to contact us. We look forward to welcoming you 
-    to our engaging and insightful event.
+    For any inquiries contact us at:
 </p>
 <p style="padding:1px 2px; margin: 4px 1px;">Hotline : <span style="color: #105f8d;font-weight:600;">+255 738 171 742</span></p>
 <p style="padding:1px 2px; margin: 4px 1px;">Email : 
-    <span style="color: #0884cb;font-weight:600;">info@ictc.go.tz</span> or 
-    <span style="color: #0884cb;font-weight:600">ictsupport@ictc.go.tz</span>
+  <span style="color: #0884cb;font-weight:600">support@ictc.go.tz</span>
 </p>
+<p style="padding:4px 2px; margin: 4px 1px;">We look forward to your participation in the conference.</p>
+
 <p style="padding:1px 2px; margin: 4px 1px;">Warm regards!</p>
 <p style="padding:1px 2px; margin: 4px 1px;">--------------</p>
 <p style="font-weight: 800;padding:1px 2px; margin: 4px 1px; font-size: larger">ICT Commission</p>

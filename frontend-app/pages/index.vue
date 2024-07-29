@@ -7,7 +7,6 @@ definePageMeta({
 })
 const  inputType = ref('password');
 const togglePasswordVisibility = () => {
-  console.log(inputType.value)
   inputType.value = inputType.value === 'password' ? 'text' : 'password'
 }
 const globalData = useGlobalDataStore()

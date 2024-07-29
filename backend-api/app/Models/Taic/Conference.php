@@ -26,6 +26,7 @@ class Conference extends Model
         "defaultFee",
         "foreignerFee",
         "guestFee",
+        "foreignerFeeInTzs",
         "status",
         "lock"
     ];

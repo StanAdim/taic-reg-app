@@ -33,7 +33,7 @@ class SubscriptionController extends Controller
         $userInfo = $user->userInfo;
         $billTobePaid = 0;
         if($userInfo->nation != 214){
-            $billTobePaid = env('USD_RATING') * number_format($event->foreignerFee, 2);
+            $billTobePaid = number_format($event->foreignerFeeInTzs, 2);
         }else{
             $userInfo->professionalStatus ? $billTobePaid = number_format($event->defaultFee, 2) : $billTobePaid = number_format($event->guestFee, 2);
         }

@@ -49,7 +49,7 @@ initialize()
               class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(eventData.defaultFee) }} Tsh</em></p>
           <p class="mx-3 my-1 font-medium">Non Register | Others: <em
               class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(eventData.guestFee) }} Tsh</em></p>
-          <p class="mx-3 my-1 font-medium">Foreigner: <em class="text-fuchsia-950 p-2"> {{ globalStore.separateNumber(eventData.foreignerFee) }} USD </em></p>
+          <p class="mx-3 my-1 font-medium">Foreigner: <em class="text-fuchsia-950 p-2"> {{ globalStore.separateNumber(eventData.foreignerFeeInTzs) }} Tsh &asymp;  {{ globalStore.separateNumber(eventData.foreignerFee) }} USD </em></p>
         </div>
 
         <div class="md:mx-2 md:my-4 flex flex-row md:flex-col justify-center md:justify-normal">

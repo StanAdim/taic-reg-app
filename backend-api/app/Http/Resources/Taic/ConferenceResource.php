@@ -28,6 +28,7 @@ class ConferenceResource extends JsonResource
             'aboutConference' => $this->aboutConference,
             'defaultFee' => $this->defaultFee,
             'foreignerFee' => $this->foreignerFee,
+            'foreignerFeeInTzs' => $this->foreignerFeeInTzs,
             'businessSector' => $this->businessSector,
             'guestFee' => $this->guestFee,
             'lock' => $this->lock,

@@ -66,6 +66,8 @@ const handleSubscription = async ()=> {
                     <template v-if="authStore.getLoggedUserInfo?.isForeigner" >
                       <p class="">Conference Fee <br class="block md:hidden"> <span class="bg-amber-600 text-white py-1 px-2 rounded-md">
 <!--                        {{(globalData.separateNumber(eventDetail?.foreignerFee || 0) * config?.UDSRate )}} Tsh  &asymp;-->
+                        {{(globalData.separateNumber(eventDetail?.foreignerFeeInTzs || 0))}} Tsh
+                        &asymp;
                         {{globalData.separateNumber(eventDetail?.foreignerFee || 0)}} USD</span>
                       </p>
                     </template>
