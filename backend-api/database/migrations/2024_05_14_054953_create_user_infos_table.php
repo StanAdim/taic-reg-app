@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('position');
             $table->boolean('professionalStatus')->default(false);
             $table->string('professionalNumber')->nullable();
-            $table->string('region_id');
-            $table->string('district_id');
+            $table->string('region_id')->nullable();
+            $table->string('district_id')->nullable();
             $table->boolean('notificationConsent')->nullable();
             $table->string('nation');
             $table->string('address');

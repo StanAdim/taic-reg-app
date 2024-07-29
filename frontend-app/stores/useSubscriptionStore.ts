@@ -34,6 +34,7 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
             globalStore.toggleContentLoaderState('off')
             subscribedEvents.value = response.data
         }
+        globalStore.toggleContentLoaderState('off')
         return {data, error};
     }
     return {

@@ -33,10 +33,12 @@ class SubscriptionController extends Controller
         $userInfo = $user->userInfo;
         $billTobePaid = 0;
         if($userInfo->nation != 214){
-            $billTobePaid = number_format($event->foreignerFee, 2);
+            $billTobePaid = env('USD_RATING') * number_format($event->foreignerFee, 2);
         }else{
             $userInfo->professionalStatus ? $billTobePaid = number_format($event->defaultFee, 2) : $billTobePaid = number_format($event->guestFee, 2);
         }
+        return $billTobePaid;
+        
         $newItem = ['user_id' => $user_id, 'conference_id' => $eventId,];
 
         //Check if user has  Subscribed already

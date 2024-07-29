@@ -41,7 +41,6 @@ const handleCallProfessionalDetails = async (professionalCode)=>{
   await authStore.verifyProfessionalNumber(professionalCode)
   // console.log(professionalCode)
 }
-
 const initialize = async () => {
   try {
     await  globalData.retrieveLocation()
@@ -70,7 +69,7 @@ onNuxtReady(()=> {
                 <label class="block text-gray-700 font-bold mb-2" for="phoneNumber">
                   Your Phone Number:
                 </label>
-                <input class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
+                <input class="input-custom border-b-2 border-teal-500"
                        id="phoneNumber" type="text" v-model="formData.phoneNumber" placeholder="+255">
               </div>
 
@@ -95,7 +94,7 @@ onNuxtReady(()=> {
                     <div class="mb-4" >
                       <label class="block text-gray-700 font-bold mb-2" for="professionalNumber">Professional Number:</label>
                       <input @change="handleCallProfessionalDetails(formData.professionalNumber)"
-                          class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
+                          class="input-custom border-b-2 border-teal-500"
                              id="professionalNumber" type="text" v-model="formData.professionalNumber" placeholder="">
                     </div>
                     <div v-if="getShowProfessionalInfo"
@@ -112,7 +111,7 @@ onNuxtReady(()=> {
                 <label class="block text-gray-700 font-bold mb-2" for="institution">
                   Institution | Company:
                 </label>
-                <input class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
+                <input class="input-custom border-b-2 border-teal-500"
                        id="institution" type="text" v-model="formData.institution" placeholder="Company | Institution">
               </div>
 
@@ -120,39 +119,42 @@ onNuxtReady(()=> {
                 <label class="block text-gray-700 font-bold mb-2" for="position">
                   Position|Designation:
                 </label>
-                <input class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
+                <input class="input-custom border-b-2 border-teal-500"
                        id="position" type="text" v-model="formData.position" placeholder="Position|Designation">
               </div>
               <div class="mb-4 border-b-2 border-teal-500 py-2">
-                <label for="region_id" class="block text-sm font-medium text-gray-700">Nationality</label>
+                <label for="region_id" class="block text-sm font-medium text-gray-700">Country</label>
                 <select v-model="formData.nation" id="region_id"
-                        class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none">
+                        class="input-custom">
                   <option value="0" disabled>Choose region</option>
                   <option v-for="nation in globalData.getNations" :key="nation" :value="nation.id">{{nation.name}}</option>
                 </select>
               </div>
               <div class="mb-4">
-                <label class="block text-gray-700 font-bold mb-2" for="position">
+                <label class="block text-gray-700 font-bold mb-2" for="physicalAddress">
                   Physical Address:
                 </label>
-                <input class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
-                       id="position" type="text" v-model="formData.address" placeholder="Position|Designation">
+                <input class="input-custom border-b-2 border-teal-500"
+                       id="physicalAddress" type="text" v-model="formData.address" placeholder="Your Physical Address">
               </div>
-              <div class="mb-4 border-b-2 border-teal-500 py-2">
-                <label for="region_id" class="block text-sm font-medium text-gray-700">Select Region</label>
-                <select v-model="formData.region_id" id="region_id" @change="handleDistrictsCall()"
-                        class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none">
-                  <option value="0" disabled>Choose region</option>
-                  <option v-for="region in globalData.getRegions" :key="region" :value="region.id">{{region.name}}</option>
-                </select>
-              </div>
-              <div class="mb-4 border-b-2 border-teal-500 py-2">
-                <label for="district_id" class="block text-sm font-medium text-gray-700">Select District</label>
-                <select v-model="formData.district_id" id="district_id" class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none">
-                  <option value="0" disabled>Choose District</option>
-                  <option v-for="district in globalData.getDistricts" :key="district" :value="district.id">{{district.name}}</option>
-                </select>
-              </div>
+
+              <template v-if="formData.nation === 214">
+                <div class="mb-4 border-b-2 border-teal-500 py-2">
+                  <label for="region_id" class="block text-sm font-medium text-gray-700">Select Region</label>
+                  <select v-model="formData.region_id" id="region_id" @change="handleDistrictsCall()"
+                          class="input-custom">
+                    <option value="0" disabled>Choose region</option>
+                    <option v-for="region in globalData.getRegions" :key="region" :value="region.id">{{region.name}}</option>
+                  </select>
+                </div>
+                <div class="mb-4 border-b-2 border-teal-500 py-2">
+                  <label for="district_id" class="block text-sm font-medium text-gray-700">Select District</label>
+                  <select v-model="formData.district_id" id="district_id" class="input-custom">
+                    <option value="0" disabled>Choose District</option>
+                    <option v-for="district in globalData.getDistricts" :key="district" :value="district.id">{{district.name}}</option>
+                  </select>
+                </div>
+              </template>
 
               <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
                 <label for="conference" class="block text-sm font-medium text-gray-700">Receive updates regarding  our events and related activities ?</label>
@@ -182,5 +184,9 @@ onNuxtReady(()=> {
 <style scoped>
 .hide {
   display: none;
+}
+
+.input-custom {
+  @apply appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none
 }
 </style>

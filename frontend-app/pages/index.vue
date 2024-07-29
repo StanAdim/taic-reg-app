@@ -50,6 +50,7 @@ onNuxtReady(()=> {
                   <label class="mb-2.5 block" for="password">Password</label>
                   <input type="password" id="password"  v-model="credentials.password" placeholder="**********"
                          class="inline-block w-full rounded-lg bg-sky-100/40 p-3 leading-none text-black placeholder-indigo-900 shadow" />
+                  
                 </div>
                 <div class="mt-4 flex w-full flex-col justify-between sm:flex-row">
                   <!-- Forgot password -->

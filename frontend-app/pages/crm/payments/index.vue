@@ -18,7 +18,9 @@ const initialize = async  () => {
   await  billStore.retrieveUserPayments()
 }
 const allBillsHeader =
-    [{key:'user',name:'Attendee Name'}, {key:'conferenceName',name:'Event'} , {key:'conferenceFee',name:'Fee'},{key:'controlNumber',name:'Control Number'}, {key:'status',name:"Status"}]
+    [{key:'user',name:'Attendee Name'}, {key:'conferenceName',name:'Event'} ,
+      {key:'conferenceFee',name:'Fee'},{key:'controlNumber',name:'Control Number'},
+      {key:'status',name:"Status"}]
 
 initialize()
 </script>
