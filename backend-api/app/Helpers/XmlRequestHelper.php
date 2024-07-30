@@ -80,7 +80,7 @@ class XmlRequestHelper
                                 <BillDesc>".$billingData->name."</BillDesc>
                                 <CustTin>111111111</CustTin>
                                 <CustId>".$billingData->user_id."</CustId>
-                                <CustIdTyp>".$billingData->user_id."</CustIdTyp>
+                                <CustIdTyp>1</CustIdTyp>
                                 <CustAccnt>".$billingData->account_number."</CustAccnt>
                                 <CustName>".$billingData->name."</CustName>
                                 <CustCellNum>".$billingData->phone_number."</CustCellNum>
