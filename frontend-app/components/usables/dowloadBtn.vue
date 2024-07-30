@@ -15,8 +15,8 @@
 
 <style scoped>
 .button {
-  --width: 100px;
-  --height: 35px;
+  --width: 80px;
+  --height: 30px;
   --tooltip-height: 35px;
   --tooltip-width: 90px;
   --gap-between-tooltip-to-button: 18px;
@@ -100,7 +100,7 @@
 }
 
 .button:hover {
-  background: #6c18ff;
+  background: #030981;
 }
 
 .button:hover .text {

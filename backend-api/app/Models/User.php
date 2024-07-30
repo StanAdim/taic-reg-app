@@ -72,12 +72,16 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
     public function bills()
-{
-    return $this->hasMany(Bill::class);
-}
+    {
+        return $this->hasMany(Bill::class);
+    }
 
-public function payments()
-{
-    return $this->hasMany(Payment::class);
-}
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+    public function requests()
+    {
+        return $this->hasMany(ExhibitionRequest::class);
+    }
 }

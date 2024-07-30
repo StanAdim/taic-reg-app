@@ -15,6 +15,7 @@ class XmlRequestHelper
         $requestUri = env('GEPG_SUBMISSIONURI');
         $collectionCenCode = env('GEPG_COLLECTIONCENCODE');
         $Gsfcode = env('GEPG_GSFCODE');
+        $SubSpCode = env('GEPG_SUBSPCODE');
         //Function to get Data string
         // app/Helpers/gepgclientprivate_2.pfx
 
@@ -76,22 +77,22 @@ class XmlRequestHelper
                                 <BillId>".$id."</BillId>
                                 <SpCode>".$spcode."</SpCode>
                                 <CollCentCode>".$collectionCenCode."</CollCentCode>
-                                <BillDesc>Bill code</BillDesc>
+                                <BillDesc>".$billingData->name."</BillDesc>
                                 <CustTin>111111111</CustTin>
-                                <CustId>111111111</CustId>
-                                <CustIdTyp>4</CustIdTyp>
-                                <CustAccnt>255657871769</CustAccnt>
-                                <CustName>maasai furniture</CustName>
-                                <CustCellNum>255657871769</CustCellNum>
-                                <CustEmail>maasai@gmail.com</CustEmail>
+                                <CustId>".$billingData->user_id."</CustId>
+                                <CustIdTyp>".$billingData->user_id."</CustIdTyp>
+                                <CustAccnt>".$billingData->account_number."</CustAccnt>
+                                <CustName>".$billingData->name."</CustName>
+                                <CustCellNum>".$billingData->phone_number."</CustCellNum>
+                                <CustEmail>".$billingData->name."</CustEmail>
                                 <BillGenDt>".$genDate."</BillGenDt>
-                                <BillExprDt>2025-12-22T10:13:29</BillExprDt>
-                                <BillGenBy>maasai furniture</BillGenBy>
-                                <BillApprBy>maasai furniture</BillApprBy>
-                                <BillAmt>100.00</BillAmt>
-                                <BillEqvAmt>100</BillEqvAmt>
-                                <MinPayAmt>100.00</MinPayAmt>
-                                <Ccy>TZS</Ccy>
+                                <BillExprDt>".$billingData->bill_exp."</BillExprDt>
+                                <BillGenBy>".$billingData->billGeneratedBy."</BillGenBy>
+                                <BillApprBy>".$billingData->billApproveBy."</BillApprBy>
+                                <BillAmt>".$billingData->amount."</BillAmt>
+                                <BillEqvAmt>".$billingData->amount."</BillEqvAmt>
+                                <MinPayAmt>".$billingData->amount."</MinPayAmt>
+                                <Ccy>".$billingData->ccy."</Ccy>
                                 <ExchRate>1.0</ExchRate>
                                 <BillPayOpt>1</BillPayOpt>
                                 <PayPlan>1</PayPlan>
@@ -101,12 +102,12 @@ class XmlRequestHelper
                                 <BillItems>
                                     <BillItem>
                                         <RefBillId>".$id."</RefBillId>
-                                        <SubSpCode>1001</SubSpCode>
+                                        <SubSpCode>".$SubSpCode."</SubSpCode>
                                         <GfsCode>".$Gsfcode."</GfsCode>
                                         <BillItemRef>".$id."</BillItemRef>
                                         <UseItemRefOnPay>N</UseItemRefOnPay>
-                                        <BillItemAmt>100.00</BillItemAmt>
-                                        <BillItemEqvAmt>100.00</BillItemEqvAmt>
+                                        <BillItemAmt>".$billingData->amount."</BillItemAmt>
+                                        <BillItemEqvAmt>".$billingData->amount."</BillItemEqvAmt>
                                         <CollSp>".$spcode."</CollSp>
                                     </BillItem>
                                 </BillItems>
