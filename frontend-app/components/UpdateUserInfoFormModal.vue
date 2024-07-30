@@ -16,7 +16,7 @@ const accountStore = useAccountStore()
 const globalData = useGlobalDataStore()
 const formData = ref({
   phoneNumber: user?.phoneNumber,
-  user_id: user?.user_id,
+  info_id: user?.id,
   professionalStatus: user?.professionalStatus,
   professionalNumber: user?.professionalNumber,
   institution: user?.institution,
@@ -29,11 +29,8 @@ const formData = ref({
 })
 
 const handleFormSubmission = async ()=> {
-  if(formData.value.district_id === '0'){
-    return globalData.assignAlertMessage(['Select District'],'danger')
-  }
   globalData.toggleLoadingState('on')
-  await  authStore.saveUserInfo(formData.value)
+  await accountStore.handleUserAccountUpdate(formData.value, 'information')
 }
 const handleDistrictsCall = async ()=>{
   await  globalData.retrieveRegionDistricts(formData.value.region_id)
@@ -68,7 +65,7 @@ initialize()
             <i class="fa fa-xl  fa-user mx-2"></i>
           </span>
             <span class="text-emerald-800 my-2 p-0.5 bg-zinc-50/5 flex-grow text-xl text-center font-bold">
-             UPDATE EXTRA INFORMATION
+             UPDATE YOUR INFORMATION
           </span>
             <span class="text-emerald-800 p-0.5 bg-zinc-50/5 rounded-md hover:bg-red-500 hover:text-white flex-shrink-0"
                   @click="accountStore.toggleUpdateUserInfoDialogState('off')"
@@ -152,21 +149,23 @@ initialize()
                 <input class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none border-b-2 border-teal-500"
                        id="position" type="text" v-model="formData.address" placeholder="Position|Designation">
               </div>
-              <div class="mb-4 border-b-2 border-teal-500 py-2">
-                <label for="region_id" class="block text-sm font-medium text-gray-700">Select Region</label>
-                <select v-model="formData.region_id" id="region_id" @change="handleDistrictsCall()"
-                        class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none">
-                  <option value="0" disabled>Choose region</option>
-                  <option v-for="region in globalData.getRegions" :key="region" :value="region.id">{{region.name}}</option>
-                </select>
-              </div>
-              <div class="mb-4 border-b-2 border-teal-500 py-2">
-                <label for="district_id" class="block text-sm font-medium text-gray-700">Select District</label>
-                <select v-model="formData.district_id" id="district_id" class="appearance-none rounded-md  w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none">
-                  <option value="0" disabled>Choose District</option>
-                  <option v-for="district in globalData.getDistricts" :key="district" :value="district.id">{{district.name}}</option>
-                </select>
-              </div>
+              <template v-if="formData.nation === 214">
+                <div class="mb-4 border-b-2 border-teal-500 py-2">
+                  <label for="region_id" class="block text-sm font-medium text-gray-700">Select Region</label>
+                  <select v-model="formData.region_id" id="region_id" @change="handleDistrictsCall()"
+                          class="input-custom">
+                    <option value="0" disabled>Choose region</option>
+                    <option v-for="region in globalData.getRegions" :key="region" :value="region.id">{{region.name}}</option>
+                  </select>
+                </div>
+                <div class="mb-4 border-b-2 border-teal-500 py-2">
+                  <label for="district_id" class="block text-sm font-medium text-gray-700">Select District</label>
+                  <select v-model="formData.district_id" id="district_id" class="input-custom">
+                    <option value="0" disabled>Choose District</option>
+                    <option v-for="district in globalData.getDistricts" :key="district" :value="district.id">{{district.name}}</option>
+                  </select>
+                </div>
+              </template>
 
               <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
                 <label for="conference" class="block text-sm font-medium text-gray-700">Receive updates regarding  our events and related activities ?</label>

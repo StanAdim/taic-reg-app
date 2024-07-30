@@ -2,6 +2,7 @@ import type {Credential, LoggedUser, User} from "~/types/interfaces";
 import {defineStore} from "pinia";
 import {useApiFetch} from "~/composables/useApiFetch";
 export const useAuthStore = defineStore('auth', ()=> {
+    const accountStore = useAccountStore()
     const  user = ref<User | null>(null)
     const isLoggedIn = computed(()=> !!user.value)
     const globalStore = useGlobalDataStore()
@@ -110,7 +111,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         }else{
             authErrors.value = registrationResponse?.error.value?.data
             globalStore.toggleLoadingState('off')
-            globalStore.assignAlertMessage([[authErrors.value?.message]], 'error')
+            globalStore.assignAlertMessage(authErrors.value?.message, 'error')
         }
         return registrationResponse;
     }
