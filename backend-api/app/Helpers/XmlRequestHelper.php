@@ -47,6 +47,17 @@ class XmlRequestHelper
             $signature=substr($inputstr,$sigstartpos + strlen($sigtag)+1,$sigendpos - $sigstartpos -strlen($sigtag)-3);
             return $signature;
         }
+        // Check if the string starts with '+225'
+        function formatThePhoneNumber($str) {
+            if (substr($str, 0, 4) === '+225') {
+                // Remove the '+' sign and return the rest of the string
+                return '225' . substr($str, 4);
+            }
+            // Return null if the string does not start with '+225'
+            return 255738171742;
+        }
+
+        $bill_exp = Carbon::now()->addMonths(8)->format('Y-m-d\TH:i:s');
 
         if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
             Log::info(["Error: Unable to read the cert file\n"]);
@@ -81,12 +92,12 @@ class XmlRequestHelper
                                 <CustTin>111111111</CustTin>
                                 <CustId>".$billingData->user_id."</CustId>
                                 <CustIdTyp>1</CustIdTyp>
-                                <CustAccnt>".$billingData->account_number."</CustAccnt>
+                                <CustAccnt>".formatThePhoneNumber($billingData->phone_number)."</CustAccnt>
                                 <CustName>".$billingData->name."</CustName>
-                                <CustCellNum>".$billingData->phone_number."</CustCellNum>
-                                <CustEmail>".$billingData->name."</CustEmail>
+                                <CustCellNum>".formatThePhoneNumber($billingData->phone_number)."</CustCellNum>
+                                <CustEmail>".$billingData->email."</CustEmail>
                                 <BillGenDt>".$genDate."</BillGenDt>
-                                <BillExprDt>".$billingData->bill_exp."</BillExprDt>
+                                <BillExprDt>".$bill_exp."</BillExprDt>
                                 <BillGenBy>".$billingData->billGeneratedBy."</BillGenBy>
                                 <BillApprBy>".$billingData->billApproveBy."</BillApprBy>
                                 <BillAmt>".$billingData->amount."</BillAmt>

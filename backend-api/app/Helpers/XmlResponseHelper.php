@@ -10,6 +10,25 @@ class XmlResponseHelper
     
     public static function handleResponse($request)
     {
+        function get_string_between($string, $start, $end)
+        {
+            $string = ' ' . $string;
+            $ini = strpos($string, $start);
+            if ($ini == 0) return '';
+            $ini += strlen($start);
+            $len = strpos($string, $end, $ini) - $ini;
+            return substr($string, $ini, $len);
+        }
+        function getXMLData($request)
+        {
+            $values = array();
+            $values['billid'] = get_string_between($request, '<BillId>', '</BillId>');
+            $values['PayCntrNum'] = get_string_between($request, '<PayCntrNum>', '</PayCntrNum>');
+            $values['TrxSts'] = get_string_between($request, '<TrxSts>', '</TrxSts>');
+            $values['TrxStsCode'] = get_string_between($request, '<TrxStsCode>', '</TrxStsCode>');
+
+            return $values;
+        }
        
         Log::info("================== CALL BACK RESPONSE FROM GEPG====================");
         Log::info($request->getContent());

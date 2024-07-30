@@ -16,7 +16,7 @@ class UserInfoController extends Controller
       public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            "phoneNumber" => 'required',
+            "phoneNumber" => 'required,+',
             "user_id" => 'required',
             "professionalStatus" => 'required',
             "professionalNumber" => 'required_if:professionalStatus,1',

@@ -42,17 +42,18 @@ class SubscriptionController extends Controller
         $newItem = ['user_id' => $user_id, 'conference_id' => $eventId,];
 
         //Check if user has  Subscribed already
-        $isUserSubscribed = Subscription::where('conference_id', $eventId)
-        ->where('user_id', $user_id)
-        ->exists();
-        if($isUserSubscribed){
-            return response()->json([
-                'message'=> "This event is Booked!",
-                'code'=> 300
-            ]);
-        }
+        // $isUserSubscribed = Subscription::where('conference_id', $eventId)
+        // ->where('user_id', $user_id)
+        // ->exists();
+        // if($isUserSubscribed){
+        //     return response()->json([
+        //         'message'=> "This event is Booked!",
+        //         'code'=> 300
+        //     ]);
+        // }
         //If not Created Bill for subscription
-        else{
+        // else
+        {
             $newBill = [
                 'user_id' => $user_id,
                 'conference_id' =>$eventId,
@@ -64,23 +65,24 @@ class SubscriptionController extends Controller
                 'amount' => $billTobePaid,
                 'event_fee' => $billTobePaid,
                 'email' => $user->email,
-                'bill_exp' => Carbon::parse('2030-07-24 12:00:00'),
+                'bill_exp' => Carbon::now()->addMonths(8)->format('Y-m-d\TH:i:s'),
                 'ccy' => "TZS",
                 'bill_pay_opt' => 1,
                 'status' => 0,
             ];
             try {
-                $storeData = Bill::create($newBill);
-                $returedXml = XmlRequestHelper::GepgSubmissionRequest($storeData);
+                $billData = Bill::create($newBill);
+                $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
                 if($returedXml){
-                $storeData->ReqId = $returedXml["billSubReqAck"]['ReqId'];
-                $storeData->save();
-                // Subcribe user 
-                $storeData = Subscription::create($newItem);
+                    //request ID
+                $billData->ReqId = $returedXml["billSubReqAck"]['ReqId'];
+                $billData->save();
+                // Subcribe user to event 
+                Subscription::create($newItem);
                 }
                 return response()->json([
                     'message'=> "Subscription Success",
-                    'data' => $storeData,
+                    'data' => $billData,
                     'GepgAck' => $returedXml,
                     'code'=> 200
                 ],200);
