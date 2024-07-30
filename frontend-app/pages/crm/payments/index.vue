@@ -28,7 +28,7 @@ initialize()
 <template>
   <div class="">
     <AdminThePageTitle title="PAYMENTS HISTORY" />
-      <h2 class="text-sky-700 font-bold">Your Payment Bills Generated</h2>
+      <h2 class="text-sky-700 font-bold">Bills Generated</h2>
     <UsablesContentLoading />
 
     <UsablesNoData v-if="billStore.getUserPayments.length === 0" source="User's bills " />
