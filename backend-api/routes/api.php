@@ -18,7 +18,7 @@ use App\Models\DocumentMaterial;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionController::class,'authUserCall']);
-Route::get('/test',function(){return 'API: Is Active';});
+Route::get('/test',function(){  $eventName = 'taic Event'; return view('mail.subscription.subscriptionEmail',compact(['eventName']));});
 Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmail']);
  // ================ public routes ============================================
  Route::get('/get-locations',[GeneralController::class, 'getNationsRegions']);

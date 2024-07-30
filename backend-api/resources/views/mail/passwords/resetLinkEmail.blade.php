@@ -7,9 +7,33 @@
 <p style="padding:4px 2px; margin: 4px 1px;">
     We received a request to reset your password. Please click the link below to reset your password:
 </p>
-<a href="{{$url}}" target="_blank" style="background-color:#0884cb;color:#ffffff;font-size:medium; border-radius:.8rem; padding:.5rem .6rem; border: 1px #156694 solid; text-decoration:none">
-    Reset Password
-</a>
+<a
+    href="{{$url}}" target="_blank" 
+    style="
+      font-size: 17px;
+      padding: 0.5em 2em;
+      border: transparent;
+      box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+      background: dodgerblue;
+      color: white;
+      border-radius: 4px;
+      transition: background 0.3s ease, transform 0.1s ease;
+    "
+    onmouseover="
+      this.style.background='linear-gradient(90deg, rgba(30,144,255,1) 0%, rgba(0,212,255,1) 100%)';
+    "
+    onmouseout="
+      this.style.background='dodgerblue';
+    "
+    onmousedown="
+      this.style.transform='translate(0em, 0.2em)';
+    "
+    onmouseup="
+      this.style.transform='translate(0em, 0em)';
+    "
+  >
+  Password reset Link
+  </a>
 <p style="padding:4px 2px; margin:.6rem 1px;">
     If you did not request a password reset, please ignore this email or contact our support team.
 </p>

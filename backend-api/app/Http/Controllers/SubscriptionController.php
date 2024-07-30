@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Helpers\XmlRequestHelper;
 use App\Http\Resources\SubscribedEvents;
+use App\Mail\SubscriptionToEventMail;
 use App\Models\Bill;
 use App\Models\Event\Subscription;
 use App\Models\Taic\Conference;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class SubscriptionController extends Controller
@@ -33,12 +35,10 @@ class SubscriptionController extends Controller
         $userInfo = $user->userInfo;
         $billTobePaid = 0;
         if($userInfo->nation != 214){
-            $billTobePaid = number_format($event->foreignerFeeInTzs, 2);
+            $billTobePaid = $event->foreignerFeeInTzs;
         }else{
-            $userInfo->professionalStatus ? $billTobePaid = number_format($event->defaultFee, 2) : $billTobePaid = number_format($event->guestFee, 2);
-        }
-        return $billTobePaid;
-        
+            $userInfo->professionalStatus ? $billTobePaid = $event->defaultFee : $billTobePaid = $event->guestFee;
+        }        
         $newItem = ['user_id' => $user_id, 'conference_id' => $eventId,];
 
         //Check if user has  Subscribed already
@@ -84,7 +84,7 @@ class SubscriptionController extends Controller
                     'GepgAck' => $returedXml,
                     'code'=> 200
                 ],200);
-
+                Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
             } catch (\Exception $e) {
                 return response()->json(
                     ['error' => 'Failed to create bill', 
