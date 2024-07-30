@@ -202,6 +202,7 @@ class XmlRequestHelper
                                 Log::info("Signature Status: UGLY, Error checking signature");
 
                             }
+                            
                         }
                     }
                     try{

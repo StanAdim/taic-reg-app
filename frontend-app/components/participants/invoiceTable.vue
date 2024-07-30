@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import DowloadBtn from "~/components/usables/dowloadBtn.vue";
+const billStore = useBillStore();
 
 const search = ref('')
 const filterTableData = computed(() =>
-    tableData.value.filter(
+    billStore.getUserPayments.filter(
         (data) =>
             !search.value ||
             data.name.toLowerCase().includes(search.value.toLowerCase())
@@ -15,9 +15,6 @@ const handleControlNumber = (index: number, row) => {
 const handleBillDownloading = (index: number, row) => {
   console.log(index, row)
 }
-const billStore = useBillStore();
-const tableData = ref(billStore.getUserPayments)
-
 </script>
 
 <template>
