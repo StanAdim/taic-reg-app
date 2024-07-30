@@ -44,7 +44,7 @@ class AuthenticatedSessionController extends Controller
             // Customize the response
             $role = RoleResource::collection(Role::where('id',$user->role_id)->get())->first();
             $extraInfo = null;
-            if($user->hasInfo == 1){
+            if($user->hasInfo){
                 $extraInfo = new UserInfoResource($user->userInfo);
             }
              return response()->json([

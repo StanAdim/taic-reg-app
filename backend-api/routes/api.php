@@ -32,7 +32,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
  ->middleware('guest')
  ->name('password.reseting');
  
- Route::post('/bill/receive-controll', [BillController::class,'receiveControlNumber']);
+ Route::post('r', [BillController::class,'receiveControlNumber']);
  Route::post('/call/professional-details', [ProfessionalController::class,'getProfessionalDetails']);
  
  //public events
@@ -40,7 +40,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
  //--- Auth routes
  Route::middleware(['auth:sanctum'])->group(function(){
      Route::post('/user-info-create',[UserInfoController::class, 'create']);
-     Route::post('/user-info-update-[infoId]',[UserInfoController::class, 'update']);
+     Route::post('/user/information-update',[UserInfoController::class, 'update']);
      Route::get('/application-users',[UserInfoController::class, 'systemUsers']);
      Route::get('/system-user-{user_key}',[UserInfoController::class, 'retrieveSystemUserDetails']);
 

@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
 
@@ -55,6 +56,27 @@ class RegisteredUserController extends Controller
                 'code' => 200
             ]
         );
+    }
+    public function update(Request $request){
+        $validator = Validator::make($request->all(), [
+            'firstName' => [''],
+            'middleName' => [''],
+            'lastName' => [''],
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'message'=> 'Validation fails',
+                'errors'=> $validator->errors()
+            ],422);
+        }
+        $newData = $validator->validate();
+        $id = Auth::id();
+        User::where('id',$id)->update($newData);
+        return response()->json([
+            'message'=> 'Data updated!',
+            'data' => $newData,
+            'code' => 200
+         ]);
     }
     public function passwordResetting(Request $request)
     {

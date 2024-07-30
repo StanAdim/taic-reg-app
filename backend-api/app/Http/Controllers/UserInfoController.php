@@ -9,12 +9,12 @@ use App\Models\User;
 use App\Models\UserInfo;
 use Database\Seeders\ProfessionalSeeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserInfoController extends Controller
 {
-      public function create(Request $request)
-    {
+      public function create(Request $request){
         $validator = Validator::make($request->all(), [
             "phoneNumber" => 'required|starts_with:+',
             "user_id" => 'required',
@@ -67,7 +67,7 @@ class UserInfoController extends Controller
                 $user->update(['hasInfo'=>1]);
                 $newData = UserInfo::create($newItem);
                 return response()->json([
-                    'message'=> "User Info Created",
+                    'message'=> "Information saved!",
                     'data' => $newData,
                     'code'=> 200
                 ],200);
@@ -75,8 +75,7 @@ class UserInfoController extends Controller
         
     }
 
-    public function systemUsers()
-    {
+    public function systemUsers(){
         //
         $users = SystemUser::collection(User::all());
         if($users){
@@ -94,8 +93,7 @@ class UserInfoController extends Controller
     }
     public function retrieveSystemUserDetails($user_key){
         $user = new SystemUser(User::where('verificationKey',$user_key)->first());
-         
-        if ($user) { 
+         if ($user) { 
             $subscriptions = $user->subscriptions ;
             $bills = $user->bills ;
             $data = array_merge(['user'=> $user], ['subscriptions'=>$subscriptions, 'bills'=> $bills]);          // Update the email verification status
@@ -113,11 +111,58 @@ class UserInfoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserInfo $infoId)
-    {
-        $validator = Validator::make($request->all());
-        $info = $validator->validate();
-        UserInfo::where('id', $infoId)->first();
+    public function update(Request $request){
+        $validator = Validator::make($request->all(), [
+            "id" => 'required',
+            "phoneNumber" => 'required|starts_with:+',
+            "professionalStatus" => 'required',
+            "professionalNumber" => 'required_if:professionalStatus,1',
+            "institution" => '',
+            "position" => '',
+            "region_id" => '',
+            "address" => '',
+            "district_id" => '',
+            "notificationConsent" => '',
+            "nation" => '',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'message'=> 'Validation fails',
+                'errors'=> $validator->errors()
+            ],422);
+        }
+        $newItem = $validator->validate();
+        $existingInfo = UserInfo::where('id',$newItem['info_id']);
+
+        // return $newItem;
+        if($newItem["professionalNumber"] && $newItem['professionalStatus']){
+            $professional = Professional::where('RegNo', $newItem["professionalNumber"] );
+            $exists = $professional ->exists();
+            $professional = $professional -> first();
+            if($exists && !$professional->isVerified){
+                // update used Professiona number  
+                $professional->isVerified = 1;
+                $professional->save();
+                //update data
+                $existingInfo -> update($newItem);
+                return response()->json([
+                    'message'=> "Information updated",
+                    'data' => $existingInfo,
+                    'code'=> 200
+                ],200);
+            }else{
+                $existingInfo -> update($newItem);
+                return response()->json([
+                    'message'=> 'Professional Number already verified',
+                ],200);
+            }
+        }
+        else{
+        $existingInfo -> update($newItem);
+        return response()->json([
+            'message'=> 'Wrong Professional Number',
+        ],200);
+        }
     }
 
     /**

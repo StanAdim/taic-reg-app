@@ -6,11 +6,18 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\UserInfoController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
                 ->middleware('guest')
                 ->name('register');
+Route::post('/user/account-update', [RegisteredUserController::class, 'update'])
+                ->middleware('auth')
+                ->name('account.update');
+Route::post('/user/information-update',[UserInfoController::class, 'update'])
+                    ->middleware('auth')
+                    ->name('information.update');
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])
                 ->middleware('guest')
