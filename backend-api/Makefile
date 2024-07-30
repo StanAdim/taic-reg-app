@@ -52,7 +52,7 @@ staging.yarn:
 production.setup:
 	@make production.build
 	@make production.up
-	@make production.composer-update
+	#@make production.composer-update
 	@make production.boost
 	@make production.yarn
 
@@ -93,8 +93,9 @@ production.rmi:
 	docker image rm -f events-app-api-events-app-api
 production.logs:
 	docker logs -f events-app-api
-production.update: 
-	 git pull && cd ../frontend-app &&  yarn ; yarn build && pm2 restart production.config.cjs &&  cd  ../backend-api && make start
+
+production.frontend: 
+	 cd .. && git pull origin production && cd frontend-app &&  yarn ; yarn build && pm2 restart production.config.cjs &&  cd  ../backend-api && make start
 
 # Define the directory and the command
 DIR1 := ../frontend-app 

@@ -27,7 +27,7 @@ onNuxtReady(() => {
       <UsablesContentLoading />
       <template v-if="subscriptionStore.getSubscribedEvents.length !== 0">
         <div v-for="item in subscriptionStore.getSubscribedEvents" :key="item.event?.conferenceName"
-          class="w-full md:w-3/5 bg-blue-100 rounded-lg shadow-sm p-5 border-dashed border border-blue-500
+          class="w-full md:w-3/5 bg-white/60 rounded-lg shadow-sm p-5 border-dashed border border-blue-500
           flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 m-1">
         <div class="flex flex-col sm:flex-row justify-start items-center gap-4">
           <div class="bg-blue-200 flex p-2 rounded-md"><i class="fa-solid fa-people-group text-xl"></i></div>

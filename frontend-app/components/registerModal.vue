@@ -36,7 +36,7 @@ const handleRegistration = async () => {
             <i class="fa fa-xl  fa-user mx-2"></i>
           </span>
             <span class="text-emerald-800 my-2 p-0.5 bg-zinc-50/5 flex-grow text-xl text-center font-bold">
-             CREATE AND ACCOUNT
+             CREATE YOUR ACCOUNT
           </span>
             <span class="text-emerald-800 p-0.5 bg-zinc-50/5 rounded-md hover:bg-red-500 hover:text-white flex-shrink-0"
                   @click="closeModal()"
@@ -48,7 +48,7 @@ const handleRegistration = async () => {
           <div class="flex  justify-center">
             <div class="bg-white align-middle  shadow-md rounded-lg md:px-10 px-8 py-2 my-1">
               <form @submit.prevent="handleRegistration()">
-                <p class="my-2">To reserve your seat on the ICTC events, create your account</p>
+                <p class="my-2">To reserve your seat on the ICT Commission events, create your account</p>
 
                 <div class="mb-4">
                   <label for="firstNam" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
