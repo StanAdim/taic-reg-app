@@ -17,8 +17,9 @@ use App\Http\Controllers\Taic\TimetableController;
 use App\Http\Controllers\UserInfoController;
 use Illuminate\Support\Facades\Route;
 
+Route::post('bill/receive-controll', [BillController::class,'receiveControlNumber']);
 Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionController::class,'authUserCall']);
-Route::get('/test',function(){  $eventName = 'taic Event'; return view('mail.subscription.subscriptionEmail',compact(['eventName']));});
+Route::get('/test',function(){  $eventName = 'Taic Event'; return view('invoices.subscriptionInvoice',compact(['eventName']));});
 Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmail']);
  // ================ public routes ============================================
  Route::get('/get-locations',[GeneralController::class, 'getNationsRegions']);
@@ -32,7 +33,6 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
  ->middleware('guest')
  ->name('password.reseting');
  
- Route::post('r', [BillController::class,'receiveControlNumber']);
  Route::post('/call/professional-details', [ProfessionalController::class,'getProfessionalDetails']);
  
  //public events

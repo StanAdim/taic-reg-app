@@ -83,7 +83,7 @@ const handleSubscription = async ()=> {
                     </template>
                   </template>
                   <template v-if="globalData.getDoneCheckVisibility && showConfirmation">
-                      <p class="my-2">Oh yes!, Your bill is generated successful! </p>
+                      <p class="my-2">Your bill is generated successful! </p>
                       <nuxt-link :to="`payments/`" @click="confirmAction('close')"
                                  class="mx-1 h-8 w-auto bg-sky-500 hover:bg-sky-700 border-sky-500
                               hover:border-sky-700 text-sm border-4 text-white py-0.5 px-2 rounded"

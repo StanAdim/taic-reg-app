@@ -5,7 +5,7 @@
     </b>
     </p>
 <p style="padding:4px 2px; margin: 4px 1px;">
-    Congratulation we have receive your subscription to this {{$eventName}} kindly, your invoice is being processed
+    Congratulation!, We are delighted to receive your booking to {{$eventName}}, your invoice is being processed
     and will be sent to your email shortly
 </p>
 

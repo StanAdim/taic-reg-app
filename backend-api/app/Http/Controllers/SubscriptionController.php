@@ -78,6 +78,7 @@ class SubscriptionController extends Controller
                 $billData->save();
                 // Subcribe user to event 
                 Subscription::create($newItem);
+                Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
                 }
                 return response()->json([
                     'message'=> "Subscription Success",
@@ -85,7 +86,6 @@ class SubscriptionController extends Controller
                     'GepgAck' => $returedXml,
                     'code'=> 200
                 ],200);
-                Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
             } catch (\Exception $e) {
                 return response()->json(
                     ['error' => 'Failed to create bill', 
