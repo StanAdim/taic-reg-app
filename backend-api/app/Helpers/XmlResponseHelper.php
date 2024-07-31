@@ -32,7 +32,7 @@ class XmlResponseHelper
             return substr($string, $ini, $len);
         }
 
-        $PRIVATE_KEY =__DIR__."/gepgpubliccertificate.pfx";
+        $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";
         $KEY_PASSWORD =  env('GEPG_KEYPASS', 'passpass');
         $values = getXMLData($passedXmlResponse);
         $BillId = $values['BillId'];
@@ -85,8 +85,6 @@ class XmlResponseHelper
         for ($i = 0; $i < $codescount; $i++) {
             // $error_messages .= $xsystem->getGEPGErrorMessage($codes[$i]) . '; ';
         }
-
-
         Log::info('RECPAY-GEPG-ERRORS', [$error_messages, $serial, 'GEPG']);
 
         if (!$cert_store = file_get_contents($PRIVATE_KEY)) {
@@ -97,7 +95,7 @@ class XmlResponseHelper
                  //Response Content Ack  
                 $responseContentAck = "<billSubResAck>
                                             <AckId>SP20210205130219</AckId>
-                                            <ResId>GW20210205130219</ResId>
+                                            <ResId>".$values['ResId']."</ResId>
                                             <AckStsCode>7101</AckStsCode>
                                         </billSubResAck>";
 			     //Create signature 
