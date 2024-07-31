@@ -3,7 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Bill;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class XmlResponseHelper
@@ -58,7 +58,7 @@ class XmlResponseHelper
         if (in_array('7279', $codes)) {
             $ResStsCode = 'GEPG-PAID';
             //"UPDATE billing SET gepgstatus='PAID' WHERE billid='$billid'");
-            $date = date('Y-m-d H:i:s');
+            $date = Carbon::now();
             $NewBillStatus->status_code = $ResStsCode;
             $NewBillStatus->paid_date = $date;
             $NewBillStatus->save();

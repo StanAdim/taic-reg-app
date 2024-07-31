@@ -52,7 +52,8 @@ class SubscriptionController extends Controller
             ]);
         }
         // If not Created Bill for subscription
-        else {
+        else 
+        {
             $newBill = [
                 'user_id' => $user_id,
                 'conference_id' =>$eventId,
