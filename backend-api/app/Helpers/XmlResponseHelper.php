@@ -89,22 +89,22 @@ class XmlResponseHelper
 
         Log::info('RECPAY-GEPG-ERRORS', [$error_messages, $serial, 'GEPG']);
 
-
         if (!$cert_store = file_get_contents($PRIVATE_KEY)) {
-            echo "Error: Unable to read the cert file\n";
+            Log::info("Error: Unable to read the cert file\n");
             exit;
         } else {
             if (openssl_pkcs12_read($cert_store, $cert_info, $KEY_PASSWORD)) {
-
-                $responseContentAck = '<gepgBillSubRespAck>        
-                                <TrxStsCode>7101</TrxStsCode>      
-                            </gepgBillSubRespAck>';
-
+                 //Response Content Ack  
+                $responseContentAck = "<billSubResAck>
+                                            <AckId>SP20210205130219</AckId>
+                                            <ResId>GW20210205130219</ResId>
+                                            <AckStsCode>7101</AckStsCode>
+                                        </billSubResAck>";
+			     //Create signature 
                 openssl_sign($responseContentAck, $signature, $cert_info['pkey'], "sha1WithRSAEncryption");
-
                 // output crypted data base64 encoded
                 $signature = base64_encode($signature);
-                echo "Signature of Signed Content"."\n".$signature."\n";
+                Log::info("Signature of Signed Content"."\n".$signature."\n");
 
                 // Combine signature and content signed
                 $response = "<Gepg>" . $responseContentAck . " <gepgSignature>" . $signature . "</gepgSignature></Gepg>";
@@ -114,7 +114,6 @@ class XmlResponseHelper
 
             }
         }
-
         Log::info('RECPAY-GEPG-RESPONSE', [$response, $serial, 'GEPG']);
         
     }
