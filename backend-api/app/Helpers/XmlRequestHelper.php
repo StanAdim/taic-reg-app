@@ -91,7 +91,7 @@ class XmlRequestHelper
                                 <BillDesc>".$billingData->name."</BillDesc>
                                 <CustTin>111111111</CustTin>
                                 <CustId>".$billingData->user_id."</CustId>
-                                <CustIdTyp>1</CustIdTyp>
+                                <CustIdTyp>5</CustIdTyp>
                                 <CustAccnt>".formatThePhoneNumber($billingData->phone_number)."</CustAccnt>
                                 <CustName>".$billingData->name."</CustName>
                                 <CustCellNum>".formatThePhoneNumber($billingData->phone_number)."</CustCellNum>
