@@ -61,6 +61,7 @@ class XmlResponseHelper
             $date = Carbon::now();
             $NewBillStatus->status_code = $ResStsCode;
             $NewBillStatus->paid_date = $date;
+            $NewBillStatus->status = 1;
             $NewBillStatus->save();
         }
         elseif (in_array('7101', $codes) OR in_array('7226', $codes))
@@ -99,22 +100,22 @@ class XmlResponseHelper
                                 <TrxStsCode>7101</TrxStsCode>      
                             </gepgBillSubRespAck>';
 
-                // openssl_sign($responseContentAck, $signature, $cert_info['pkey'], "sha1WithRSAEncryption");
+                openssl_sign($responseContentAck, $signature, $cert_info['pkey'], "sha1WithRSAEncryption");
 
-                //output crypted data base64 encoded
-                // $signature = base64_encode($signature);
-                //echo "Signature of Signed Content"."\n".$signature."\n";
+                // output crypted data base64 encoded
+                $signature = base64_encode($signature);
+                echo "Signature of Signed Content"."\n".$signature."\n";
 
-                //Combine signature and content signed
-                // $response = "<Gepg>" . $responseContentAck . " <gepgSignature>" . $signature . "</gepgSignature></Gepg>";
+                // Combine signature and content signed
+                $response = "<Gepg>" . $responseContentAck . " <gepgSignature>" . $signature . "</gepgSignature></Gepg>";
 
                 header('Content-type: application/xml');
-                // Log::info('------,', [$response]);
+                Log::info('------,', [$response]);
 
             }
         }
 
-        // Log::info('RECPAY-GEPG-RESPONSE', $response, $serial, 'GEPG');
+        Log::info('RECPAY-GEPG-RESPONSE', [$response, $serial, 'GEPG']);
         
     }
         
