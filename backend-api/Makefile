@@ -5,12 +5,12 @@ staging.setup:
 	# @yarn
 
 staging.reload:
-	cd ../ && git pull origin staging
+	cd ../ && git pull origin staging && cd ./backend-api
 	@make staging.stop
 	@make staging.build
 	@make staging.up
 	@make staging.boost
-	cd ./frontend-app/ && yarn && pm2 restart staging.config.cjs
+	cd ../frontend-app/ && yarn && pm2 restart staging.config.cjs
 	
 staging.build:
 	docker compose build 
