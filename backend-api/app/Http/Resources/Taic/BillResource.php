@@ -42,7 +42,8 @@ class BillResource extends JsonResource
             'status'=> $this->status ? 'PAID': 'NOT PAID',
             'status_code'=>$this->status_code,
             'ReqId'=>$this->ReqId,
-            'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y, H:i')
+            'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y')
+            // 'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y, H:i')
         ];
     }
     

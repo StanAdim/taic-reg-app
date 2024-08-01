@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Log;
 
 class XmlRequestHelper
 {
-    
     public static function GepgSubmissionRequest($billingData)
     {
         $fileKeyPass = env('GEPG_KEYPASS', 'passpass');
@@ -17,63 +16,22 @@ class XmlRequestHelper
         $Gsfcode = env('GEPG_GSFCODE');
         $SubSpCode = env('GEPG_SUBSPCODE');
         //Function to get Data string
-        // app/Helpers/gepgclientprivate_2.pfx
-
-
-        function generateReqID($length=16) {
-            $randomNumberString = '';
-            for ($i = 0; $i < $length; $i++) {
-                $randomNumberString .= mt_rand(0, 9);
-            }
-            return $randomNumberString;
-        }
-
-        function getGenerationDate() {
-            $date = Carbon::now();
-            $formattedDate = $date->format('Y-m-d\TH:i:s');
-            return $formattedDate;
-        }
-
-        function getDataString($inputstr,$datatag){
-            $datastartpos = strpos($inputstr, $datatag);
-            $dataendpos = strrpos($inputstr, $datatag);
-            $data=substr($inputstr,$datastartpos - 1,$dataendpos + strlen($datatag)+2 - $datastartpos);
-            return $data;
-        }
-        //Function to get Signature string
-        function getSignatureString($inputstr,$sigtag){
-            $sigstartpos = strpos($inputstr, $sigtag);
-            $sigendpos = strrpos($inputstr, $sigtag);
-            $signature=substr($inputstr,$sigstartpos + strlen($sigtag)+1,$sigendpos - $sigstartpos -strlen($sigtag)-3);
-            return $signature;
-        }
-        // Check if the string starts with '+225'
-        function formatThePhoneNumber($str) {
-            if (substr($str, 0, 4) === '+225') {
-                // Remove the '+' sign and return the rest of the string
-                return '225' . substr($str, 4);
-            }
-            // Return null if the string does not start with '+225'
-            return 255738171742;
-        }
 
         $bill_exp = Carbon::now()->addMonths(8)->format('Y-m-d\TH:i:s');
-
         if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
-            Log::info(["Error: Unable to read the cert file\n"]);
+            Log::info(["\n\n --------Error: \n *** Unable to read the cert file\n"]);
             exit;
         }
         else
         {
-            if (openssl_pkcs12_read($cert_store, $cert_info, $fileKeyPass))
-            {
+            if (openssl_pkcs12_read($cert_store, $cert_info, $fileKeyPass)){
                 //Bill Request
                 $id = $billingData->id;
                 $spcode =env('GEPG_SPCODE');
                 $systemid =env('GEPG_SYSTEMID');
 
-                $reqID = generateReqID(16);
-                $genDate = getGenerationDate();
+                $reqID = GeneralCustomHelper::generateReqID(16);
+                $genDate = GeneralCustomHelper::getGenerationDate();
                 $content ="<billSubReq>
                         <BillHdr>
                             <ReqId>".$reqID."</ReqId>
@@ -92,9 +50,9 @@ class XmlRequestHelper
                                 <CustTin>111111111</CustTin>
                                 <CustId>".$billingData->user_id."</CustId>
                                 <CustIdTyp>5</CustIdTyp>
-                                <CustAccnt>".formatThePhoneNumber($billingData->phone_number)."</CustAccnt>
+                                <CustAccnt>".GeneralCustomHelper::formatThePhoneNumber($billingData->phone_number)."</CustAccnt>
                                 <CustName>".$billingData->name."</CustName>
-                                <CustCellNum>".formatThePhoneNumber($billingData->phone_number)."</CustCellNum>
+                                <CustCellNum>".GeneralCustomHelper::formatThePhoneNumber($billingData->phone_number)."</CustCellNum>
                                 <CustEmail>".$billingData->email."</CustEmail>
                                 <BillGenDt>".$genDate."</BillGenDt>
                                 <BillExprDt>".$bill_exp."</BillExprDt>
@@ -126,7 +84,6 @@ class XmlRequestHelper
                         </BillDtls>
                     </billSubReq>";
 
-
                 //create signature
                 openssl_sign($content, $signature, $cert_info['pkey'], "sha256WithRSAEncryption");
                 //output crypted data base64 encoded
@@ -137,12 +94,8 @@ class XmlRequestHelper
                 $resultCurlPost = "";
                 $serverIp = $GepgBaseUrl;
                 $uri = $requestUri;
-
-
                 $data_string = $data;
-                Log::info("\n __________---  MESSAGING GEPG --__________-----");
-                Log::info("\n ----Message Length:",[strlen($data_string)]);
-
+                Log::info("\n ======= Curl Send payload GEPG");
                 $ch = curl_init($serverIp.$uri);
                 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -158,71 +111,46 @@ class XmlRequestHelper
 
                 curl_setopt($ch, CURLOPT_TIMEOUT, 70);
                 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 70);
-                Log::info("\n\n__________--- END MESSAGEING GEPG --__________----- ");
+                Log::info("\n\n===END MESSAGEING GEPG");
 
                 $resultCurlPost = curl_exec($ch);
                 curl_close($ch);
-                Log::info("\n \n __________---  RESULTING GEPG --__________----- ");
-
-                Log::info("\nResponse Data Length:",[strlen($resultCurlPost)]);
-
-                Log::info("\n ####### \n Response Data \n ################ \n ####### \n \n",[$resultCurlPost]);
-
-                Log::info("\n \n __________--- END RESULT GEPG --__________----- ");
+                Log::info("\n\n ### Response Data Length:\n",[strlen($resultCurlPost)]);
                 
                 if(!empty($resultCurlPost)){
-                    Log::info("\nResponse Data Length: ################ \n",[strlen($resultCurlPost)]);
+                    Log::info("\n\n-----Response Results: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
+                    Log::info("\n\n-----Response Results: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
+                    Log::info("\n\n---- Response End---");
 
-                    //Tags used in substring response content
-                    $datatag = "billSubReqAck";
-                    $sigtag = "signature";
-
-                    //Get data and signature from response
-                    $vdata = getDataString($resultCurlPost,$datatag);
-                    $vsignature = getSignatureString($resultCurlPost,$sigtag);
-
+                    $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
+                    $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
+                    
                     //Get Certificate contents
                     if (!$pcert_store = file_get_contents(__DIR__."/gepgpubliccertificate.pfx")) {
-                        Log::info("Error: Unable to read the cert file\n");
+                        Log::info("---Error: Unable to read the cert file\n");
                         exit;
                     }else{
                         //Read Certificate
-                        if (openssl_pkcs12_read($pcert_store, $pcert_info, "passpass")) {
+                        if (openssl_pkcs12_read($pcert_store, $pcert_info, $fileKeyPass)) {
                             //Decode Received Signature String
                             $rawsignature = base64_decode($vsignature);
-
                             //Verify Signature and state whether signature is okay or not
-                            $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0']);
+                            $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], OPENSSL_ALGO_SHA256);
                             if ($ok == 1) {
-                                echo "Signature Status:";
-                                Log::info("Signature Status: GOOD");
+                                Log::info("\n\n------Signature Status: GOOD");
+                                Log::info("\n\n---- End Verification ---");
+                                return $vdata;
                             } elseif ($ok == 0) {
-                                Log::info("Signature Status: BAD");
-                            } else {
-                                Log::info("Signature Status: UGLY, Error checking signature");
-
+                                Log::info("----Signature Status: BAD");
+                                return false;
+                            } else { 
+                                Log::info("Signature Status: UGLY, Error checking signature:"); 
                             }
-                            
                         }
                     }
-                    try{
-                        $xml = simplexml_load_string($resultCurlPost, "SimpleXMLElement", LIBXML_NOCDATA);
-                        $json = json_encode($xml);
-                        $arrayFromXml = json_decode($json,TRUE);
-                        Log::info("\nResponse Data:\n ################ \n", [$arrayFromXml]);
-                        Log::info("\n \n __________--- END --__________----- ");
-                        return $arrayFromXml;
-                    }
-                    catch (\Exception $e) {
-                        return response()->json([
-                            'status' => 'error',
-                            'message' => 'Invalid XML data',
-                            'error' => $e->getMessage()
-                        ], 400);
-                    }
                 }
-                else{  Log::info("No result Returned"."\n");}
-
+                else{ Log::info("No result Returned"."\n");}
+                
             }
             else
             { Log::info("Error: Unable to read the cert store.\n"); exit;}

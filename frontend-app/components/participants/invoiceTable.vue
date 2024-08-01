@@ -22,17 +22,17 @@ const handleBillDownloading = (index: number, row) => {
     <el-table-column label="Booking ID" prop="ReqId" />
     <el-table-column label="Conference" prop="name" />
     <el-table-column label="Control Number" prop="controlNumber" />
-    <el-table-column label="Created On" prop="created_at" />
+    <el-table-column label="Date Generated " prop="created_at" />
     <el-table-column label="Status" prop="status" />
     <el-table-column align="right">
       <template #header>
         <el-input v-model="search" size="default" placeholder="Type to search" />
       </template>
       <template #default="scope">
-        <el-button class="mx-1 my-0.5" type="info" size="small" @click="handleControlNumber(scope.$index, scope.row)">
-          <i class="fa-solid fa-rotate mr-0.5"></i>Control Number</el-button>
-        <el-button class="mx-1 my-0.5"  size="small" type="primary" @click="handleBillDownloading(scope.$index, scope.row)">
-          <i class="fa-solid fa-arrow-down mr-1"></i>Download Bill</el-button>
+<!--        <el-button class="mx-1 my-0.5" type="info" size="small" @click="handleControlNumber(scope.$index, scope.row)">-->
+<!--          <i class="fa-solid fa-rotate mr-0.5"></i>Control Number</el-button>-->
+<!--        <el-button class="mx-1 my-0.5"  size="small" type="primary" @click="handleBillDownloading(scope.$index, scope.row)">-->
+<!--          <i class="fa-solid fa-arrow-down mr-1"></i>Download Bill</el-button>-->
       </template>
     </el-table-column>
   </el-table>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GeneralCustomHelper;
 use App\Helpers\XmlRequestHelper;
 use App\Http\Resources\SubscribedEvents;
 use App\Mail\SubscriptionToEventMail;
@@ -11,6 +12,7 @@ use App\Models\Taic\Conference;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -75,19 +77,27 @@ class SubscriptionController extends Controller
                 $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
                 if($returedXml){
                     //request ID
-                $billData->ReqId = $returedXml["billSubReqAck"]['ReqId'];
+                $billData->ReqId = GeneralCustomHelper::get_string_between($returedXml, '<ReqId>', '</ReqId>');
                 $billData->save();
                 // Subcribe user to event 
                 Subscription::create($newItem);
                 Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
-                }
                 return response()->json([
                     'message'=> "Subscription Success",
                     'data' => $billData,
                     'GepgAck' => $returedXml,
                     'code'=> 200
                 ],200);
-            } catch (\Exception $e) {
+            }
+            else{
+                DB::table('bills')->where('id', $billData->id)->delete();
+                return response()->json([
+                    'message'=> "Bill Generation failed: Gepg Failed",
+                    'GepgAck' => $returedXml,
+                    'code'=> 300
+                ],500);
+            }
+        } catch (\Exception $e) {
                 return response()->json(
                     ['error' => 'Failed to create bill', 
                 'message' => $e->getMessage(), 'code' => 300]

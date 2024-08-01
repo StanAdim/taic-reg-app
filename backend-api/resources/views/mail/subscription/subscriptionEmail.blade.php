@@ -1,13 +1,11 @@
 
 <div style="padding:1.4rem;background-color: #e8e8ef; font-size:large; font-family: Verdana, Geneva, Tahoma, sans-serif">
     <p style="padding:1px 2px; margin: 4px 1px;">Dear<b style="color:#105f8d;"> 
-        {{-- {{$user->firstName}} {{$user->middleName}} {{$user->lastName}}, --}}
+        {{$user->firstName}},
     </b>
     </p>
 <p style="padding:4px 2px; margin: 4px 1px;">
-    Congratulation!, We are delighted to receive your booking to {{$eventName}}, your invoice is being processed
-    and will be sent to your email shortly
-</p>
+    Thank you for registering for the {{$eventName}}. Your invoice is being processed and will be sent to your email shortly.</p>
 
 <p style="padding:4px 2px; margin: 4px 1px;">
     For any inquiries contact us at:

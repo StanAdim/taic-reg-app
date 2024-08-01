@@ -9,32 +9,23 @@ use Illuminate\Support\Facades\Log;
 class XmlResponseHelper
 {
     
-    public static function handleResponse($passedXmlResponse){
+    public static function handleResponse($contrlNo_Gepg_res){
 
-        function getXMLData($passedXmlResponse){
+        function getXMLData($contrNoXmlData){
             $values = array();
-            $values['ResId'] = get_string_between($passedXmlResponse, '<ResId>', '</ResId>');
-            $values['ReqId'] = get_string_between($passedXmlResponse, '<ReqId>', '</ReqId>');
-            $values['BillId'] = get_string_between($passedXmlResponse, '<BillId>', '</BillId>');
-            $values['CustCntrNum'] = get_string_between($passedXmlResponse, '<CustCntrNum>', '</CustCntrNum>');
-            $values['ResStsCode'] = get_string_between($passedXmlResponse, '<ResStsCode>', '</ResStsCode>');
-            $values['ResStsDesc'] = get_string_between($passedXmlResponse, '<ResStsDesc>', '</ResStsDesc>');
-            $values['BillStsDesc'] = get_string_between($passedXmlResponse, '<BillStsDesc>', '</BillStsDesc>');
+            $values['ResId'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<ResId>', '</ResId>');
+            $values['ReqId'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<ReqId>', '</ReqId>');
+            $values['BillId'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<BillId>', '</BillId>');
+            $values['CustCntrNum'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<CustCntrNum>', '</CustCntrNum>');
+            $values['ResStsCode'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<ResStsCode>', '</ResStsCode>');
+            $values['ResStsDesc'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<ResStsDesc>', '</ResStsDesc>');
+            $values['BillStsDesc'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<BillStsDesc>', '</BillStsDesc>');
             return $values;
-        }
-
-        function get_string_between($string, $start, $end){
-            $string = ' ' . $string;
-            $ini = strpos($string, $start);
-            if ($ini == 0) return '';
-            $ini += strlen($start);
-            $len = strpos($string, $end, $ini) - $ini;
-            return substr($string, $ini, $len);
         }
 
         $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";
         $KEY_PASSWORD =  env('GEPG_KEYPASS', 'passpass');
-        $values = getXMLData($passedXmlResponse);
+        $values = getXMLData($contrlNo_Gepg_res);
         $BillId = $values['BillId'];
 
         if (strlen($BillId) < 3) {
@@ -42,9 +33,9 @@ class XmlResponseHelper
         } else {
             $serial = $BillId;
         }
-        // Log::info('RECPAY-GEPG-REQUEST', [$passedXmlResponse, $serial, 'GEPG']);
+        // Log::info('RECPAY-GEPG-REQUEST', [$contrlNo_Gepg_res, $serial, 'GEPG']);
         $varray = print_r($values, true);
-        Log::info('RECPAY-GEPG-VALUES', [$varray, $serial, 'GEPG']);
+        Log::info("\n\n----GEPG-VALUES \n", [$varray, $serial, "\nGEPG"]);
 
         $ResStsCode = $values['ResStsCode'];
         $codes = explode(';', $ResStsCode);
@@ -54,6 +45,7 @@ class XmlResponseHelper
         Log::info('GEPG---Response Description', [$values['ResStsDesc']]);
         Log::info('GEPG', ["-----GEPG\n"]);
 
+        /// --- Consuming Gepg Response 
         $NewBillStatus = Bill::where('id',$BillId)->first();
         if (in_array('7279', $codes)) {
             $ResStsCode = 'GEPG-PAID';
@@ -78,14 +70,13 @@ class XmlResponseHelper
             $NewBillStatus->status_code = $ResStsCode;
             $NewBillStatus->save();  
         }
-
-
+        
         $codescount = count($codes);
         $error_messages = $codescount . ':';
         for ($i = 0; $i < $codescount; $i++) {
             // $error_messages .= $xsystem->getGEPGErrorMessage($codes[$i]) . '; ';
         }
-        Log::info('RECPAY-GEPG-ERRORS', [$error_messages, $serial, 'GEPG']);
+        Log::info("\n \nRECPAY-GEPG-ERRORS", [$error_messages, $serial, "\nGEPG"]);
 
         if (!$cert_store = file_get_contents($PRIVATE_KEY)) {
             Log::info("Error: Unable to read the cert file\n");
