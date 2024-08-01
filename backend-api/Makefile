@@ -57,11 +57,12 @@ production.setup:
 	@make production.yarn
 
 production.reload:
-	git pull origin production
+	cd ../ && git pull origin production
 	@make production.stop
 	@make production.build
 	@make production.up
 	@make production.boost
+	cd ../frontend-app/ && yarn && pm2 restart production.config.cjs
 
 production.build:
 	docker compose -f docker-compose.prod.yml build 
