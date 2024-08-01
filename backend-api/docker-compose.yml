@@ -6,7 +6,7 @@ services:
     container_name: test-ems-api
     working_dir: /var/www/html
     ports:
-      - 2007:80
+      - 2020:80
     volumes:
       - .:/var/www/html
     environment:
@@ -37,7 +37,7 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - 2008:${DB_PORT}
+      - 2003:${DB_PORT}
     networks:
       - testems-network
     volumes:
