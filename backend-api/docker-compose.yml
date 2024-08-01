@@ -1,32 +1,57 @@
+version: '3'
+
 services:
-  events-test:
-    container_name: events-test
-    build:
-      context: .
-      dockerfile: Dockerfile
+  test-ems-api:
+    build: .
+    container_name: test-ems-api
+    working_dir: /var/www/html
+    ports:
+      - 2020:80
     volumes:
-      - ./:/var/www/html
-    ports:
-      - 2007:80
-
-  events_test_db:
-    container_name: event_test_db
-    image: mysql:8.0.33
+      - .:/var/www/html
     environment:
-      MYSQL_ROOT_PASSWORD: CallForOrder123455
-      MYSQL_DATABASE: events_test_db
+      APP_ENV: ${APP_ENV}  # Example environment variable
+      APP_DEBUG: 'true'
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - testems-network
+    depends_on:
+      - test-ems-db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  test-ems-db:
+    image: postgres:13.4
+    container_name: ${DB_HOST}
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 2003:${DB_PORT}
+    networks:
+      - testems-network
     volumes:
-      - mysql_data:/var/lib/mysql
-    ports:
-    - 3307:3306
-
-  events_test_phpmyadmin:
-    container_name: events_test_phpmyadmin
-    image: phpmyadmin:5.2.1
-    ports:
-      - 6207:80
-    environment:
-      - PMA_ARBITRARY=1
+      - test_ems_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $DB_USERNAME"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
-  mysql_data:
+  test_ems_pgdata:
+    driver: local
+
+networks:
+  testems-network:
+    driver: bridge

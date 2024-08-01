@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("reference_no")->default('');
             // $table->string("reference_no")->unique()->default('');
             $table->string("ReqId")->nullable();
+            $table->string("ack_id")->nullable();
             $table->string("GrpBillId")->nullable();
             $table->string("SpGrpCode")->nullable();
             $table->string("phone_number")->nullable();
@@ -36,14 +37,12 @@ return new class extends Migration
             $table->string("event_id")->nullable();
             $table->decimal('amount', 10, 2)->nullable();
             $table->string("remarks")->nullable();
-            $table->string("req_id")->nullable();
             $table->string("email")->nullable();
             $table->string("grp_bill_id")->nullable();
             $table->string("sp_grp_code")->nullable();
             $table->string("cust_cntr_num")->nullable();
             $table->string("entry_cnt")->nullable();
             $table->string("sp_code")->nullable();
-            $table->string("bill_id")->nullable();
             $table->string("bill_ctr_num")->nullable();
             $table->string("psp_code")->nullable();
             $table->string("psp_name")->nullable();

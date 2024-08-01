@@ -1,6 +1,9 @@
 import type { ApiResponse } from "~/types/interfaces";
+import {useApiFetch} from "~/composables/useApiFetch";
 
 export const useAccountStore = defineStore('accountStore', () => {
+    const globalStore = useGlobalDataStore()
+    const authStore = useAuthStore()
 
     //Stores
     const accountUpdateDialogStatus= ref(false);
@@ -15,17 +18,28 @@ export const useAccountStore = defineStore('accountStore', () => {
     const toggleAccountDialogState = (key)=> (key == 'on') ? accountUpdateDialogStatus.value = true: accountUpdateDialogStatus.value = false
     const toggleUpdateUserInfoDialogState = (key)=> (key == 'on') ? userInfoUpdateDialogStatus.value = true: userInfoUpdateDialogStatus.value = false
 
-    const handleUpdateAccount = async (passedData)=> {
-        console.log(passedData)
+    async function handleUserAccountUpdate(userInfo : RegistrationInfo, type : string){
+        const registrationResponse = await useApiFetch(`/user/${type}-update`, {
+            method: "POST",
+            body: userInfo,
+        });
+        if(registrationResponse?.data.value?.code == 200){
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage('Account updated Success','success')
+            toggleAccountDialogState('off');
+        }else{
+            authErrors.value = registrationResponse?.error.value?.data
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage(authErrors.value?.message, 'error')
+        }
+         await authStore.fetchUser()
+        return registrationResponse;
     }
-    const handleUserDetailUpdate = async (passedUserInfo)=> {
-        console.log(passedUserInfo)
-    }
+
     return {
         getAccountUpdateDialogStatus,getUserInfoUpdateDialogStatus,
         toggleAccountDialogState,
         toggleUpdateUserInfoDialogState,
-        handleUpdateAccount,
-        handleUserDetailUpdate,
+        handleUserAccountUpdate,
     }
 })

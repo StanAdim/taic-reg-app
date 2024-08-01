@@ -5,6 +5,10 @@ definePageMeta({
   layout:'auth',
   middleware:'guest'
 })
+const  inputType = ref('password');
+const togglePasswordVisibility = () => {
+  inputType.value = inputType.value === 'password' ? 'text' : 'password'
+}
 const globalData = useGlobalDataStore()
 const authStore = useAuthStore()
 const credentials = ref({ email:'', password: ''})
@@ -16,6 +20,8 @@ const handleLogin = async ()=>{
   const response = await authStore.login(credentials.value)
 }
 const date = new Date();
+onNuxtReady(()=> {
+})
 </script>
 <template>
 <!--  <usables-done-check-anim />-->
@@ -37,17 +43,38 @@ const date = new Date();
             <h2 class="font-bold text-xl text-sky-600">Please login to continue|</h2>
             <usables-hance-loader />
             <div class="mt-4 ">
-              <form @submit.prevent="handleLogin()">
+              <form @submit.prevent="handleLogin()" class="w-full md:w-4/5">
                 <div>
-                  <label class="mb-2.5 block" for="email">Email</label>
-                  <input type="email" id="email"  v-model="credentials.email"
-                         class="inline-block w-full rounded-lg bg-sky-100/40 p-3 leading-none text-black placeholder-zinc-600 shadow placeholder:opacity-50"
-                         placeholder="Enter your email" />
-                </div>
-                <div class="mt-4">
-                  <label class="mb-2.5 block" for="password">Password</label>
-                  <input type="password" id="password"  v-model="credentials.password" placeholder="**********"
-                         class="inline-block w-full rounded-lg bg-sky-100/40 p-3 leading-none text-black placeholder-indigo-900 shadow" />
+                  <div class="mt-2 relative">
+                    <label class="block mt-2" for="email">Email</label>
+                    <input
+                        type="text"
+                        id="email"
+                        placeholder="Email"
+                        v-model="credentials.email"
+                        class="block mt-2 w-full rounded-md border-1 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        required
+                    >
+                  </div>
+                  </div>
+                <div class="mt-2 relative">
+                  <label class="block mt-2" for="email">Password</label>
+                  <input
+                      :type="inputType"
+                      v-model="credentials.password"
+                      id="password"
+                      placeholder="***********"
+                      class="block mt-2 w-full rounded-md border-1 py-2.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      required
+                  >
+                  <button
+                      @click.prevent="togglePasswordVisibility()"
+                      type="button"
+                      class="absolute inset-y-0 right-0 flex items-center top-8 px-3 text-gray-600"
+                  >
+                    <span v-if="inputType === 'password'">👁️</span>
+                    <span v-else>👁️‍🗨️</span>
+                  </button>
                 </div>
                 <div class="mt-4 flex w-full flex-col justify-between sm:flex-row">
                   <!-- Forgot password -->
@@ -77,4 +104,9 @@ const date = new Date();
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+.input-01 {
+
+}
+</style>

@@ -29,5 +29,11 @@ RUN docker-php-ext-install gettext intl pdo_mysql gd
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
 
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && docker-php-ext-install pdo_pgsql
+
+
 EXPOSE 80
 

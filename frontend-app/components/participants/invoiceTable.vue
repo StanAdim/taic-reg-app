@@ -1,65 +1,42 @@
-<template>
-  <el-table :data="filterTableData" style="width: 100%">
-    <el-table-column label="Date" prop="date" />
-    <el-table-column label="Name" prop="name" />
-    <el-table-column align="right">
-      <template #header>
-        <el-input v-model="search" size="small" placeholder="Type to search" />
-      </template>
-      <template #default="scope">
-        <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
-          Edit
-        </el-button>
-        <el-button
-            size="small"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-        >
-          Delete
-        </el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-</template>
-
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+const billStore = useBillStore();
 
 const search = ref('')
 const filterTableData = computed(() =>
-    tableData.filter(
+    billStore.getUserPayments.filter(
         (data) =>
             !search.value ||
             data.name.toLowerCase().includes(search.value.toLowerCase())
     )
 )
-const handleEdit = (index: number, row: User) => {
+const handleControlNumber = (index: number, row) => {
   console.log(index, row)
 }
-const handleDelete = (index: number, row: User) => {
+const handleBillDownloading = (index: number, row) => {
   console.log(index, row)
 }
-
-const tableData: User[] = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'John',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Morgan',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Jessy',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
 </script>
+
+<template>
+  <el-table :data="filterTableData" style="width: 100%">
+    <el-table-column label="Booking ID" prop="ReqId" />
+    <el-table-column label="Conference" prop="name" />
+<!--    <el-table-column label="Control Number" prop="controlNumber" />-->
+    <el-table-column label="Control Number" prop="**" />
+    <el-table-column label="Date Generated " prop="created_at" />
+    <el-table-column label="Status" prop="status" />
+    <el-table-column align="right">
+      <template #header>
+        <el-input v-model="search" size="default" placeholder="Type to search" />
+      </template>
+      <template #default="scope">
+<!--        <el-button class="mx-1 my-0.5" type="info" size="small" @click="handleControlNumber(scope.$index, scope.row)">-->
+<!--          <i class="fa-solid fa-rotate mr-0.5"></i>Control Number</el-button>-->
+<!--        <el-button class="mx-1 my-0.5"  size="small" type="primary" @click="handleBillDownloading(scope.$index, scope.row)">-->
+<!--          <i class="fa-solid fa-arrow-down mr-1"></i>Download Bill</el-button>-->
+      </template>
+    </el-table-column>
+  </el-table>
+</template>
+
+

@@ -27,7 +27,9 @@ async function handleCall(){
     await eventStore.retrieveEvents()
 
 }
-handleCall();
+onNuxtReady(()=> {
+    handleCall();
+})
 
 </script>
 <template>

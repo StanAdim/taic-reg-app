@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GeneralCustomHelper;
 use App\Helpers\XmlRequestHelper;
 use App\Http\Resources\SubscribedEvents;
+use App\Mail\SubscriptionToEventMail;
 use App\Models\Bill;
 use App\Models\Event\Subscription;
 use App\Models\Taic\Conference;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class SubscriptionController extends Controller
@@ -24,16 +28,22 @@ class SubscriptionController extends Controller
             ],200);
 
     }
-    public function subscribeToEvent($eventId,$eventFee)
+    public function subscribeToEvent($eventId)
     {
         // Initialize data 
         $event = Conference::where('id',$eventId)->first();
         $user_id = Auth::id();
         $user = Auth::user();
         $userInfo = $user->userInfo;
+        $billTobePaid = 0;
+        if($userInfo->nation != 214){
+            $billTobePaid = $event->foreignerFeeInTzs;
+        }else{
+            $userInfo->professionalStatus ? $billTobePaid = $event->defaultFee : $billTobePaid = $event->guestFee;
+        }        
         $newItem = ['user_id' => $user_id, 'conference_id' => $eventId,];
 
-        //Check if user has  Subscribed already
+        // Check if user has  Subscribed already
         $isUserSubscribed = Subscription::where('conference_id', $eventId)
         ->where('user_id', $user_id)
         ->exists();
@@ -43,8 +53,9 @@ class SubscriptionController extends Controller
                 'code'=> 300
             ]);
         }
-        //If not Created Bill for subscription
-        else{
+        // If not Created Bill for subscription
+        else 
+        {
             $newBill = [
                 'user_id' => $user_id,
                 'conference_id' =>$eventId,
@@ -53,31 +64,40 @@ class SubscriptionController extends Controller
                 'billApproveBy' => 'Billing system',
                 'phone_number' => $userInfo->phoneNumber,
                 'name' => $event->name,
-                'amount' => number_format($eventFee, 2),
-                'event_fee' => number_format($eventFee, 2),
+                'amount' => $billTobePaid,
+                'event_fee' => $billTobePaid,
                 'email' => $user->email,
-                'bill_exp' => Carbon::parse('2030-07-24 12:00:00'),
+                'bill_exp' => Carbon::now()->addMonths(8)->format('Y-m-d\TH:i:s'),
                 'ccy' => "TZS",
                 'bill_pay_opt' => 1,
                 'status' => 0,
             ];
             try {
-                $storeData = Bill::create($newBill);
-                $returedXml = XmlRequestHelper::GepgSubmissionRequest($storeData);
+                $billData = Bill::create($newBill);
+                $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
                 if($returedXml){
-                $storeData->ReqId = $returedXml["billSubReqAck"]['ReqId'];
-                $storeData->save();
-                // Subcribe user 
-                $storeData = Subscription::create($newItem);
-                }
+                    //request ID
+                $billData->ReqId = GeneralCustomHelper::get_string_between($returedXml, '<ReqId>', '</ReqId>');
+                $billData->save();
+                // Subcribe user to event 
+                Subscription::create($newItem);
+                Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
                 return response()->json([
                     'message'=> "Subscription Success",
-                    'data' => $storeData,
+                    'data' => $billData,
                     'GepgAck' => $returedXml,
                     'code'=> 200
                 ],200);
-
-            } catch (\Exception $e) {
+            }
+            else{
+                DB::table('bills')->where('id', $billData->id)->delete();
+                return response()->json([
+                    'message'=> "Bill Generation failed: Gepg Failed",
+                    'GepgAck' => $returedXml,
+                    'code'=> 300
+                ],500);
+            }
+        } catch (\Exception $e) {
                 return response()->json(
                     ['error' => 'Failed to create bill', 
                 'message' => $e->getMessage(), 'code' => 300]

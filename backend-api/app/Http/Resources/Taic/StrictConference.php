@@ -17,6 +17,7 @@ class StrictConference extends JsonResource
         return [
 
             'conferenceName'=> 'TAIC - '.$this->conferenceYear,
+            'name'=> $this->name,
             'conferenceYear' => $this->conferenceYear,
             'id' => $this->id,
             'startDate' => date('j F Y', strtotime($this->startDate)),

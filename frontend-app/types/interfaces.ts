@@ -19,6 +19,14 @@ export interface ConferenceData {
 }
 // export interface UserDataArray extends Array<User> {}
 
+export interface DocumentMaterial {
+    id:string,
+    name:string,
+    path:string,
+    conference_id:string,
+    user_id:string,
+    status:string,
+}
 export interface User {
     id:number,
     firstName: string,

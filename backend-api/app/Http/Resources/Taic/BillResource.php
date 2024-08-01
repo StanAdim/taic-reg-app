@@ -38,10 +38,12 @@ class BillResource extends JsonResource
             'conferenceName'=> 'TAIC '.Conference::where('id',$this->conference_id)->first()->conferenceYear, 
             'conferenceFee'=>$this->separateNumber($this->event_fee), 
             'controlNumber'=>$this->cust_cntr_num, 
+            'name'=>$this->name, 
             'status'=> $this->status ? 'PAID': 'NOT PAID',
             'status_code'=>$this->status_code,
             'ReqId'=>$this->ReqId,
-            'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y, H:i')
+            'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y')
+            // 'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y, H:i')
         ];
     }
     

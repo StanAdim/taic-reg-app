@@ -6,7 +6,6 @@ const  init = async  ()=> [
 ]
 init()
 onNuxtReady(() => {
-  console.log('Nuxt is ready on the client');
   init()
 });
 </script>
@@ -33,7 +32,7 @@ onNuxtReady(() => {
               <p class="text-sm mb-2">
 
                 <span class="text-blue-900">Commence date </span> <br class="block md:hidden" /><span class="text-emerald-700 font-medium"><i class="fa-solid fa-calendar-days"></i> {{item.startDate}}</span> <br>
-                <span class="text-blue-900">End date </span> <br class="block md:hidden" /><span class="text-yellow-800 font-medium"><i class="fa-solid fa-calendar-xmark"></i> {{item.startDate}}</span>
+                <span class="text-blue-900">End date </span> <br class="block md:hidden" /><span class="text-yellow-800 font-medium"><i class="fa-solid fa-calendar-xmark"></i> {{item.endDate}}</span>
               </p>
               <p class="text-sm mb-0">
                 <i class="fa-solid fa-location-dot fa-lg text-sky-600 mx-1"></i>{{item.venue}}

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\District;
+use App\Models\Nation;
 use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,7 +19,7 @@ class UserInfoResource extends JsonResource
     {
         return [
             "phoneNumber" => $this->phoneNumber,
-            "nationality" => $this->nation,
+            "nation" => Nation::where('id', $this->nation)->first()->name,
             "isForeigner" => $this->nation == 214 ? 0: 1,
             "isProfessional" => $this->professionalStatus ? true : false,
             "professionalStatus" => $this->professionalStatus ? 'Registered Professional' : 'Non - Registered Professional',

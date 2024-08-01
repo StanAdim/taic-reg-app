@@ -15,9 +15,9 @@ const formData = ref({firstName: user.firstName, middleName: user.middleName, la
 const accountStore = useAccountStore()
 const globalData = useGlobalDataStore()
 
-const handleRegistration = async () => {
+const handleFormSubmit = async () => {
   globalData.toggleLoadingState('on')
-  await accountStore.handleUpdateAccount(formData.value)
+  await accountStore.handleUserAccountUpdate(formData.value, 'account')
 }
 </script>
 <template>
@@ -30,7 +30,7 @@ const handleRegistration = async () => {
             <i class="fa fa-xl  fa-user mx-2"></i>
           </span>
             <span class="text-emerald-800 my-2 p-0.5 bg-zinc-50/5 flex-grow text-xl text-center font-bold">
-             UPDATE ACCOUNT
+             UPDATE ACCOUNT INFORMATION
           </span>
             <span class="text-emerald-800 p-0.5 bg-zinc-50/5 rounded-md hover:bg-red-500 hover:text-white flex-shrink-0"
                   @click="accountStore.toggleAccountDialogState('off')"
@@ -41,7 +41,7 @@ const handleRegistration = async () => {
           <!-- component -->
           <div class="flex  justify-center">
             <div class="bg-white align-middle  shadow-md rounded-lg md:px-10 px-8 py-2 my-1">
-              <form @submit.prevent="handleRegistration()">
+              <form @submit.prevent="handleFormSubmit()">
                 <p class="my-2">Update your informations</p>
 
                 <div class="mb-4">

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('role_permission', function (Blueprint $table) {
             $table->id();
-            $table->string('role_id');
-            $table->string('permission_id');
+            $table->uuid('role_id'); // Change from string to uuid
+            $table->uuid('permission_id'); // Assuming you have a uuid for permissions too
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
+            // Add any other columns and indexes as necessary
             $table->timestamps();
         });
     }

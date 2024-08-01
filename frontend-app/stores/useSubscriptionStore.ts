@@ -10,7 +10,7 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
 
     async function subscribeToAnEvent(subscription: string){
         globalStore.toggleLoadingState('on')
-        const {data, error} = await useApiFetch(`/api/subscribe-event/${subscription.eventId}/${subscription.eventFee}`);
+        const {data, error} = await useApiFetch(`/api/subscribe-event/${subscription.eventId}`);
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
             globalStore.assignAlertMessage(dataResponse?.message, 'success')
@@ -34,6 +34,7 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
             globalStore.toggleContentLoaderState('off')
             subscribedEvents.value = response.data
         }
+        globalStore.toggleContentLoaderState('off')
         return {data, error};
     }
     return {

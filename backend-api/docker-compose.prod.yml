@@ -1,32 +1,57 @@
+version: '3'
+
 services:
-  events-app:
-    container_name: events-app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./:/var/www/html
+  events-app-api:
+    build: .
+    container_name: events-app-api
+    working_dir: /var/www/html
     ports:
       - 6030:80
-
-  events_app_db_01:
-    container_name: events_app_db_01
-    image: mysql:8.0.33
-    environment:
-      MYSQL_ROOT_PASSWORD: CallForOrder123455
-      MYSQL_DATABASE: events_ictc_db
     volumes:
-      - mysql_data:/var/lib/mysql
-    ports:
-    - 3397:3306
-
-  events_app_phpmyadmin_01:
-    container_name: events_app_phpmyadmin_01
-    image: phpmyadmin:5.2.1
-    ports:
-      - 7334:80
+      - .:/var/www/html
     environment:
-      - PMA_ARBITRARY=1
+      APP_ENV: ${APP_ENV}  # Example environment variable
+      APP_DEBUG: 'true'
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - events-ictc-app
+    depends_on:
+      - db-events-app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db-events-app:
+    image: postgres:13.4
+    container_name: ${DB_HOST}
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 6032:${DB_PORT}
+    networks:
+      - events-ictc-app
+    volumes:
+      - pgproductiondata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $DB_USERNAME"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
-  mysql_data:
+  pgproductiondata:
+    driver: local
+
+networks:
+  events-ictc-app:
+    driver: bridge

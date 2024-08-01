@@ -57,13 +57,14 @@ initialize()
                   <h3 class="text-xl font-semibold text-sky-600 mb-2">
                     <span class=""></span>{{ userProfile?.firstName }}  <span class=""></span>{{ userProfile?.middleName }}  <span class=""></span>{{ userProfile?.lastName }}</h3>
                   <div class="text-gray-700">Email: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{ userProfile?.email }}</span></div>
-                  <template v-if="userProfile?.hasInfo === 1">
+                  <template v-if="authStore.getLoggedUserInfo">
                   <div class="text-gray-700">Phone Number: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.phoneNumber}}</span></div>
                     <div class="text-gray-700">Institution: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.institution}}</span></div>
                     <div class="text-gray-700">Designation: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.position}}</span></div>
                     <div class="text-gray-700">Professional Status <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.professionalStatus}}</span></div>
-                    <div class="text-gray-700">Professional number: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.professionalNumber}}</span></div>
+                    <div class="text-gray-700">Professional number: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.professionalNumber || '...'}}</span></div>
                     <div class="text-gray-700">Address: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.region?.name}} - {{authStore.getLoggedUserInfo?.district?.name}} </span></div>
+                    <div class="text-gray-700">Nationality: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.nation}} </span></div>
                   </template>
                 </div>
               </div>

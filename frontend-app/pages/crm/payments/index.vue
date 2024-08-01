@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import InvoiceTable from "~/components/participants/invoiceTable.vue";
+
 definePageMeta({
   middleware:'auth'
 })
@@ -18,19 +20,24 @@ const initialize = async  () => {
   await  billStore.retrieveUserPayments()
 }
 const allBillsHeader =
-    [{key:'user',name:'Attendee Name'}, {key:'conferenceName',name:'Event'} , {key:'conferenceFee',name:'Fee'},{key:'controlNumber',name:'Control Number'}, {key:'status',name:"Status"}]
+    [{key:'user',name:'Attendee Name'}, {key:'conferenceName',name:'Event'} ,
+      {key:'conferenceFee',name:'Fee'},{key:'controlNumber',name:'Control Number'},
+      {key:'status',name:"Status"}]
 
-initialize()
+onNuxtReady(()=> {
+  initialize()
+})
 </script>
 
 <template>
   <div class="">
     <AdminThePageTitle title="PAYMENTS HISTORY" />
-      <h2 class="text-sky-700 font-bold">Your Payment Bills Generated</h2>
+      <h2 class="text-sky-700 font-bold">Bills Generated</h2>
     <UsablesContentLoading />
 
-    <UsablesNoData v-if="billStore.getUserPayments.length === 0" source="User's bills " />
-    <usables-simple-data-table v-else :headers="billsHeader" :data="billStore.getUserPayments" />
+    <div class="flex justify-center">
+      <InvoiceTable />
+    </div>
 <!--    <ParticipantsInvoiceTable />-->
     <template  v-if="globalStore.hasPermission('can_view_bills')">
       <div class="mt-2">
