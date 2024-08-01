@@ -85,7 +85,7 @@ production.start:
 	docker compose -f docker-compose.prod.yml restart
 
 production.boost:
-	docker exec  events-app-api bash -c "php artisan migrate"
+	#docker exec  events-app-api bash -c "php artisan migrate"
 	docker exec  events-app-api bash -c "php artisan optimize"
 	docker exec  events-app-api bash -c "composer dump-autoload"
 	docker exec  events-app-api bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
