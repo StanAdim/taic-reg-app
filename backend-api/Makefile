@@ -10,7 +10,7 @@ staging.reload:
 	@make staging.build
 	@make staging.up
 	@make staging.boost
-	cd ../frontend-app/ && yarn && pm2 restart staging.config.cjs
+	# cd ../frontend-app/ && yarn && pm2 restart staging.config.cjs
 	
 staging.build:
 	docker compose build 
