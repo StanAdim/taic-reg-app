@@ -10,11 +10,9 @@ use App\Models\Bill;
 use App\Models\Event\Subscription;
 use App\Models\Taic\Conference;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 
 class SubscriptionController extends Controller
 {
@@ -75,27 +73,40 @@ class SubscriptionController extends Controller
             try {
                 $billData = Bill::create($newBill);
                 $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
-                if($returedXml){
-                    //request ID
-                $billData->ReqId = GeneralCustomHelper::get_string_between($returedXml, '<ReqId>', '</ReqId>');
-                $billData->save();
-                // Subcribe user to event 
-                Subscription::create($newItem);
-                Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
+                //check if the bill is 0 for Freee Events
+                if($billTobePaid != 0){
+                    //Check bill is Generated to Gepg
+                    if($returedXml){
+                        //request ID
+                    $billData->ReqId = GeneralCustomHelper::get_string_between($returedXml, '<ReqId>', '</ReqId>');
+                    $billData->save();
+                    // Subcribe user to event 
+                    Subscription::create($newItem);
+                    Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
+                    return response()->json([
+                        'message'=> "Subscription Success",
+                        'data' => $billData,
+                        'GepgAck' => $returedXml,
+                        'code'=> 200
+                    ],200);
+                }
+                else{
+                    //Subscribe participant to a free event
+                    Subscription::create($newItem);
+                    DB::table('bills')->where('id', $billData->id)->delete();
+                    return response()->json([
+                        'message'=> "Bill Generation failed: Gepg Failed",
+                        'GepgAck' => $returedXml,
+                        'code'=> 300
+                    ],500);
+                }
+            }else{
                 return response()->json([
-                    'message'=> "Subscription Success",
+                    'message'=> "Subscription Success For Free event",
                     'data' => $billData,
                     'GepgAck' => $returedXml,
                     'code'=> 200
                 ],200);
-            }
-            else{
-                DB::table('bills')->where('id', $billData->id)->delete();
-                return response()->json([
-                    'message'=> "Bill Generation failed: Gepg Failed",
-                    'GepgAck' => $returedXml,
-                    'code'=> 300
-                ],500);
             }
         } catch (\Exception $e) {
                 return response()->json(
