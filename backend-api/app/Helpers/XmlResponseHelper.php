@@ -25,8 +25,8 @@ class XmlResponseHelper
 
         $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";
         $KEY_PASSWORD =  env('GEPG_KEYPASS', 'passpass');
-        $values = getXMLData($contrlNo_Gepg_res);
-        $BillId = $values['BillId'];
+        $gepg_response = getXMLData($contrlNo_Gepg_res);
+        $BillId = $gepg_response['BillId'];
 
         if (strlen($BillId) < 3) {
             $serial = date("YmdHis");
@@ -34,15 +34,16 @@ class XmlResponseHelper
             $serial = $BillId;
         }
         // Log::info('RECPAY-GEPG-REQUEST', [$contrlNo_Gepg_res, $serial, 'GEPG']);
-        $varray = print_r($values, true);
-        Log::info("\n\n----GEPG-VALUES \n", [$varray, $serial, "\nGEPG"]);
+        $varray = print_r($gepg_response, true);
+        Log::info("\n\n---------------GEPG Control number \n", [$varray, $serial, "\n -------GEPG"]);
 
-        $ResStsCode = $values['ResStsCode'];
+        $ResStsCode = $gepg_response['ResStsCode'];
         $codes = explode(';', $ResStsCode);
 
         /// save data based on Request
-        Log::info('GEPG', ["----------------------------GEPG\n"]);
-        Log::info('GEPG---Response Description', [$values['ResStsDesc']]);
+        Log::info('GEPG', ["---------------GEPG\n"]);
+        Log::info('GEPG---------Response Code', [$gepg_response['ResStsCode']]);
+        Log::info('GEPG---------Response Description', [$gepg_response['ResStsDesc']]);
         Log::info('GEPG', ["-----GEPG\n"]);
 
         /// --- Consuming Gepg Response 
@@ -56,11 +57,10 @@ class XmlResponseHelper
             $NewBillStatus->status = 1;
             $NewBillStatus->save();
         }
-        elseif (in_array('7101', $codes) OR in_array('7226', $codes))
-        {
+        elseif (in_array('7101', $codes) OR in_array('7226', $codes)) {
             //"UPDATE billing SET updated_at='$date',gepgstatus='$ResStsCode',controlno='$controlno' WHERE billid='$billid'");
             $ResStsCode = 'GEPG-OK';
-            $cust_cntr_num = $values['CustCntrNum'];
+            $cust_cntr_num = $gepg_response['CustCntrNum'];
             $NewBillStatus->status_code = $ResStsCode;
             $NewBillStatus->cust_cntr_num = $cust_cntr_num;
             $NewBillStatus->save();            
@@ -75,8 +75,9 @@ class XmlResponseHelper
         $error_messages = $codescount . ':';
         for ($i = 0; $i < $codescount; $i++) {
             // $error_messages .= $xsystem->getGEPGErrorMessage($codes[$i]) . '; ';
+            Log::info("\n \n --------GEPG-ERROR", [$codes[$i], "\n---GEPG"]);
         }
-        Log::info("\n \nRECPAY-GEPG-ERRORS", [$error_messages, $serial, "\nGEPG"]);
+        Log::info("\n \n --------GEPG-ERRORS", [$error_messages, $serial, "\nGEPG"]);
 
         if (!$cert_store = file_get_contents($PRIVATE_KEY)) {
             Log::info("Error: Unable to read the cert file\n");
@@ -86,9 +87,10 @@ class XmlResponseHelper
                  //Response Content Ack  
                 $responseContentAck = "<billSubResAck>
                                             <AckId>SP20210205130219</AckId>
-                                            <ResId>".$values['ResId']."</ResId>
+                                            <ResId>".$gepg_response['ResId']."</ResId>
                                             <AckStsCode>7101</AckStsCode>
                                         </billSubResAck>";
+                                        
 			     //Create signature 
                 openssl_sign($responseContentAck, $signature, $cert_info['pkey'], "sha1WithRSAEncryption");
                 // output crypted data base64 encoded
