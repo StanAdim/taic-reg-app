@@ -23,14 +23,14 @@ services:
     depends_on:
       - test-ems-db
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
+      test: ["CMD", "curl", "-f", "http://staging.ictc.go.tz"]
       interval: 30s
       timeout: 10s
       retries: 3
 
   test-ems-db:
     image: postgres:13.4
-    container_name: ems_test_db_data
+    container_name: ${DB_HOST}
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_DATABASE}
