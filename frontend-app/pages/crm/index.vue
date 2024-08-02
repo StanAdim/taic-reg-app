@@ -20,7 +20,6 @@ onNuxtReady(() => {
 <template>
   <div class="">
     <AdminThePageTitle title="DASHBOARD" />
-<!--    <usables-type-text-anim  />-->
     <!-- component -->
     <h2  class="text-sky-700 font-bold text-lg my-1">Event booked</h2>
     <div class="flex flex-wrap   my-2">
@@ -43,7 +42,7 @@ onNuxtReady(() => {
       </div>
         </div>
       </template>
-      <usables-no-data  v-else source="No payment made" />
+      <usables-no-data  v-else source="booked events" />
     </div>
   </div>
 </template>

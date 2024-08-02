@@ -72,9 +72,9 @@ class SubscriptionController extends Controller
             ];
             try {
                 $billData = Bill::create($newBill);
-                $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
-                //check if the bill is 0 for Freee Events
+                //check  Freee Events
                 if($billTobePaid != 0){
+                    $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
                     //Check bill is Generated to Gepg
                     if($returedXml){
                         //request ID
@@ -91,8 +91,6 @@ class SubscriptionController extends Controller
                     ],200);
                 }
                 else{
-                    //Subscribe participant to a free event
-                    Subscription::create($newItem);
                     DB::table('bills')->where('id', $billData->id)->delete();
                     return response()->json([
                         'message'=> "Bill Generation failed: Gepg Failed",
@@ -100,11 +98,12 @@ class SubscriptionController extends Controller
                         'code'=> 300
                     ],500);
                 }
-            }else{
+            }else{ //Subscribe participant to a free event
+
+                Subscription::create($newItem);
                 return response()->json([
                     'message'=> "Subscription Success For Free event",
                     'data' => $billData,
-                    'GepgAck' => $returedXml,
                     'code'=> 200
                 ],200);
             }

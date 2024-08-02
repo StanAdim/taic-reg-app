@@ -16,7 +16,7 @@ class ConferenceController extends Controller
     public function index()
     {
         //
-        $conferences = ConferenceResource::collection(Conference::all()->sortBy('lock'));
+        $conferences = ConferenceResource::collection(Conference::all()->sortByDesc('createdDate'));
         if($conferences){
             return response()->json([
                 'message'=> "Conferences Fetch Success",
@@ -34,7 +34,7 @@ class ConferenceController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            "conferenceYear" => 'required|unique:conferences',
+            "conferenceYear" => 'required',
             "startDate" => 'required',
             "name" => 'required',
             "endDate" => 'required',

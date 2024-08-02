@@ -30,7 +30,7 @@ services:
 
   test-ems-db:
     image: postgres:13.4
-    container_name: ${DB_HOST}
+    container_name: ems_test_db_data
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_DATABASE}

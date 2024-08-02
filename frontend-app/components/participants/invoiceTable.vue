@@ -22,6 +22,7 @@ const handleBillDownloading = (index: number, row) => {
     <el-table-column label="Booking ID" prop="ReqId" />
     <el-table-column label="Conference" prop="name" />
 <!--    <el-table-column label="Control Number" prop="controlNumber" />-->
+    <el-table-column label="Conference Fee" prop="conferenceFee" />
     <el-table-column label="Control Number" prop="**" />
     <el-table-column label="Date Generated " prop="created_at" />
     <el-table-column label="Status" prop="status" />

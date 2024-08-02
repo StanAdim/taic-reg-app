@@ -84,11 +84,17 @@ const handleSubscription = async ()=> {
                   </template>
                   <template v-if="globalData.getDoneCheckVisibility && showConfirmation">
                       <p class="my-2">Your bill is generated successful! </p>
-                      <nuxt-link :to="`payments/`" @click="confirmAction('close')"
+                      <nuxt-link v-if="!eventDetail?.isFree" :to="`payments/`" @click="confirmAction('close')"
                                  class="mx-1 h-8 w-auto bg-sky-500 hover:bg-sky-700 border-sky-500
                               hover:border-sky-700 text-sm border-4 text-white py-0.5 px-2 rounded"
                                  type="button">
                         <i class="fa-solid fa-newspaper mx-2"></i>Proceed with payment
+                      </nuxt-link>
+                      <nuxt-link v-else to="/crm" @click="confirmAction('close')"
+                                 class="mx-1 h-8 w-auto bg-sky-500 hover:bg-sky-700 border-sky-500
+                              hover:border-sky-700 text-sm border-4 text-white py-0.5 px-2 rounded"
+                                 type="button">
+                        <i class="fa-solid fa-newspaper mx-2"></i>Home
                       </nuxt-link>
                     </template>
               </div>
