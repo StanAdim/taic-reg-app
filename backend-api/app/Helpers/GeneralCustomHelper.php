@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class GeneralCustomHelper{
+    // global variables
 
     //random bill ID
     public static function generateReqID($length=16) {
@@ -40,6 +41,7 @@ class GeneralCustomHelper{
         return 255738171742;
     }
 
+    // perform curl to GEPG
     public static function performCurlSignedPayload($content, $requestUri){
         $GepgBaseUrl = env('GEPG_BASEURL');
         $resultCurlPost = "";
@@ -69,5 +71,46 @@ class GeneralCustomHelper{
      return $resultCurlPost;   
     }
 
+    // Transform Xml to array
 
+    public static function contrNoXmlResToArray($contrNoXmlData){
+        $values = array();
+        $values['ResId'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<ResId>', '</ResId>');
+        $values['ReqId'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<ReqId>', '</ReqId>');
+        $values['BillId'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<BillId>', '</BillId>');
+        $values['CustCntrNum'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<CustCntrNum>', '</CustCntrNum>');
+        $values['ResStsCode'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<ResStsCode>', '</ResStsCode>');
+        $values['ResStsDesc'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<ResStsDesc>', '</ResStsDesc>');
+        $values['BillStsDesc'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<BillStsDesc>', '</BillStsDesc>');
+        return $values;
+    }
+
+    public static function signedBillAck($resId, $statusCode) {
+        $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";
+        $KEY_PASSWORD =  env('GEPG_KEYPASS', 'passpass');
+
+        if (!$cert_store = file_get_contents($PRIVATE_KEY)) {
+            Log::info("Error: Unable to read the cert file\n");
+            exit;
+        } else {
+            if (openssl_pkcs12_read($cert_store, $cert_info, $KEY_PASSWORD)) {
+                 //Response Content Ack  
+                 $AckId = GeneralCustomHelper::generateReqID(16);
+
+                $responseContentAck = "<billSubResAck><AckId>".$AckId."</AckId><ResId>".$resId."</ResId><AckStsCode>".$statusCode."</AckStsCode></billSubResAck>";       
+			     //Create signature 
+                openssl_sign($responseContentAck, $signature, $cert_info['pkey'], "sha1WithRSAEncryption");
+                // output crypted data base64 encoded
+                $signature = base64_encode($signature);
+                Log::info("Signature of Signed Content"."\n".$signature."\n");
+
+                // Combine signature and content signed
+                $response = "<Gepg>" . $responseContentAck . " <gepgSignature>" . $signature . "</gepgSignature></Gepg>";
+                return $response;
+                header('Content-type: application/xml');
+                Log::info('------,', [$response]);
+
+            }
+        }
+    }
 }

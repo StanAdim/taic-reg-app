@@ -88,9 +88,9 @@ class XmlRequestHelper
                 $signature = base64_encode($signature);
                 //Combine signature and content signed
                 $requestUri = env('GEPG_SUBMISSIONURI');
-                $data = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
+                $signedPayload = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
                 //Perform Curl to a Gepg
-                $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($data,$requestUri);
+                $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
                 
                 if(!empty($resultCurlPost)){
                     Log::info("\n\n-----Response Results: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
