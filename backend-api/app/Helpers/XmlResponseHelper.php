@@ -66,7 +66,7 @@ class XmlResponseHelper
                 echo "Error occurred: " . $e->getMessage();
                 // Optionally, log the error
                 Log::error('Database query error', ['exception' => $e]);
-                return GeneralCustomHelper::signedBillAck($gepg_response['ResId'],7204);
+                return GeneralCustomHelper::signedBillAck($gepg_response['ResId'],7303);
             }
 
     }

@@ -105,10 +105,10 @@ class GeneralCustomHelper{
                 Log::info("Signature of Signed Content"."\n".$signature."\n");
 
                 // Combine signature and content signed
-                $response = "<Gepg>" . $responseContentAck . " <gepgSignature>" . $signature . "</gepgSignature></Gepg>";
-                return $response;
+                $response = "<Gepg>" . $responseContentAck . " <signature>" . $signature . "</signature></Gepg>";
                 header('Content-type: application/xml');
-                Log::info('------,', [$response]);
+                // Log::info('------,', [$response]);
+                return $response;
 
             }
         }
