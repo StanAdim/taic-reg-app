@@ -91,7 +91,7 @@ onNuxtReady(()=> {
               <h2 class="font-light ">Don't have an account ? </h2>
 
               <div class="my-2 text-white">
-                <button @click="globalData.toggleRegistrationForm()"
+                <button @click="globalData.toggleRegistrationForm(true)"
                         class="w-fit px-10 rounded-md bg-sky-400 py-2 hover:bg-sky-800">Register Here
                 </button>
               </div>

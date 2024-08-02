@@ -20,7 +20,7 @@ onNuxtReady(() => {
             <div class="">
 <!--            <img src="/image/handling.png" class="w-fit" alt="img" />-->
             </div>
-            <div class="text-center p-6 ">
+            <div  class="text-center p-6 ">
               <div class="text-sky-600 w-full">
                 <p class="text-2xl font-bold mb-5">
                   {{ item.name }} - {{ item.year }}

@@ -19,7 +19,7 @@ const togglePasswordVisibility = () => {
 const authStore = useAuthStore()
 const globalData = useGlobalDataStore()
 const closeModal = () => {
-  globalData.toggleRegistrationForm()
+  globalData.toggleRegistrationForm(false)
 }
 const handleRegistration = async () => {
   globalData.toggleLoadingState('on')

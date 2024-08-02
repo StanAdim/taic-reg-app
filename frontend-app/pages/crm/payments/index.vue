@@ -34,8 +34,7 @@ onNuxtReady(()=> {
     <AdminThePageTitle title="PAYMENTS HISTORY" />
       <h2 class="text-sky-700 font-bold">Bills Generated</h2>
     <UsablesContentLoading />
-
-    <div class="flex justify-center">
+    <div class="flex justify-center my-4">
       <InvoiceTable />
     </div>
 <!--    <ParticipantsInvoiceTable />-->

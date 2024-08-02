@@ -22,8 +22,11 @@ onNuxtReady(() => {
     <AdminThePageTitle title="DASHBOARD" />
     <!-- component -->
     <h2  class="text-sky-700 font-bold text-lg my-1">Event booked</h2>
-    <div class="flex flex-wrap   my-2">
+    <div class="flex justify-center my-2">
       <UsablesContentLoading />
+
+    </div>
+    <div class="flex flex-wrap my-2">
       <template v-if="subscriptionStore.getSubscribedEvents.length !== 0">
         <div v-for="item in subscriptionStore.getSubscribedEvents" :key="item.event?.conferenceName"
           class="w-full md:w-3/5 bg-white/60 rounded-lg shadow-sm p-5 border-dashed border border-blue-500

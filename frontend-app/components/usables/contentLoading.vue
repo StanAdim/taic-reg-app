@@ -3,7 +3,7 @@ const globalStore = useGlobalDataStore()
 </script>
 
 <template>
-  <div v-if="globalStore.getContentLoadingState" class="flex justify-center my-2 ">
+  <div v-if="globalStore.getContentLoadingState" class="flex justify-center my-2">
     <usables-local-loader />
   </div>
 </template>

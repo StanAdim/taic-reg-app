@@ -23,7 +23,7 @@ services:
     depends_on:
       - test-ems-db
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://staging.ictc.go.tz"]
+      test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -64,7 +64,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const toggleUserInfoDialogStatus = (key)=> key == 'on' ? userInfoDialogStatus.value = true :userInfoDialogStatus.value = false
     const hanceLoaderTurn = (key)=> (key == 'on') ? isHanceLoader.value = true: isHanceLoader.value = false;
 
-    const toggleRegistrationForm = ()=> { registrationDialogStatus.value = !registrationDialogStatus.value  }
+    const toggleRegistrationForm = (state:boolean)=> { registrationDialogStatus.value = state  }
     const toggleForgotPassDialog = ()=> { forgotPassDialogStatus.value = !forgotPassDialogStatus.value  }
     const toggleDoneCheckVisibility = ()=> { doneCheckVisibility.value = !doneCheckVisibility.value  }
     const toggleUserInfoModal = ()=> { userInfoDialogStatus.value = !userInfoDialogStatus.value  }
