@@ -7,7 +7,7 @@ STAGING_BRANCH="staging"
 STAGING_COMPOSE_FILE="docker-compose.yml"
 
 # Docker container names
-STAGING_CONTAINER_NAME="events-finalized"
+STAGING_CONTAINER_NAME="events-test"
 
 #  Project directory
 PROJECT_DIR="./backend-api"
