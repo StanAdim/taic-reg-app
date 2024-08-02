@@ -40,11 +40,33 @@ class GeneralCustomHelper{
         return 255738171742;
     }
 
-    public static function signAndPerformCurl($content, $signature){
-
-                Log::info("\n \n======== RESULTING GEPG");
-                Log::info("\n\n ### Response Data Length:\n",['']);
-                Log::info("\n \n=========END RESULT GEPG");
+    public static function performCurlSignedPayload($content, $requestUri){
+        $GepgBaseUrl = env('GEPG_BASEURL');
+        $resultCurlPost = "";
+        $serverIp = $GepgBaseUrl;
+        $uri = $requestUri;
+        $data_string = $content;
+        $spcode =env('GEPG_SPCODE');
+        Log::info("\n ======= Curl Send payload GEPG");
+        $ch = curl_init($serverIp.$uri);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type:application/xml',
+                'Gepg-Com:default.sp.in',
+                'Gepg-Code:'.$spcode,
+                'Gepg-Alg:00S2',
+                'Content-Length:'.strlen($data_string))
+        );
+        curl_setopt($ch, CURLOPT_TIMEOUT, 70);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 70);
+        Log::info("\n\n===END MESSAGEING GEPG");
+        $resultCurlPost = curl_exec($ch);
+        curl_close($ch);
+        Log::info("\n\n ### Response Data Length:\n",[strlen($resultCurlPost)]);
+     return $resultCurlPost;   
     }
 
 

@@ -108,14 +108,16 @@ const handleSubscription = async ()=> {
                 <div class="my-1" v-if="showConfirmation && !globalData.getDoneCheckVisibility">
                     <p class="text-sm font-bold text-orange-600">Generate Invoice</p>
                     <usables-hance-loader />
+                  <template v-if="!globalData.getLoadingState">
                     <button @click="handleSubscription()"
-                        class="bg-sky-600 hover:bg-sky-500 border-sky-500 hover:border-green-300 text-sm border-1 text-white py-0.5 px-2 rounded mx-0.5">
+                            class="bg-sky-600 hover:bg-sky-500 border-sky-500 hover:border-green-300 text-sm border-1 text-white py-0.5 px-2 rounded mx-0.5">
                       <i class="fa fa-check"></i>
                       Yes</button>
                     <button @click="confirmAction('close')"
-                        class="bg-gray-600 hover:bg-red-600 border-sky-500 hover:border-red-300 text-sm border-1 text-white hover:text-white py-0.5 px-2 rounded mx-0.5">
+                            class="bg-gray-600 hover:bg-red-600 border-sky-500 hover:border-red-300 text-sm border-1 text-white hover:text-white py-0.5 px-2 rounded mx-0.5">
                       <i class="fa fa-xmark"></i>
                       No</button>
+                  </template>
                 </div>
 
               </div>

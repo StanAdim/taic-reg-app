@@ -85,8 +85,10 @@ class XmlResponseHelper
         } else {
             if (openssl_pkcs12_read($cert_store, $cert_info, $KEY_PASSWORD)) {
                  //Response Content Ack  
+                 $AckId = GeneralCustomHelper::generateReqID(16);
+
                 $responseContentAck = "<billSubResAck>
-                                            <AckId>SP20210205130219</AckId>
+                                            <AckId>".$AckId."</AckId>
                                             <ResId>".$gepg_response['ResId']."</ResId>
                                             <AckStsCode>7101</AckStsCode>
                                         </billSubResAck>";

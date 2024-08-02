@@ -10,8 +10,6 @@ class XmlRequestHelper
     public static function GepgSubmissionRequest($billingData)
     {
         $fileKeyPass = env('GEPG_KEYPASS', 'passpass');
-        $GepgBaseUrl = env('GEPG_BASEURL');
-        $requestUri = env('GEPG_SUBMISSIONURI');
         $collectionCenCode = env('GEPG_COLLECTIONCENCODE');
         $Gsfcode = env('GEPG_GSFCODE');
         $SubSpCode = env('GEPG_SUBSPCODE');
@@ -89,33 +87,10 @@ class XmlRequestHelper
                 //output crypted data base64 encoded
                 $signature = base64_encode($signature);
                 //Combine signature and content signed
+                $requestUri = env('GEPG_SUBMISSIONURI');
                 $data = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
-
-                $resultCurlPost = "";
-                $serverIp = $GepgBaseUrl;
-                $uri = $requestUri;
-                $data_string = $data;
-                Log::info("\n ======= Curl Send payload GEPG");
-                $ch = curl_init($serverIp.$uri);
-                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                        'Content-Type:application/xml',
-                        'Gepg-Com:default.sp.in',
-                        'Gepg-Code:'.$spcode,
-                        'Gepg-Alg:00S2',
-                        'Content-Length:'.strlen($data_string))
-                );
-
-                curl_setopt($ch, CURLOPT_TIMEOUT, 70);
-                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 70);
-                Log::info("\n\n===END MESSAGEING GEPG");
-
-                $resultCurlPost = curl_exec($ch);
-                curl_close($ch);
-                Log::info("\n\n ### Response Data Length:\n",[strlen($resultCurlPost)]);
+                //Perform Curl to a Gepg
+                $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($data,$requestUri);
                 
                 if(!empty($resultCurlPost)){
                     Log::info("\n\n-----Response Results: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
@@ -150,7 +125,6 @@ class XmlRequestHelper
                     }
                 }
                 else{ Log::info("No result Returned"."\n");}
-                
             }
             else
             { Log::info("Error: Unable to read the cert store.\n"); exit;}
