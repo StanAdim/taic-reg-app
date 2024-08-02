@@ -110,7 +110,7 @@ class XmlRequestHelper
                             //Decode Received Signature String
                             $rawsignature = base64_decode($vsignature);
                             //Verify Signature and state whether signature is okay or not
-                            $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], OPENSSL_ALGO_SHA256);
+                            $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], 'sha256WithRSAEncryption');
                             if ($ok == 1) {
                                 Log::info("\n\n------Signature Status: GOOD");
                                 Log::info("\n\n---- End Verification ---");

@@ -99,14 +99,13 @@ class GeneralCustomHelper{
 
                 $responseContentAck = "<billSubResAck><AckId>".$AckId."</AckId><ResId>".$resId."</ResId><AckStsCode>".$statusCode."</AckStsCode></billSubResAck>";       
 			     //Create signature 
-                openssl_sign($responseContentAck, $signature, $cert_info['pkey'], "sha1WithRSAEncryption");
+                openssl_sign($responseContentAck, $signature, $cert_info['pkey'], "sha256WithRSAEncryption");
                 // output crypted data base64 encoded
                 $signature = base64_encode($signature);
                 Log::info("Signature of Signed Content"."\n".$signature."\n");
 
                 // Combine signature and content signed
                 $response = "<Gepg>" . $responseContentAck . " <signature>" . $signature . "</signature></Gepg>";
-                header('Content-type: application/xml');
                 // Log::info('------,', [$response]);
                 return $response;
 
