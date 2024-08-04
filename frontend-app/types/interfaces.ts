@@ -27,6 +27,13 @@ export interface DocumentMaterial {
     user_id:string,
     status:string,
 }
+export interface BoothData {
+    id?: string;  // Optional for creating new booths
+    name: string;
+    location: string;
+    capacity: number;
+    description?: string;
+}
 export interface User {
     id:number,
     firstName: string,

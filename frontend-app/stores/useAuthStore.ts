@@ -26,6 +26,9 @@ export const useAuthStore = defineStore('auth', ()=> {
             user.value = data.value as LoggedUser
             if(getLoggedUser.value?.hasInfo == 0)globalStore.toggleUserInfoDialogStatus('on') //close Extra infoDialog
         }
+        if (error.value){
+            console.log(error.value.message, 'error')
+        }
         return {data,error}
     }
     //Fetch Application Users

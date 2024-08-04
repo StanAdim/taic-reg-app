@@ -15,6 +15,7 @@ use App\Http\Controllers\Taic\SiteController;
 use App\Http\Controllers\Taic\SpeakerController;
 use App\Http\Controllers\Taic\TimetableController;
 use App\Http\Controllers\UserInfoController;
+use App\Http\Controllers\ExhibitionBoothController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('bill/receive-controll', [BillController::class,'receiveControlNumber']);
@@ -32,9 +33,9 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
  Route::post('/reset-password', [RegisteredUserController::class, 'passwordResetting'])
  ->middleware('guest')
  ->name('password.reseting');
- 
+
  Route::post('/call/professional-details', [ProfessionalController::class,'getProfessionalDetails']);
- 
+
  //public events
  Route::get('/get-upcoming-events',[ConferenceController::class, 'getUpcomingEvents']);
  //--- Auth routes
@@ -75,6 +76,8 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::get('/event-bills', [BillController::class,'index']);
 
 
-    Route::apiResource('/booth-requests', ExhibitionRequestController::class);
+
+     Route::apiResource('/booth-request', ExhibitionRequestController::class);
+     Route::apiResource('/exhibition-booth', ExhibitionBoothController::class);
 
 });

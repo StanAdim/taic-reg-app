@@ -2,37 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BoothResource;
 use App\Models\ExhibitionBooth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ExhibitionBoothController extends Controller
 {
     public function index()
     {
-        return ExhibitionBooth::all();
+        return BoothResource::collection(ExhibitionBooth::all());
     }
 
     public function store(Request $request)
     {
-  
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|string',
+            'size' => 'required|string',
+            'benefit' => 'required|string',
+            'amount' => 'required|integer',
+            'conference_id' => 'required|string',
+            'status' => 'required',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'message'=> 'Validation fails',
+                'errors'=> $validator->errors()
+            ],422);
+        }
+        $newItem = $validator->validate();
         try{
-            $request->validate([
-                'number' => 'required|number',
-                'companyEmail' => 'required|email|max:255',
-                'companyName' => 'required|string|max:255',
-                'message' => '',
-            ]);
-            $booth = ExhibitionBooth::create($request->all());
-    
-            return response()->json($booth, 201);
-        }
-        catch (ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to create booth request.'], 500);
-        }
+            $itemCreate = ExhibitionBooth::create($newItem);
+            return response()->json([
+                'message'=> "New Booth Added",
+                'data' => $itemCreate,
+                'code'=> 200
+            ],200);
+        }catch (ValidationException $e) {
+        return response()->json(['errors' => $e->errors()], 422);
+    }
     }
 
     public function show(ExhibitionBooth $booth)
@@ -45,6 +55,7 @@ class ExhibitionBoothController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to retrieve booth request.'], 500);
         }
+
     }
 
     public function update(Request $request, ExhibitionBooth $id)
@@ -52,10 +63,11 @@ class ExhibitionBoothController extends Controller
         try {
             $booth = ExhibitionBooth::findOrFail($id);
             $request->validate([
-                'number' => 'required|number',
-                'companyEmail' => 'required|email|max:255',
-                'companyName' => 'required|string|max:255',
-                'message' => '',
+                'name' => 'required|string',
+                'size' => 'required|string',
+                'benefit' => 'required|string',
+                'amount' => 'required|string',
+                'conference_id' => 'required|string',
             ]);
 
             $booth->update($request->all());

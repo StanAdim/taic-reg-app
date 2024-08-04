@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,18 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriptionToEventMail extends Mailable
+class BoothRequestMail extends Mailable
 {
     use Queueable, SerializesModels;
-        public $boothName;
+
     /**
      * Create a new message instance.
      */
-    public function __construct(public User $user, $boothName)
+    public function __construct()
     {
         //
-        $this -> boothName = $boothName;
-
     }
 
     /**
@@ -30,7 +27,7 @@ class SubscriptionToEventMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Exhibition Booth Request of '. $this->boothName,
+            subject: 'Booth Request Mail',
         );
     }
 
@@ -40,11 +37,7 @@ class SubscriptionToEventMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.subscription.bootRequestMail',
-            with: [
-                'boothName' => $this->boothName,
-                'user' => $this->user,
-            ],
+            view: 'view.name',
         );
     }
 

@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('exhibition_booths', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('size');
             $table->string('benefit');
-            $table->string('amount');
-            $table->uuid('conference_id')->constrained('exhibition_booths')->cascadeOnDelete();
-            $table->enum('status', ['00', '01', '02'])->default('00'); #pending #process #rejected
+            $table->integer('amount');
+            $table->boolean('status')->default(true); #pending #process #rejected
+            $table->foreignUuid('conference_id')->references('id')->on('conferences')->onDelete('cascade');
             $table->timestamps();
         });
     }
