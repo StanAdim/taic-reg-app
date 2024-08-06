@@ -19,21 +19,20 @@ export const useAccountStore = defineStore('accountStore', () => {
     const toggleUpdateUserInfoDialogState = (key)=> (key == 'on') ? userInfoUpdateDialogStatus.value = true: userInfoUpdateDialogStatus.value = false
 
     async function handleUserAccountUpdate(userInfo : RegistrationInfo, type : string){
-        const registrationResponse = await useApiFetch(`/user/${type}-update`, {
+        const {data , error} = await useApiFetch(`/user/${type}-update`, {
             method: "POST",
             body: userInfo,
         });
-        if(registrationResponse?.data.value?.code == 200){
-            globalStore.toggleLoadingState('off')
+        console.log(data.value)
+        if(data.value?.code === 200){
+             await authStore.fetchUser()
+            toggleUpdateUserInfoDialogState('off')
             globalStore.assignAlertMessage('Account updated Success','success')
-            toggleAccountDialogState('off');
-        }else{
-            authErrors.value = registrationResponse?.error.value?.data
-            globalStore.toggleLoadingState('off')
-            globalStore.assignAlertMessage(authErrors.value?.message, 'error')
         }
-         await authStore.fetchUser()
-        return registrationResponse;
+        if (error.value){
+            globalStore.assignAlertMessage(error.value?.message, 'error')
+        }
+        toggleAccountDialogState('off');
     }
 
     return {

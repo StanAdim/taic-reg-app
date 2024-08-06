@@ -116,7 +116,7 @@ class UserInfoController extends Controller
             "id" => 'required',
             "phoneNumber" => 'required|starts_with:+',
             "professionalStatus" => 'required',
-            "professionalNumber" => 'required_if:professionalStatus,1',
+            "professionalNumber" => 'required_if:professionalStatus,"1"',
             "institution" => '',
             "position" => '',
             "region_id" => '',
@@ -132,7 +132,7 @@ class UserInfoController extends Controller
             ],422);
         }
         $newItem = $validator->validate();
-        $existingInfo = UserInfo::where('id',$newItem['info_id']);
+        $existingInfo = UserInfo::where('id',$newItem['id']);
 
         // return $newItem;
         if($newItem["professionalNumber"] && $newItem['professionalStatus']){

@@ -10,27 +10,28 @@ const props = defineProps({
   }
 })
 const authStore = useAuthStore()
-const user = authStore.getLoggedUser?.user_info
+const user_info = authStore.getLoggedUser?.user_info
 
 const accountStore = useAccountStore()
 const globalData = useGlobalDataStore()
 const formData = ref({
-  phoneNumber: user?.phoneNumber,
-  info_id: user?.id,
-  professionalStatus: user?.professionalStatus,
-  professionalNumber: user?.professionalNumber,
-  institution: user?.institution,
-  position: user?.position,
-  region_id: user?.region_id,
+  phoneNumber: user_info?.phoneNumber,
+  id: user_info?.id,
+  professionalStatus: user_info?.professionalStatus,
+  professionalNumber: user_info?.professionalNumber,
+  institution: user_info?.institution,
+  position: user_info?.position,
+  region_id: user_info?.region_id,
   district_id:'',
-  address: user?.address,
-  nation: user?.nation,
-  notificationConsent: user?.notificationConsent,
+  address: user_info?.address,
+  nation: user_info?.nation,
+  notificationConsent: user_info?.notificationConsent,
 })
 
 const handleFormSubmission = async ()=> {
   globalData.toggleLoadingState('on')
   await accountStore.handleUserAccountUpdate(formData.value, 'information')
+  // console.log(formData.value)
 }
 const handleDistrictsCall = async ()=>{
   await  globalData.retrieveRegionDistricts(formData.value.region_id)
@@ -48,7 +49,6 @@ const handleCallProfessionalDetails = async (professionalCode)=>{
 const initialize = async () => {
   try {
     // await  globalData.retrieveLocation()
-    console.log('Confirm')
   } catch (error) {
     console.error('Error retrieving regions:', error);
     throw error; // Rethrow if you want the caller to handle it
