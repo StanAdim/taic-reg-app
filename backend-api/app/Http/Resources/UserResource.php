@@ -27,8 +27,8 @@ class UserResource extends JsonResource
             'phoneNumber'=> $this->userInfo->phoneNumber ,
             'institution'=> $this->userInfo->institution,
             'position'=> $this->userInfo->position,
-            'region'=> Region::where('id',$this->userInfo->region_id)->first()->region,
-            'district'=> $this->userInfo->district_id,
+            // 'region'=> Region::where('id',$this->userInfo->region_id)->first()->region,
+            // 'district'=> $this->userInfo->district_id,
             'registrationDate'=> Carbon::parse($this->created_at)->format('M j, Y, H:i'),
         ];
     }

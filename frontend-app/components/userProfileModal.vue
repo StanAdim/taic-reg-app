@@ -63,7 +63,7 @@ initialize()
                     <div class="text-gray-700">Designation: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.position}}</span></div>
                     <div class="text-gray-700">Professional Status <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.professionalStatus}}</span></div>
                     <div class="text-gray-700">Professional number: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.professionalNumber || '...'}}</span></div>
-                    <div class="text-gray-700">Address: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.region?.name}} - {{authStore.getLoggedUserInfo?.district?.name}} </span></div>
+                    <div class="text-gray-700">Address: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.region?.name || ''}} - {{authStore.getLoggedUserInfo?.district?.name || ''}} </span></div>
                     <div class="text-gray-700">Nationality: <br><span class="bg-sky-200 rounded-md px-2 py-0.5">{{authStore.getLoggedUserInfo?.nation}} </span></div>
                   </template>
                 </div>
