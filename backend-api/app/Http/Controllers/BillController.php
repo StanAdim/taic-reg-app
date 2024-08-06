@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\XmlRequestHelper;
 use App\Helpers\XmlResponseHelper;
 use App\Http\Resources\Taic\BillResource;
 use App\Models\Bill;
 use Carbon\Carbon;
+use Exception;
+use Generator;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +48,30 @@ class BillController extends Controller
     $dataResult = XmlResponseHelper::handlePaymentReceipt($request->getContent());
     return $dataResult;
     
-}
+    }
+    public function handleReconciliation($bill_id)  {
+        // process reconcilation 
+        try{
+            $theBill = Bill::where('id', $bill_id)->firstOrFail();
+            $dataResult = XmlRequestHelper::GepgReconciliationRequest($theBill);
+            return $dataResult;
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
+    }
+    public function handleCancellation($bill_id)  {
+        // process response 
+        $user = Auth::user();
+        try{
+            $theBill = Bill::where('id', $bill_id)->firstOrFail();
+            $dataResult = XmlRequestHelper::GepgCancellationRequest($theBill, $user);
+
+            return $dataResult;
+        }catch(Exception $e){
+            return $e;
+        }
+        
+    }
 
 }

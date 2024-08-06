@@ -9,6 +9,7 @@ const filterTableData = computed(() =>
             data.name.toLowerCase().includes(search.value.toLowerCase())
     )
 )
+const indexMethod = (index: number) => index + 1
 const handleControlNumber = (index: number, row) => {
   console.log(index, row)
 }
@@ -18,7 +19,8 @@ const handleBillDownloading = (index: number, row) => {
 </script>
 
 <template>
-  <el-table :data="filterTableData" style="width: 100%">
+  <el-table :data="filterTableData" style="width: 100%" table-layout="auto">
+    <el-table-column label="Sn" type="index" :index="indexMethod" />
     <el-table-column label="Booking ID" prop="ReqId" />
     <el-table-column label="Conference" prop="name" />
 <!--    <el-table-column label="Control Number" prop="controlNumber" />-->

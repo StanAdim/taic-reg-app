@@ -39,9 +39,15 @@ class BillResource extends JsonResource
             'conferenceFee'=>$this->separateNumber($this->event_fee), 
             'controlNumber'=>$this->cust_cntr_num, 
             'name'=>$this->name, 
+            'id'=>$this->id, 
             'status'=> $this->status ? 'PAID': 'NOT PAID',
             'status_code'=>$this->status_code,
             'ReqId'=>$this->ReqId,
+            'paid_amt'=>$this->paid_amt,
+            'trx_id'=>$this->trx_id,
+            'bill_amt'=>$this->bill_amt,
+            'pyr_name'=>$this->pyr_name,
+            'trx_dt_tm'=>Carbon::parse($this->trx_dt_tm)->format('j-m-Y'),
             'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y')
             // 'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y, H:i')
         ];

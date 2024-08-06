@@ -75,10 +75,14 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     // Route::get('/honorable-speaker/activate/{uuid}', [SpeakerController::class,'activateHonourable']);
 
     Route::get('/event-bills', [BillController::class,'index']);
-
+    
+    Route::get('/bill/reconciliation/{bill_id}', [BillController::class,'handleReconciliation']);
+    Route::get('/bill/cancellation/{bill_id}', [BillController::class,'handleCancellation']);
 
 
      Route::apiResource('/booth-request', ExhibitionRequestController::class);
      Route::apiResource('/exhibition-booth', ExhibitionBoothController::class);
 
 });
+
+///Test route

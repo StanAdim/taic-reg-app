@@ -49,7 +49,6 @@ const handleLinkActive = (routeLink: string) => {
                   v-if="route.userRole === authStore.getUserRole || route.userRole === ''"
                   :key="route"
                   :to="route.path"
-                  :class="{'bg-sky-500 text-white': route.isActiveLink}"
                   class="flex items-center flex-shrink-0 h-10 border-b border-blue-500 hover:text-gray-900  px-2 text-sm font-medium rounded hover:bg-sky-100">
                 <span class="leading-none">{{ route.name }}</span>
               </nuxt-link>
@@ -118,5 +117,7 @@ const handleLinkActive = (routeLink: string) => {
 </template>
 
 <style scoped>
-
+.router-link-active {
+  @apply bg-sky-500 text-white
+}
 </style>

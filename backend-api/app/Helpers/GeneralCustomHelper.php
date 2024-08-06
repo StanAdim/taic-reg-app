@@ -98,7 +98,6 @@ class GeneralCustomHelper{
         $values['CustCntrNum'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<CustCntrNum>', '</CustCntrNum>');
         $values['PayRefId'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<PayRefId>', '</PayRefId>');
         $values['TrxId'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<TrxId>', '</TrxId>');
-        $values['BillAmt'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<BillAmt>', '</BillAmt>');
         $values['PaidAmt'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<PaidAmt>', '</PaidAmt>');
         $values['BillPayOpt'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<BillPayOpt>', '</BillPayOpt>');
         $values['BillAmt'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<BillAmt>', '</BillAmt>');
@@ -118,7 +117,7 @@ class GeneralCustomHelper{
 
     public static function signedBillAck($resId, $statusCode) {
         $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";
-        $KEY_PASSWORD =  env('GEPG_KEYPASS', 'passpass');
+        $KEY_PASSWORD =  env('GEPG_KEYPASS');
 
         if (!$cert_store = file_get_contents($PRIVATE_KEY)) {
             Log::info("Error: Unable to read the cert file\n");

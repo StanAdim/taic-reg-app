@@ -29,10 +29,21 @@ export const useBillStore = defineStore('billStore', () => {
         }
         return {data, error};
     }
+    async function handleBillReconciliation(bill_uuid){
+        const {data, error} = await useApiFetch(`/api/bill/reconciliation/${bill_uuid}`);
+        if(data.value){
+            console.log(data.value.message)
+        }
+        if(error.value){
+            globalStore.assignAlertMessage(error.value.message,'error')
+        }
+        globalStore.toggleLoadingState('off')
+    }
     return {
         retrieveUserPayments,
         getUserPayments,
         retrieveAllBills,
+        handleBillReconciliation,
         getAllBills
     }
 })

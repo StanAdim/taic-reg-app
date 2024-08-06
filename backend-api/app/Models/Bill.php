@@ -10,8 +10,10 @@ use Illuminate\Database\Eloquent\Model;
 class Bill extends Model
 {
     use HasFactory, HasUuids;
-    protected $keyType = 'string';
-    public $incrementing = false;    
+    protected $keyType = 'string'; // Specify the key type as string
+    public $incrementing = false;  // 
+    protected $primaryKey = 'id';  // 
+ 
     protected $fillable = [
         'reference_no',
         'conference_id',

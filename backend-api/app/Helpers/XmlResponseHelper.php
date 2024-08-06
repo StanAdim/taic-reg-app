@@ -34,16 +34,7 @@ class XmlResponseHelper
                 $exists = Bill::where('id', $BillId)->exists();
                 if($exists){
                     $theBill = Bill::where('id',$BillId)->first();
-                        if (in_array('7279', $codes)) {
-                            $ResStsCode = 'GEPG-PAID';
-                            //"UPDATE billing SET gepgstatus='PAID' WHERE billid='$billid'");
-                            $date = Carbon::now();
-                            $theBill->status_code = $ResStsCode;
-                            $theBill->paid_date = $date;
-                            $theBill->status = 1;
-                            $theBill->save();
-                        }
-                        elseif (in_array('7101', $codes) OR in_array('7226', $codes)) {
+                        if (in_array('7101', $codes) OR in_array('7226', $codes)) {
                             //"UPDATE billing SET updated_at='$date',gepgstatus='$ResStsCode',controlno='$controlno' WHERE billid='$billid'");
                             $ResStsCode = 'GEPG-OK';
                             $cust_cntr_num = $gepg_response['CustCntrNum'];
