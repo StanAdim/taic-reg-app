@@ -19,6 +19,7 @@ use App\Http\Controllers\ExhibitionBoothController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('bill/receive-controll', [BillController::class,'receiveControlNumber']);
+Route::post('bill/receive-payment', [BillController::class,'handlePayment']);
 Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionController::class,'authUserCall']);
 Route::get('/test',function(){  $eventName = 'Taic Event'; return view('invoices.subscriptionInvoice',compact(['eventName']));});
 Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmail']);

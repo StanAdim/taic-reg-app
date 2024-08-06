@@ -35,9 +35,16 @@ class BillController extends Controller
 
     public function receiveControlNumber(Request $request)  {
         // process response 
-        $dataResult =XmlResponseHelper::handleResponse($request->getContent());
+        $dataResult = XmlResponseHelper::handleContrlNoResponse($request->getContent());
         return $dataResult;
         
    }
+
+   public function handlePayment(Request $request)  {
+    // process response 
+    $dataResult = XmlResponseHelper::handlePaymentReceipt($request->getContent());
+    return $dataResult;
+    
+}
 
 }

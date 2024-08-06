@@ -84,6 +84,37 @@ class GeneralCustomHelper{
         $values['BillStsDesc'] = GeneralCustomHelper::get_string_between($contrNoXmlData, '<BillStsDesc>', '</BillStsDesc>');
         return $values;
     }
+    public static function paymentXmlToArray($paymentXmlPayload){
+        $values = array();
+        // $values['ResId'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<ResId>', '</ResId>');
+        $values['ReqId'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<ReqId>', '</ReqId>');
+        $values['GrpBillId'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<GrpBillId>', '</GrpBillId>');
+        $values['SpGrpCode'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<SpGrpCode>', '</SpGrpCode>');
+        $values['EntryCnt'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<EntryCnt>', '</EntryCnt>');
+        $values['BillId'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<BillId>', '</BillId>');
+        $values['SpCode'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<SpCode>', '</SpCode>');
+        $values['PspCode'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<PspCode>', '</PspCode>');
+        $values['PspName'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<PspName>', '</PspName>');
+        $values['CustCntrNum'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<CustCntrNum>', '</CustCntrNum>');
+        $values['PayRefId'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<PayRefId>', '</PayRefId>');
+        $values['TrxId'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<TrxId>', '</TrxId>');
+        $values['BillAmt'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<BillAmt>', '</BillAmt>');
+        $values['PaidAmt'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<PaidAmt>', '</PaidAmt>');
+        $values['BillPayOpt'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<BillPayOpt>', '</BillPayOpt>');
+        $values['BillAmt'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<BillAmt>', '</BillAmt>');
+        $values['Ccy'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<Ccy>', '</Ccy>');
+        $values['CollAccNum'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<CollAccNum>', '</CollAccNum>');
+        $values['TrxDtTm'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<TrxDtTm>', '</TrxDtTm>');
+        $values['UsdPayChnl'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<UsdPayChnl>', '</UsdPayChnl>');
+        $values['TrdPtyTrxId'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<TrdPtyTrxId>', '</TrdPtyTrxId>');
+        $values['PyrCellNum'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<PyrCellNum>', '</PyrCellNum>');
+        $values['PyrName'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<PyrName>', '</PyrName>');
+        $values['PyrEmail'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<PyrEmail>', '</PyrEmail>');
+        $values['Rsv1'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<Rsv1>', '</Rsv1>');
+        $values['Rsv2'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<Rsv2>', '</Rsv2>');
+        $values['Rsv3'] = GeneralCustomHelper::get_string_between($paymentXmlPayload, '<Rsv3>', '</Rsv3>');
+        return $values;
+    }
 
     public static function signedBillAck($resId, $statusCode) {
         $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";

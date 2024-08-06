@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 class XmlResponseHelper
 {
     
-    public static function handleResponse($contrlNo_Gepg_res){
+    public static function handleContrlNoResponse($contrlNo_Gepg_res){
 
         $gepg_response = GeneralCustomHelper::contrNoXmlResToArray($contrlNo_Gepg_res);
         $BillId = $gepg_response['BillId'];
@@ -67,6 +67,67 @@ class XmlResponseHelper
                 // Optionally, log the error
                 Log::error('Database query error', ['exception' => $e]);
                 return GeneralCustomHelper::signedBillAck($gepg_response['ResId'],7303);
+            }
+
+    }
+
+    public static  function handlePaymentReceipt($Gepg_res_Payment){
+
+        $gepg_pay_res = GeneralCustomHelper::paymentXmlToArray($Gepg_res_Payment);
+        $BillId = $gepg_pay_res['BillId'];
+        // Log::info('RECPAY-GEPG-REQUEST', [$contrlNo_Gepg_res, $serial, 'GEPG']);
+        $varray = print_r($gepg_pay_res, true);
+        Log::info("\n\n---------------GEPG Payment Response \n", [$varray , "\n -------"]);
+        //--- Consuming Gepg Response 
+            try {
+                $exists = Bill::where('id', $BillId)->exists();
+                if($exists){
+                    $theBill = Bill::where('id',$BillId)->first();
+                            $ResStsCode = 'GEPG-PAID';
+                            //"UPDATE billing SET gepgstatus='PAID' WHERE billid='$billid'");
+                            $date = Carbon::now();
+                            $theBill->status_code = $ResStsCode;
+                            $theBill->paid_date = $date;
+                            $theBill->sp_code  = $gepg_pay_res['SpCode'];
+                            $theBill->entry_cnt  = $gepg_pay_res['EntryCnt'];
+                            $theBill->GrpBillId  = $gepg_pay_res['GrpBillId'];
+                            $theBill->SpGrpCode  = $gepg_pay_res['SpGrpCode'];
+                            $theBill->psp_code  = $gepg_pay_res['PspCode'];
+                            $theBill->psp_name  = $gepg_pay_res['PspName'];
+                            $theBill->trx_id  = $gepg_pay_res['TrxId'];
+                            $theBill->pay_ref_id  = $gepg_pay_res['PayRefId'];
+                            $theBill->bill_amt  = $gepg_pay_res['BillAmt'];
+                            $theBill->paid_amt  = $gepg_pay_res['PaidAmt'];
+                            $theBill->bill_pay_opt  = $gepg_pay_res['BillPayOpt'];
+                            $theBill->ccy  = $gepg_pay_res['Ccy'];
+                            $theBill->coll_acc_num  = $gepg_pay_res['CollAccNum'];
+                            $theBill->trx_dt_tm  = $gepg_pay_res['TrxDtTm'];
+                            $theBill->usd_pay_chnl  = $gepg_pay_res['UsdPayChnl'];
+                            $theBill->trd_pty_trx_id  = $gepg_pay_res['TrdPtyTrxId'];
+                            $theBill->pyr_cell_num  = $gepg_pay_res['PyrCellNum'];
+                            $theBill->pyr_name  = $gepg_pay_res['PyrName'];
+                            $theBill->pyr_email  = $gepg_pay_res['PyrEmail'];
+                            $theBill->rsv1  = $gepg_pay_res['Rsv1'];
+                            $theBill->rsv2  = $gepg_pay_res['Rsv2'];
+                            $theBill->rsv3  = $gepg_pay_res['Rsv3'];
+                            $theBill->status = 1;
+                            $theBill->save();
+                         // Signing response
+                         Log::info("\n\n-------- ** Payment Updated \n", ["------- \n "]);
+                        return GeneralCustomHelper::signedBillAck($gepg_pay_res['ReqId'],7101);
+                        // Log::info('RECPAY-GEPG-RESPONSE', [$response, $serial, 'GEPG']);
+                }else{
+                    Log::info("\n\n-------- Bill Not Found \n", ["------- \n "]);
+                    return GeneralCustomHelper::signedBillAck($gepg_pay_res['ReqId'],7303);
+
+                }
+                
+            } catch (QueryException $e) {
+                // Handle the exception
+                echo "Error occurred: " . $e->getMessage();
+                // Optionally, log the error
+                Log::error('Database query error', ['exception' => $e]);
+                return GeneralCustomHelper::signedBillAck($gepg_pay_res['ReqId'],7303);
             }
 
     }
