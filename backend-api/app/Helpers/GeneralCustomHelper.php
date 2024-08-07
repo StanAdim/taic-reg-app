@@ -58,7 +58,7 @@ class GeneralCustomHelper{
                     Log::info("\n\n ------Signature Status: GOOD");
                     return $vdata;
                 } elseif ($ok == 0) {
-                    Log::info("----Signature Status: BAD");
+                    Log::info("---- Signature Status: BAD");
                     return [];
                 } else { 
                     Log::info("Signature Status: UGLY, Error checking signature:"); 
