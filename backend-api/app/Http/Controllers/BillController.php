@@ -69,6 +69,7 @@ class BillController extends Controller
             $dataResult = XmlRequestHelper::GepgReconciliationRequest($theBill, $reconcile_date);
             return response()->json([
                 'message'=> 'Reconciliation Request Sent',
+                'gepg_message'=> $dataResult ? GeneralCustomHelper::get_string_between($dataResult, '<AckStsDesc>', '</AckStsDesc>'): 'No message',
                 'data'=> $dataResult,
             ]);
         }catch(Exception $e){
@@ -87,6 +88,7 @@ class BillController extends Controller
             $dataResult = XmlRequestHelper::GepgCancellationRequest($theBill, $user);
             return response()->json([
                 'message'=> 'Cancellation Request Sent',
+                'gepg_message'=> $dataResult ? GeneralCustomHelper::get_string_between($dataResult, '<AckStsDesc>', '</AckStsDesc>'): 'No message',
                 'data'=> $dataResult,
             ]);
         }catch(Exception $e){

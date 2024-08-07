@@ -92,36 +92,16 @@ class XmlRequestHelper
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
                 
                 if(!empty($resultCurlPost)){
-                    Log::info("\n\n-----Response Results: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
-                    Log::info("\n\n-----Response Description: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<ResStsDesc>', '</ResStsDesc>')]);
-                    Log::info("\n\n---- Response End---");
+                    Log::info("\n\n-----BILL SUB RES CODE: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
+                    Log::info("\n\n-----BILL SUB RES DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<ResStsDesc>', '</ResStsDesc>')]);
+                    Log::info("\n\n---- END SUBMISSION RESPONSE---");
 
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
-                    
-                    //Get Certificate contents
-                    if (!$pcert_store = file_get_contents(__DIR__."/gepgpubliccertificate.pfx")) {
-                        Log::info("---Error: Unable to read the cert file\n");
-                        exit;
-                    }else{
-                        //Read Certificate
-                        if (openssl_pkcs12_read($pcert_store, $pcert_info, $fileKeyPass)) {
-                            //Decode Received Signature String
-                            $rawsignature = base64_decode($vsignature);
-                            //Verify Signature and state whether signature is okay or not
-                            $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], 'sha256WithRSAEncryption');
-                            if ($ok == 1) {
-                                Log::info("\n\n------Signature Status: GOOD");
-                                Log::info("\n\n---- End Verification ---");
-                                return $vdata;
-                            } elseif ($ok == 0) {
-                                Log::info("----Signature Status: BAD");
-                                return false;
-                            } else { 
-                                Log::info("Signature Status: UGLY, Error checking signature:"); 
-                            }
-                        }
-                    }
+    
+                    //Sign return contents
+                    GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
+
                 }
                 else{ Log::info("No result Returned"."\n");}
             }
@@ -172,29 +152,8 @@ class XmlRequestHelper
                     Log::info("\n\n----- ACK: \n###",[$resultCurlPost]);
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
-                    //Get Certificate contents
-                    if (!$pcert_store = file_get_contents(__DIR__."/gepgpubliccertificate.pfx")) {
-                        Log::info("---Error: Unable to read the cert file\n");
-                        exit;
-                    }else{
-                        //Read Certificate
-                        if (openssl_pkcs12_read($pcert_store, $pcert_info, $fileKeyPass)) {
-                            //Decode Received Signature String
-                            $rawsignature = base64_decode($vsignature);
-                            //Verify Signature and state whether signature is okay or not
-                            $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], 'sha256WithRSAEncryption');
-                            if ($ok == 1) {
-                                Log::info("\n\n ------ Signature Status: GOOD");
-                                return $vdata;
-                            } elseif ($ok == 0) {
-                                Log::info("\n\n ---- Signature Status: BAD");
-                                return [];
-                            } else { 
-                                Log::info("\n\n ------- Signature Status: UGLY, Error checking signature:"); 
-                            }
-                            Log::info("\n\n ---- End Verification ---");
-                        }
-                    }
+                    //Verify Signed Data
+                    GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
                 }
                 else{ Log::info("No result Returned"."\n");}
             }
@@ -246,29 +205,9 @@ class XmlRequestHelper
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
                     
-                    //Get Certificate contents
-                    if (!$pcert_store = file_get_contents(__DIR__."/gepgpubliccertificate.pfx")) {
-                        Log::info("---Error: Unable to read the cert file\n");
-                        exit;
-                    }else{
-                        //Read Certificate
-                        if (openssl_pkcs12_read($pcert_store, $pcert_info, $fileKeyPass)) {
-                            //Decode Received Signature String
-                            $rawsignature = base64_decode($vsignature);
-                            //Verify Signature and state whether signature is okay or not
-                            $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], 'sha256WithRSAEncryption');
-                            if ($ok == 1) {
-                                Log::info("\n\n ------Signature Status: GOOD");
-                                return $vdata;
-                            } elseif ($ok == 0) {
-                                Log::info("----Signature Status: BAD");
-                                return [];
-                            } else { 
-                                Log::info("Signature Status: UGLY, Error checking signature:"); 
-                            }
-                            Log::info("\n\n---- End Verification ---");
-                        }
-                    }
+                    //Verify Data using Certifites
+
+                    GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
                 }
                 else{ Log::info("No result Returned"."\n");}
             }
