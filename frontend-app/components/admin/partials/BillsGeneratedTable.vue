@@ -36,9 +36,9 @@ const handleBilCancel = async (index: number, row) => {
       <el-table-column label="Status" prop="status" />
       <el-table-column label="Status Code" prop="status_code" />
 <!--      <el-table-column label="TRX ID" prop="trx_id" />-->
-      <el-table-column label="PAID AMOUNT" prop="paid_amt" />
-      <el-table-column label="PAID ON" prop="trx_dt_tm" />
-      <el-table-column label="PAID BY" prop="pyr_name" />
+      <el-table-column label="Paid amount" prop="paid_amt" />
+      <el-table-column label="Paid on" prop="trx_dt_tm" />
+      <el-table-column label="Paid by" prop="pyr_name" />
       <el-table-column label="Operations">
         <template #default="scope">
           <el-button size="small" type="warning" @click="handleRenew(scope.$index, scope.row)">
