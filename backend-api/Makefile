@@ -68,6 +68,7 @@ production.reload:
 	@make production.build
 	@make production.up
 	@make production.boost
+	@make production.frontend
 
 production.build:
 	docker compose -f docker-compose.prod.yml build 
@@ -101,7 +102,7 @@ production.logs:
 	docker logs -f events-app-api
 
 production.frontend: 
-	 cd .. && git pull origin production && cd frontend-app &&  yarn ; yarn build && pm2 restart production.config.cjs &&  cd  ../backend-api && make start
+	  cd ../frontend-app && yarn build && pm2 restart production.config.cjs &&  cd  ../backend-api && make production.start
 
 # Define the directory and the command
 DIR1 := ../frontend-app 
