@@ -183,13 +183,13 @@ class XmlRequestHelper
                             //Verify Signature and state whether signature is okay or not
                             $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], 'sha256WithRSAEncryption');
                             if ($ok == 1) {
-                                Log::info("\n\n ------Signature Status: GOOD");
+                                Log::info("\n\n ------ Signature Status: GOOD");
                                 return $vdata;
                             } elseif ($ok == 0) {
-                                Log::info("\n\n ----Signature Status: BAD");
+                                Log::info("\n\n ---- Signature Status: BAD");
                                 return [];
                             } else { 
-                                Log::info("Signature Status: UGLY, Error checking signature:"); 
+                                Log::info("\n\n ------- Signature Status: UGLY, Error checking signature:"); 
                             }
                             Log::info("\n\n ---- End Verification ---");
                         }
