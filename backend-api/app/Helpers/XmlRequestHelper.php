@@ -216,9 +216,9 @@ class XmlRequestHelper
             if (openssl_pkcs12_read($cert_store, $cert_info, $fileKeyPass)){
                 //Bill Request
                 $systemid =env('GEPG_SYSTEMID');
-                $genDate = GeneralCustomHelper::getGenerationDate();
+                $reqID = GeneralCustomHelper::generateReqID(16);
                 $content ="<billCanclReq>
-                                <ReqId>".$genDate."</ReqId>
+                                <ReqId>".$reqID."</ReqId>
                                 <SpGrpCode>".$billingData->SpGrpCode."</SpGrpCode>
                                 <SysCode>".$systemid."</SysCode>
                                 <BillTyp>2</BillTyp>
@@ -239,8 +239,8 @@ class XmlRequestHelper
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
                 
                 if(!empty($resultCurlPost)){
-                    Log::info("\n\n-----Response Results: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
-                    Log::info("\n\n-----Response Description: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<ResStsDesc>', '</ResStsDesc>')]);
+                    Log::info("\n\n-----CANCELLATION CODE:: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<CanclStsCode>', '</CanclStsCode>')]);
+                    Log::info("\n\n----- CANCELLATION DESC:: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<CanclStsDesc>', '</CanclStsDesc>')]);
                     Log::info("\n\n---- Response End---");
 
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
@@ -258,15 +258,15 @@ class XmlRequestHelper
                             //Verify Signature and state whether signature is okay or not
                             $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], 'sha256WithRSAEncryption');
                             if ($ok == 1) {
-                                Log::info("\n\n------Signature Status: GOOD");
-                                Log::info("\n\n---- End Verification ---");
+                                Log::info("\n\n ------Signature Status: GOOD");
                                 return $vdata;
                             } elseif ($ok == 0) {
                                 Log::info("----Signature Status: BAD");
-                                return false;
+                                return [];
                             } else { 
                                 Log::info("Signature Status: UGLY, Error checking signature:"); 
                             }
+                            Log::info("\n\n---- End Verification ---");
                         }
                     }
                 }
