@@ -49,7 +49,7 @@ class GeneralCustomHelper{
         $uri = $requestUri;
         $data_string = $content;
         $spcode =env('GEPG_SPCODE');
-        Log::info("\n ======= Curl Send payload GEPG");
+        Log::info("\n ======= SEND CURL GEPG");
         $ch = curl_init($serverIp.$uri);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -64,10 +64,11 @@ class GeneralCustomHelper{
         );
         curl_setopt($ch, CURLOPT_TIMEOUT, 70);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 70);
-        Log::info("\n\n===END MESSAGEING GEPG");
+        Log::info("\n\n ### SIZE PAYLOAD: \n" , [strlen($data_string)]);
         $resultCurlPost = curl_exec($ch);
         curl_close($ch);
-        Log::info("\n\n ### Response Data Length:\n",[strlen($resultCurlPost)]);
+        Log::info("\n\n ### SIZE  RESPONSE:\n",[strlen($resultCurlPost)]);
+        Log::info("\n\n====== END CURL MESSAGE GEPG");
      return $resultCurlPost;   
     }
 

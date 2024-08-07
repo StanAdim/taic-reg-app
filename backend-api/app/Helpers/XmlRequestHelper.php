@@ -162,13 +162,13 @@ class XmlRequestHelper
                 $requestUri = env('GEPG_RECONCILIATION_URI');
                 $signedPayload = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
                 //Perform Curl to a Gepg
+                
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
+                Log::info("\n\n-----Performed Curl -------");
                 
                 if(!empty($resultCurlPost)){
-                    Log::info("\n\n-----Response Results: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
-                    Log::info("\n\n-----Response Description: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<ResStsDesc>', '</ResStsDesc>')]);
-                    Log::info("\n\n---- Response End---");
-
+                    Log::info("\n\n----- ACK CODE \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
+                    Log::info("\n\n----- ACK DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<ResStsDesc>', '</ResStsDesc>')]);
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
                     //Get Certificate contents
@@ -183,15 +183,15 @@ class XmlRequestHelper
                             //Verify Signature and state whether signature is okay or not
                             $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], 'sha256WithRSAEncryption');
                             if ($ok == 1) {
-                                Log::info("\n\n------Signature Status: GOOD");
-                                Log::info("\n\n---- End Verification ---");
+                                Log::info("\n\n ------Signature Status: GOOD");
                                 return $vdata;
                             } elseif ($ok == 0) {
-                                Log::info("----Signature Status: BAD");
-                                return false;
+                                Log::info("\n\n ----Signature Status: BAD");
+                                return [];
                             } else { 
                                 Log::info("Signature Status: UGLY, Error checking signature:"); 
                             }
+                            Log::info("\n\n ---- End Verification ---");
                         }
                     }
                 }
