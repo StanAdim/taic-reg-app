@@ -168,7 +168,8 @@ class XmlRequestHelper
                 
                 if(!empty($resultCurlPost)){
                     Log::info("\n\n----- ACK CODE \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
-                    Log::info("\n\n----- ACK DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<ResStsDesc>', '</ResStsDesc>')]);
+                    Log::info("\n\n----- ACK DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
+                    Log::info("\n\n----- ACK: \n###",[$resultCurlPost]);
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
                     //Get Certificate contents
