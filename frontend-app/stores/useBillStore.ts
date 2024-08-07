@@ -32,7 +32,17 @@ export const useBillStore = defineStore('billStore', () => {
     async function handleBillReconciliation(bill_uuid){
         const {data, error} = await useApiFetch(`/api/bill/reconciliation/${bill_uuid}`);
         if(data.value){
-            console.log(data.value.message)
+            console.log(data.value)
+        }
+        if(error.value){
+            globalStore.assignAlertMessage(error.value.message,'error')
+        }
+        globalStore.toggleLoadingState('off')
+    }
+    async function handleBillCancellation(bill_uuid){
+        const {data, error} = await useApiFetch(`/api/bill/cancellation/${bill_uuid}`);
+        if(data.value){
+            console.log(data.value)
         }
         if(error.value){
             globalStore.assignAlertMessage(error.value.message,'error')
@@ -44,6 +54,7 @@ export const useBillStore = defineStore('billStore', () => {
         getUserPayments,
         retrieveAllBills,
         handleBillReconciliation,
+        handleBillCancellation,
         getAllBills
     }
 })

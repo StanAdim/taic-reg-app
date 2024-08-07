@@ -118,41 +118,70 @@ class GeneralCustomHelper{
 
     public static function reconcileResXmlToArray($reconcileXmlPayload){
         $values = array();
+    
+        // Extracting elements from the XML payload
         $values['ResId'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<ResId>', '</ResId>');
         $values['ReqId'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<ReqId>', '</ReqId>');
         $values['PayStsCode'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PayStsCode>', '</PayStsCode>');
         $values['PayStsDesc'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PayStsDesc>', '</PayStsDesc>');
         $values['SpGrpCode'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<SpGrpCode>', '</SpGrpCode>');
         $values['SysCode'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<SysCode>', '</SysCode>');
-
-        $values['PmtDtls'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PmtDtls>', '</PmtDtls>');
-        $values['PmtTrxDtl'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PmtTrxDtl>', '</PmtTrxDtl>');
-
-        return $values['PmtDtls'];
-        $values['GrpBillId'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<GrpBillId>', '</GrpBillId>');
-        $values['EntryCnt'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<EntryCnt>', '</EntryCnt>');
-        $values['BillId'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<BillId>', '</BillId>');
-        $values['SpCode'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<SpCode>', '</SpCode>');
-        $values['PspCode'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PspCode>', '</PspCode>');
-        $values['PspName'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PspName>', '</PspName>');
-        $values['CustCntrNum'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<CustCntrNum>', '</CustCntrNum>');
-        $values['PayRefId'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PayRefId>', '</PayRefId>');
-        $values['TrxId'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<TrxId>', '</TrxId>');
-        $values['PaidAmt'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PaidAmt>', '</PaidAmt>');
-        $values['BillPayOpt'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<BillPayOpt>', '</BillPayOpt>');
-        $values['BillAmt'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<BillAmt>', '</BillAmt>');
-        $values['Ccy'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<Ccy>', '</Ccy>');
-        $values['CollAccNum'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<CollAccNum>', '</CollAccNum>');
-        $values['TrxDtTm'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<TrxDtTm>', '</TrxDtTm>');
-        $values['UsdPayChnl'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<UsdPayChnl>', '</UsdPayChnl>');
-        $values['TrdPtyTrxId'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<TrdPtyTrxId>', '</TrdPtyTrxId>');
-        $values['PyrCellNum'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PyrCellNum>', '</PyrCellNum>');
-        $values['PyrName'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PyrName>', '</PyrName>');
-        $values['PyrEmail'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PyrEmail>', '</PyrEmail>');
-        $values['Rsv1'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<Rsv1>', '</Rsv1>');
-        $values['Rsv2'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<Rsv2>', '</Rsv2>');
-        $values['Rsv3'] = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<Rsv3>', '</Rsv3>');
-        return $values;
+        
+        // Extract the PmtDtls section
+        $pmtDtls = GeneralCustomHelper::get_string_between($reconcileXmlPayload, '<PmtDtls>', '</PmtDtls>');
+        
+        // Initialize an array to store transaction details
+        $pmtTrxDtls = [];
+        
+        if ($pmtDtls) {
+            // Load the PmtDtls section into a SimpleXMLElement object
+            $pmtDtlsXml = simplexml_load_string("<PmtDtls>$pmtDtls</PmtDtls>");
+            
+            // Check if the XML is valid and has PmtTrxDtl nodes
+            if ($pmtDtlsXml && $pmtDtlsXml->PmtTrxDtl) {
+                // Iterate over each PmtTrxDtl node
+                foreach ($pmtDtlsXml->PmtTrxDtl as $pmtTrxDtl) {
+                    $trxDetail = [];
+                    
+                    // Extract each field from the PmtTrxDtl node
+                    $trxDetail['CustCntrNum'] = (string) $pmtTrxDtl->CustCntrNum;
+                    $trxDetail['GrpBillId'] = (string) $pmtTrxDtl->GrpBillId;
+                    $trxDetail['SpCode'] = (string) $pmtTrxDtl->SpCode;
+                    $trxDetail['BillId'] = (string) $pmtTrxDtl->BillId;
+                    $trxDetail['BillCtrNum'] = (string) $pmtTrxDtl->BillCtrNum;
+                    $trxDetail['PspCode'] = (string) $pmtTrxDtl->PspCode;
+                    $trxDetail['PspName'] = (string) $pmtTrxDtl->PspName;
+                    $trxDetail['TrxId'] = (string) $pmtTrxDtl->TrxId;
+                    $trxDetail['PayRefId'] = (string) $pmtTrxDtl->PayRefId;
+                    $trxDetail['BillAmt'] = (string) $pmtTrxDtl->BillAmt;
+                    $trxDetail['PaidAmt'] = (string) $pmtTrxDtl->PaidAmt;
+                    $trxDetail['BillPayOpt'] = (string) $pmtTrxDtl->BillPayOpt;
+                    $trxDetail['Ccy'] = (string) $pmtTrxDtl->Ccy;
+                    $trxDetail['CollAccNum'] = (string) $pmtTrxDtl->CollAccNum;
+                    $trxDetail['TrxDtTm'] = (string) $pmtTrxDtl->TrxDtTm;
+                    $trxDetail['UsdPayChnl'] = (string) $pmtTrxDtl->UsdPayChnl;
+                    $trxDetail['TrdPtyTrxId'] = (string) $pmtTrxDtl->TrdPtyTrxId;
+                    $trxDetail['QtRefId'] = (string) $pmtTrxDtl->QtRefId;
+                    $trxDetail['PyrCellNum'] = (string) $pmtTrxDtl->PyrCellNum;
+                    $trxDetail['PyrEmail'] = (string) $pmtTrxDtl->PyrEmail;
+                    $trxDetail['PyrName'] = (string) $pmtTrxDtl->PyrName;
+                    $trxDetail['Rsv1'] = (string) $pmtTrxDtl->Rsv1;
+                    $trxDetail['Rsv2'] = (string) $pmtTrxDtl->Rsv2;
+                    $trxDetail['Rsv3'] = (string) $pmtTrxDtl->Rsv3;
+                    
+                    // Append the transaction detail to the array
+                    $pmtTrxDtls[] = $trxDetail;
+                    
+                }
+            }
+        }
+    
+        // Return the array of PmtTrxDtl details
+        $result = [
+            'headers' => $values,
+            "paymentDetail" =>  $pmtTrxDtls
+        ];
+        return $result;
     }
 
     public static function signedBillAck($resId, $statusCode) {
@@ -196,6 +225,62 @@ class GeneralCustomHelper{
                  $AckId = GeneralCustomHelper::generateReqID(16);
 
                 $responseContentAck = "<pmtSpNtfReqAck><AckId>".$AckId."</AckId><ReqId>".$ReqId."</ReqId><AckStsCode>".$statusCode."</AckStsCode></pmtSpNtfReqAck>";       
+			     //Create signature 
+                openssl_sign($responseContentAck, $signature, $cert_info['pkey'], "sha256WithRSAEncryption");
+                // output crypted data base64 encoded
+                $signature = base64_encode($signature);
+                Log::info("Signature of Signed Content"."\n".$signature."\n");
+
+                // Combine signature and content signed
+                $response = "<Gepg>" . $responseContentAck . " <signature>" . $signature . "</signature></Gepg>";
+                // Log::info('------,', [$response]);
+                return $response;
+
+            }
+        }
+    }
+
+    public static function signedReconcileAck($ResId, $statusCode) {
+        $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";
+        $KEY_PASSWORD =  env('GEPG_KEYPASS');
+
+        if (!$cert_store = file_get_contents($PRIVATE_KEY)) {
+            Log::info("Error: Unable to read the cert file\n");
+            exit;
+        } else {
+            if (openssl_pkcs12_read($cert_store, $cert_info, $KEY_PASSWORD)) {
+                 //Response Content Ack  
+                 $AckId = GeneralCustomHelper::generateReqID(16);
+
+                $responseContentAck = "<sucSpPmtResAck><AckId>".$AckId."</AckId><ResId>".$ResId."</ResId><AckStsCode>".$statusCode."</AckStsCode></sucSpPmtResAck>";       
+			     //Create signature 
+                openssl_sign($responseContentAck, $signature, $cert_info['pkey'], "sha256WithRSAEncryption");
+                // output crypted data base64 encoded
+                $signature = base64_encode($signature);
+                Log::info("Signature of Signed Content"."\n".$signature."\n");
+
+                // Combine signature and content signed
+                $response = "<Gepg>" . $responseContentAck . " <signature>" . $signature . "</signature></Gepg>";
+                // Log::info('------,', [$response]);
+                return $response;
+
+            }
+        }
+    }
+
+    public static function signedCancellationAck($ResId, $statusCode) {
+        $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";
+        $KEY_PASSWORD =  env('GEPG_KEYPASS');
+
+        if (!$cert_store = file_get_contents($PRIVATE_KEY)) {
+            Log::info("Error: Unable to read the cert file\n");
+            exit;
+        } else {
+            if (openssl_pkcs12_read($cert_store, $cert_info, $KEY_PASSWORD)) {
+                 //Response Content Ack  
+                 $AckId = GeneralCustomHelper::generateReqID(16);
+
+                $responseContentAck = "<sucSpPmtResAck><AckId>".$AckId."</AckId><ResId>".$ResId."</ResId><AckStsCode>".$statusCode."</AckStsCode></sucSpPmtResAck>";       
 			     //Create signature 
                 openssl_sign($responseContentAck, $signature, $cert_info['pkey'], "sha256WithRSAEncryption");
                 // output crypted data base64 encoded

@@ -131,11 +131,9 @@ class XmlRequestHelper
 
     }
 
-    public static function GepgReconciliationRequest($billingData){
+    public static function GepgReconciliationRequest($billingData, $reconsileDate){
         $fileKeyPass = env('GEPG_KEYPASS');
         //Function to get Data string
-
-        $bill_trxDt = GeneralCustomHelper::getGenerationDate(0);
         if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
             Log::info(["\n\n --------Error: \n *** Unable to read the cert file\n"]);
             exit;
@@ -145,11 +143,13 @@ class XmlRequestHelper
             if (openssl_pkcs12_read($cert_store, $cert_info, $fileKeyPass)){
                 //Bill Request
                 $systemid =env('GEPG_SYSTEMID');
+                $reqID = GeneralCustomHelper::generateReqID(16);
+
                 $content ="<sucSpPmtReq>
-                                <ReqId>".$billingData->ReqId."</ReqId>
+                                <ReqId>".$reqID."</ReqId>
                                 <SpGrpCode>".$billingData->SpGrpCode."</SpGrpCode>
                                 <SysCode>".$systemid."</SysCode>
-                                <TrxDt>".$bill_trxDt."</TrxDt>
+                                <TrxDt>".$reconsileDate."</TrxDt>
                                 <Rsv1/>
                                 <Rsv2/>
                                 <Rsv3/>
@@ -214,11 +214,10 @@ class XmlRequestHelper
         else {
             if (openssl_pkcs12_read($cert_store, $cert_info, $fileKeyPass)){
                 //Bill Request
-                $spcode =env('GEPG_SPCODE');
                 $systemid =env('GEPG_SYSTEMID');
                 $genDate = GeneralCustomHelper::getGenerationDate();
                 $content ="<billCanclReq>
-                                <ReqId>".$billingData."</ReqId>
+                                <ReqId>".$genDate."</ReqId>
                                 <SpGrpCode>".$billingData->SpGrpCode."</SpGrpCode>
                                 <SysCode>".$systemid."</SysCode>
                                 <BillTyp>2</BillTyp>

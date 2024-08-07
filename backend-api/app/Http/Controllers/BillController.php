@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GeneralCustomHelper;
 use App\Helpers\XmlRequestHelper;
 use App\Helpers\XmlResponseHelper;
 use App\Http\Resources\Taic\BillResource;
@@ -19,7 +20,7 @@ class BillController extends Controller
 {
     public function userBill()
     {
-        $bills = BillResource::collection(Auth::user()->bills);
+        $bills = BillResource::collection(Auth::user()->bills->sortByDesc('created_at'));
         return response()->json([
             'message'=> "All your bills",
             'data' => $bills,
@@ -28,7 +29,7 @@ class BillController extends Controller
     }
     public function index()
     {
-        $bills = BillResource::collection(Bill::all());
+        $bills = BillResource::collection(Bill::all()->sortByDesc('created_at'));
         return response()->json([
             'message'=> "All bills",
             'data' => $bills,
@@ -62,12 +63,19 @@ class BillController extends Controller
     // user request reconciliation
     public function handleReconciliationRequest($bill_id)  {
         // process reconcilation 
+        $reconcile_date = Carbon::now()->subDay(1)->format('Y-m-d');
         try{
             $theBill = Bill::where('id', $bill_id)->firstOrFail();
-            $dataResult = XmlRequestHelper::GepgReconciliationRequest($theBill);
-            return $dataResult;
+            $dataResult = XmlRequestHelper::GepgReconciliationRequest($theBill, $reconcile_date);
+            return response()->json([
+                'message'=> 'Reconciliation Request Sent',
+                'data'=> $dataResult,
+            ]);
         }catch(Exception $e){
-            return $e->getMessage();
+            return response()->json([
+                'message'=> 'Error while Sending Request',
+                'error'=> $e->getMessage(),
+            ]); 
         }
         
     }
@@ -77,10 +85,16 @@ class BillController extends Controller
         try{
             $theBill = Bill::where('id', $bill_id)->firstOrFail();
             $dataResult = XmlRequestHelper::GepgCancellationRequest($theBill, $user);
-
-            return $dataResult;
+            return response()->json([
+                'message'=> 'Cancellation Request Sent',
+                'data'=> $dataResult,
+            ]);
         }catch(Exception $e){
-            return $e;
+            return response()->json([
+                'message'=> 'Error while Sending Request',
+                'error'=> $e->getMessage(),
+            ]); 
+               
         }
         
     }

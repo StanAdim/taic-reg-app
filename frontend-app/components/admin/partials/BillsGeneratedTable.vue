@@ -13,14 +13,10 @@ const indexMethod = (index: number) => index + 1
 const handleRenew = (index: number, row) => {
   console.log(index, row)
 }
-const handleBillReconcile = async (index: number, row) => {
-  console.log(row.id)
-  await billStore.handleBillReconciliation(row.id)
-}
-const handleBilCancel = async (index: number, row) => {
-  console.log(row.id)
-  // await billStore.handleBillReconciliation(row.id)
-}
+const handleBillReconcile = async (index: number, row) => await billStore.handleBillReconciliation(row.id)
+
+const handleBilCancel = async (index: number, row) => await billStore.handleBillCancellation(row.id)
+
 </script>
 
 <template>
@@ -30,7 +26,7 @@ const handleBilCancel = async (index: number, row) => {
       <el-table-column label="Booking ID" prop="ReqId" />
       <el-table-column label="Conference" prop="name" />
       <el-table-column label="Conference Fee" prop="conferenceFee" />
-      <!--    <el-table-column label="Control Number" prop="controlNumber" />-->
+      <el-table-column label="Control Number" prop="controlNumber" />
       <el-table-column label="Control Number" prop="**" />
       <el-table-column label="Date Generated " prop="created_at" />
       <el-table-column label="Status" prop="status" />

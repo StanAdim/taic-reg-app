@@ -77,7 +77,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
 
     Route::get('/event-bills', [BillController::class,'index']);
     
-    Route::get('/bill/reconciliation/{bill_id}', [BillController::class,'handleReconciliationRequest']);
+    Route::get('/bill/reconciliation/{bill_id', [BillController::class,'handleReconciliationRequest']);
     Route::get('/bill/cancellation/{bill_id}', [BillController::class,'handleCancellationRequest']);
 
 
