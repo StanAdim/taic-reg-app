@@ -27,7 +27,7 @@ const handleBilCancel = async (index: number, row) => {
   <div class="mx-1">
     <el-table :data="filterTableData" style="width: 100%" table-layout="auto">
       <el-table-column label="Sn" type="index" :index="indexMethod" />
-      <el-table-column label="Booking ID" prop="ReqId" />
+<!--      <el-table-column label="Booking ID" prop="ReqId" />-->
       <el-table-column label="Conference" prop="name" />
       <el-table-column label="Conference Fee" prop="conferenceFee" />
       <!--    <el-table-column label="Control Number" prop="controlNumber" />-->
