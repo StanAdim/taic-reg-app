@@ -5,7 +5,7 @@
     </b>
     </p>
 <p style="padding:4px 2px; margin: 4px 1px;">
-    Thank you for requesting for the {{$boothName}} for the upcoming event. Our team will be incontact with you shortly.</p>
+    Thank you for requesting the {{$boothName}} for the upcoming event. Our team will be incontact with you shortly.</p>
 
 <p style="padding:4px 2px; margin: 4px 1px;">
     For any inquiries contact us at:

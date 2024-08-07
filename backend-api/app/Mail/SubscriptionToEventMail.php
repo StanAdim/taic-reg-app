@@ -13,14 +13,14 @@ use Illuminate\Queue\SerializesModels;
 class SubscriptionToEventMail extends Mailable
 {
     use Queueable, SerializesModels;
-        public $boothName;
+        public $eventName;
     /**
      * Create a new message instance.
      */
-    public function __construct(public User $user, $boothName)
+    public function __construct(public User $user, $eventName)
     {
         //
-        $this -> boothName = $boothName;
+        $this -> eventName = $eventName;
 
     }
 
@@ -30,7 +30,7 @@ class SubscriptionToEventMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Exhibition Booth Request of '. $this->boothName,
+            subject: 'Subscription to '. $this->eventName,
         );
     }
 
@@ -40,10 +40,9 @@ class SubscriptionToEventMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.subscription.bootRequestMail',
+            view: 'mail.subscription.subscriptionEmail',
             with: [
-                'boothName' => $this->boothName,
-                'user' => $this->user,
+                'eventName' => $this->eventName,
             ],
         );
     }
