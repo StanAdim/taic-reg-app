@@ -233,7 +233,7 @@ class XmlRequestHelper
                 //output crypted data base64 encoded
                 $signature = base64_encode($signature);
                 //Combine signature and content signed
-                $requestUri = env('GEPG_RECONCILIATION_URI');
+                $requestUri = env('GEPG_CANCELLATION_URI');
                 $signedPayload = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
                 //Perform Curl to a Gepg
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
