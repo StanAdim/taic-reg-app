@@ -15,10 +15,15 @@ class DocumentMaterialController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $destinationPath;
+
+    public function __construct()
+    {
+        $this->destinationPath = 'events/documents';
+    }
     public function upload(Request $request )
     {
         // Validate the request
-        // return $request ;
         $request->validate([
             'document' => 'required|extensions:pdf,xlsx|max:2048', // less 2MB
             'name' => 'required', // 
@@ -29,13 +34,11 @@ class DocumentMaterialController extends Controller
         if ($request->hasFile('document')) {
             $file = $request->file('document');
             $user_id = Auth::id();
-
             // Generate a unique file name
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
-
             // Store directory
-            $filePath = $file->storeAs('public/events/documents', $filename);
-
+            // $file->move($this->destinationPath, $filename);
+            $filePath = $file->storeAs('/public/events/documents', $filename);
             // Save file information to the database
             $document = new DocumentMaterial();
             $document->name = $request->name;

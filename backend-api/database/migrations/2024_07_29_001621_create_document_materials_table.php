@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('path');
             $table->string('file_name');
-            $table->string('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('status')->default(1); #0 #1 #2
-            $table->foreignUuid('conference_id'); // Foreign key
+            $table->uuid('conference_id');
+            $table->foreign('conference_id')->references('id')->on('conferences')->onDelete('cascade'); 
             $table->timestamps();
         });
     }

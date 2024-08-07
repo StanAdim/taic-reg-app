@@ -27,6 +27,7 @@ const handleFileChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
   if (target.files && target.files[0]) {
     formInputs.value.file = target.files[0];
+    // formInputs.value.file = URL.createObjectURL(target.files[0]);
   }
 };
 
@@ -40,14 +41,14 @@ const handleFileUpload = async () => {
 
   // Create FormData
   const formData = new FormData();
-  formData.append('file', formInputs.value.file);
+  formData.append('document', formInputs.value.file);
   formData.append('name', formInputs.value.name);
   formData.append('conference_id', formInputs.value.conference_id);
 
   // Log the form data contents for debugging
-  for (let [key, value] of formData.entries()) {
-    console.log(`${key}:`, value);
-  }
+  // for (let [key, value] of formData.entries()) {
+  //   console.log(`${key}:`, value);
+  // }
   await docStore.uploadNewDocument(formData)
 };
 

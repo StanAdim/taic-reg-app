@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('bill/receive-controll', [BillController::class,'receiveControlNumber']);
 Route::post('bill/receive-payment', [BillController::class,'handlePayment']);
+Route::post('bill/reconciliation-response', [BillController::class,'handleGepgReconcileRes']);
 Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionController::class,'authUserCall']);
 Route::get('/test',function(){  $eventName = 'Taic Event'; return view('invoices.subscriptionInvoice',compact(['eventName']));});
 Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmail']);
@@ -76,8 +77,8 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
 
     Route::get('/event-bills', [BillController::class,'index']);
     
-    Route::get('/bill/reconciliation/{bill_id}', [BillController::class,'handleReconciliation']);
-    Route::get('/bill/cancellation/{bill_id}', [BillController::class,'handleCancellation']);
+    Route::get('/bill/reconciliation/{bill_id}', [BillController::class,'handleReconciliationRequest']);
+    Route::get('/bill/cancellation/{bill_id}', [BillController::class,'handleCancellationRequest']);
 
 
      Route::apiResource('/booth-request', ExhibitionRequestController::class);

@@ -36,6 +36,7 @@ class BillController extends Controller
         ],200);
     }
 
+    // Handle the receipt of Control number
     public function receiveControlNumber(Request $request)  {
         // process response 
         $dataResult = XmlResponseHelper::handleContrlNoResponse($request->getContent());
@@ -43,13 +44,23 @@ class BillController extends Controller
         
    }
 
+   //deal with payments receipt 
    public function handlePayment(Request $request)  {
     // process response 
     $dataResult = XmlResponseHelper::handlePaymentReceipt($request->getContent());
     return $dataResult;
     
     }
-    public function handleReconciliation($bill_id)  {
+
+    //Handle response on Reconcile request
+   public function handleGepgReconcileRes(Request $request)  {
+    // process response 
+    $dataResult = XmlResponseHelper::handleReconcileReceipt($request->getContent());
+    return $dataResult;
+    }
+
+    // user request reconciliation
+    public function handleReconciliationRequest($bill_id)  {
         // process reconcilation 
         try{
             $theBill = Bill::where('id', $bill_id)->firstOrFail();
@@ -60,7 +71,7 @@ class BillController extends Controller
         }
         
     }
-    public function handleCancellation($bill_id)  {
+    public function handleCancellationRequest($bill_id)  {
         // process response 
         $user = Auth::user();
         try{

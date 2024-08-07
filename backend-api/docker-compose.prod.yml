@@ -9,6 +9,8 @@ services:
       - 6030:80
     volumes:
       - .:/var/www/html
+      - /tmp:/tmp
+
     environment:
       APP_ENV: ${APP_ENV}  # Example environment variable
       APP_DEBUG: 'true'
