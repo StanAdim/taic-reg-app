@@ -29,7 +29,7 @@ const handleBillDownloading = (index: number, row) => {
     <el-table-column label="Date Generated " prop="created_at" />
     <el-table-column label="Status" prop="status" />
     <el-table-column label="Paid amount" prop="paid_amt" />
-    <el-table-column label="Paid on" prop="trx_dt_tm" />
+<!--    <el-table-column label="Paid on" prop="trx_dt_tm" />-->
     <el-table-column align="right">
       <template #header>
         <el-input v-model="search" size="default" placeholder="Type to search" />

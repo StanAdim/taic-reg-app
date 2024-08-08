@@ -15,14 +15,9 @@ class XmlResponseHelper
         $gepg_response = GeneralCustomHelper::contrNoXmlResToArray($contrlNo_Gepg_res);
         $BillId = $gepg_response['BillId'];
 
-        if (strlen($BillId) < 3) {
-            $serial = date("YmdHis");
-        } else {
-            $serial = $BillId;
-        }
         // Log::info('RECPAY-GEPG-REQUEST', [$contrlNo_Gepg_res, $serial, 'GEPG']);
         $varray = print_r($gepg_response, true);
-        Log::info("\n\n---------------GEPG Control number \n", [$varray, $serial, "\n -------GEPG"]);
+        Log::info("\n\n---------------GEPG Response \n", [$varray, "\n -------GEPG"]);
 
         $ResStsCode = $gepg_response['ResStsCode'];
         $codes = explode(';', $ResStsCode);
@@ -129,14 +124,14 @@ class XmlResponseHelper
         $responseHeader = $gepg_reconcile_res['headers'];
         $responsePayment = $gepg_reconcile_res['paymentDetail'];
 
-        
+        $varray = print_r($responsePayment, true);
+        Log::info("\n\n--GEPG Recon -- \n", [$varray, "\n -------GEPG"]);
+
+
         //--- Consuming Gepg Response 
             try {
                 foreach ($responsePayment as $paymentItem){
-                    Log::info("\n------------- \nBill ID => ", [$paymentItem['BillId']]);
-                    Log::info("\n------------- \n Status Code  => ", [$responseHeader['PayStsCode']]);
-                    Log::info("\n------------- \n Status Description  => ", [$responseHeader['PayStsDesc']]);
-        
+                    Log::info("\n------------- \nBill ID => ", [$paymentItem['BillId']]);        
                     $exists = Bill::where('id', $paymentItem['BillId'])->exists();
                     if($exists){
                         $theBill = Bill::where('id',$paymentItem['BillId'])->first();

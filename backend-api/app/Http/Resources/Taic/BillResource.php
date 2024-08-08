@@ -47,8 +47,8 @@ class BillResource extends JsonResource
             'trx_id'=>$this->trx_id,
             'bill_amt'=>$this->bill_amt,
             'pyr_name'=>$this->pyr_name,
-            'trx_dt_tm'=>Carbon::parse($this->trx_dt_tm)->format('j-m-Y, H:i'),
-            'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y, H:i')
+            'trx_dt_tm'=>Carbon::parse($this->trx_dt_tm)->format('j-m-Y'),
+            'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y')
             // 'created_at'=>Carbon::parse($this->created_at)->format('j-m-Y, H:i')
         ];
     }
