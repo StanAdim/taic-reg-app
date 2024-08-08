@@ -93,14 +93,14 @@ class XmlRequestHelper
                 
                 if(!empty($resultCurlPost)){
                     Log::info("\n\n-----BILL SUB RES CODE: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
-                    Log::info("\n\n-----BILL SUB RES DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<ResStsDesc>', '</ResStsDesc>')]);
+                    Log::info("\n\n-----BILL SUB RES DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
                     Log::info("\n\n---- END SUBMISSION RESPONSE---");
 
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
     
                     //Sign return contents
-                    GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
+                    return GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
 
                 }
                 else{ Log::info("No result Returned"."\n");}
@@ -153,7 +153,7 @@ class XmlRequestHelper
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
                     //Verify Signed Data
-                    GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
+                    return GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
                 }
                 else{ Log::info("No result Returned"."\n");}
             }
@@ -206,8 +206,7 @@ class XmlRequestHelper
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
                     
                     //Verify Data using Certifites
-
-                    GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
+                    return GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
                 }
                 else{ Log::info("No result Returned"."\n");}
             }

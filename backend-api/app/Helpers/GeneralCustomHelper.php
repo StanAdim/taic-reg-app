@@ -52,18 +52,21 @@ class GeneralCustomHelper{
             if (openssl_pkcs12_read($pcert_store, $pcert_info, $fileKeyPass)) {
                 //Decode Received Signature String
                 $rawsignature = base64_decode($vsignature);
+                $verified_data = '';
                 //Verify Signature and state whether signature is okay or not
                 $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], 'sha256WithRSAEncryption');
                 if ($ok == 1) {
                     Log::info("\n\n ------Signature Status: GOOD");
-                    return $vdata;
+                    Log::info("\n\n---- End Verification ---");
+                     $verified_data = $vdata;
                 } elseif ($ok == 0) {
                     Log::info("---- Signature Status: BAD");
-                    return [];
+                    $verified_data = [];
                 } else { 
                     Log::info("Signature Status: UGLY, Error checking signature:"); 
                 }
                 Log::info("\n\n---- End Verification ---");
+                return $verified_data;
             }
         }
     }
@@ -95,6 +98,7 @@ class GeneralCustomHelper{
         $resultCurlPost = curl_exec($ch);
         curl_close($ch);
         Log::info("\n\n ### SIZE  RESPONSE:\n",[strlen($resultCurlPost)]);
+        // Log::info("\n\n ### RESPONSE : \n" , [$resultCurlPost]);
         Log::info("\n\n====== END CURL MESSAGE GEPG");
      return $resultCurlPost;   
     }
