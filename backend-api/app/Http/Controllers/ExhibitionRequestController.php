@@ -69,7 +69,7 @@ class ExhibitionRequestController extends Controller
                 ],500);
             }
         }catch (Exception $e) {
-        return response()->json(['errors' => $e], 500);
+        return response()->json(['errors' => $e->getMessage()], 500);
     }
 }
 
