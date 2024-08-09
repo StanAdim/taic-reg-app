@@ -169,7 +169,7 @@ class XmlResponseHelper
                             // Log::info('RECPAY-GEPG-RESPONSE', [$response, $serial, 'GEPG']);
                     }else{
                         Log::info("\n\n-------- ### Bill Not Found \n", ["------- \n "]);
-                        return GeneralCustomHelper::signedReconcileAck($responseHeader['ResId'],7303);
+                        return GeneralCustomHelper::signedReconcileAck($responseHeader['ResId'],7101);
                     }
                 }
                 
