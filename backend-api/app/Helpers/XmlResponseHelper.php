@@ -125,8 +125,7 @@ class XmlResponseHelper
         $responsePayment = $gepg_reconcile_res['paymentDetail'];
 
         $varray = print_r($responsePayment, true);
-        Log::info("\n\n--GEPG Recon -- \n", [$varray, "\n -------GEPG"]);
-
+        Log::info("\n\n-- ## STARTING GEPG RECON RESPONCE -- \n", [$varray, "\n -------GEPG"]);
 
         //--- Consuming Gepg Response 
             try {
@@ -169,12 +168,10 @@ class XmlResponseHelper
                             return GeneralCustomHelper::signedReconcileAck($responseHeader['ResId'],7101);
                             // Log::info('RECPAY-GEPG-RESPONSE', [$response, $serial, 'GEPG']);
                     }else{
-                        Log::info("\n\n-------- Bill Not Found \n", ["------- \n "]);
+                        Log::info("\n\n-------- ### Bill Not Found \n", ["------- \n "]);
                         return GeneralCustomHelper::signedReconcileAck($responseHeader['ResId'],7303);
-    
                     }
                 }
-                
                 
             } catch (QueryException $e) {
                 // Handle the exception

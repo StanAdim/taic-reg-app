@@ -166,19 +166,20 @@ class XmlRequestHelper
         $fileKeyPass = env('GEPG_KEYPASS');
         //Function to get Data string
 
-        $bill_trxDt = GeneralCustomHelper::getGenerationDate(0);
         if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
             Log::info(["\n\n --------Error: \n *** Unable to read the cert file\n"]);
             exit;
         }
         else {
+
             if (openssl_pkcs12_read($cert_store, $cert_info, $fileKeyPass)){
                 //Bill Request
                 $systemid =env('GEPG_SYSTEMID');
+                $spGrpCode = "SP99128";
                 $reqID = GeneralCustomHelper::generateReqID(16);
                 $content ="<billCanclReq>
                                 <ReqId>".$reqID."</ReqId>
-                                <SpGrpCode>".$billingData->SpGrpCode."</SpGrpCode>
+                                <SpGrpCode>".$spGrpCode."</SpGrpCode>
                                 <SysCode>".$systemid."</SysCode>
                                 <BillTyp>2</BillTyp>
                                 <GrpBillId>".$billingData->GrpBillId."</GrpBillId>
