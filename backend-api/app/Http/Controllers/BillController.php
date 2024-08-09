@@ -63,7 +63,7 @@ class BillController extends Controller
     // user request reconciliation
     public function handleReconciliationRequest($bill_id)  {
         // process reconcilation 
-        $reconcile_date = Carbon::now()->subDay(1)->format('Y-m-d');
+        $reconcile_date = Carbon::now()->subDay(2)->format('Y-m-d');
         try{
             $theBill = Bill::where('id', $bill_id)->firstOrFail();
             $dataResult = XmlRequestHelper::GepgReconciliationRequest($theBill, $reconcile_date);

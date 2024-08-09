@@ -144,11 +144,11 @@ class XmlRequestHelper
                 //Perform Curl to a Gepg
                 
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
-                Log::info("\n\n-----Performed Curl -------");
+                Log::info("\n\n-----Performed Curl -------\n\n Request ID", [$reqID]);
                 
                 if(!empty($resultCurlPost)){
-                    Log::info("\n\n----- ACK CODE \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
-                    Log::info("\n\n----- ACK DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
+                    Log::info("\n\n----- ACK RECON CODE \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
+                    Log::info("\n\n----- ACK  RECON DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
                     Log::info("\n\n----- ACK: \n###",[$resultCurlPost]);
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
