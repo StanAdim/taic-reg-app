@@ -181,7 +181,7 @@ class XmlRequestHelper
                                 <ReqId>".$reqID."</ReqId>
                                 <SpGrpCode>".$spGrpCode."</SpGrpCode>
                                 <SysCode>".$systemid."</SysCode>
-                                <BillTyp>2</BillTyp>
+                                <BillTyp>1</BillTyp>
                                 <GrpBillId>".$billingData->GrpBillId."</GrpBillId>
                                 <CanclGenBy>".$cancelledBy->firstName." ".$cancelledBy->lastName."</CanclGenBy>
                                 <CanclApprBy>".$cancelledBy->firstName." ".$cancelledBy->lastName."</CanclApprBy>
@@ -199,8 +199,9 @@ class XmlRequestHelper
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
                 
                 if(!empty($resultCurlPost)){
-                    Log::info("\n\n-----CANCELLATION CODE:: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<CanclStsCode>', '</CanclStsCode>')]);
-                    Log::info("\n\n----- CANCELLATION DESC:: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<CanclStsDesc>', '</CanclStsDesc>')]);
+                    Log::info("\n\n-----CANC REQ ID:: \n###",[$reqID]);
+                    Log::info("\n\n-----CANC CODE:: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<CanclStsCode>', '</CanclStsCode>')]);
+                    Log::info("\n\n----- CANC DESC:: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<CanclStsDesc>', '</CanclStsDesc>')]);
                     Log::info("\n\n---- Response End---");
 
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
