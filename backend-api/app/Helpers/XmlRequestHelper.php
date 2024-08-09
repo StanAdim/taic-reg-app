@@ -144,7 +144,7 @@ class XmlRequestHelper
                 //Perform Curl to a Gepg
                 
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
-                Log::info("\n\n-----Performed Curl -------\n\n Request ID", [$reqID]);
+                Log::info("\n\n----- END CURL  -------\n\n ### RECON REQ ID", [$reqID]);
                 
                 if(!empty($resultCurlPost)){
                     Log::info("\n\n----- ACK RECON CODE \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
