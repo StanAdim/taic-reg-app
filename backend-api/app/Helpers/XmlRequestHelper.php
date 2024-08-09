@@ -181,8 +181,8 @@ class XmlRequestHelper
                                 <ReqId>".$reqID."</ReqId>
                                 <SpGrpCode>".$spGrpCode."</SpGrpCode>
                                 <SysCode>".$systemid."</SysCode>
-                                <BillTyp>2</BillTyp>
-                                <GrpBillId>".$billingData->GrpBillId."</GrpBillId>
+                                <BillTyp>1</BillTyp>
+                                <GrpBillId>".$billingData->id."</GrpBillId>
                                 <CanclGenBy>".$cancelledBy->firstName." ".$cancelledBy->lastName."</CanclGenBy>
                                 <CanclApprBy>".$cancelledBy->firstName." ".$cancelledBy->lastName."</CanclApprBy>
                                 <CanclReasn>".$reason."</CanclReasn>
