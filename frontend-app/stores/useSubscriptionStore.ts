@@ -24,6 +24,12 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
             globalStore.toggleLoadingState('off')
             globalStore.toggleDoneCheckVisibility()
         }
+        if(error.value){
+            globalStore.assignAlertMessage(error.value?.data?.message, 'warning')
+            eventDialogStatus.value = false;
+            globalStore.toggleLoadingState('off')
+            // globalStore.toggleDoneCheckVisibility()
+        }
         return {data, error};
     }
     async function retrieveSubscribedEvents(): Promise<ApiResponse>{

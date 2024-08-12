@@ -80,7 +80,7 @@ initialize()
         </div>
         <div class="ml-3 block text-teal-900">
           <p class="my-0.5 py-0 text-lg text-sky-800 font-medium">Progress</p>
-          <p class="mx-3 my-1 font-medium">Attendee: <em class="text-fuchsia-950 p-2">{{ eventData?.attendees }}</em></p>
+          <p class="mx-3 my-1 font-medium">Registered Participants: <em class="text-fuchsia-950 p-2">{{ eventData?.attendees }}</em></p>
           <p class="mx-3 my-1 font-medium">Payments: <em class="text-fuchsia-950 p-2">0 Tsh</em></p>
           <p class="mx-3 my-1 font-medium">Speakers: <em class="text-fuchsia-950 p-2">{{ eventData?.speakers}}</em></p>
           <p class="mx-3 my-1 font-medium">Days: <em class="text-fuchsia-950 p-2">{{ eventData?.days.length }}</em></p>
@@ -88,8 +88,9 @@ initialize()
       </div>
       </div>
           <div class="mx-1 my-2 " v-if="globalStore.hasPermission('can_modify_event')">
-            <h2 class="text-xl text-center font-bold">Event Subscribers</h2>
-              <simple-data-table :headers="headers" :data="eventData?.subscribers" />
+            <h2 class="text-xl text-center font-bold">Registered Participants</h2>
+                <AdminPartialsSubscribers :subscribers="eventData?.subscribers" />
+<!--              <simple-data-table :headers="headers" :data="eventData?.subscribers" />-->
           </div>
     </template>
 
