@@ -16,6 +16,9 @@ const handleRenew = (index: number, row) => {
 const handleBillReconcile = async (index: number, row) => await billStore.handleBillReconciliation(row.id)
 
 const handleBilCancel = async (index: number, row) => await billStore.handleBillCancellation(row.id)
+const handleRemoveSubscription = async (row) => {
+  console.log(row?.id)
+}
 
 </script>
 
@@ -48,8 +51,15 @@ const handleBilCancel = async (index: number, row) => await billStore.handleBill
       </el-table-column>
       <el-table-column label="Cancel">
         <template #default="scope">
-          <el-button size="small" type="danger" @click="handleBilCancel(scope.$index, scope.row)">
+          <el-button size="small" type="info" @click="handleBilCancel(scope.$index, scope.row)">
             Cancel
+          </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="Subscription">
+        <template #default="scope">
+          <el-button size="small" type="danger" @click="handleRemoveSubscription(scope.row)">
+            Unsubscribe
           </el-button>
         </template>
       </el-table-column>
