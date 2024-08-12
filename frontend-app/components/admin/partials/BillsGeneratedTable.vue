@@ -24,6 +24,7 @@ const handleBilCancel = async (index: number, row) => await billStore.handleBill
     <el-table :data="filterTableData" style="width: 100%" table-layout="auto">
       <el-table-column label="Sn" type="index" :index="indexMethod" />
       <el-table-column label="Booking ID" prop="ReqId" />
+          <el-table-column label="Participant ID" prop="user" />
       <el-table-column label="Conference" prop="name" />
       <el-table-column label="Conference Fee" prop="conferenceFee" />
       <el-table-column label="Control Number" prop="controlNumber" />
