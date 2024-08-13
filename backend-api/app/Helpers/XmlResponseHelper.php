@@ -17,7 +17,8 @@ class XmlResponseHelper
 
         // Log::info('RECPAY-GEPG-REQUEST', [$contrlNo_Gepg_res, $serial, 'GEPG']);
         $varray = print_r($gepg_response, true);
-        Log::info("\n\n---------------GEPG Response \n", [$varray, "\n -------GEPG"]);
+        Log::info("-----START SUBMISSION FOR BILL-----\n");
+        Log::info("Response:", ['res-array' => $varray]);
 
         $ResStsCode = $gepg_response['ResStsCode'];
         $codes = explode(';', $ResStsCode);

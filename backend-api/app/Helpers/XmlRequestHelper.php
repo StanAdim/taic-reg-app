@@ -43,18 +43,18 @@ class XmlRequestHelper
                                 <BillId>".$id."</BillId>
                                 <SpCode>".$spcode."</SpCode>
                                 <CollCentCode>".$collectionCenCode."</CollCentCode>
-                                <BillDesc>@2".$billingData->name."</BillDesc>
+                                <BillDesc>".htmlspecialchars($billingData->name,ENT_XML1, 'UTF-8')."</BillDesc>
                                 <CustTin>111111111</CustTin>
                                 <CustId>".$billingData->user_id."</CustId>
                                 <CustIdTyp>5</CustIdTyp>
                                 <CustAccnt>".GeneralCustomHelper::formatThePhoneNumber($billingData->phone_number)."</CustAccnt>
-                                <CustName>##".$billingData->customer_name."</CustName>
+                                <CustName>".htmlspecialchars($billingData->customer_name,ENT_XML1, 'UTF-8')."</CustName>
                                 <CustCellNum>".GeneralCustomHelper::formatThePhoneNumber($billingData->phone_number)."</CustCellNum>
                                 <CustEmail>".$billingData->email."</CustEmail>
                                 <BillGenDt>".$genDate."</BillGenDt>
                                 <BillExprDt>".$bill_exp."</BillExprDt>
-                                <BillGenBy>".$billingData->billGeneratedBy."</BillGenBy>
-                                <BillApprBy>".$billingData->billApproveBy."</BillApprBy>
+                                <BillGenBy>".htmlspecialchars($billingData->billGeneratedBy,ENT_XML1, 'UTF-8')."</BillGenBy>
+                                <BillApprBy>".htmlspecialchars($billingData->billApproveBy,ENT_XML1, 'UTF-8')."</BillApprBy>
                                 <BillAmt>".$billingData->amount."</BillAmt>
                                 <BillEqvAmt>".$billingData->amount."</BillEqvAmt>
                                 <MinPayAmt>".$billingData->amount."</MinPayAmt>
@@ -93,6 +93,7 @@ class XmlRequestHelper
                 Log::info("### BILL ID:", ['Bill ID' => $id]);
 
                 Log::info("###  BILL SUB REQ ID:",['Sub Req ID'=> $reqID]);
+                // Log::info("###  BILL SUB REQ:",['Sub Req'=> $content]);
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
                 if(!empty($resultCurlPost)){
                     Log::info("### BILL SUB RES CODE:",['Code' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
