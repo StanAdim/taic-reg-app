@@ -91,6 +91,8 @@ class ConferenceController extends Controller
             "defaultFee" => '',
             "foreignerFee" => '',
             "guestFee" => '',
+            "foreignerFeeInTzs" => '',
+
         ]);
         if($validator->fails()){
             return response()->json([
