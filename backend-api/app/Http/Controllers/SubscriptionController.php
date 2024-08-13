@@ -88,7 +88,7 @@ class SubscriptionController extends Controller
                         Subscription::create($newItem);
                         Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
                         return response()->json([
-                            'message'=> "Subscription Success",
+                            'message'=> "Bill generated Successful",
                             'data' => $billData,
                             'GepgAck' => $returedXml,
                             'code'=> 200
