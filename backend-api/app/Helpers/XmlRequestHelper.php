@@ -43,12 +43,12 @@ class XmlRequestHelper
                                 <BillId>".$id."</BillId>
                                 <SpCode>".$spcode."</SpCode>
                                 <CollCentCode>".$collectionCenCode."</CollCentCode>
-                                <BillDesc>".$billingData->name."</BillDesc>
+                                <BillDesc>@2".$billingData->name."</BillDesc>
                                 <CustTin>111111111</CustTin>
                                 <CustId>".$billingData->user_id."</CustId>
                                 <CustIdTyp>5</CustIdTyp>
                                 <CustAccnt>".GeneralCustomHelper::formatThePhoneNumber($billingData->phone_number)."</CustAccnt>
-                                <CustName>".$billingData->customer_name."</CustName>
+                                <CustName>##".$billingData->customer_name."</CustName>
                                 <CustCellNum>".GeneralCustomHelper::formatThePhoneNumber($billingData->phone_number)."</CustCellNum>
                                 <CustEmail>".$billingData->email."</CustEmail>
                                 <BillGenDt>".$genDate."</BillGenDt>
