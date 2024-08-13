@@ -119,7 +119,7 @@ class XmlRequestHelper
         $fileKeyPass = env('GEPG_KEYPASS');
         //Function to get Data string
         if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
-            Log::info(["\n\n --------Error: \n *** Unable to read the cert file\n"]);
+            Log::info(["--------Error: \n *** Unable to read the cert file\n"]);
             exit;
         }
         else
@@ -150,12 +150,12 @@ class XmlRequestHelper
                 
                 Log::info("----- RECONCILIATION REQUEST START-----");
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
-                Log::info("------RECON REQ ID: ###", ['Request ID'=>$reqID]);
+                Log::info("### RECON REQ ID:", ['Request ID'=>$reqID]);
                 
                 if(!empty($resultCurlPost)){
-                    Log::info("----- ACK RECON CODE:###",
+                    Log::info("### ACK RECON CODE:",
                     [ 'Recon Ack Code' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
-                    Log::info("----- ACK  RECON DESC:###",
+                    Log::info("### ACK  RECON DESC:",
                     [ 'Recon Ack Desc' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
                     // Log::info("----- ACK:###",[$resultCurlPost]);
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
@@ -177,7 +177,7 @@ class XmlRequestHelper
         //Function to get Data string
 
         if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
-            Log::info(["\n\n --------Error: \n *** Unable to read the cert file\n"]);
+            Log::info(["-------- Error: *** Unable to read the cert file\n"]);
             exit;
         }
         else {
@@ -206,18 +206,18 @@ class XmlRequestHelper
                 $requestUri = env('GEPG_CANCELLATION_URI');
                 $signedPayload = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
                 //Perform Curl to a Gepg
+                Log::info("--------- GEPG CANCELLATION START -------");
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
                 
                 if(!empty($resultCurlPost)){
-                    Log::info("\n\n-----CANC REQ ID:: \n###",[$reqID]);
-                    Log::info("\n\n-----CANC CODE:: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<CanclStsCode>', '</CanclStsCode>')]);
-                    Log::info("\n\n----- CANC DESC:: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<CanclStsDesc>', '</CanclStsDesc>')]);
-                    Log::info("\n\n---- Response End---");
-
+                    Log::info("### CANC REQ ID::",["ID req" => $reqID]);
+                    Log::info("### CANC CODE::",['Cance ack code' =>  GeneralCustomHelper::get_string_between($resultCurlPost, '<CanclStsCode>', '</CanclStsCode>')]);
+                    Log::info("### CANC DESC::",['Cance ack desc' =>  GeneralCustomHelper::get_string_between($resultCurlPost, '<CanclStsDesc>', '</CanclStsDesc>')]);
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
                     
                     //Verify Data using Certifites
+                    Log::info("---------GEPG CANCELLATION END -------");
                     return GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
                 }
                 else{ Log::info("No result Returned"."\n");}

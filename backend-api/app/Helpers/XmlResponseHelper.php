@@ -97,13 +97,12 @@ class XmlResponseHelper
                             $theBill->status = 1;
                             $theBill->save();
                          // Signing response
-                         Log::info("\n\n-------- ** Payment Updated \n", ["------- \n "]);
+                         Log::info("### Payment Updated For Bill ID: ", ['Bill ID' => $BillId ]);
                         return GeneralCustomHelper::signedPayemtAck($gepg_pay_res['ReqId'],7101);
                         // Log::info('RECPAY-GEPG-RESPONSE', [$response, $serial, 'GEPG']);
                 }else{
-                    Log::info("\n\n-------- Bill Not Found \n", ["------- \n "]);
+                    Log::info("-------- Bill Not Found");
                     return GeneralCustomHelper::signedPayemtAck($gepg_pay_res['ReqId'],7303);
-
                 }
                 
             } catch (QueryException $e) {
