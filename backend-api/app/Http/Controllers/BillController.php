@@ -33,6 +33,7 @@ class BillController extends Controller
         ],200);
     }
 
+
     // Handle the receipt of Control number
     public function receiveControlNumber(Request $request)  {
         // process response 

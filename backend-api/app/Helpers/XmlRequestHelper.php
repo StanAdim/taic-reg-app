@@ -48,7 +48,7 @@ class XmlRequestHelper
                                 <CustId>".$billingData->user_id."</CustId>
                                 <CustIdTyp>5</CustIdTyp>
                                 <CustAccnt>".GeneralCustomHelper::formatThePhoneNumber($billingData->phone_number)."</CustAccnt>
-                                <CustName>".$billingData->name."</CustName>
+                                <CustName>".$billingData->customer_name."</CustName>
                                 <CustCellNum>".GeneralCustomHelper::formatThePhoneNumber($billingData->phone_number)."</CustCellNum>
                                 <CustEmail>".$billingData->email."</CustEmail>
                                 <BillGenDt>".$genDate."</BillGenDt>

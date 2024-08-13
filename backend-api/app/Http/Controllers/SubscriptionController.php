@@ -26,6 +26,7 @@ class SubscriptionController extends Controller
             ],200);
 
     }
+
     public function subscribeToEvent($eventId)
     {
         // Initialize data 
@@ -114,5 +115,17 @@ class SubscriptionController extends Controller
                 , 500);
             }
         }
+    }
+    public function unsubscribeUserFromEvent($user){
+
+        return $user;
+        $authUser = Auth::user();
+        $events = SubscribedEvents::collection($authUser->subscriptions);
+            return response()->json([
+                'message'=> "Subscribed events",
+                'data' => $events,
+                'code'=> 200
+            ],200);
+
     }
 }
