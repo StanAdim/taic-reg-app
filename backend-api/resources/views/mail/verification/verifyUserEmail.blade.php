@@ -13,6 +13,7 @@
     <a
     href="{{$url}}" target="_blank" 
     style="
+      margin: .4rem, .6rem;
       font-size: 17px;
       padding: 0.5em 2em;
       border: transparent;

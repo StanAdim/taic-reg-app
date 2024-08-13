@@ -9,12 +9,8 @@ use App\Http\Resources\Taic\BillResource;
 use App\Models\Bill;
 use Carbon\Carbon;
 use Exception;
-use Generator;
-use Illuminate\Console\View\Components\Info;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 
 class BillController extends Controller
 {
@@ -61,12 +57,14 @@ class BillController extends Controller
     }
 
     // user request reconciliation
-    public function handleReconciliationRequest($bill_id)  {
+    public function handleReconciliationRequest($passedReconDate)  {
+        $date = Carbon::parse($passedReconDate);
+        // Now you can format the date as needed
+        $reconcile_date = $date->format('Y-m-d'); //Format
         // process reconcilation 
-        $reconcile_date = Carbon::now()->subDay(2)->format('Y-m-d');
         try{
-            $theBill = Bill::where('id', $bill_id)->firstOrFail();
-            $dataResult = XmlRequestHelper::GepgReconciliationRequest($theBill, $reconcile_date);
+            // $theBill = Bill::where('id', $bill_id)->firstOrFail();
+            $dataResult = XmlRequestHelper::GepgReconciliationRequest($reconcile_date);
             return response()->json([
                 'message'=> 'Reconciliation Request Sent',
                 'gepg_message'=> $dataResult ? GeneralCustomHelper::get_string_between($dataResult, '<AckStsDesc>', '</AckStsDesc>'): 'No message',
@@ -88,7 +86,7 @@ class BillController extends Controller
             $dataResult = XmlRequestHelper::GepgCancellationRequest($theBill, $user);
             return response()->json([
                 'message'=> 'Cancellation Request Sent',
-                'gepg_message'=> $dataResult ? GeneralCustomHelper::get_string_between($dataResult, '<AckStsDesc>', '</AckStsDesc>'): 'No message',
+                'gepg_message'=> $dataResult ? GeneralCustomHelper::get_string_between($dataResult, '<CanclStsDesc>', '</CanclStsDesc>'): 'No message',
                 'data'=> $dataResult,
             ]);
         }catch(Exception $e){

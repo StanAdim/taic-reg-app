@@ -111,7 +111,7 @@ class XmlRequestHelper
 
     }
 
-    public static function GepgReconciliationRequest($billingData, $reconsileDate){
+    public static function GepgReconciliationRequest($reconsileDate){
         $fileKeyPass = env('GEPG_KEYPASS');
         //Function to get Data string
         if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
@@ -123,11 +123,12 @@ class XmlRequestHelper
             if (openssl_pkcs12_read($cert_store, $cert_info, $fileKeyPass)){
                 //Bill Request
                 $systemid =env('GEPG_SYSTEMID');
+                $SpGrpCode =env('GEPG_SPGRPCODE');
                 $reqID = GeneralCustomHelper::generateReqID(16);
 
                 $content ="<sucSpPmtReq>
                                 <ReqId>".$reqID."</ReqId>
-                                <SpGrpCode>".$billingData->SpGrpCode."</SpGrpCode>
+                                <SpGrpCode>".$SpGrpCode."</SpGrpCode>
                                 <SysCode>".$systemid."</SysCode>
                                 <TrxDt>".$reconsileDate."</TrxDt>
                                 <Rsv1/>

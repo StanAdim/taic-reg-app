@@ -29,25 +29,33 @@ export const useBillStore = defineStore('billStore', () => {
         }
         return {data, error};
     }
-    async function handleBillReconciliation(bill_uuid){
-        const {data, error} = await useApiFetch(`/api/bill/reconciliation/${bill_uuid}`);
+    // need revision
+    async function handleBillReconciliation(reconDate){
+        globalStore.toggleContentLoaderState('on')
+
+        const {data, error} = await useApiFetch(`/api/bill/reconciliation/${reconDate}`);
         if(data.value){
             console.log(data.value)
+            globalStore.assignAlertMessage(data.value?.message, 'success')
+
         }
         if(error.value){
-            globalStore.assignAlertMessage(error.value.message,'error')
+            globalStore.assignAlertMessage(error.value.gepg_message,'error')
         }
-        globalStore.toggleLoadingState('off')
+        globalStore.toggleContentLoaderState('off')
     }
     async function handleBillCancellation(bill_uuid){
+        globalStore.toggleContentLoaderState('on')
         const {data, error} = await useApiFetch(`/api/bill/cancellation/${bill_uuid}`);
+
         if(data.value){
             console.log(data.value)
+            globalStore.assignAlertMessage(data.value?.gepg_message, 'success')
         }
         if(error.value){
             globalStore.assignAlertMessage(error.value.message,'error')
         }
-        globalStore.toggleLoadingState('off')
+        globalStore.toggleContentLoaderState('off')
     }
     return {
         retrieveUserPayments,
