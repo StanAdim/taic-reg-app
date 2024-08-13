@@ -57,8 +57,7 @@ class GeneralCustomHelper{
                 $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], 'sha256WithRSAEncryption');
                 if ($ok == 1) {
                     Log::info("\n\n ------Signature Status: GOOD");
-                    Log::info("\n\n---- End Verification ---");
-                     $verified_data = $vdata;
+                    $verified_data = $vdata;
                 } elseif ($ok == 0) {
                     Log::info("---- Signature Status: BAD");
                     $verified_data = [];

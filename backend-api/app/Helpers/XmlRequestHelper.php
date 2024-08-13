@@ -89,13 +89,13 @@ class XmlRequestHelper
                 $requestUri = env('GEPG_SUBMISSIONURI');
                 $signedPayload = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
                 //Perform Curl to a Gepg
-                Log::info("\n\n-----BILL ID: \n\n###",[$id]);
-                Log::info("\n\n-----BILL SUB REQ ID: \n\n###",[$reqID]);
+                Log::info("\n\n-----BILL ID: \n###",[$id], "\n");
+                Log::info("\n\n-----BILL SUB REQ ID: \n###",[$reqID], "\n\n");
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
                 if(!empty($resultCurlPost)){
                     Log::info("\n\n-----BILL SUB RES CODE: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
                     Log::info("\n\n-----BILL SUB RES DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
-                    Log::info("\n\n---- END SUBMISSION RESPONSE---");
+                    Log::info("\n\n\n----END SUBMISSION RESPONSE---");
 
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
@@ -107,7 +107,7 @@ class XmlRequestHelper
                 else{ Log::info("No result Returned"."\n");}
             }
             else
-            { Log::info("Error: Unable to read the cert store.\n"); exit;}
+            { Log::info("\n\n------Error: Unable to read the cert store.\n"); exit;}
         }
 
     }
