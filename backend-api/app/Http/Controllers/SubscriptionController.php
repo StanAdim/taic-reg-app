@@ -77,20 +77,30 @@ class SubscriptionController extends Controller
                 if($billTobePaid != 0){
                     $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
                     //Check bill is Generated to Gepg
-                    if($returedXml){
+                if($returedXml){
                         //request ID
-                    $billData->ReqId = GeneralCustomHelper::get_string_between($returedXml, '<ReqId>', '</ReqId>');
-                    $billData->save();
-                    // Subcribe user to event 
-                    Subscription::create($newItem);
-                    Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
-                    return response()->json([
-                        'message'=> "Subscription Success",
-                        'data' => $billData,
-                        // 'gepg_message'=> $returedXml ? GeneralCustomHelper::get_string_between($returedXml, '<CanclStsDesc>', '</CanclStsDesc>'): 'No message',
+                        //check for success status
+                    $isSuccessful =  GeneralCustomHelper::get_string_between($returedXml, '<AckStsCode>', '</AckStsCode>') == '7101';
+                    if($isSuccessful){
+                        $billData->ReqId = GeneralCustomHelper::get_string_between($returedXml, '<ReqId>', '</ReqId>');
+                        $billData->save();
+                        // Subcribe user to event 
+                        Subscription::create($newItem);
+                        Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
+                        return response()->json([
+                            'message'=> "Subscription Success",
+                            'data' => $billData,
+                            'GepgAck' => $returedXml,
+                            'code'=> 200
+                        ],200);
+                    }else {
+                        return response()->json([
+                        'message'=> $returedXml ? GeneralCustomHelper::get_string_between($returedXml, '<AckStsDesc>', '</AckStsDesc>'): 'No message',
                         'GepgAck' => $returedXml,
-                        'code'=> 200
-                    ],200);
+                        'code'=> 300
+                    ],500);
+                    }
+
                 }
                 else{
                     DB::table('bills')->where('id', $billData->id)->delete();
