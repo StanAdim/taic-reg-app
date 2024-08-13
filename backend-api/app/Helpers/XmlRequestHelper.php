@@ -29,7 +29,6 @@ class XmlRequestHelper
 
                 $reqID = GeneralCustomHelper::generateReqID(16);
                 $genDate = GeneralCustomHelper::getGenerationDate();
-                $genDate = "2025-10-30T10:00:30";
                 $content ="<billSubReq>
                         <BillHdr>
                             <ReqId>".$reqID."</ReqId>
