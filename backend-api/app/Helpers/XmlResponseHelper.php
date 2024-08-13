@@ -164,10 +164,12 @@ class XmlResponseHelper
                                 $theBill->save();
                              // Signing response
                              Log::info("** Payment Updated \n");
+                             Log::info("----- END RECONCILIATION RESPONSE -----\n");
                             return GeneralCustomHelper::signedReconcileAck($responseHeader['ResId'],7101);
                             // Log::info('RECPAY-GEPG-RESPONSE', [$response, $serial, 'GEPG']);
                     }else{
                         Log::info("-------- ### Bill Not Found \n");
+                        Log::info("----- END RECONCILIATION RESPONSE -----\n");
                         return GeneralCustomHelper::signedReconcileAck($responseHeader['ResId'],7101);
                     }
                 }
@@ -177,10 +179,9 @@ class XmlResponseHelper
                 echo "Error occurred: " . $e->getMessage();
                 // Optionally, log the error
                 Log::error('Database query error', ['exception' => $e]);
+                Log::info("----- END RECONCILIATION RESPONSE -----\n");
                 return GeneralCustomHelper::signedReconcileAck($responseHeader['ResId'],7303);
             }
-            Log::info("----- END RECONCILIATION RESPONSE -----\n");
-
 
     }
         
