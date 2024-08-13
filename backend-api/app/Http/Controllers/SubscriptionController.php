@@ -87,6 +87,7 @@ class SubscriptionController extends Controller
                     return response()->json([
                         'message'=> "Subscription Success",
                         'data' => $billData,
+                        // 'gepg_message'=> $returedXml ? GeneralCustomHelper::get_string_between($returedXml, '<CanclStsDesc>', '</CanclStsDesc>'): 'No message',
                         'GepgAck' => $returedXml,
                         'code'=> 200
                     ],200);
