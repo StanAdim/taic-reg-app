@@ -89,8 +89,9 @@ class XmlRequestHelper
                 $requestUri = env('GEPG_SUBMISSIONURI');
                 $signedPayload = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
                 //Perform Curl to a Gepg
+                Log::info("\n\n-----BILL ID: \n\n###",[$id]);
+                Log::info("\n\n-----BILL SUB REQ ID: \n\n###",[$reqID]);
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
-                
                 if(!empty($resultCurlPost)){
                     Log::info("\n\n-----BILL SUB RES CODE: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
                     Log::info("\n\n-----BILL SUB RES DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
