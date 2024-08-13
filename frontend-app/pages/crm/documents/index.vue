@@ -24,7 +24,7 @@ const handleDownload = (index: number, row: DocumentMaterial) => {
 const  config = useRuntimeConfig()
 const tableData: DocumentMaterial[] = [
   {
-    name: 'Concept note',
+    name: 'Information Booklet',
     event: 'Tanzania annual ICT Conference',
     path: config.public.apiBaseUlr+"/documents/taic_concept_note.pdf"
   },
