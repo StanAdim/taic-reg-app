@@ -148,13 +148,14 @@ class XmlRequestHelper
                 $signedPayload = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
                 //Perform Curl to a Gepg
                 
+                Log::info("\n\n----- START RECONCILLIATIONS REQUEST  -------");
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
-                Log::info("\n\n----- END CURL  -------\n\n ### RECON REQ ID", [$reqID]);
+                Log::info("------RECON REQ ID: ###", ['Request ID'=>$reqID]);
                 
                 if(!empty($resultCurlPost)){
-                    Log::info("\n\n----- ACK RECON CODE \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
-                    Log::info("\n\n----- ACK  RECON DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
-                    Log::info("\n\n----- ACK: \n###",[$resultCurlPost]);
+                    Log::info("----- ACK RECON CODE:###",[ 'Recon Ack Code' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
+                    Log::info("----- ACK  RECON DESC:###",[ 'Recon Ack Desc' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
+                    // Log::info("----- ACK:###",[$resultCurlPost]);
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
                     //Verify Signed Data
@@ -165,6 +166,8 @@ class XmlRequestHelper
             else
             { Log::info("Error: Unable to read the cert store.\n"); exit;}
         }
+        Log::info("----- END RECONCILLIATIONS REQUEST  -------\n");
+
     }
 
     public static function GepgCancellationRequest($billingData, $cancelledBy, $reason = "Customer over bill"){
