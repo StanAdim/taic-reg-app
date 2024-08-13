@@ -148,7 +148,7 @@ class XmlRequestHelper
                 $signedPayload = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
                 //Perform Curl to a Gepg
                 
-                Log::info("----- START RECONCILLIATIONS REQUEST  -------");
+                Log::info("----- RECONCILIATION REQUEST START-----\n");
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
                 Log::info("------RECON REQ ID: ###", ['Request ID'=>$reqID]);
                 
