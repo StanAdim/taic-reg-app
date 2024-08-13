@@ -153,8 +153,10 @@ class XmlRequestHelper
                 Log::info("------RECON REQ ID: ###", ['Request ID'=>$reqID]);
                 
                 if(!empty($resultCurlPost)){
-                    Log::info("----- ACK RECON CODE:###",[ 'Recon Ack Code' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
-                    Log::info("----- ACK  RECON DESC:###",[ 'Recon Ack Desc' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
+                    Log::info("----- ACK RECON CODE:###",
+                    [ 'Recon Ack Code' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
+                    Log::info("----- ACK  RECON DESC:###",
+                    [ 'Recon Ack Desc' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
                     // Log::info("----- ACK:###",[$resultCurlPost]);
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');

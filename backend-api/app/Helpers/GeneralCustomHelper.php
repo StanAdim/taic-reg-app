@@ -64,7 +64,7 @@ class GeneralCustomHelper{
                 } else { 
                     Log::info("Signature Status: UGLY, Error checking signature:"); 
                 }
-                Log::info("---- End Verification --- \n\n");
+                Log::info("---- End Verification ---");
                 return $verified_data;
             }
         }
