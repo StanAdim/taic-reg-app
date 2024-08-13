@@ -14,8 +14,7 @@ class XmlRequestHelper
         $SubSpCode = env('GEPG_SUBSPCODE');
         //Function to get Data string
 
-        // $bill_exp = Carbon::now()->addMonths(10)->format('Y-m-d\TH:i:s');
-        $bill_exp = '2023-10-30T10:00:30';
+        $bill_exp = Carbon::now()->addMonths(10)->format('Y-m-d\TH:i:s');
         if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
             Log::info(["\n\n --------Error: \n *** Unable to read the cert file\n"]);
             exit;
@@ -30,6 +29,7 @@ class XmlRequestHelper
 
                 $reqID = GeneralCustomHelper::generateReqID(16);
                 $genDate = GeneralCustomHelper::getGenerationDate();
+                $genDate = "2025-10-30T10:00:30";
                 $content ="<billSubReq>
                         <BillHdr>
                             <ReqId>".$reqID."</ReqId>
