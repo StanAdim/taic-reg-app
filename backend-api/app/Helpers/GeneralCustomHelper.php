@@ -236,7 +236,7 @@ class GeneralCustomHelper{
                 openssl_sign($responseContentAck, $signature, $cert_info['pkey'], "sha256WithRSAEncryption");
                 // output crypted data base64 encoded
                 $signature = base64_encode($signature);
-                Log::info("Signature of Signed Content"."\n".$signature."\n");
+                // Log::info("Signature of Signed Content"."\n".$signature."\n");
 
                 // Combine signature and content signed
                 $response = "<Gepg>" . $responseContentAck . " <signature>" . $signature . "</signature></Gepg>";

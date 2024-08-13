@@ -14,17 +14,12 @@ class XmlResponseHelper
 
         $gepg_response = GeneralCustomHelper::contrNoXmlResToArray($contrlNo_Gepg_res);
         $BillId = $gepg_response['BillId'];
-
-        // Log::info('RECPAY-GEPG-REQUEST', [$contrlNo_Gepg_res, $serial, 'GEPG']);
+        // Received Gepg response ------------
         $varray = print_r($gepg_response, true);
-        Log::info("-----START SUBMISSION FOR BILL-----\n");
-        Log::info("Response:", ['res-array' => $varray]);
-
+        Log::info("----- CONTROL NUMBER RESPONSE START-----\n");
+        Log::info("### Control Number Response:", ['res-controlNo' => $varray]);
         $ResStsCode = $gepg_response['ResStsCode'];
         $codes = explode(';', $ResStsCode);
-
-        /// save data based on Request
-
         //--- Consuming Gepg Response 
             try {
                 $exists = Bill::where('id', $BillId)->exists();
@@ -55,6 +50,7 @@ class XmlResponseHelper
                 Log::error('Database query error', ['exception' => $e]);
                 return GeneralCustomHelper::signedBillAck($gepg_response['ResId'],7303);
             }
+            Log::info("----- END CONTROL NUMBER   RESPONSE -----\n");
 
     }
 
@@ -62,9 +58,10 @@ class XmlResponseHelper
 
         $gepg_pay_res = GeneralCustomHelper::paymentXmlToArray($Gepg_res_Payment);
         $BillId = $gepg_pay_res['BillId'];
-        // Log::info('RECPAY-GEPG-REQUEST', [$contrlNo_Gepg_res, $serial, 'GEPG']);
+        // Received Gepg response ------------
         $varray = print_r($gepg_pay_res, true);
-        Log::info("\n\n---------------GEPG Payment Response \n", [$varray , "\n -------"]);
+        Log::info("----- CONTROL PAYMENT RESPONSE START-----\n");
+        Log::info("### Payment Response:", ['res-payment' => $varray]);
         //--- Consuming Gepg Response 
             try {
                 $exists = Bill::where('id', $BillId)->exists();
@@ -116,7 +113,7 @@ class XmlResponseHelper
                 Log::error('Database query error', ['exception' => $e]);
                 return GeneralCustomHelper::signedPayemtAck($gepg_pay_res['ReqId'],7303);
             }
-
+            Log::info("----- END PAYMENT RESPONSE -----\n");
     }
         
     public static  function handleReconcileReceipt($Gepg_res_Reconcile){
@@ -125,13 +122,14 @@ class XmlResponseHelper
         $responseHeader = $gepg_reconcile_res['headers'];
         $responsePayment = $gepg_reconcile_res['paymentDetail'];
 
+        // Received Gepg response ------------
         $varray = print_r($responsePayment, true);
-        Log::info("\n\n-- ## STARTING GEPG RECON RESPONCE -- \n", [$varray, "\n -------GEPG"]);
-
+        Log::info("----- RECONCILIATION RESPONSE START-----\n");
+        // Log::info("### Reconcilliation Response:", ['res-recon' => $varray]);
         //--- Consuming Gepg Response 
             try {
                 foreach ($responsePayment as $paymentItem){
-                    Log::info("\n------------- \nBill ID => ", [$paymentItem['BillId']]);        
+                    Log::info("### Bill ID :", ['bill ID' => $paymentItem['BillId']]);        
                     $exists = Bill::where('id', $paymentItem['BillId'])->exists();
                     if($exists){
                         $theBill = Bill::where('id',$paymentItem['BillId'])->first();
@@ -165,11 +163,11 @@ class XmlResponseHelper
                                 $theBill->status = 1;
                                 $theBill->save();
                              // Signing response
-                             Log::info("\n\n-------- ** Payment Updated \n", ["------- \n "]);
+                             Log::info("** Payment Updated \n");
                             return GeneralCustomHelper::signedReconcileAck($responseHeader['ResId'],7101);
                             // Log::info('RECPAY-GEPG-RESPONSE', [$response, $serial, 'GEPG']);
                     }else{
-                        Log::info("\n\n-------- ### Bill Not Found \n", ["------- \n "]);
+                        Log::info("-------- ### Bill Not Found \n");
                         return GeneralCustomHelper::signedReconcileAck($responseHeader['ResId'],7101);
                     }
                 }
@@ -181,6 +179,8 @@ class XmlResponseHelper
                 Log::error('Database query error', ['exception' => $e]);
                 return GeneralCustomHelper::signedReconcileAck($responseHeader['ResId'],7303);
             }
+            Log::info("----- END RECONCILIATION RESPONSE -----\n");
+
 
     }
         
