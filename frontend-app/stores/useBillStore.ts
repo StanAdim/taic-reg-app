@@ -33,14 +33,18 @@ export const useBillStore = defineStore('billStore', () => {
     async function handleBillReconciliation(reconDate){
         globalStore.toggleContentLoaderState('on')
 
-        const {data, error} = await useApiFetch(`/api/bill/reconciliation/${reconDate}`);
+        const {data, error} = await useApiFetch(`/api/bill/reconciliation`,{
+            method: 'POST',
+            body : reconDate
+        });
         if(data.value){
             console.log(data.value)
             globalStore.assignAlertMessage(data.value?.message, 'success')
 
         }
         if(error.value){
-            globalStore.assignAlertMessage(error.value.gepg_message,'error')
+            console.log(error.value)
+            globalStore.assignAlertMessage(error.value.data?.message,'error')
         }
         globalStore.toggleContentLoaderState('off')
     }

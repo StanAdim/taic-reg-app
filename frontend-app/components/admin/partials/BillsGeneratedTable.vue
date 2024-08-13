@@ -67,7 +67,10 @@ const nextPage = () => {
 }
 
 const handleBillReconcile = async () => {
-  await billStore.handleBillReconciliation(pickedDate.value)
+  const formData = reactive({
+    reconciliation_date : pickedDate.value
+  })
+  await billStore.handleBillReconciliation(formData)
 }
 
 const handleBilCancel = async (row) => await billStore.handleBillCancellation(row.id)

@@ -58,17 +58,31 @@ class BillController extends Controller
     }
 
     // user request reconciliation
-    public function handleReconciliationRequest($passedReconDate)  {
-        $date = Carbon::parse($passedReconDate);
-        // Now you can format the date as needed
-        $reconcile_date = $date->format('Y-m-d'); //Format
+    public function handleReconciliationRequest(Request $request)  {
+        // Calculate the range
+        $yesterday = Carbon::yesterday();
+        $sevenDaysAgo = $yesterday->copy()->subDays(7);
+
+        // Validate the date
+        $request->validate([
+            'reconciliation_date' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) use ($sevenDaysAgo, $yesterday) {
+                    $date = Carbon::parse($value);
+                    if ($date->lt($sevenDaysAgo) || $date->gt($yesterday)) {
+                        $fail("The {$attribute} must be between {$sevenDaysAgo->format('Y-m-d')} and {$yesterday->format('Y-m-d')}.");
+                    }
+                },
+            ],
+        ]);        // Now you can format the date as needed
+        $reconcile_date = Carbon::parse($request->input('reconciliation_date'));
+        $reconcile_date = $reconcile_date->format('Y-m-d'); //Format
         // process reconcilation 
         try{
-            // $theBill = Bill::where('id', $bill_id)->firstOrFail();
             $dataResult = XmlRequestHelper::GepgReconciliationRequest($reconcile_date);
             return response()->json([
-                'message'=> 'Reconciliation Request Sent',
-                'gepg_message'=> $dataResult ? GeneralCustomHelper::get_string_between($dataResult, '<AckStsDesc>', '</AckStsDesc>'): 'No message',
+                'message'=> $dataResult ? GeneralCustomHelper::get_string_between($dataResult, '<AckStsDesc>', '</AckStsDesc>'): 'No message',
                 'data'=> $dataResult,
             ]);
         }catch(Exception $e){
