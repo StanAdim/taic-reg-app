@@ -56,7 +56,7 @@ class GeneralCustomHelper{
                 //Verify Signature and state whether signature is okay or not
                 $ok = openssl_verify($vdata, $rawsignature, $pcert_info['extracerts']['0'], 'sha256WithRSAEncryption');
                 if ($ok == 1) {
-                    Log::info("\n\n ------Signature Status: GOOD");
+                    Log::info("------Signature Status: GOOD");
                     $verified_data = $vdata;
                 } elseif ($ok == 0) {
                     Log::info("---- Signature Status: BAD");
@@ -64,7 +64,7 @@ class GeneralCustomHelper{
                 } else { 
                     Log::info("Signature Status: UGLY, Error checking signature:"); 
                 }
-                Log::info("\n\n---- End Verification ---");
+                Log::info("---- End Verification --- \n\n");
                 return $verified_data;
             }
         }
@@ -78,7 +78,7 @@ class GeneralCustomHelper{
         $uri = $requestUri;
         $data_string = $content;
         $spcode =env('GEPG_SPCODE');
-        Log::info("\n ======= SEND CURL GEPG");
+        Log::info("====== CURL MESSAGE GEPG ======");
         $ch = curl_init($serverIp.$uri);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -93,12 +93,16 @@ class GeneralCustomHelper{
         );
         curl_setopt($ch, CURLOPT_TIMEOUT, 70);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 70);
-        Log::info("\n\n ### SIZE PAYLOAD: \n" , [strlen($data_string)]);
+        Log::info("### SIZE PAYLOAD:", ['size' => strlen($data_string)]);
+
         $resultCurlPost = curl_exec($ch);
         curl_close($ch);
-        Log::info("\n\n ### SIZE  RESPONSE:\n",[strlen($resultCurlPost)]);
-        // Log::info("\n\n ### RESPONSE : \n" , [$resultCurlPost]);
-        Log::info("\n\n====== END CURL MESSAGE GEPG");
+        
+        Log::info("### SIZE RESPONSE:", ['size' => strlen($resultCurlPost)]);
+        // Log::info("### RESPONSE:", ['response' => $resultCurlPost]);
+
+        Log::info("====== END CURL MESSAGE GEPG ======");
+        
      return $resultCurlPost;   
     }
 

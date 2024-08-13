@@ -89,13 +89,15 @@ class XmlRequestHelper
                 $requestUri = env('GEPG_SUBMISSIONURI');
                 $signedPayload = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
                 //Perform Curl to a Gepg
-                Log::info("\n\n-----BILL ID: \n###",[$id], "\n");
-                Log::info("\n\n-----BILL SUB REQ ID: \n###",[$reqID], "\n\n");
+                Log::info("-----START SUBMISSION FOR BILL-----\n");
+                Log::info("### BILL ID:", ['Bill ID' => $id]);
+
+                Log::info("###  BILL SUB REQ ID:",['Sub Req ID'=> $reqID]);
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
                 if(!empty($resultCurlPost)){
-                    Log::info("\n\n-----BILL SUB RES CODE: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
-                    Log::info("\n\n-----BILL SUB RES DESC: \n###",[GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
-                    Log::info("\n\n\n----END SUBMISSION RESPONSE---");
+                    Log::info("### BILL SUB RES CODE:",['Code' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
+                    Log::info("### BILL SUB RES DESC:",['Description' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsDesc>', '</AckStsDesc>')]);
+                    Log::info("----END SUBMISSION RESPONSE----");
 
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
