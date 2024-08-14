@@ -110,7 +110,6 @@ class SubscriptionController extends Controller
                     ],500);
                 }
             }else{ //Subscribe participant to a free event
-
                 Subscription::create($newItem);
                 return response()->json([
                     'message'=> "Subscription Success For Free event",

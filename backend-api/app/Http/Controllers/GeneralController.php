@@ -7,8 +7,12 @@ use App\Http\Resources\RegionResource;
 use App\Mail\CustomEmailVerification;
 use App\Mail\PasswordResetMail;
 use App\Models\District;
+use App\Models\Event\Subscription;
+use App\Models\ExhibitionBooth;
+use App\Models\ExhibitionRequest;
 use App\Models\Nation;
 use App\Models\Region;
+use App\Models\Taic\Conference;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -35,6 +39,44 @@ class GeneralController extends Controller
                'message' => 'No nations',
            ],404);
        }
+      }
+
+      public function countsAnalytics(){
+        $authUser = Auth::user();
+        $id = Auth::id();
+        $users = User::all()->count();
+        $conferences = Conference::all()->count();
+        $booths = ExhibitionBooth::all()->count();
+        $booth_request = ExhibitionRequest::all()->count();
+        $activeConferences = Conference::where('status', 0)->count();
+        $booked_events = $authUser->subscriptions->count();
+        $bills = $authUser->bills->count();
+        $users = User::all()->count();
+        $isAdmin = $authUser->role->name == "admin";
+        // attendees
+        if(!$isAdmin){
+            return response()->json([
+                'data'=>[
+                    'activeConferences' => $activeConferences,
+                    'bookedEvents' => $booked_events,
+                    'invoices' => $bills,
+                ]
+            ]);
+        }
+        //Admin
+        else {
+            return response()->json([
+                'data'=>[
+                    'activeConferences' => $activeConferences,
+                    'bookedEvents' => $booked_events,
+                    'invoices' => $bills,
+                    'users' => $users,
+                    'conferences' => $conferences,
+                    'booths' => $booths,
+                    'boothRequest' => $booth_request,
+                ]
+            ]);
+        }
       }
 
       public function getDistricts(Region $targetRegion){

@@ -30,25 +30,20 @@ class Conference extends Model
         "status",
         "lock"
     ];
-    public function speakers()
-    {
+    public function speakers(){
         return $this->hasMany(Speaker::class);
     }
-    public function days()
-    {
+    public function days(){
         return $this->hasMany(Day::class);
     }
-    public function subscriptions()
-    {
+    public function subscriptions(){
         return $this->hasMany(Subscription::class);
     }
 
-    public function users()
-    {
+    public function users(){
         return $this->belongsToMany(User::class, 'subscriptions');
     }
-    public function documents()
-    {
+    public function documents(){
         return $this->hasMany(DocumentMaterial::class);
     }
 }

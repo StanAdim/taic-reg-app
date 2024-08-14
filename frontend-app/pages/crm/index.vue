@@ -11,8 +11,15 @@ const globalStore = useGlobalDataStore()
 
 const subscriptionStore = useSubscriptionStore()
 const init = async ()=>{
+  await globalStore.analyticData()
   await  subscriptionStore.retrieveSubscribedEvents()
 }
+const cardsInfo = reactive([
+  {title: 'Upcoming Events', icon: '---', number: globalStore.getStatisticalData?.activeConferences},
+  {title: 'Total Booked Events', icon: '---', number: globalStore.getStatisticalData?.bookedEvents},
+  {title: 'Bill generated', icon: '---', number: globalStore.getStatisticalData?.invoices},
+])
+
 onNuxtReady(() => {
   init()
 });
@@ -23,8 +30,13 @@ onNuxtReady(() => {
     <!-- component -->
     <div class="flex border border-sky-100 p-4 rounded-md">
       <div class="mx-auto bg-white shadow-lg rounded-lg overflow-hidden w-full">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+          <template v-for="item in cardsInfo" :key="item.title">
+            <UsablesMinAnalyticalCard :info="item" />
+          </template>
+        </div>
         <div class="w-full px-4 py-2">
-          <h2  class="text-sky-700 font-bold text-lg my-1">Event booked</h2>
+          <h2  class="text-sky-700 font-bold text-lg my-1">Recent Event booked</h2>
           <div class="flex justify-center my-2">
             <UsablesContentLoading />
           </div>

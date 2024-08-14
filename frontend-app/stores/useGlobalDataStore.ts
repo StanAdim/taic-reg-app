@@ -20,10 +20,12 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const districts = ref([])
     const isHanceLoader = ref(true)
     const isContentLoading = ref(false)
+    const statisticData = ref([])
 
     const appRoutes  = ref([
         {name: 'Dashboard', path: '/crm/', userRole: '', isActiveLink:true},
         {name: 'All Events', path: '/crm/events', userRole: '', isActiveLink:false},
+        {name: 'My Booking', path: '/crm/events/my-booking', userRole: '', isActiveLink:false},
         {name: 'My Invoices', path: '/crm/payments', userRole: '', isActiveLink:false},
         {name: 'All Bills', path: '/crm/payments/generated-bills', userRole: 'admin', isActiveLink:false},
         // {name: 'Group Booking', path: '/crm/group-booking', userRole: '', isActiveLink:false},
@@ -57,6 +59,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const getLocalLoaderStatus = computed(() => {return localLoader.value})
     const getHanceLoaderState = computed(() => {return isHanceLoader.value})
     const getContentLoadingState = computed(() => {return isContentLoading.value})
+    const getStatisticalData = computed(() => {return statisticData.value})
 
 
     // Transforms
@@ -143,6 +146,14 @@ export const useGlobalDataStore = defineStore('globalData', () => {
             }
         }
     }
+    const analyticData = async ()=> {
+        const {data,error} = await useApiFetch(`/api/analytics-data`);
+        if(data.value){
+            statisticData.value = data.value?.data
+            console.log(data.value)
+        }
+        return {data,error}
+    }
 
     return {
         longName,
@@ -157,7 +168,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         getDoneCheckVisibility,toggleDoneCheckVisibility,hanceLoaderTurn,
         getLocalLoaderStatus, toggleLocalLoaderStatus,getHanceLoaderState,
         getForgotPassModalStatus, toggleForgotPassDialog,
-        retrieveLocation,getNations,getRegions,getContentLoadingState,toggleContentLoaderState
-
+        retrieveLocation,getNations,getRegions,getContentLoadingState,toggleContentLoaderState,
+        analyticData, getStatisticalData
     }
 })

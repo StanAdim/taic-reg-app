@@ -43,6 +43,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
  //--- Auth routes
  Route::middleware(['auth:sanctum'])->group(function(){
      Route::post('/user-info-create',[UserInfoController::class, 'create']);
+     Route::get('/analytics-data',[GeneralController::class, 'countsAnalytics']);
      Route::post('/user/information-update',[UserInfoController::class, 'update']);
      Route::get('/application-users',[UserInfoController::class, 'systemUsers']);
      Route::get('/system-user-{user_key}',[UserInfoController::class, 'retrieveSystemUserDetails']);
