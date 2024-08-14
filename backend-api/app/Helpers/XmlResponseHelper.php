@@ -36,7 +36,7 @@ class XmlResponseHelper
                         }
                         else {
                             // "UPDATE billing SET gepgstatus='$ResStsCode' WHERE billid='$billid'");
-                            $theBill->status_code = $ResStsCode;
+                            $theBill->status_code = $BillStsCode;
                             $theBill->status_description = $BillStsDesc;
                             $theBill->save();  
                         }
