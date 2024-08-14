@@ -19,6 +19,7 @@ class XmlResponseHelper
         Log::info("----- CONTROL NUMBER RESPONSE START-----\n");
         Log::info("### Control Number Response:", ['res-controlNo' => $varray]);
         $ResStsCode = $gepg_response['ResStsCode'];
+        $ResStsDesc = $gepg_response['BillStsDesc'];
         $codes = explode(';', $ResStsCode);
         //--- Consuming Gepg Response 
             try {
@@ -36,6 +37,7 @@ class XmlResponseHelper
                         else {
                             // "UPDATE billing SET gepgstatus='$ResStsCode' WHERE billid='$billid'");
                             $theBill->status_code = $ResStsCode;
+                            $theBill->status_description = $ResStsDesc;
                             $theBill->save();  
                         }
                          // Signing response

@@ -24,7 +24,7 @@ const items = ref([
   // Add more items as needed
 ])
 
-const headers = ref(['Sn', 'Participant', "Conference" , 'Fee',"Control Number",'Payment Status', 'Status code','Paid Amount', 'date', 'Actions'])
+const headers = ref(['Sn', 'Participant', "Conference" , 'Fee',"Control Number",'Payment Status', 'Status code','Status Desc','Paid Amount', 'date', 'Actions'])
 const searchQuery = ref('')
 const currentPage = ref(1)
 const itemsPerPage = ref(10)
@@ -129,6 +129,7 @@ const handleRemoveSubscription = async (row) => {
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.controlNumber }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.status }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.status_code }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.bill_status_desc }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.paid_amt || 0  }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.created_at }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
