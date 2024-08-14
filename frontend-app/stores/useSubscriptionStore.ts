@@ -43,10 +43,28 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
         globalStore.toggleContentLoaderState('off')
         return {data, error};
     }
+    async function unsubscribedUserEvent(subscription){
+        globalStore.toggleContentLoaderState('on')
+        const {data, error} = await useApiFetch(`/api/unsubscribe-user-from-event`,{
+            method: 'POST',
+            body : subscription
+        });
+        if(data.value){
+            console.log(data.value)
+            globalStore.assignAlertMessage(data.value?.message, 'success')
+
+        }
+        if(error.value){
+            console.log(error.value)
+            globalStore.assignAlertMessage(error.value.data?.message,'error')
+        }
+        globalStore.toggleContentLoaderState('off')
+    }
     return {
         eventDialogStatus,
         subscribeToAnEvent,
         getSubscribedEvents,
         retrieveSubscribedEvents,
+        unsubscribedUserEvent
     }
 })

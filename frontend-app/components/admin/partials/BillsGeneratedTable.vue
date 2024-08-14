@@ -65,7 +65,7 @@ const nextPage = () => {
     currentPage.value += 1
   }
 }
-
+const subscriptionStore = useSubscriptionStore()
 const handleBillReconcile = async () => {
   const formData = reactive({
     reconciliation_date : pickedDate.value
@@ -75,7 +75,11 @@ const handleBillReconcile = async () => {
 
 const handleBilCancel = async (row) => await billStore.handleBillCancellation(row.id)
 const handleRemoveSubscription = async (row) => {
-  console.log(row?.id)
+  const formData = ref({
+    user_id :row?.user_id,
+    event_id :row?.conference_id,
+  })
+  await subscriptionStore.unsubscribedUserEvent(formData.value)
 }
 
 </script>

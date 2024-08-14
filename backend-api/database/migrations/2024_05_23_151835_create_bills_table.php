@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bills', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->uuid('conference_id');  // Use UUID for the foreign key
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreign('conference_id')->references('id')->on('conferences')->onDelete('cascade');
             $table->decimal('event_fee', 10, 2);
-            $table->uuid('id')->primary();
             $table->string("reference_no")->default('');
             // $table->string("reference_no")->unique()->default('');
             $table->string("ReqId")->nullable();

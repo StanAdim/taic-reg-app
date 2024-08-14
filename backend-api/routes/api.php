@@ -49,6 +49,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
      Route::get('/system-user-{user_key}',[UserInfoController::class, 'retrieveSystemUserDetails']);
 
      Route::get('/subscribe-event/{eventId}', [SubscriptionController::class,'subscribeToEvent']);
+     Route::post('/unsubscribe-user-from-event', [SubscriptionController::class,'unsubscribeUserFromEvent']);
      Route::get('/user/subscribed-events', [SubscriptionController::class,'subscribedEvents']);
      Route::get('/user/subscribed-event-bills', [BillController::class,'userBill']);
 
