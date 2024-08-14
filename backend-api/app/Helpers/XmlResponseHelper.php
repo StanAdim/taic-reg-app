@@ -28,7 +28,6 @@ class XmlResponseHelper
                     $theBill = Bill::where('id',$BillId)->first();
                         if (in_array('7101', $codes) OR in_array('7226', $codes)) {
                             //"UPDATE billing SET updated_at='$date',gepgstatus='$ResStsCode',controlno='$controlno' WHERE billid='$billid'");
-                            $ResStsCode = 'GEPG-OK';
                             $cust_cntr_num = $gepg_response['CustCntrNum'];
                             $theBill->status_code = $ResStsCode;
                             $theBill->cust_cntr_num = $cust_cntr_num;
