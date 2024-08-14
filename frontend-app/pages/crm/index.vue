@@ -45,7 +45,7 @@ onNuxtReady(() => {
           <template v-for="item in cardsInfo" :key="item.title">
             <UsablesMinAnalyticalCard :info="item" />
           </template>
-          <template v-for="item in statisticsAdmin" :key="item.title">
+          <template v-if="globalStore.hasPermission('can_modify_event')" v-for="item in statisticsAdmin" :key="item.title">
             <UsablesMinAnalyticalCard :info="item" />
           </template>
         </div>
@@ -75,8 +75,6 @@ onNuxtReady(() => {
             </template>
             <usables-no-data  v-else source="booked events" />
           </div>
-<!--          <participants-booked-events :conferences="subscriptionStore.getSubscribedEvents" />-->
-
         </div>
       </div>
     </div>
