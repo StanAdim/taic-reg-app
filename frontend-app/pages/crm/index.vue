@@ -10,15 +10,26 @@ useHead({
 const globalStore = useGlobalDataStore()
 
 const subscriptionStore = useSubscriptionStore()
+const cardsInfo = ref([])
+const statisticsAdmin = ref([])
 const init = async ()=>{
   await globalStore.analyticData()
   await  subscriptionStore.retrieveSubscribedEvents()
+   cardsInfo.value= [
+    {title: 'Upcoming Events', icon: '---', number: globalStore.getOthersStatisticalData?.activeConferences},
+    {title: 'Total Booked Events', icon: '---', number: globalStore.getOthersStatisticalData?.bookedEvents},
+    {title: 'Bill generated', icon: '---', number: globalStore.getOthersStatisticalData?.invoices},
+  ]
+  statisticsAdmin.value= [
+    {title: 'Registered Events', icon: '---', number: globalStore.getAdminStatisticalData?.conferences},
+    {title: 'Registered Users', icon: '---', number: globalStore.getAdminStatisticalData?.users},
+    {title: 'Registered Exhibition Booths', icon: '---', number: globalStore.getAdminStatisticalData?.booths},
+    {title: 'Submitted Booth Requests', icon: '---', number: globalStore.getAdminStatisticalData?.boothRequest},
+    {title: 'Generated Invoices', icon: '---', number: globalStore.getAdminStatisticalData?.all_invoices},
+    {title: 'Settled Bills', icon: '---', number: globalStore.getAdminStatisticalData?.settle_payments},
+  ]
 }
-const cardsInfo = reactive([
-  {title: 'Upcoming Events', icon: '---', number: globalStore.getStatisticalData?.activeConferences},
-  {title: 'Total Booked Events', icon: '---', number: globalStore.getStatisticalData?.bookedEvents},
-  {title: 'Bill generated', icon: '---', number: globalStore.getStatisticalData?.invoices},
-])
+
 
 onNuxtReady(() => {
   init()
@@ -32,6 +43,9 @@ onNuxtReady(() => {
       <div class="mx-auto bg-white shadow-lg rounded-lg overflow-hidden w-full">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
           <template v-for="item in cardsInfo" :key="item.title">
+            <UsablesMinAnalyticalCard :info="item" />
+          </template>
+          <template v-for="item in statisticsAdmin" :key="item.title">
             <UsablesMinAnalyticalCard :info="item" />
           </template>
         </div>

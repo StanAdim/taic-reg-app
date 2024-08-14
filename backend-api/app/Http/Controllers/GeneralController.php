@@ -6,6 +6,7 @@ use App\Http\Resources\DistrictResource;
 use App\Http\Resources\RegionResource;
 use App\Mail\CustomEmailVerification;
 use App\Mail\PasswordResetMail;
+use App\Models\Bill;
 use App\Models\District;
 use App\Models\Event\Subscription;
 use App\Models\ExhibitionBooth;
@@ -49,34 +50,36 @@ class GeneralController extends Controller
         $booths = ExhibitionBooth::all()->count();
         $booth_request = ExhibitionRequest::all()->count();
         $activeConferences = Conference::where('status', 0)->count();
+        $settle_payments = Bill::where('paid_amt', true)->count();
         $booked_events = $authUser->subscriptions->count();
         $bills = $authUser->bills->count();
         $users = User::all()->count();
         $isAdmin = $authUser->role->name == "admin";
         // attendees
-        if(!$isAdmin){
-            return response()->json([
-                'data'=>[
-                    'activeConferences' => $activeConferences,
-                    'bookedEvents' => $booked_events,
-                    'invoices' => $bills,
-                ]
-            ]);
+        $admin_stats =[];
+        if($isAdmin) {
+            $admin_stats = [
+                'activeConferences' => $activeConferences,
+                'bookedEvents' => $booked_events,
+                'all_invoices' => Bill::all()->count(),
+                'users' => $users,
+                'conferences' => $conferences,
+                'booths' => $booths,
+                'boothRequest' => $booth_request,
+                'settle_payments' => $settle_payments,
+            ];
         }
-        //Admin
-        else {
-            return response()->json([
-                'data'=>[
-                    'activeConferences' => $activeConferences,
-                    'bookedEvents' => $booked_events,
-                    'invoices' => $bills,
-                    'users' => $users,
-                    'conferences' => $conferences,
-                    'booths' => $booths,
-                    'boothRequest' => $booth_request,
-                ]
-            ]);
-        }
+        $other_stats = [
+            'activeConferences' => $activeConferences,
+            'bookedEvents' => $booked_events,
+            'invoices' => $bills,
+        ];
+        return response()->json([
+            'data'=>[
+                'admin' => $admin_stats,
+                'attendee' => $other_stats
+            ]
+        ]);
       }
 
       public function getDistricts(Region $targetRegion){

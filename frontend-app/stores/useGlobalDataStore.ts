@@ -59,7 +59,8 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const getLocalLoaderStatus = computed(() => {return localLoader.value})
     const getHanceLoaderState = computed(() => {return isHanceLoader.value})
     const getContentLoadingState = computed(() => {return isContentLoading.value})
-    const getStatisticalData = computed(() => {return statisticData.value})
+    const getAdminStatisticalData = computed(() => {return statisticData.value?.admin})
+    const getOthersStatisticalData = computed(() => {return statisticData.value?.attendee})
 
 
     // Transforms
@@ -177,7 +178,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         getLocalLoaderStatus, toggleLocalLoaderStatus,getHanceLoaderState,
         getForgotPassModalStatus, toggleForgotPassDialog,
         retrieveLocation,getNations,getRegions,getContentLoadingState,toggleContentLoaderState,
-        analyticData, getStatisticalData,
+        analyticData, getAdminStatisticalData,getOthersStatisticalData,
         shortenText
     }
 })
