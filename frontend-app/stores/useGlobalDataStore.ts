@@ -146,6 +146,13 @@ export const useGlobalDataStore = defineStore('globalData', () => {
             }
         }
     }
+    function shortenText(text, wordLimit) {
+        const words = text.split(' ');
+        if (words.length > wordLimit) {
+            return words.slice(0, wordLimit).join(' ') + '...';
+        }
+        return text;  // Return original text if it's already short enough
+    }
     const analyticData = async ()=> {
         const {data,error} = await useApiFetch(`/api/analytics-data`);
         if(data.value){
@@ -170,6 +177,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         getLocalLoaderStatus, toggleLocalLoaderStatus,getHanceLoaderState,
         getForgotPassModalStatus, toggleForgotPassDialog,
         retrieveLocation,getNations,getRegions,getContentLoadingState,toggleContentLoaderState,
-        analyticData, getStatisticalData
+        analyticData, getStatisticalData,
+        shortenText
     }
 })

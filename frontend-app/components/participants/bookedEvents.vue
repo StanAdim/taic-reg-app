@@ -5,7 +5,7 @@ const props = defineProps({
     type: Array,
   },
 })
-
+const globalData = useGlobalDataStore()
 const handleSendQR = (userID) => {
   console.log(userID)
 }
@@ -31,7 +31,7 @@ const handleSendQR = (userID) => {
         <td class="px-4 py-2 border-b text-sm text-gray-700">{{ index + 1 }}</td>
         <td class="px-4 py-2 border-b text-sm text-gray-700">{{ item?.event?.conferenceName }}</td>
 <!--        <td class="px-4 py-2 border-b text-sm text-gray-700">{{ item?.event?.theme }}</td>-->
-        <td class="px-4 py-2 border-b text-sm text-gray-700">{{ item?.event?.venue }}</td>
+        <td class="px-4 py-2 border-b text-sm text-gray-700">{{ globalData.shortenText(item?.event?.venue,2)  }}</td>
         <td class="px-4 py-2 border-b text-sm text-gray-700">
           <span class=" text-emerald-900 font-medium">{{ item.event?.startDate }}</span>
         </td>
