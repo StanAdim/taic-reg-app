@@ -22,7 +22,6 @@ class XmlRequestHelper
         else
         {
             $id = $billingData->id;
-            $id = "9cc35c72-185c-4da0-ba96-7eb1fe5d2ab0";
             if (openssl_pkcs12_read($cert_store, $cert_info, $fileKeyPass)){
                 //Bill Request
                 $spcode =env('GEPG_SPCODE');
