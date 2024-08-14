@@ -20,6 +20,7 @@ class XmlResponseHelper
         Log::info("### Control Number Response:", ['res-controlNo' => $varray]);
         $ResStsCode = $gepg_response['ResStsCode'];
         $ResStsDesc = $gepg_response['BillStsDesc'];
+        $BillStsCode = $gepg_response['BillStsCode'];
         $codes = explode(';', $ResStsCode);
         //--- Consuming Gepg Response 
             try {
@@ -29,7 +30,7 @@ class XmlResponseHelper
                         if (in_array('7101', $codes) OR in_array('7226', $codes)) {
                             //"UPDATE billing SET updated_at='$date',gepgstatus='$ResStsCode',controlno='$controlno' WHERE billid='$billid'");
                             $cust_cntr_num = $gepg_response['CustCntrNum'];
-                            $theBill->status_code = $ResStsCode;
+                            $theBill->status_code = $BillStsCode;
                             $theBill->cust_cntr_num = $cust_cntr_num;
                             $theBill->save();            
                         }
