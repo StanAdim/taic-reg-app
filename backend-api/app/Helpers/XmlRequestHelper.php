@@ -93,7 +93,7 @@ class XmlRequestHelper
                 Log::info("### BILL ID:", ['Bill ID' => $id]);
 
                 Log::info("###  BILL SUB REQ ID:",['Sub Req ID'=> $reqID]);
-                Log::info("###  BILL SUB REQ:",['Sub Req'=> $content]);
+                // Log::info("###  BILL SUB REQ:",['Sub Req'=> $content]);
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
                 if(!empty($resultCurlPost)){
                     Log::info("### BILL SUB RES CODE:",['Code' => GeneralCustomHelper::get_string_between($resultCurlPost, '<AckStsCode>', '</AckStsCode>')]);
