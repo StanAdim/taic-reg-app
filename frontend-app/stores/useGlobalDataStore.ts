@@ -150,9 +150,10 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         const {data,error} = await useApiFetch(`/api/analytics-data`);
         if(data.value){
             statisticData.value = data.value?.data
-            console.log(data.value)
         }
-        return {data,error}
+        if (error.value){
+            console.log(error.value)
+        }
     }
 
     return {
