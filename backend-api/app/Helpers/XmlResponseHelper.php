@@ -31,6 +31,7 @@ class XmlResponseHelper
                             //"UPDATE billing SET updated_at='$date',gepgstatus='$ResStsCode',controlno='$controlno' WHERE billid='$billid'");
                             $cust_cntr_num = $gepg_response['CustCntrNum'];
                             $theBill->status_code = $BillStsCode;
+                            $theBill->status_description = $BillStsDesc;
                             $theBill->cust_cntr_num = $cust_cntr_num;
                             $theBill->save();            
                         }
