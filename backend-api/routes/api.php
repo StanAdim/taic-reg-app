@@ -81,11 +81,11 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     
     Route::post('/bill/reconciliation', [BillController::class,'handleReconciliationRequest']);
     Route::get('/bill/cancellation/{bill_id}', [BillController::class,'handleCancellationRequest']);
-
-
-     Route::apiResource('/booth-request', ExhibitionRequestController::class);
-     Route::apiResource('/exhibition-booth', ExhibitionBoothController::class);
-    });
     Route::get('/generate-invoice/{user_bill}', [BillController::class, 'generateInvoice']);
+
+    
+    Route::apiResource('/booth-request', ExhibitionRequestController::class);
+    Route::apiResource('/exhibition-booth', ExhibitionBoothController::class);
+    });
     
 ///Test route

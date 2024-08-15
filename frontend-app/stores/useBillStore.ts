@@ -61,18 +61,39 @@ export const useBillStore = defineStore('billStore', () => {
         }
         globalStore.toggleContentLoaderState('off')
     }
-    async function handleInvoiceDownload(bill_uuid){
-        globalStore.toggleContentLoaderState('on')
-        const {data, error} = await useApiFetch(`/api/generate-invoice/${bill_uuid}`)
-        if(data.value){
-            console.log(data.value)
-            globalStore.assignAlertMessage(data.value?.gepg_message, 'success')
+    async function handleInvoiceDownload(bill_uuid) {
+        globalStore.toggleContentLoaderState('on');
+        try {
+            const { data, error } = await useApiFetch(`/api/generate-invoice/${bill_uuid}`, {
+                method: 'GET',
+                responseType: 'blob', // Ensure this is properly set
+            });
+
+            if (data.value) {
+                // Check if the data is already a blob
+                const blob = data.value instanceof Blob ? data.value : new Blob([data.value], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `invoice_${bill_uuid}.pdf`);
+                document.body.appendChild(link);
+                link.click();
+                window.URL.revokeObjectURL(url); // Cleanup memory
+                globalStore.assignAlertMessage('Invoice downloaded successfully', 'success');
+            }
+
+            if (error.value) {
+                globalStore.assignAlertMessage(`Error: ${error.value.message}`, 'error');
+                console.error('Error value:', error.value); // Log the error for debugging
+            }
+        } catch (e) {
+            console.error('Exception occurred:', e);
+            globalStore.assignAlertMessage('An error occurred while downloading the invoice', 'error');
+        } finally {
+            globalStore.toggleContentLoaderState('off');
         }
-        if(error.value){
-            globalStore.assignAlertMessage(error.value.message,'error')
-        }
-        globalStore.toggleContentLoaderState('off')
     }
+
     return {
         retrieveUserPayments,
         getUserPayments,
