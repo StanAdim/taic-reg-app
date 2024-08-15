@@ -37,12 +37,9 @@ const handleBillDownloading = async (docType, row) => {
         <el-input v-model="search" size="default" placeholder="Type to search" />
       </template>
       <template #default="scope">
-<!--        <el-button class="mx-1 my-0.5" type="info" size="small" @click="handleControlNumber(scope.$index, scope.row)">-->
-<!--          <i class="fa-solid fa-rotate mr-0.5"></i>Control Number</el-button>-->
         <el-button class="mx-1 my-0.5"  size="default" type="primary" @click="handleBillDownloading(1,scope.row)">
           <span v-if="scope.row.hasPaid"><i class="fa-solid fa-arrow-down mr-1"></i>Receipt</span>
           <span v-else><i class="fa-solid fa-arrow-down mr-1"></i>Invoice</span>
-
         </el-button>
         <el-dropdown size="default" type="primary" v-if="!scope.row.hasPaid" placement="bottom-start">
           <el-button><i class="fa-solid fa-arrow-down mr-1"></i> Remitter </el-button>

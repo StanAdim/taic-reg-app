@@ -140,11 +140,8 @@
 
             <p><strong>Bill Reference :</strong>{{$bill_data->ack_id}}</p>
             <p><strong>Bill Control Number :</strong> {{$bill_data->cust_cntr_num}}</p>
-            <p><strong>Bill Date :</strong>            
-            <p><strong>Date Issued :</strong>{{ \Carbon\Carbon::parse($bill_data->created_at)->format('d M Y') }}</p>
-        </p>
+            <p><strong>Bill Date :</strong>{{ \Carbon\Carbon::parse($bill_data->created_at)->format('d M Y') }}</p>
             <p><strong>Issued by :</strong> {{$bill_data->billApproveBy}}
-        </p>
             <p><strong>Date Issued :</strong> {{ \Carbon\Carbon::parse($bill_data->created_at)->format('d M Y') }}</p>
             <p><strong>Signature :</strong> ______________________</p>
         </div>

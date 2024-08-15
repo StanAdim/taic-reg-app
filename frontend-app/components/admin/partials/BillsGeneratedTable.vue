@@ -24,7 +24,7 @@ const items = ref([
   // Add more items as needed
 ])
 
-const headers = ref(['Sn', 'Participant', "Conference" , 'Fee',"Control Number",'Payment Status', 'Status code','Status Desc','Paid Amount', 'date', 'Actions'])
+const headers = ref(['Sn', 'Participant', "Conference" , 'Fee',"Control Number",'Payment Status', 'Status code','Status Desc','Paid Amount', 'date', 'Prints', 'Actions'])
 const searchQuery = ref('')
 const currentPage = ref(1)
 const itemsPerPage = ref(10)
@@ -81,6 +81,10 @@ const handleRemoveSubscription = async (row) => {
   })
   await subscriptionStore.unsubscribedUserEvent(formData.value)
 }
+const handleBillDownloading = async (docType, row) => {
+  // console.log(row.id)
+  await billStore.handleInvoiceDownload(docType,row?.id);
+}
 
 </script>
 <template>
@@ -136,6 +140,21 @@ const handleRemoveSubscription = async (row) => {
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.bill_status_desc }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.paid_amt || 0  }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.created_at }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+            <el-button class="mx-1 my-0.5"  size="default" type="primary" @click="handleBillDownloading(1,item)">
+              <span v-if="item.hasPaid"><i class="fa-solid fa-arrow-down mr-1"></i>Receipt</span>
+              <span v-else><i class="fa-solid fa-arrow-down mr-1"></i>Invoice</span>
+            </el-button>
+            <el-dropdown size="default" type="primary" v-if="!item.hasPaid" placement="bottom-start">
+              <el-button><i class="fa-solid fa-arrow-down mr-1"></i> Remitter </el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item @click="handleBillDownloading(2,item)">CRDB</el-dropdown-item>
+                  <el-dropdown-item @click="handleBillDownloading(3,item)">NMB</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
             <div class="flex">
               <button @click.prevent="handleBilCancel(item)"
