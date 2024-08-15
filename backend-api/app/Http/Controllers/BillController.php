@@ -141,7 +141,7 @@ class BillController extends Controller
         }
         switch ($type) {
             case 1:
-                if(!$bill_data){
+                if(!$bill_data->status){
                     // Unsettle Bill Invoice
                     $pdf = FacadePdf::loadView('pdf.invoice', ['bill_data' => $bill_data]);
                 }else{

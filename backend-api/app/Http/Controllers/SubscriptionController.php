@@ -60,9 +60,9 @@ class SubscriptionController extends Controller
             $newBill = [
                 'user_id' => $user_id,
                 'conference_id' =>$eventId,
-                'customer_name' => $user->firstName .' '.$user->lastName,
-                'billGeneratedBy' => $user->firstName .' '.$user->lastName,
-                'billApproveBy' => 'Billing system',
+                'customer_name' => $user->firstName .' '.$user->middleName.' '.$user->lastName,
+                'billGeneratedBy' => $user->firstName .' '.$user->middleName.' '.$user->lastName,
+                'billApproveBy' => 'EMS Billing System',
                 'phone_number' => $userInfo->phoneNumber,
                 'name' => $event->name,
                 'amount' => $billTobePaid,

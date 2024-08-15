@@ -107,10 +107,10 @@
         </div>
 
         <div class="details">
-            <p><strong>Receipt No :</strong> 99015046706</p>
-            <p><strong>Received from :</strong> ANA BENJAMIN MAKABALA</p>
-            <p><strong>Amount :</strong> 65,000.00 (TZS)</p>
-            <p><strong>Amount in Words :</strong> Sixty-Five thousand Tanzanian Shilling Only.</p>
+            <p><strong>Receipt No :</strong> {{$bill_data->ReqId}}</p>
+            <p><strong>Received from :</strong> {{$bill_data->customer_name}}</p>
+            <p><strong>Amount :</strong> {{$bill_data->customer_name}} ({{$bill_data->ccy || "TZS"}})</p>
+            <p><strong>Amount in Words :</strong> {{numberToWords($bill_data->amount)}}.</p>
             <p><strong>Outstanding Balance :</strong> 0.00 (TZS)</p>
             <p><strong>In respect of :</strong></p>
             <table>
@@ -119,23 +119,23 @@
                     <th>Item Amount</th>
                 </tr>
                 <tr>
-                    <td>140368 - Miscellaneous Receipts</td>
-                    <td>65,000.00</td>
+                    <td>{{$bill_data->name}}</td>
+                    <td>{{$bill_data->paid_amt}}</td>
                 </tr>
             </table>
         </div>
 
         <div class="footer">
-            <p><strong>Bill Reference :</strong> 1</p>
-            <p><strong>Payment Control Number :</strong> 991330024611</p>
-            <p><strong>Payment Date :</strong> 05-Apr-2019</p>
-            <p><strong>Issued by :</strong> Charles Murasi</p>
-            <p><strong>Date Issued :</strong> 14-May-2019</p>
+            <p><strong>Bill Reference :</strong> {{$bill_data->ack_id}}</p>
+            <p><strong>Payment Control Number :</strong> {{$bill_data->cust_cntr_num}}</p>
+            <p><strong>Payment Date :</strong> {{ \Carbon\Carbon::parse($bill_data->trx_dt_tm)->format('d M Y') }}</p>
+            <p><strong>Issued by :</strong>{{$bill_data->billApproveBy}}</p>
+            <p><strong>Date Issued :</strong>{{ \Carbon\Carbon::parse($bill_data->created_at)->format('d M Y') }}</p>
             <p><strong>Signature :</strong> ...................................</p>
         </div>
 
         <div class="note">
-            <p>Government e Payment Gateway © 2019 All Rights Reserved (GePG)</p>
+            <p>ICT Commission @ {{ date('Y') }} All Rights Reserved</p>
         </div>
     </div>
 </body>

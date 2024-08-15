@@ -96,7 +96,7 @@
             <img
             src="{{ public_path('images/logo.jpeg') }}"
             style="width: 100%; max-width: 30%; max-height: 30%"/>
-                    <h4>Receipt For {{$bill_data->name}} </h4>
+                    <h4>Invoice For {{$bill_data->name}} </h4>
             {{-- <h4>Stakabadhi ya Malipo ya Serikali</h4> --}}
         </div>
         <div class="receipt-info">
@@ -127,7 +127,7 @@
             <p><strong>Bill Date :</strong>            
             <p><strong>Date Issued :</strong>{{ \Carbon\Carbon::parse($bill_data->created_at)->format('d M Y') }}</p>
         </p>
-            <p><strong>Issued by :</strong> {{$bill_data->billGeneratedBy}}<p><strong>Date Issued :</strong>{{ \Carbon\Carbon::parse($bill_data->created_at)->format('d M Y') }}</p>
+            <p><strong>Issued by :</strong> {{$bill_data->billApproveBy}}
         </p>
             <p><strong>Date Issued :</strong> {{ \Carbon\Carbon::parse($bill_data->created_at)->format('d M Y') }}</p>
             <p><strong>Signature :</strong> ______________________</p>
