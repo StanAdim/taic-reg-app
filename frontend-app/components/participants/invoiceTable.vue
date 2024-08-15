@@ -37,19 +37,19 @@ const handleBillDownloading = async (docType, row) => {
         <el-input v-model="search" size="default" placeholder="Type to search" />
       </template>
       <template #default="scope">
-        <el-button class="mx-1 my-0.5"  size="default" type="primary" @click="handleBillDownloading(1,scope.row)">
-          <span v-if="scope.row.hasPaid"><i class="fa-solid fa-arrow-down mr-1"></i>Receipt</span>
-          <span v-else><i class="fa-solid fa-arrow-down mr-1"></i>Invoice</span>
-        </el-button>
-        <el-dropdown size="default" type="primary" v-if="!scope.row.hasPaid" placement="bottom-start">
-          <el-button><i class="fa-solid fa-arrow-down mr-1"></i> Remitter </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item @click="handleBillDownloading(2,scope.row)">CRDB</el-dropdown-item>
-              <el-dropdown-item @click="handleBillDownloading(3,scope.row)">NMB</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+<!--        <el-button class="mx-1 my-0.5"  size="default" type="primary" @click="handleBillDownloading(1,scope.row)">-->
+<!--          <span v-if="scope.row.hasPaid"><i class="fa-solid fa-arrow-down mr-1"></i>Receipt</span>-->
+<!--          <span v-else><i class="fa-solid fa-arrow-down mr-1"></i>Invoice</span>-->
+<!--        </el-button>-->
+<!--        <el-dropdown size="default" type="primary" v-if="!scope.row.hasPaid" placement="bottom-start">-->
+<!--          <el-button><i class="fa-solid fa-arrow-down mr-1"></i> Remitter </el-button>-->
+<!--          <template #dropdown>-->
+<!--            <el-dropdown-menu>-->
+<!--              <el-dropdown-item @click="handleBillDownloading(2,scope.row)">CRDB</el-dropdown-item>-->
+<!--              <el-dropdown-item @click="handleBillDownloading(3,scope.row)">NMB</el-dropdown-item>-->
+<!--            </el-dropdown-menu>-->
+<!--          </template>-->
+<!--        </el-dropdown>-->
       </template>
     </el-table-column>
   </el-table>
