@@ -61,12 +61,25 @@ export const useBillStore = defineStore('billStore', () => {
         }
         globalStore.toggleContentLoaderState('off')
     }
+    async function handleInvoiceDownload(bill_uuid){
+        globalStore.toggleContentLoaderState('on')
+        const {data, error} = await useApiFetch(`/api/generate-invoice/${bill_uuid}`)
+        if(data.value){
+            console.log(data.value)
+            globalStore.assignAlertMessage(data.value?.gepg_message, 'success')
+        }
+        if(error.value){
+            globalStore.assignAlertMessage(error.value.message,'error')
+        }
+        globalStore.toggleContentLoaderState('off')
+    }
     return {
         retrieveUserPayments,
         getUserPayments,
         retrieveAllBills,
         handleBillReconciliation,
         handleBillCancellation,
-        getAllBills
+        getAllBills,
+        handleInvoiceDownload
     }
 })

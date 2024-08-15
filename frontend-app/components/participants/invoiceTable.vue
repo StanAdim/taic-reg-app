@@ -13,8 +13,9 @@ const indexMethod = (index: number) => index + 1
 const handleControlNumber = (index: number, row) => {
   console.log(index, row)
 }
-const handleBillDownloading = (index: number, row) => {
-  console.log(index, row)
+const handleBillDownloading = async ( row) => {
+  console.log(row.id)
+  await billStore.handleInvoiceDownload(row?.id);
 }
 </script>
 
@@ -38,8 +39,8 @@ const handleBillDownloading = (index: number, row) => {
       <template #default="scope">
 <!--        <el-button class="mx-1 my-0.5" type="info" size="small" @click="handleControlNumber(scope.$index, scope.row)">-->
 <!--          <i class="fa-solid fa-rotate mr-0.5"></i>Control Number</el-button>-->
-<!--        <el-button class="mx-1 my-0.5"  size="small" type="primary" @click="handleBillDownloading(scope.$index, scope.row)">-->
-<!--          <i class="fa-solid fa-arrow-down mr-1"></i>Download Bill</el-button>-->
+        <el-button class="mx-1 my-0.5"  size="small" type="primary" @click="handleBillDownloading(scope.row)">
+          <i class="fa-solid fa-arrow-down mr-1"></i>Download Bill</el-button>
       </template>
     </el-table-column>
   </el-table>

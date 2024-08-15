@@ -7,6 +7,8 @@ use App\Helpers\XmlRequestHelper;
 use App\Helpers\XmlResponseHelper;
 use App\Http\Resources\Taic\BillResource;
 use App\Models\Bill;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -113,5 +115,25 @@ class BillController extends Controller
         }
         
     }
+
+    public function generateInvoice($user_bill)
+{
+   try{
+    $bill_data = Bill::where('id', $user_bill)->first();
+    if (!$bill_data) {
+        // Handle the case where the bill data is not found
+        return response()-> json([
+            'message' => "Bill not found"
+        ], 404); 
+       }
+    $pdf = FacadePdf::loadView('pdf.invoice', ['bill_data' => $bill_data]);
+    return $pdf->download($bill_data->ReqId.'-ems-bill.pdf');
+   }
+   catch(Exception $e){
+    return response()-> json([
+        'message' => "Failed to generate invoice:".$e->getMessage(),
+    ], 500);
+   }
+}
 
 }

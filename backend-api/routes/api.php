@@ -85,7 +85,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
 
      Route::apiResource('/booth-request', ExhibitionRequestController::class);
      Route::apiResource('/exhibition-booth', ExhibitionBoothController::class);
-
-});
-
+    });
+    Route::get('/generate-invoice/{user_bill}', [BillController::class, 'generateInvoice']);
+    
 ///Test route
