@@ -87,5 +87,6 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::apiResource('/booth-request', ExhibitionRequestController::class);
     Route::apiResource('/exhibition-booth', ExhibitionBoothController::class);
 });
+Route::get('/test-2', [BillController::class, 'generateCustomQrCode']);
     
 ///Test route

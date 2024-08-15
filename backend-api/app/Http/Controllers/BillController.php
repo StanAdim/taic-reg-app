@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 
 class BillController extends Controller
 {
@@ -116,56 +118,179 @@ class BillController extends Controller
         
     }
 
-    public function generateInvoice($type, $user_bill){
-    try{
-        $bank_details = [];
-        $crdb = [
-            'name' => 'CRDB Bank Public Limited Company',
-            'account' => '0150439329500',
-            'swft_code' => 'CORUTZTZ',
-            'beneficiary' => 'ICT Commission GePG Collection Account'
-        ];
-        $nmb = [
-            'name' => 'National Microfinance Bank',
-            'account' => '20110057839',
-            'swft_code' => 'NIMBTZTZ',
-            'beneficiary' => 'ICT Commission GePG Collection Account'
-        ];
-        $bank_details = $crdb;
-        $bill_data = Bill::where('id', $user_bill)->first();
-        if (!$bill_data) {
-            // Handle the case where the bill data is not found
-            return response()-> json([
-                'message' => "Bill not found"
-            ], 404); 
-        }
-        switch ($type) {
-            case 1:
-                if(!$bill_data->status){
-                    // Unsettle Bill Invoice
-                    $pdf = FacadePdf::loadView('pdf.invoice', ['bill_data' => $bill_data]);
-                }else{
-                    // Settled Bill Receipt
-                    $pdf = FacadePdf::loadView('pdf.receipt', ['bill_data' => $bill_data]);
-                }
-                break;
-            case 2:
-                $pdf = FacadePdf::loadView('pdf.remitter', ['bill_data' => $bill_data, 'bank_details' => $bank_details]);
-                break;
-            default:
-            return response()-> json([
-                'message' => "Request Type not found"
-            ], 404); 
-        }
-        
-        return $pdf->download($bill_data->ReqId.'-ems-bill.pdf');
-    }
-    catch(Exception $e){
-        return response()-> json([
-            'message' => "Failed to generate invoice:".$e->getMessage(),
-        ], 500);
-    }
-    }
+    // public function generateInvoice($type, $user_bill){
+    //     try{
+    //         $bank_details = [];
+    //         $crdb = [
+    //             'name' => 'CRDB Bank Public Limited Company',
+    //             'account' => '0150439329500',
+    //             'swft_code' => 'CORUTZTZ',
+    //             'beneficiary' => 'ICT Commission GePG Collection Account'
+    //         ];
+    //         $nmb = [
+    //             'name' => 'National Microfinance Bank',
+    //             'account' => '20110057839',
+    //             'swft_code' => 'NIMBTZTZ',
+    //             'beneficiary' => 'ICT Commission GePG Collection Account'
+    //         ];
+    //         $bank_details = $crdb;
+    //         $bill_data = Bill::where('id', $user_bill)->first();
+    //         if (!$bill_data) {
+    //             // Handle the case where the bill data is not found
+    //             return response()-> json([
+    //                 'message' => "Bill not found"
+    //             ], 404); 
+    //         }
+    //         switch ($type) {
+    //             case 1:
+    //                 if(!$bill_data->status){
+    //                     // Unsettle Bill Invoice
+    //                     $pdf = FacadePdf::loadView('pdf.invoice', ['bill_data' => $bill_data]);
+    //                 }else{
+    //                     // Settled Bill Receipt
+    //                     $pdf = FacadePdf::loadView('pdf.receipt', ['bill_data' => $bill_data]);
+    //                 }
+    //                 break;
+    //             case 2:
+    //                 $pdf = FacadePdf::loadView('pdf.remitter', ['bill_data' => $bill_data, 'bank_details' => $bank_details]);
+    //                 break;
+    //             default:
+    //             return response()-> json([
+    //                 'message' => "Request Type not found"
+    //             ], 404); 
+    //         }
+            
+    //         return $pdf->download($bill_data->ReqId.'-ems-bill.pdf');
+    //     }
+    //     catch(Exception $e){
+    //         return response()-> json([
+    //             'message' => "Failed to generate invoice:".$e->getMessage(),
+    //         ], 500);
+    //     }
+    // }
    
+    
+    // public function generateInvoice($type, $user_bill)
+    // {
+    //     try {
+    //         $bank_details = [];
+    //         $crdb = [
+    //             'name' => 'CRDB Bank Public Limited Company',
+    //             'account' => '0150439329500',
+    //             'swft_code' => 'CORUTZTZ',
+    //             'beneficiary' => 'ICT Commission GePG Collection Account'
+    //         ];
+    //         $nmb = [
+    //             'name' => 'National Microfinance Bank',
+    //             'account' => '20110057839',
+    //             'swft_code' => 'NIMBTZTZ',
+    //             'beneficiary' => 'ICT Commission GePG Collection Account'
+    //         ];
+    //         $bank_details = $crdb;
+    
+    //         $bill_data = Bill::where('id', $user_bill)->first();
+    //         if (!$bill_data) {
+    //             return response()->json([
+    //                 'message' => "Bill not found"
+    //             ], 404);
+    //         }
+    
+    //         // Generate the QR code
+    //         $qrCode = QrCode::size(200)->generate('Your QR Code Data Here');
+    
+    //         switch ($type) {
+    //             case 1:
+    //                 if (!$bill_data->status) {
+    //                     // Unsettle Bill Invoice
+    //                     $pdf = FacadePdf::loadView('pdf.invoice', ['bill_data' => $bill_data, 'qrCode' => $qrCode]);
+    //                 } else {
+    //                     // Settled Bill Receipt
+    //                     $pdf = FacadePdf::loadView('pdf.receipt', ['bill_data' => $bill_data, 'qrCode' => $qrCode]);
+    //                 }
+    //                 break;
+    //             case 2:
+    //                 $pdf = FacadePdf::loadView('pdf.remitter', ['bill_data' => $bill_data, 'bank_details' => $bank_details, 'qrCode' => $qrCode]);
+    //                 break;
+    //             default:
+    //                 return response()->json([
+    //                     'message' => "Request Type not found"
+    //                 ], 404);
+    //         }
+    
+    //         return $pdf->download($bill_data->ReqId . '-ems-bill.pdf');
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             'message' => "Failed to generate invoice: " . $e->getMessage(),
+    //         ], 500);
+    //     }
+    // }
+
+
+    public function generateInvoice($type, $user_bill){
+        try {
+            $bank_details = [];
+            $crdb = [
+                'name' => 'CRDB Bank PLC',
+                'account' => '0150439329500',
+                'swft_code' => 'CORUTZTZ',
+                'beneficiary' => 'ICT Commission GePG Collection Account'
+            ];
+            $nmb = [
+                'name' => 'National Microfinance Bank (NMB)',
+                'account' => '20110057839',
+                'swft_code' => 'NIMBTZTZ',
+                'beneficiary' => 'ICT Commission GePG Collection Account'
+            ];
+
+            $bill_data = Bill::where('id', $user_bill)->first();
+            if (!$bill_data) {
+                return response()->json([
+                    'message' => "Bill not found"
+                ], 404);
+            }
+
+            // Path to the logo
+            $logoPath = public_path('images/nembo.png');
+
+            // Generate the QR code with a logo
+            $qrData = $bill_data->customer_name . ' ' . $bill_data->cust_cntr_num;
+            $qrCode = QrCode::size(100)
+                            ->merge($logoPath, 0.3, true) // 0.3 indicates 30% of the QR code size, adjust as needed
+                            ->generate($qrData);
+            
+            switch ($type) {
+                case 1:
+                    if (!$bill_data->status) {
+                        // Unsettle Bill Invoice
+                        $pdf = FacadePdf::loadView('pdf.invoice', ['bill_data' => $bill_data, 'qrCode' => $qrCode]);
+                    } else {
+                        // Settled Bill Receipt
+                        $pdf = FacadePdf::loadView('pdf.receipt', ['bill_data' => $bill_data, 'qrCode' => $qrCode]);
+                    }
+                    break;
+                case 2:
+                    $bank_details = $crdb;
+                    $pdf = FacadePdf::loadView('pdf.remitter', ['bill_data' => $bill_data, 'bank_details' => $bank_details, 'qrCode' => $qrCode]);
+                    break;
+                case 3:
+                    $bank_details = $nmb;
+                    $pdf = FacadePdf::loadView('pdf.remitter', ['bill_data' => $bill_data, 'bank_details' => $bank_details, 'qrCode' => $qrCode]);
+                    break;
+                default:
+                    return response()->json([
+                        'message' => "Request Type not found"
+                    ], 404);
+            }
+
+            return $pdf->download($bill_data->ReqId . '-ems-bill.pdf');
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Failed to generate invoice: " . $e->getMessage(),
+            ], 500);
+        }
+    }
+    public function generateCustomQrCode(){
+       return "test";
+    }
 
 }

@@ -37,6 +37,19 @@
             color: #333;
             margin: 0;
         }
+        .receipt-info {
+            position: relative; /* Ensure that .receipt-info is the reference point for absolute positioning */
+        }
+
+        .qr-code {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 150px; /* Adjust width as needed */
+            height: auto; /* Maintain aspect ratio */
+            margin: 0;
+        }
+
 
         .header h4 {
             color: #333;
@@ -116,6 +129,9 @@
                     <td> {{$bill_data->amount}}</td>
                 </tr>
             </table>
+            <div class="qr-code">
+                <img alt="QR Code" src="data:image/png;base64, {!! base64_encode($qrCode) !!} ">
+            </div>
         </div>
         <div class="total">
             <p>Total Billed Amount: {{$bill_data->amount}} (TZS)</p>

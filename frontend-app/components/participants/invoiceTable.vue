@@ -39,13 +39,20 @@ const handleBillDownloading = async (docType, row) => {
       <template #default="scope">
 <!--        <el-button class="mx-1 my-0.5" type="info" size="small" @click="handleControlNumber(scope.$index, scope.row)">-->
 <!--          <i class="fa-solid fa-rotate mr-0.5"></i>Control Number</el-button>-->
-        <el-button class="mx-1 my-0.5"  size="small" type="primary" @click="handleBillDownloading(1,scope.row)">
-          <span v-if="scope.row.hasPaid"><i class="fa-solid fa-arrow-down mr-1"></i>Download Receipt</span>
-          <span v-else><i class="fa-solid fa-arrow-down mr-1"></i>Download invoice</span>
+        <el-button class="mx-1 my-0.5"  size="default" type="primary" @click="handleBillDownloading(1,scope.row)">
+          <span v-if="scope.row.hasPaid"><i class="fa-solid fa-arrow-down mr-1"></i>Receipt</span>
+          <span v-else><i class="fa-solid fa-arrow-down mr-1"></i>Invoice</span>
 
         </el-button>
-        <el-button v-if="!scope.row.hasPaid" class="mx-1 my-0.5"  size="small" type="primary" @click="handleBillDownloading(2,scope.row)">
-          <i class="fa-solid fa-arrow-down mr-1"></i>Download Remitter</el-button>
+        <el-dropdown size="default" type="primary" v-if="!scope.row.hasPaid" placement="bottom-start">
+          <el-button><i class="fa-solid fa-arrow-down mr-1"></i> Remitter </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item @click="handleBillDownloading(2,scope.row)">CRDB</el-dropdown-item>
+              <el-dropdown-item @click="handleBillDownloading(3,scope.row)">NMB</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </template>
     </el-table-column>
   </el-table>

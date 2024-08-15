@@ -63,6 +63,7 @@ class SubscriptionController extends Controller
                 'customer_name' => $user->firstName .' '.$user->middleName.' '.$user->lastName,
                 'billGeneratedBy' => $user->firstName .' '.$user->middleName.' '.$user->lastName,
                 'billApproveBy' => 'EMS Billing System',
+                'payee_name' => 'ICT Commission',
                 'phone_number' => $userInfo->phoneNumber,
                 'name' => $event->name,
                 'amount' => $billTobePaid,
