@@ -68,7 +68,7 @@ production.reload:
 	@make production.build
 	@make production.up
 	@make production.boost
-	# @make production.frontend
+	@make production.frontend
 
 production.build:
 	docker compose -f docker-compose.prod.yml build 
