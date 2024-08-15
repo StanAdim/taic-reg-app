@@ -39,7 +39,7 @@ const handleSendQR = (userID) => {
           <span class=" text-yellow-900 font-medium">{{ item.event?.endDate }}</span>
         </td>
         <td class="px-4 py-2 border-b text-sm text-gray-700">
-          <nuxt-link :to="`events/event-${item.event?.id}`" class="bg-emerald-500 py-2 px-4 text-white font-bold rounded-md hover:bg-emerald-600"><i class="fa-solid fa-location-arrow"></i></nuxt-link>
+          <nuxt-link :to="`/crm/events/event-${item.event?.id}`" class="bg-emerald-500 py-2 px-4 text-white font-bold rounded-md hover:bg-emerald-600"><i class="fa-solid fa-location-arrow"></i></nuxt-link>
 
         </td>
 
