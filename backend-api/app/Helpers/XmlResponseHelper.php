@@ -41,6 +41,9 @@ class XmlResponseHelper
                             $theBill->status_description = $BillStsDesc;
                             $theBill->save();  
                         }
+                        $theBill->ack_id = $gepg_response['ResId'];
+                        $theBill->reference_no = $gepg_response['ReqId'];
+
                          // Signing response
                         return GeneralCustomHelper::signedBillAck($gepg_response['ResId'],7101);
                         // Log::info('RECPAY-GEPG-RESPONSE', [$response, $serial, 'GEPG']);
