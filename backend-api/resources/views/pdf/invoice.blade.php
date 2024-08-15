@@ -96,7 +96,7 @@
             <img
             src="{{ public_path('images/logo.jpeg') }}"
             style="width: 100%; max-width: 30%; max-height: 30%"/>
-                    <h4>Invoice For {{$bill_data->name}} </h4>
+                    <h4>Receipt For {{$bill_data->name}} </h4>
             {{-- <h4>Stakabadhi ya Malipo ya Serikali</h4> --}}
         </div>
         <div class="receipt-info">

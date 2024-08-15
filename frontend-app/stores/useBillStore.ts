@@ -61,10 +61,10 @@ export const useBillStore = defineStore('billStore', () => {
         }
         globalStore.toggleContentLoaderState('off')
     }
-    async function handleInvoiceDownload(bill_uuid) {
+    async function handleInvoiceDownload(billDocType = 1,bill_uuid) {
         globalStore.toggleContentLoaderState('on');
         try {
-            const { data, error } = await useApiFetch(`/api/generate-invoice/${bill_uuid}`, {
+            const { data, error } = await useApiFetch(`/api/generate-invoice/${billDocType}/${bill_uuid}`, {
                 method: 'GET',
                 responseType: 'blob', // Ensure this is properly set
             });

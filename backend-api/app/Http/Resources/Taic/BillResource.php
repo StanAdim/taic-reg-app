@@ -43,6 +43,7 @@ class BillResource extends JsonResource
             'user_id'=>$this->user_id, 
             'conference_id'=>$this->conference_id, 
             'status'=> $this->status ? 'PAID': 'NOT PAID',
+            'hasPaid'=> $this->status,
             'status_code'=>$this->status_code,
             'bill_status_desc'=>$this->status_description,
             'ReqId'=>$this->ReqId,

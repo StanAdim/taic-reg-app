@@ -13,9 +13,9 @@ const indexMethod = (index: number) => index + 1
 const handleControlNumber = (index: number, row) => {
   console.log(index, row)
 }
-const handleBillDownloading = async ( row) => {
+const handleBillDownloading = async (docType, row) => {
   // console.log(row.id)
-  await billStore.handleInvoiceDownload(row?.id);
+  await billStore.handleInvoiceDownload(docType,row?.id);
 }
 </script>
 
@@ -39,8 +39,13 @@ const handleBillDownloading = async ( row) => {
       <template #default="scope">
 <!--        <el-button class="mx-1 my-0.5" type="info" size="small" @click="handleControlNumber(scope.$index, scope.row)">-->
 <!--          <i class="fa-solid fa-rotate mr-0.5"></i>Control Number</el-button>-->
-<!--        <el-button class="mx-1 my-0.5"  size="small" type="primary" @click="handleBillDownloading(scope.row)">-->
-<!--          <i class="fa-solid fa-arrow-down mr-1"></i>Download Bill</el-button>-->
+        <el-button class="mx-1 my-0.5"  size="small" type="primary" @click="handleBillDownloading(1,scope.row)">
+          <span v-if="scope.row.hasPaid"><i class="fa-solid fa-arrow-down mr-1"></i>Download Receipt</span>
+          <span v-else><i class="fa-solid fa-arrow-down mr-1"></i>Download invoice</span>
+
+        </el-button>
+        <el-button v-if="!scope.row.hasPaid" class="mx-1 my-0.5"  size="small" type="primary" @click="handleBillDownloading(2,scope.row)">
+          <i class="fa-solid fa-arrow-down mr-1"></i>Download Remitter</el-button>
       </template>
     </el-table-column>
   </el-table>
