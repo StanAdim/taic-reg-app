@@ -253,7 +253,7 @@ class BillController extends Controller
             $logoPath = public_path('images/nembo.png');
 
             // Generate the QR code with a logo
-            $qrData = $bill_data->customer_name . ' ' . $bill_data->cust_cntr_num;
+            $qrData = $bill_data->cust_cntr_num;
             $qrCode = QrCode::size(100)
                             ->merge($logoPath, 0.3, true) // 0.3 indicates 30% of the QR code size, adjust as needed
                             ->generate($qrData);
