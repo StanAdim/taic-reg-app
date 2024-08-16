@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
       {
-        name: 'taic',
+        name: 'taic-website',
         port: '2024',
         exec_mode: 'cluster',
         instances: 'max',

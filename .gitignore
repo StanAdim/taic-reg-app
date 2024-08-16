@@ -1,5 +1,6 @@
 #Ignore files.
 .env
+./taic-website/node_modules
 ./frontend-app/.env
 ./backend-api/.env
 ./site-app/.env
