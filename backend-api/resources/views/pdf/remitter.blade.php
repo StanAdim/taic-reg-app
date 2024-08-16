@@ -113,12 +113,11 @@
         <p><strong>Account Number</strong>: {{$bank_details['account']}}</p>
         <p><strong>SWIFT Code</strong>: {{$bank_details['swft_code']}}</p>
         <p><strong>Control Number</strong>: {{$bill_data->cust_cntr_num}}</p>
-        <p><strong>Beneficiary Account</strong>: {{$bank_details['account']}}</p>
-        <p><strong>Payment Reference</strong>: ROC/{{$bill_data->cust_cntr_num}}</p>
+        <p><strong>Beneficiary Account (Field 59 of MT103)</strong>: /{{$bank_details['account']}}</p>
+        <p><strong>Payment Reference (Field 70 of MT103) </strong>: /ROC/{{$bill_data->cust_cntr_num}}</p>
         <p><strong>Transfer Amount</strong>: {{$bill_data->amount}} ({{$bill_data->ccy}})</p>
         <p><strong>Amount in Words</strong>: {{numberToWords($bill_data->amount)}}</p>
         <p><strong>Being payment for</strong>:  {{$bill_data->name}}</p>
-        
         <div class="qr-code">
             <img alt="QR Code" src="data:image/png;base64, {!! base64_encode($qrCode) !!}">
             <p>SCAN & PAY</p>
