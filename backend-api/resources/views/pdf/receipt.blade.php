@@ -3,140 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Receipt</title>
+    <title>Receipt</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-            body {
-                    font-family: Arial, sans-serif;
-                    background-color: #f5f5f5;
-                    margin: 0;
-                    padding: 0;
-                }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-                .receipt {
-                    width: 600px;
-                    margin: 20px auto;
-                    background-color: white;
-                    padding: 20px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
 
-                .header {
-                    text-align: center;
-                    margin-bottom: 20px;
-                }
+        .receipt-container {
+            background-color: white;
+            width: 800px;
+            padding: 20px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
 
-                .header .logo img {
-                    max-width: 80px;
-                }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-                .header .title h1,
-                .header .title h2 {
-                    margin: 0;
-                    font-size: 14px;
-                    color: #003366;
-                }
+        .coat-of-arms {
+            height: 80px;
+            margin-bottom: 10px;
+        }
 
-                .header .title p {
-                    margin: 5px 0;
-                    font-size: 12px;
-                    color: #666;
-                }
+        header h2 {
+            color: #1f4584;
+            margin: 5px 0;
+        }
 
-                .header .title h3,
-                .header .title h4 {
-                    margin: 0;
-                    font-size: 16px;
-                    color: #003366;
-                }
+        header h3 {
+            color: #006bb3;
+            margin: 5px 0;
+        }
 
-                .details, .footer, .note {
-                    margin-bottom: 20px;
-                }
+        header p {
+            margin: 2px 0;
+            font-size: 14px;
+        }
 
-                .details p, .footer p {
-                    margin: 5px 0;
-                    font-size: 14px;
-                    color: #333;
-                }
+        .dotted-line {
+            border: 0;
+            border-top: 1px dashed #000;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
 
-                .details table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-top: 10px;
-                }
+        .receipt-details p {
+            font-size: 14px;
+            margin: 8px 0;
+        }
 
-                .details table, .details th, .details td {
-                    border: 1px solid #ccc;
-                }
+        .highlight {
+            font-weight: bold;
+        }
 
-                .details th, .details td {
-                    padding: 8px;
-                    text-align: left;
-                    font-size: 14px;
-                    color: #333;
-                }
+        .item-description {
+            margin-bottom: 20px;
+        }
 
-                .footer p {
-                    font-size: 14px;
-                    color: #333;
-                }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
 
-                .note p {
-                    text-align: center;
-                    font-size: 12px;
-                    color: #666;
-                }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .total-amount {
+            text-align: right;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .billing-info p {
+            font-size: 14px;
+            margin: 8px 0;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 20px;
+        }
 
     </style>
 </head>
 <body>
-    <div class="receipt">
-        <div class="header">
-
-            <div class="title">
-                <h1>United Republic of Tanzania</h1>
-                <h2>Information And Communication Technologies Commission</h2>
-                <div class="logo">
-                    <img src="{{ public_path('images/logo.jpeg') }}" style="width: 100%; max-width: 30%; max-height: 30%"/>
-                </div>
-                <h3>Exchequer Receipts</h3>
-                <h4>Stakabadhi ya Malipo ya Serikali</h4>
-            </div>
-        </div>
-
-        <div class="details">
-            <p><strong>Receipt No :</strong> {{$bill_data->ReqId}}</p>
-            <p><strong>Received from :</strong> {{$bill_data->customer_name}}</p>
-            <p><strong>Amount :</strong> {{$bill_data->paid_amt}} ({{$bill_data->ccy ?? "TZS"}})</p>
-            <p><strong>Amount in Words :</strong> {{numberToWords($bill_data->paid_amt)}}.</p>
-            <p><strong>Outstanding Balance :</strong> 0.00 (TZS)</p>
-            <p><strong>In respect of :</strong></p>
+    <div class="receipt-container">
+        <header>
+            <img src="{{public_path('images/nembo.png')}}" alt="Coat of Arms" class="coat-of-arms">
+            <h2>Jamhuri ya Muungano wa Tanzania</h2>
+            <h3>United Republic of Tanzania</h3>
+            <p>PMO - Labour, Youth, Employment and Persons With Disability</p>
+            <p><strong>Exchequer Receipts</strong></p>
+            <p><strong>Stakabadhi ya Malipo ya Serikali</strong></p>
+            <hr class="dotted-line">
+        </header>
+        <section class="receipt-details">
+            <p><strong>Receipt No:</strong> {{$bill_data->trx_id}}</p>
+            <p><strong>Received from:</strong> <strong class="highlight">{{$bill_data->customer_name}}</strong></p>
+            <p><strong>Amount:</strong> {{$bill_data->paid_amt}} (TZS)</p>
+            <p><strong>Amount in Words:</strong> {{numberToWords($bill_data->paid_amt)}}.</p>
+            <p><strong>Outstanding Balance:</strong> 0.00 (TZS)</p>
+        </section>
+        <section class="item-description">
             <table>
                 <tr>
                     <th>Item Description(s)</th>
                     <th>Item Amount</th>
                 </tr>
                 <tr>
-                    <td>{{$bill_data->name}}</td>
+                    <td>140368 - {{$bill_data->name}}</td>
                     <td>{{$bill_data->paid_amt}}</td>
                 </tr>
             </table>
-        </div>
-
-        <div class="footer">
-            <p><strong>Bill Reference :</strong> {{$bill_data->ack_id}}</p>
-            <p><strong>Payment Control Number :</strong> {{$bill_data->cust_cntr_num}}</p>
-            <p><strong>Payment Date :</strong> {{ \Carbon\Carbon::parse($bill_data->trx_dt_tm)->format('d M Y') }}</p>
-            <p><strong>Issued by :</strong>{{$bill_data->billApproveBy}}</p>
-            <p><strong>Date Issued :</strong>{{ \Carbon\Carbon::parse($bill_data->created_at)->format('d M Y') }}</p>
-            <p><strong>Signature :</strong> ...................................</p>
-        </div>
-
-        <div class="note">
-            <p>ICT Commission @ {{ date('Y') }} All Rights Reserved</p>
-        </div>
+            <p class="total-amount"><strong>Total Billed Amount:</strong> {{$bill_data->paid_amt}} (TZS)</p>
+        </section>
+        <section class="billing-info">
+            <p><strong>Bill Reference:</strong> 1</p>
+            <p><strong>Payment Control Number:</strong> <strong class="highlight"> {{$bill_data->cust_cntr_num}}</strong></p>
+            <p><strong>Payment Date:</strong> {{ \Carbon\Carbon::parse($bill_data->paid_date)->format('d M Y') }}</p>
+            <p><strong>Issued by:</strong> {{$bill_data->billApproveBy}}</p>
+            <p><strong>Date Issued:</strong> {{ date('l, F j, Y') }}</p>
+            <p><strong>Signature:</strong> _________________________</p>
+        </section>
+        <footer>
+            <p>Government e Payment Gateway © 2019 All Rights Reserved (GePG)</p>
+        </footer>
     </div>
 </body>
 </html>

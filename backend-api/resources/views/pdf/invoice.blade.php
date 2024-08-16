@@ -114,10 +114,10 @@
         </div>
         <div class="receipt-info">
             <p><strong>Receipt No :</strong>{{$bill_data->ReqId}}</p>
-            <p><strong>Received from :</strong> {{$bill_data->customer_name}}</p>
+            <p><strong>Billed for :</strong> {{$bill_data->customer_name}}</p>
             <p><strong>Amount :</strong> {{$bill_data->amount}} (TZS)</p>
             <p><strong>Amount in Words :</strong> {{numberToWords($bill_data->amount)}}.</p>
-            <p><strong>Outstanding Balance :</strong> {{$bill_data->amount}} (TZS)</p>
+            <p><strong>Outstanding Balance :</strong> 0 (TZS)</p>
             <p><strong>In respect of :</strong></p>
             <table class="item-table">
                 <tr>
