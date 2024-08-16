@@ -261,7 +261,7 @@ class BillController extends Controller
                 "amount"=>$bill_data->amount,
                 "billCcy"=>$bill_data->ccy,
                 "billExprDt"=>$bill_data->bill_exp,
-                "billPayOpt"=>$bill_data->bill_exp,
+                "billPayOpt"=>$bill_data->bill_pay_opt,
                 "billRsv01"=>"",
             ];
             $qrData = json_encode($qr_json);
