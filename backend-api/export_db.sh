@@ -64,3 +64,5 @@ delete_old_backups
 
 # Confirmation message
 echo "Database backup saved to $LOCAL_BACKUP_PATH"
+
+#/home/projects/ems-workflow/production/backend-api/export_db.sh
