@@ -17,12 +17,14 @@
             margin-bottom: 10px;
         }
         .bill-container {
-            width: 595px;
+            width: 100%;
+            max-width: 210mm; /* A4 width */
             margin: auto;
-            padding: 20px;
+            padding: 10mm; /* Adjusted padding for fitting */
             background-color: #fff;
             border: 1px solid #ddd;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-sizing: border-box; /* Include padding within the width */
         }
         .header {
             text-align: center;
@@ -32,7 +34,7 @@
         }
         .header img {
             width: 50px;
-            height: ;: 50px;
+            height: 50px;
             margin-bottom: 10px;
         }
         .header h1, .header h2, .header h3 {
@@ -53,11 +55,10 @@
             margin-top: 5px;
         }
         .content {
-            width: 100%;
-            position: relative;
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
+            font-size: 12px;
         }
         .content .left {
             width: 70%;
@@ -77,6 +78,8 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            font-size: 12px;
+
         }
         table td {
             padding: 8px;
@@ -86,19 +89,10 @@
             font-weight: bold;
         }
         .footer {
+            font-size: 10px;
             display: flex;
             justify-content: space-between;
-        }
-        .footer div {
-            width: 48%;
-            font-size: 12px;
-            line-height: 1.6;
-        }
-        .footer .left {
-            text-align: left;
-        }
-        .footer .right {
-            text-align: right;
+            padding-top: 10mm;
         }
         .signature {
             height: 40px;
@@ -107,11 +101,12 @@
             margin: 20px 0;
         }
         .qr-code {
-            position: absolute;
-            right: 2px; /* Adjust as needed */
-            top: 20px; /* Adjust as needed to align with your content */
+            position: absolute;s
             width: 80px; /* Adjusted for better fit */
             max-width: 80px; /* Ensures the QR code stays within the page */
+            margin-top: 20px;
+            top: 200px;
+            right:10px;
         }
     </style>
 </head>
@@ -132,10 +127,10 @@
                 <p><strong>Payer Phone:</strong> {{$bill_data->phone_number}}</p>
                 <p><strong>Bill Description:</strong> {{$bill_data->remarks}}</p>
             </div>
-                <div class="qr-code">
-                    <img alt="QR Code" src="data:image/png;base64, {!! base64_encode($qrCode) !!}">
-                    <p>SCAN & PAY </p>
-                </div>
+            <div class="qr-code">
+                <img alt="QR Code" src="data:image/png;base64, {!! base64_encode($qrCode) !!}">
+                <p>SCAN & PAY </p>
+            </div>
         </div>
         <table>
             <tr>
@@ -161,7 +156,7 @@
             </tr>
             <tr>
                 <td>Collection Centre</td>
-                <td colspan="2"> HEAD QUARTER - Dar es salaam</td>
+                <td colspan="2">HEAD QUARTER - Dar es Salaam</td>
             </tr>
             <tr>
                 <td>Printed By</td>
@@ -196,8 +191,6 @@
                 <p>- Enter {{$bill_data->cust_cntr_num}} as reference number</p>
             </div>
         </div>
-        <p>Government e Payment Gateway © {{ date('Y') }} All Rights Reserved (GePG)</p>
-
     </div>
 </body>
 </html>
