@@ -42,7 +42,7 @@ class XmlResponseHelper
                             $theBill->save();  
                         }
                         $theBill->ack_id = $gepg_response['ResId'];
-                        $theBill->reference_no = $gepg_response['ReqId'];
+                        $theBill->ReqId = $gepg_response['ReqId'];
 
                          // Signing response
                         return GeneralCustomHelper::signedBillAck($gepg_response['ResId'],7101);
