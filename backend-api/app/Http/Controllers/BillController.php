@@ -256,7 +256,7 @@ class BillController extends Controller
             $qrData = $bill_data->cust_cntr_num;
             $qrCode = QrCode::size(100)
                             ->merge($logoPath, 0.3, true) // 0.3 indicates 30% of the QR code size, adjust as needed
-                            ->generate($qrData);
+                            ->generate($qrData ?? 0);
             
             switch ($type) {
                 case 1:

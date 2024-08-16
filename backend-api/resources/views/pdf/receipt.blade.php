@@ -109,15 +109,13 @@
     <div class="receipt-container">
         <header>
             <img src="{{public_path('images/nembo.png')}}" alt="Coat of Arms" class="coat-of-arms">
-            <h2>Jamhuri ya Muungano wa Tanzania</h2>
-            <h3>United Republic of Tanzania</h3>
+            <h2>United Republic of Tanzania</h2>
             <p>PMO - Labour, Youth, Employment and Persons With Disability</p>
             <p><strong>Exchequer Receipts</strong></p>
-            <p><strong>Stakabadhi ya Malipo ya Serikali</strong></p>
             <hr class="dotted-line">
         </header>
         <section class="receipt-details">
-            <p><strong>Receipt No:</strong> {{$bill_data->ReqId}}</p>
+            <p><strong>Receipt No:</strong> {{$bill_data->pay_ref_id}}</p>
             <p><strong>Received from:</strong> <strong class="highlight">{{$bill_data->customer_name}}</strong></p>
             <p><strong>Amount:</strong> {{$bill_data->paid_amt}} (TZS)</p>
             <p><strong>Amount in Words:</strong> {{numberToWords($bill_data->paid_amt)}}.</p>
