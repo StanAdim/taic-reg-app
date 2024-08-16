@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receipt</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         * {
             margin: 0;
@@ -20,11 +19,11 @@
 
         .receipt-container {
             background-color: white;
-            width: 800px;
+            width: 190mm; /* Set to fit within A4 page width */
             padding: 20px;
             margin: 0 auto;
             border: 1px solid #ccc;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         header {
@@ -118,7 +117,7 @@
             <hr class="dotted-line">
         </header>
         <section class="receipt-details">
-            <p><strong>Receipt No:</strong> {{$bill_data->trx_id}}</p>
+            <p><strong>Receipt No:</strong> {{$bill_data->ReqId}}</p>
             <p><strong>Received from:</strong> <strong class="highlight">{{$bill_data->customer_name}}</strong></p>
             <p><strong>Amount:</strong> {{$bill_data->paid_amt}} (TZS)</p>
             <p><strong>Amount in Words:</strong> {{numberToWords($bill_data->paid_amt)}}.</p>
@@ -146,7 +145,7 @@
             <p><strong>Signature:</strong> _________________________</p>
         </section>
         <footer>
-            <p>Government e Payment Gateway © 2019 All Rights Reserved (GePG)</p>
+            <p>Government e Payment Gateway © {{ date('Y') }} All Rights Reserved (GePG)</p>
         </footer>
     </div>
 </body>
