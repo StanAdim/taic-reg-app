@@ -68,7 +68,6 @@ production.reload:
 	@make production.build
 	@make production.up
 	@make production.boost
-	@make production.frontend
 
 production.build:
 	docker compose -f docker-compose.prod.yml build 
@@ -101,17 +100,19 @@ production.rmi:
 production.logs:
 	docker logs -f events-app-api
 
-production.frontend: 
-	  cd ../frontend-app && yarn build && pm2 restart production.config.cjs &&  cd  ../backend-api && make production.start
-
+production.fronts: 
+	cd ../frontend-app && yarn build && pm2 restart production.config.cjs &&  cd  ../backend-api && make production.start
+	cd ../taic-website && yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../backend-api 
 # Define the directory and the command
 DIR1 := ../frontend-app 
-DIR2 := ./site-app 
+DIR2 := ../taic-website 
 CMD := yarn && yarn build
 CMD1 := pm2 restart production.config.cjs
+CMD2 := pm2 restart ecosystem.config.cjs
 
 
 # Target to change to the specified directory and execute the command
 production.yarn:
 	@cd $(DIR1) && $(CMD) && $(CMD1)
-	@echo "Command executed in $(DIR1)"
+	@cd $(DIR2) && $(CMD) && $(CMD2)
+	@echo "Command executed in $(DIR1) and in $(DIR2)"
