@@ -148,7 +148,7 @@ class XmlRequestHelper
                 $signedPayload = "<Gepg>".$content."<signature>".$signature."</signature></Gepg>";
                 //Perform Curl to a Gepg
                 
-                Log::info("----- RECONCILIATION REQUEST START-----");
+                Log::info("----- START RECONCILIATION REQUEST -----");
                 $resultCurlPost = GeneralCustomHelper::performCurlSignedPayload($signedPayload,$requestUri);
                 Log::info("### RECON REQ ID:", ['Request ID'=>$reqID]);
                 
@@ -161,6 +161,7 @@ class XmlRequestHelper
                     $vdata = GeneralCustomHelper::get_string_between($resultCurlPost, '<Gepg>', '<signature>');
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
                     //Verify Signed Data
+                    Log::info("----- END RECONCILLIATION REQUEST  -------\n");
                     return GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
                 }
                 else{ Log::info("No result Returned"."\n");}
@@ -168,7 +169,6 @@ class XmlRequestHelper
             else
             { Log::info("Error: Unable to read the cert store.\n"); exit;}
         }
-        Log::info("----- END RECONCILLIATIONS REQUEST  -------\n");
 
     }
 
@@ -217,7 +217,7 @@ class XmlRequestHelper
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
                     
                     //Verify Data using Certifites
-                    Log::info("---------GEPG CANCELLATION END -------");
+                    Log::info("--------- GEPG CANCELLATION END -------");
                     return GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
                 }
                 else{ Log::info("No result Returned"."\n");}

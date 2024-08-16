@@ -9,7 +9,7 @@ set +o allexport
 DATE=$(date +"%Y-%m-%d_%H-%M-%S")
 
 # Ensure the backup directory exists (on the local machine)
-mkdir -p $BACKUP_DIR
+# mkdir -p $BACKUP_DIR
 
 # Perform the backup using docker exec and pg_dump inside the container, but store the backup file on the local machine
 docker exec -e PGPASSWORD=$DB_PASSWORD $CONTAINER_NAME pg_dump -U $DB_USER -d $DB_NAME > $BACKUP_DIR/db_backup_$DATE.sql
