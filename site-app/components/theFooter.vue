@@ -87,7 +87,7 @@ const year = new Date();
             <div class="row">
                 <div class="col-xl-6 col-lg-6 text-left text-lg-left">
                     <div class="copyright-text">
-                        <p>{{ config.public.appName }} © {{year.getFullYear()}} - Designed by <nuxt-link to="/auth/login">ICT Commission Team</nuxt-link></p>
+                        <p>{{ config.public.appName }} © {{year.getFullYear()}} - Designed by <nuxt-link to="/">ICT Commission Team</nuxt-link></p>
                     </div>
                 </div>
             </div>

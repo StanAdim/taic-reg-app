@@ -1,19 +1,24 @@
 <script  setup>
-const hasPrice = ref(false)
-const siteStore = useSiteDataStore()
+const hasPrice = ref(true)
+const global = useGlobalDataStore()
+// const siteStore = useSiteDataStore()
 const feesSetup = ref([
 ])
-
-async function fetchSiteDate() {
-    await siteStore.retrieveSiteDate()
-    hasPrice.value = true;
+const getSitedData = ref({
+    defaultFee: "420,000",
+    guestFee: '500,000',
+    foreignerFee: 300
+})
+async function retriveSitedata() {
+    // const {data, error}  = await siteStore.retriveSiteData()
+    // hasPrice.value = false;
     feesSetup.value = [
-    {name: 'Registered ICT professional', fee: siteStore.getSitedData?.defaultFee, iconClass: 'fa-solid fa-user-tie', currency: 'Tsh' },
-    {name: 'Non registered ICT professionals and other participants', fee: siteStore.getSitedData?.guestFee, iconClass: 'fa-solid fa-user-tag', currency: 'Tsh' },
-    {name: 'Foreign participants', fee: siteStore.getSitedData?.foreignerFee, iconClass: 'fa-solid fa-earth-americas', currency: '$' },
+    {name: 'Registered ICT professional', fee: getSitedData.value?.defaultFee, iconClass: 'fa-solid fa-user-tie', currency: 'Tsh' },
+    {name: 'Non registered ICT professionals and other participants', fee: getSitedData.value?.guestFee, iconClass: 'fa-solid fa-user-tag', currency: 'Tsh' },
+    {name: 'Foreign participants', fee: getSitedData.value?.foreignerFee, iconClass: 'fa-solid fa-earth-americas', currency: '$' },
     ]
 }
-fetchSiteDate()
+retriveSitedata()
 </script>
 
 <template>
@@ -24,8 +29,7 @@ fetchSiteDate()
             <div class="section-header">
                 <h2>CONFERENCE FEES</h2>
             </div>
-          <div class="row justify-content-center">
-            <div class="col-md-10 row">
+            <div class="row">
                 <div class="col-lg-4" v-for="item in feesSetup" :key="item.name">
                     <div class="card text-center">
                         <div class="title">
@@ -34,7 +38,6 @@ fetchSiteDate()
                         </div>
                         <div class="price">
                             <UsablesSpinLoader v-if="!hasPrice" />
-
                             <h4 v-if="hasPrice"><span>{{item.currency}}</span> {{item.fee}}</h4>
                         </div>
                         <div class="option">
@@ -47,7 +50,6 @@ fetchSiteDate()
                 </div>
 
             </div>
-          </div>
         </div>
     </div>
 </div>

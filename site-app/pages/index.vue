@@ -1,14 +1,4 @@
-<script lang="ts" setup>
-useHead({
-  title: 'TAIC - HOME'
-})
-const siteStore = useSiteDataStore()
-async function retrieveSiteDate() {
-  const {data, error}  = await siteStore.retrieveSiteDate()
-  console.log(data.value, error.value)
-}
-retrieveSiteDate()
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <div>
@@ -18,9 +8,9 @@ retrieveSiteDate()
         <pricing />
         <!-- End Pricing Section -->
         <!-- Featured -->
-        <!-- <featured /> -->
+<!--        <featured />-->
         <!-- Featured -->
-        <KeySpeaker />
+<!--        <KeySpeaker />-->
 
         
   </div>
