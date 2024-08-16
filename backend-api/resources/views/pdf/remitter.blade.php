@@ -80,6 +80,9 @@
         .table th {
             background-color: #f2f2f2;
         }
+        .section p strong {
+            margin-right: 60px;
+        }
     </style>
     <title>Payment Slip</title>
 </head>
@@ -89,7 +92,7 @@
     <div class="header">
         <img src="{{public_path('images/nembo.png')}}" alt="Coat of Arms" class="coat-of-arms">
         <h1>United Republic of Tanzania</h1>
-        <h2>PMO - Labour, Youth, Employment and Persons With Disability</h2>
+        <h2>Information and Communication Technologies Commission</h2>
         <h3>Order Form for Electronic Funds Transfer to {{$bank_details['name']}}</h3>
     </div>    
     <div class="section">
@@ -105,20 +108,20 @@
     
     <div class="section">
         <h3>(b) Beneficiary Details:</h3>
-        <p><strong>Beneficiary Name:</strong> {{$bank_details['beneficiary']}}</p>
-        <p><strong>Bank Name:</strong> {{$bank_details['name']}}</p>
-        <p><strong>Account Number:</strong> {{$bank_details['account']}}</p>
-        <p><strong>SWIFT Code:</strong> {{$bank_details['swft_code']}}</p>
-        <p><strong>Control Number:</strong> {{$bill_data->cust_cntr_num}}</p>
-        <p><strong>Beneficiary Account:</strong> {{$bank_details['account']}}</p>
-        <p><strong>Payment Reference:</strong> ROC/{{$bill_data->cust_cntr_num}}</p>
-        <p><strong>Transfer Amount:</strong> {{$bill_data->amount}} ({{$bill_data->ccy}})</p>
-        <p><strong>Amount in Words:</strong> {{numberToWords($bill_data->amount)}}</p>
-        <p><strong>Being payment for:</strong>  {{$bill_data->name}}</p>
+        <p><strong>Beneficiary Name</strong>: {{$bank_details['beneficiary']}}</p>
+        <p><strong>Bank Name</strong>: {{$bank_details['name']}}</p>
+        <p><strong>Account Number</strong>: {{$bank_details['account']}}</p>
+        <p><strong>SWIFT Code</strong>: {{$bank_details['swft_code']}}</p>
+        <p><strong>Control Number</strong>: {{$bill_data->cust_cntr_num}}</p>
+        <p><strong>Beneficiary Account</strong>: {{$bank_details['account']}}</p>
+        <p><strong>Payment Reference</strong>: ROC/{{$bill_data->cust_cntr_num}}</p>
+        <p><strong>Transfer Amount</strong>: {{$bill_data->amount}} ({{$bill_data->ccy}})</p>
+        <p><strong>Amount in Words</strong>: {{numberToWords($bill_data->amount)}}</p>
+        <p><strong>Being payment for</strong>:  {{$bill_data->name}}</p>
         
         <div class="qr-code">
-            <p>SCAN & PAY by MPESA or TIGO PESA APPs</p>
             <img alt="QR Code" src="data:image/png;base64, {!! base64_encode($qrCode) !!}">
+            <p>SCAN & PAY</p>
         </div>
     </div>
 
@@ -140,7 +143,7 @@
     </div>
 
     <div class="section">
-        <p><strong>Expires on:</strong> {{ \Carbon\Carbon::parse($bill_data->paid_date)->format('d M Y') }}</p>
+        <p><strong>Expires on:</strong> {{ \Carbon\Carbon::parse($bill_data->bill_exp)->format('d M Y') }}</p>
         <p><strong>Prepared By:</strong> {{$bill_data->customer_name}}</p>
         <p><strong>Collection Centre:</strong>HEAD QUARTER - Dar es salaam</p>
         <p><strong>Printed By:</strong> {{$bill_data->customer_name}}</p>
