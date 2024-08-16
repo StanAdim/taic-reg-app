@@ -241,6 +241,7 @@ class BillController extends Controller
                 'swft_code' => 'NIMBTZTZ',
                 'beneficiary' => 'ICT Commission GePG Collection Account'
             ];
+          
 
             $bill_data = Bill::where('id', $user_bill)->first();
             if (!$bill_data) {
@@ -253,7 +254,18 @@ class BillController extends Controller
             $logoPath = public_path('images/nembo.png');
 
             // Generate the QR code with a logo
-            $qrData = $bill_data->cust_cntr_num;
+            $qr_json = [
+                "opType"=>"2",
+                "shortCode"=>"001001",
+                "billReference"=>$bill_data->reference_no,
+                "amount"=>$bill_data->amount,
+                "billCcy"=>$bill_data->ccy,
+                "billExprDt"=>$bill_data->bill_exp,
+                "billPayOpt"=>$bill_data->bill_exp,
+                "billRsv01"=>"",
+            ];
+            $qrData = json_encode($qr_json);
+
             $qrCode = QrCode::size(100)
                             ->merge($logoPath, 0.3, true) // 0.3 indicates 30% of the QR code size, adjust as needed
                             ->generate($qrData ?? 0);

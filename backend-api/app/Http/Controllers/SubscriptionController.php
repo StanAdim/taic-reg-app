@@ -46,16 +46,16 @@ class SubscriptionController extends Controller
         $newItem = ['user_id' => $user_id, 'conference_id' => $eventId,];
 
         // Check if user has  Subscribed already
-        $isUserSubscribed = Subscription::where('conference_id', $eventId)
-        ->where('user_id', $user_id)
-        ->exists();
-        if($isUserSubscribed){
-            return response()->json([
-                'message'=> "This event is Booked!",
-                'code'=> 300
-            ]);
-        } // If not Created Bill for subscription
-        else 
+        // $isUserSubscribed = Subscription::where('conference_id', $eventId)
+        // ->where('user_id', $user_id)
+        // ->exists();
+        // if($isUserSubscribed){
+        //     return response()->json([
+        //         'message'=> "This event is Booked!",
+        //         'code'=> 300
+        //     ]);
+        // } // If not Created Bill for subscription
+        // else 
         {
             $newBill = [
                 'user_id' => $user_id,
@@ -67,6 +67,7 @@ class SubscriptionController extends Controller
                 'phone_number' => $userInfo->phoneNumber,
                 'name' => $event->name,
                 'amount' => $billTobePaid,
+                'reference_no' => GeneralCustomHelper::generateReqID(16),
                 'event_fee' => $billTobePaid,
                 'remarks' => $event->name. ' - '.$event->conferenceYear,
                 'email' => $user->email,

@@ -128,7 +128,7 @@
                     <th>Item Amount</th>
                 </tr>
                 <tr>
-                    <td>140368 - {{$bill_data->name}}</td>
+                    <td>{{$bill_data->name}}</td>
                     <td>{{$bill_data->paid_amt}}</td>
                 </tr>
             </table>

@@ -120,21 +120,21 @@
         <div class="header">
             <img src="{{public_path('images/nembo.png')}}" alt="Coat of Arms" class="coat-of-arms">
             <h1>United Republic of Tanzania</h1>
-            <h2>PMO - Labour, Youth, Employment and Persons With Disability</h2>
+            <h2>Information and Communication Technologies Commission</h2>
             <h3>Government Bill</h3>
         </div>
         <div class="content">
             <div class="left">
                 <p><strong>Control Number:</strong> {{$bill_data->cust_cntr_num}}</p>
-                <p><strong>Payment Ref:</strong> {{$bill_data->name}}</p>
-                <p><strong>Service Provider Code:</strong> {{$bill_data->sp_code}}</p>
+                <p><strong>Bill Ref:</strong> {{$bill_data->ReqId}}</p>
+                <p><strong>Service Provider Code:</strong> {{env('GEPG_SPCODE')}}</p>
                 <p><strong>Payer Name:</strong> {{$bill_data->customer_name}}</p>
                 <p><strong>Payer Phone:</strong> {{$bill_data->phone_number}}</p>
                 <p><strong>Bill Description:</strong> {{$bill_data->remarks}}</p>
             </div>
                 <div class="qr-code">
                     <img alt="QR Code" src="data:image/png;base64, {!! base64_encode($qrCode) !!}">
-                    <p>SCAN & PAY by Mpesa | Tigo Apps</p>
+                    <p>SCAN & PAY </p>
                 </div>
         </div>
         <table>
