@@ -76,7 +76,7 @@ class SubscriptionController extends Controller
                 'SpGrpCode' => env('GEPG_SPGRPCODE'),
                 'bill_exp' => Carbon::now()->addMonths(8)->format('Y-m-d\TH:i:s'),
                 'ccy' => "TZS",
-                'bill_pay_opt' => 1,
+                'bill_pay_opt' => 3,
                 'status' => 0,
             ];
             try {

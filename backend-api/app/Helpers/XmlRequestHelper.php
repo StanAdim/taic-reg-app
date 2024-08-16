@@ -60,7 +60,7 @@ class XmlRequestHelper
                                 <MinPayAmt>".$billingData->amount."</MinPayAmt>
                                 <Ccy>".$billingData->ccy."</Ccy>
                                 <ExchRate>1.0</ExchRate>
-                                <BillPayOpt>3</BillPayOpt>
+                                <BillPayOpt>".$billingData->bill_pay_opt."</BillPayOpt>
                                 <PayPlan>1</PayPlan>
                                 <PayLimTyp>1</PayLimTyp>
                                 <PayLimAmt>0.00</PayLimAmt>

@@ -108,7 +108,7 @@
         }
         .qr-code {
             position: absolute;
-            right: 10px; /* Adjust as needed */
+            right: 2px; /* Adjust as needed */
             top: 20px; /* Adjust as needed to align with your content */
             width: 80px; /* Adjusted for better fit */
             max-width: 80px; /* Ensures the QR code stays within the page */
