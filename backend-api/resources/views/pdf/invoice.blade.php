@@ -153,7 +153,7 @@
             </tr>
             <tr>
                 <td>Expires on</td>
-                <td colspan="2">{{ \Carbon\Carbon::parse($bill_data->paid_date)->format('d M Y') }}</td>
+                <td colspan="2">{{ \Carbon\Carbon::parse($bill_data->bill_exp)->format('d M Y') }}</td>
             </tr>
             <tr>
                 <td>Prepared By</td>
