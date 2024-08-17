@@ -4,20 +4,20 @@ keytool -genkeypair -keystore ict_commission.jks -alias ict_commission -storepas
 
 2. Extract PRIVATE KEY from ict_commission.jks which will be used to sign
 
-keytool -importkeystore -srckeystore ict_commission.jks -destkeystore ict_commissionprivate.pfx -srcstoretype JKS -deststoretype PKCS12 -deststorepass ict_commission123 -srcalias ict_commission -destalias ict_commission -srcstorepass ict_commission123
+keytool -importkeystore -srckeystore ict_commission.jks -destkeystore ict_commissionprivate.pfx -srcstoretype JKS -deststoretype PKCS12 -deststorepass commission_of_ict_2024 -srcalias ict_commission -destalias ict_commission -srcstorepass commission_of_ict_2024
 
 3.Extract ict_commission_public.cer from ict_commission.jks see comand bellow
 
-keytool -export -keystore ict_commission.jks -alias ict_commission -file ict_commission_public.cer -storepass ict_commission123
+keytool -export -keystore ict_commission.jks -alias ict_commission -file ict_commission_public.cer -storepass commission_of_ict_2024
 
 4. Empty ict_commission.jks
 
-keytool -delete -alias ict_commission -keystore ict_commission.jks -storepass ict_commission123
+keytool -delete -alias ict_commission -keystore ict_commission.jks -storepass commission_of_ict_2024
 
 5. Import ict_commission_public.cer to ict_commission.jks
 
-keytool -import -trustcacerts -alias ict_commission -file ict_commission_public.cer -keystore ict_commission.jks -storepass ict_commission123
+keytool -import -trustcacerts -alias ict_commission -file ict_commission_public.cer -keystore ict_commission.jks -storepass commission_of_ict_2024
 
 6. Extract PUBLICKEY from ict_commission.jks then send to GePG
 
-keytool -importkeystore -srckeystore ict_commission.jks -destkeystore ict_commission_public.pfx -srcstoretype JKS -deststoretype PKCS12 -deststorepass ict_commission123 -srcalias ict_commission -destalias ict_commission -srcstorepass ict_commission123
+keytool -importkeystore -srckeystore ict_commission.jks -destkeystore ict_commission_public.pfx -srcstoretype JKS -deststoretype PKCS12 -deststorepass commission_of_ict_2024 -srcalias ict_commission -destalias ict_commission -srcstorepass commission_of_ict_2024

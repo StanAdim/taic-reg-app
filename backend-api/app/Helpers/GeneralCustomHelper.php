@@ -221,7 +221,7 @@ class GeneralCustomHelper{
     }
 
     public static function signedBillAck($resId, $statusCode) {
-        $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";
+        $PRIVATE_KEY =__DIR__."/ict_commissionprivate.pfx";
         $KEY_PASSWORD =  env('GEPG_KEYPASS');
 
         if (!$cert_store = file_get_contents($PRIVATE_KEY)) {
@@ -249,7 +249,7 @@ class GeneralCustomHelper{
     }
 
     public static function signedPayemtAck($ReqId, $statusCode) {
-        $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";
+        $PRIVATE_KEY =__DIR__."/ict_commissionprivate.pfx";
         $KEY_PASSWORD =  env('GEPG_KEYPASS');
 
         if (!$cert_store = file_get_contents($PRIVATE_KEY)) {
@@ -277,7 +277,7 @@ class GeneralCustomHelper{
     }
 
     public static function signedReconcileAck($ResId, $statusCode) {
-        $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";
+        $PRIVATE_KEY =__DIR__."/ict_commissionprivate.pfx";
         $KEY_PASSWORD =  env('GEPG_KEYPASS');
 
         if (!$cert_store = file_get_contents($PRIVATE_KEY)) {
@@ -305,7 +305,7 @@ class GeneralCustomHelper{
     }
 
     public static function signedCancellationAck($ResId, $statusCode) {
-        $PRIVATE_KEY =__DIR__."/gepgclientprivate_2.pfx";
+        $PRIVATE_KEY =__DIR__."/ict_commissionprivate.pfx";
         $KEY_PASSWORD =  env('GEPG_KEYPASS');
 
         if (!$cert_store = file_get_contents($PRIVATE_KEY)) {

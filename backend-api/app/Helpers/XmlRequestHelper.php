@@ -15,7 +15,7 @@ class XmlRequestHelper
         //Function to get Data string
 
         $bill_exp = Carbon::now()->addMonths(10)->format('Y-m-d\TH:i:s');
-        if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
+        if (!$cert_store = file_get_contents(__DIR__."/ict_commissionprivate.pfx")) {
             Log::info(["\n\n --------Error: \n *** Unable to read the cert file\n"]);
             exit;
         }
@@ -118,7 +118,7 @@ class XmlRequestHelper
     public static function GepgReconciliationRequest($reconsileDate){
         $fileKeyPass = env('GEPG_KEYPASS');
         //Function to get Data string
-        if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
+        if (!$cert_store = file_get_contents(__DIR__."/ict_commissionprivate.pfx")) {
             Log::info(["--------Error: \n *** Unable to read the cert file\n"]);
             exit;
         }
@@ -176,7 +176,7 @@ class XmlRequestHelper
         $fileKeyPass = env('GEPG_KEYPASS');
         //Function to get Data string
 
-        if (!$cert_store = file_get_contents(__DIR__."/gepgclientprivate_2.pfx")) {
+        if (!$cert_store = file_get_contents(__DIR__."/ict_commissionprivate.pfx")) {
             Log::info(["-------- Error: *** Unable to read the cert file\n"]);
             exit;
         }
