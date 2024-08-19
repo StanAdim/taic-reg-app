@@ -5,14 +5,17 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
 
     const globalStore = useGlobalDataStore()
     //Stores
-    const allDocument= ref <DocumentMaterial[]>([]);
+    const allDocuments= ref <DocumentMaterial[]>([]);
     const eventDocuments= ref <DocumentMaterial[]>([]);
+    const documentUploadModalStatus= ref <boolean>(false);
 
     //Computed
-    const getSystemDocument = computed(() => {return eventDocuments.value})
-    const getEventDocument = computed(() => {return allDocument.value})
+    const getEventDocument = computed(() => {return eventDocuments.value})
+    const getAllDocs = computed(() => {return allDocuments.value})
+    const getDocumentUploadDialogStatus = computed(() => {return documentUploadModalStatus.value})
 
     //Actions
+    const toggleDocumentUploadModalStatus = (state) =>  documentUploadModalStatus.value = state;
     const uploadNewDocument = async (passedData)=> {
         // Make the API request to upload the file
         await useApiFetch("/sanctum/csrf-cookie");
@@ -29,6 +32,8 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
             });
             if(data.value){
                 const message = 'Document uploaded successfully!';
+                await  retrieveAllDocuments()
+                toggleDocumentUploadModalStatus(false)
                 globalStore.assignAlertMessage(message, 'success');
             }
             if(error.value){
@@ -40,12 +45,22 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
             globalStore.assignAlertMessage(message, 'error');
         }
     }
-    const handleEventDocument = async ()=> {
-        console.log(passedUserInfo)
+    async function retrieveAllDocuments() {
+        globalStore.toggleContentLoaderState('on')
+        const { data, error } = await useApiFetch(`/api/events-documents`);
+        if(data.value){
+            allDocuments.value = data.value?.data;
+            globalStore.toggleContentLoaderState('off');
+        }
+        else {
+            globalStore.toggleContentLoaderState('off');
+            globalStore.assignAlertMessage(error.value?.data?.message, 'error')
+        }
     }
-    return {
-        getEventDocument,getSystemDocument,
-        uploadNewDocument,handleEventDocument
 
+    return {
+        getAllDocs,getEventDocument,
+        getDocumentUploadDialogStatus,toggleDocumentUploadModalStatus,
+        uploadNewDocument,retrieveAllDocuments
     }
 })

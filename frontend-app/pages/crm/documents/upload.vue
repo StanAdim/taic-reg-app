@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useBillStore } from "~/stores/useBillStore";
-import NoData from "~/components/usables/noData.vue";
 import { useEventStore } from '~/stores/useEventStore';
 import { useGlobalDataStore } from '~/stores/useGlobalDataStore';
 import { ref } from 'vue';
@@ -55,6 +53,7 @@ const handleFileUpload = async () => {
 // Initialize data on component load
 const init = async () => {
   await eventStore.retrieveEvents();
+  await docStore.retrieveAllDocuments();
 };
 
 onNuxtReady(() => {

@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('document_materials', function (Blueprint $table) {
-            $table->uuid('uid')->unique();
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('path');
             $table->string('file_name');

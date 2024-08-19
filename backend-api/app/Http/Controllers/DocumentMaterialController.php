@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EventDocumentResource;
 use App\Models\DocumentMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,11 +32,12 @@ class DocumentMaterialController extends Controller
         ]);
 
         // Handle the file upload
+        return $request->hasFile('document');
         if ($request->hasFile('document')) {
             $file = $request->file('document');
             $user_id = Auth::id();
             // Generate a unique file name
-            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $filename = $request->file('name').'-'.Str::uuid() . '.' . $file->getClientOriginalExtension();
             // Store directory
             // $file->move($this->destinationPath, $filename);
             $filePath = $file->storeAs('/public/events/documents', $filename);
@@ -45,7 +47,7 @@ class DocumentMaterialController extends Controller
             $document->user_id = $user_id;
             $document->conference_id = $request->conference_id;
             $document->file_name = $file->getClientOriginalName();
-            $document->path = $filePath;
+            $document->path = $filename;
             $document->save();
 
             return response()->json([
@@ -60,9 +62,22 @@ class DocumentMaterialController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function index()
     {
         //
+        $conferenceDocs = EventDocumentResource::collection(DocumentMaterial::all()->sortByDesc('createdDate'));
+        if($conferenceDocs){
+            return response()->json([
+                'message'=> "Conference Docs Fetch Success",
+                'data' => $conferenceDocs,
+                'code' => 200,
+            ]);
+        }
+        return response()->json([
+            'message'=> "No Docs found",
+            'code' => 300,
+        ]);
+        
     }
 
     /**

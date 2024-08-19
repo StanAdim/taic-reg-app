@@ -55,6 +55,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
 
      // Conference Document Material
      Route::post('/upload-document', [DocumentMaterialController::class, 'upload']);
+     Route::get('/events-documents', [DocumentMaterialController::class, 'index']);
 
     //Conferences ------------
 
