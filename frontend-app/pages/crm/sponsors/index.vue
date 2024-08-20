@@ -8,8 +8,10 @@ definePageMeta({
 const globalData = useGlobalDataStore()
 </script>
 <template>
+      <div class="">
         <AdminThePageTitle title="app Sponsors" />
-    <div>
-        
-    </div>
+        <div>
+
+        </div>
+      </div>
 </template>

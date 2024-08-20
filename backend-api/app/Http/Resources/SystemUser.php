@@ -25,7 +25,7 @@ class SystemUser extends JsonResource
             'userName'=> $this->firstName.' '. $this->middleName. ' '. $this->lastName,
             'role'=> $this->role->name,
             'isVerified'=> $this->email_verified_at? 1: 0,
-            'userInfo'=> $this->userInfo ,
+            'userInfo'=> new UserInfoResource($this->userInfo ),
             'registrationDate'=> Carbon::parse($this->created_at)->format('M j, Y, H:i'),
         ];  
       }

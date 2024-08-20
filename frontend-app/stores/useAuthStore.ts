@@ -33,13 +33,15 @@ export const useAuthStore = defineStore('auth', ()=> {
     }
     //Fetch Application Users
     async function retrieveAppUsers(){
+        globalStore.toggleContentLoaderState('on')
         const {data,error} = await useApiFetch('/api/application-users');
         if(data.value){
-            globalStore.toggleLoadingState('off')
             globalStore.assignAlertMessage(data.value.message, 'success')
             appUsers.value = data.value as LoggedUser
+        }else {
+            console.log(error.value)
         }
-        return {data,error}
+        globalStore.toggleContentLoaderState('off')
     }
     // resend Verification
     async function resendEmailVerification(){

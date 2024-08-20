@@ -2,7 +2,6 @@
 definePageMeta({
   middleware:'auth'
 })
-const config = useRuntimeConfig().public
 const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
 const route = useRoute()

@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SystemUser;
-use App\Http\Resources\UserResource;
 use App\Models\Professional;
 use App\Models\User;
 use App\Models\UserInfo;
-use Database\Seeders\ProfessionalSeeder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserInfoController extends Controller
@@ -96,7 +93,7 @@ class UserInfoController extends Controller
          if ($user) { 
             $subscriptions = $user->subscriptions ;
             $bills = $user->bills ;
-            $data = array_merge(['user'=> $user], ['subscriptions'=>$subscriptions, 'bills'=> $bills]);          // Update the email verification status
+            $data = array_merge(['user'=> $user] , ['subscriptions'=>$subscriptions->count(), 'bills'=> $bills->count()]);          // Update the email verification status
             return response()->json([
                 'message' => 'User Details retrieved',
                 'data' => $data 

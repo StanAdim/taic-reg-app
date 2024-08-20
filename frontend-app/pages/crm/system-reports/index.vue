@@ -8,8 +8,11 @@ definePageMeta({
 const globalData = useGlobalDataStore()
 </script>
 <template>
-        <AdminThePageTitle title="SYSTEM REPORTS" />
+  <div class="">
+    <AdminThePageTitle title="SYSTEM REPORTS" />
     <div>
-          <p>System Reports</p>
+      <p>System Reports</p>
     </div>
+  </div>
+
 </template>

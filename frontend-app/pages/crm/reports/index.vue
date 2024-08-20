@@ -14,7 +14,7 @@ definePageMeta({
     <div class="flex flex-wrap justify-between flex-row border border-sky-100 p-4 rounded-md">
       <div class="mx-auto bg-white shadow-lg rounded-lg overflow-hidden w-full">
         <div class="my-2">
-          <p>Waiting...</p>
+          <p class="p-2">Waiting...</p>
         </div>
       </div>
     </div>

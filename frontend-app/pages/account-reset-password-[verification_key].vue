@@ -34,7 +34,7 @@ const handleFormSubmit = async () => {
       <div class="heading">Password Reset</div>
       <form @submit.prevent="handleFormSubmit()" class="form">
         <input required="" class="input" type="password" v-model="resetForm.password" id="password" placeholder="New Password">
-        <input required="" class="input" type="password" v-model="resetForm.password_confirm" id="password" placeholder="Confirm Password">
+        <input required="" class="input" type="password" v-model="resetForm.password_confirm" id="password_confirm" placeholder="Confirm Password">
         <p class="text-orange-600 my-2">{{warning}}</p>
         <input class="password-reset-btn" type="submit" value="Reset password">
       </form>
