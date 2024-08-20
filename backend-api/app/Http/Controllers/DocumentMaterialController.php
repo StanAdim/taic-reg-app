@@ -7,7 +7,6 @@ use App\Models\DocumentMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 
 
 
@@ -22,8 +21,7 @@ class DocumentMaterialController extends Controller
     {
         $this->destinationPath = 'events/documents';
     }
-    public function upload(Request $request )
-    {
+    public function upload(Request $request ){
         // Validate the request
         $request->validate([
             'document' => 'required|extensions:pdf,xlsx|max:2048', // less 2MB
@@ -32,7 +30,6 @@ class DocumentMaterialController extends Controller
         ]);
 
         // Handle the file upload
-        return $request->hasFile('document');
         if ($request->hasFile('document')) {
             $file = $request->file('document');
             $user_id = Auth::id();
@@ -40,7 +37,7 @@ class DocumentMaterialController extends Controller
             $filename = $request->file('name').'-'.Str::uuid() . '.' . $file->getClientOriginalExtension();
             // Store directory
             // $file->move($this->destinationPath, $filename);
-            $filePath = $file->storeAs('/public/events/documents', $filename);
+            $filePath = $file->storeAs('events/documents', $filename, 'public');
             // Save file information to the database
             $document = new DocumentMaterial();
             $document->name = $request->name;

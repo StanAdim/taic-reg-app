@@ -42,14 +42,14 @@ class GeneralCustomHelper{
     }
 
     public static function isVerifyPayload($vdata, $vsignature){
-        $fileKeyPass = env('GEPG_KEYPASS');
+        $gepgPublicKeyPass = env('GEPG_PUBLIC');
         //Get Certificate contents
         if (!$pcert_store = file_get_contents(__DIR__."/gepgpubliccertificate.pfx")) {
             Log::info("---Error: Unable to read the cert file\n");
             exit;
         }else{
             //Read Certificate
-            if (openssl_pkcs12_read($pcert_store, $pcert_info, $fileKeyPass)) {
+            if (openssl_pkcs12_read($pcert_store, $pcert_info, $gepgPublicKeyPass)) {
                 //Decode Received Signature String
                 $rawsignature = base64_decode($vsignature);
                 $verified_data = '';

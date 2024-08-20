@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 class XmlRequestHelper
 {
     public static function GepgSubmissionRequest($billingData){
-        $fileKeyPass = env('GEPG_KEYPASS');
+        $ictcFileKeyPass = env('GEPG_KEYPASS');
         $collectionCenCode = env('GEPG_COLLECTIONCENCODE');
         $Gsfcode = env('GEPG_GSFCODE');
         $SubSpCode = env('GEPG_SUBSPCODE');
@@ -22,7 +22,7 @@ class XmlRequestHelper
         else
         {
             $id = $billingData->id;
-            if (openssl_pkcs12_read($cert_store, $cert_info, $fileKeyPass)){
+            if (openssl_pkcs12_read($cert_store, $cert_info, $ictcFileKeyPass)){
                 //Bill Request
                 $spcode =env('GEPG_SPCODE');
                 $systemid =env('GEPG_SYSTEMID');
@@ -116,7 +116,7 @@ class XmlRequestHelper
     }
 
     public static function GepgReconciliationRequest($reconsileDate){
-        $fileKeyPass = env('GEPG_KEYPASS');
+        $ictcFileKeyPass = env('GEPG_KEYPASS');
         //Function to get Data string
         if (!$cert_store = file_get_contents(__DIR__."/ict_commissionprivate.pfx")) {
             Log::info(["--------Error: \n *** Unable to read the cert file\n"]);
@@ -124,7 +124,7 @@ class XmlRequestHelper
         }
         else
         {
-            if (openssl_pkcs12_read($cert_store, $cert_info, $fileKeyPass)){
+            if (openssl_pkcs12_read($cert_store, $cert_info, $ictcFileKeyPass)){
                 //Bill Request
                 $systemid =env('GEPG_SYSTEMID');
                 $SpGrpCode =env('GEPG_SPGRPCODE');
@@ -173,7 +173,7 @@ class XmlRequestHelper
     }
 
     public static function GepgCancellationRequest($billingData, $cancelledBy, $reason = "Customer over bill"){
-        $fileKeyPass = env('GEPG_KEYPASS');
+        $ictcFileKeyPass = env('GEPG_KEYPASS');
         //Function to get Data string
 
         if (!$cert_store = file_get_contents(__DIR__."/ict_commissionprivate.pfx")) {
@@ -182,7 +182,7 @@ class XmlRequestHelper
         }
         else {
 
-            if (openssl_pkcs12_read($cert_store, $cert_info, $fileKeyPass)){
+            if (openssl_pkcs12_read($cert_store, $cert_info, $ictcFileKeyPass)){
                 //Bill Request
                 $systemid =env('GEPG_SYSTEMID');
                 $spGrpCode = env('GEPG_SPGRPCODE') ;
