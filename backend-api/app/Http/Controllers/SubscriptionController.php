@@ -46,16 +46,16 @@ class SubscriptionController extends Controller
         $newItem = ['user_id' => $user_id, 'conference_id' => $eventId,];
 
         // Check if user has  Subscribed already
-        $isUserSubscribed = Subscription::where('conference_id', $eventId)
-        ->where('user_id', $user_id)
-        ->exists();
-        if($isUserSubscribed){
-            return response()->json([
-                'message'=> "This event is Booked!",
-                'code'=> 300
-            ]);
-        } // If not Created Bill for subscription
-        else 
+        // $isUserSubscribed = Subscription::where('conference_id', $eventId)
+        // ->where('user_id', $user_id)
+        // ->exists();
+        // if($isUserSubscribed){
+        //     return response()->json([
+        //         'message'=> "This event is Booked!",
+        //         'code'=> 300
+        //     ]);
+        // } // If not Created Bill for subscription
+        // else 
         {
             $newBill = [
                 'user_id' => $user_id,
@@ -135,43 +135,43 @@ class SubscriptionController extends Controller
         }
     }
     public function unsubscribeUserFromEvent(Request $request){
-    // Check if the user is subscribed to the event
-    $validator = Validator::make($request->all(),[
-        'event_id' => 'required',
-        'user_id' => 'required', ]);
-    if($validator->fails()){
-        return response()->json([
-            'message'=> 'Validation fails',
-            'errors'=> $validator->errors()
-        ],422);
-    }
-    $newItem = $validator->validate();
-    $subscription = DB::table('subscriptions')
-        ->where('user_id', $newItem["user_id"])
-        ->where('conference_id', $newItem["event_id"])
-        ->first();
-        $authUser = Auth::user();
-        $isAdmin = $authUser->role->name == "admin";
-
-    if ($subscription && $isAdmin ) {
-        // Unsubscribe the user from the event
-        DB::table('subscriptions')
+        // Check if the user is subscribed to the event
+        $validator = Validator::make($request->all(),[
+            'event_id' => 'required',
+            'user_id' => 'required', ]);
+        if($validator->fails()){
+            return response()->json([
+                'message'=> 'Validation fails',
+                'errors'=> $validator->errors()
+            ],422);
+        }
+        $newItem = $validator->validate();
+        $subscription = DB::table('subscriptions')
             ->where('user_id', $newItem["user_id"])
             ->where('conference_id', $newItem["event_id"])
-            ->delete();
+            ->first();
+            $authUser = Auth::user();
+            $isAdmin = $authUser->role->name == "admin";
 
-        // Return a success response
-        return response()->json([
-            'message' => "User unsubscribed from the event successfully.",
-            'code' => 200
-        ], 200);
-    } else {
-        // Return an error response if the user was not subscribed
-        return response()->json([
-            'message' => "User is not subscribed to this event.",
-            'code' => 404
-        ], 404);
-    }
+        if ($subscription && $isAdmin ) {
+            // Unsubscribe the user from the event
+            DB::table('subscriptions')
+                ->where('user_id', $newItem["user_id"])
+                ->where('conference_id', $newItem["event_id"])
+                ->delete();
+
+            // Return a success response
+            return response()->json([
+                'message' => "User unsubscribed from the event successfully.",
+                'code' => 200
+            ], 200);
+        } else {
+            // Return an error response if the user was not subscribed
+            return response()->json([
+                'message' => "User is not subscribed to this event.",
+                'code' => 404
+            ], 404);
+        }
 
     }
 }
