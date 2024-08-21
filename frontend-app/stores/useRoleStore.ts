@@ -14,18 +14,24 @@ export const useRoleStore = defineStore('roleStore', () => {
 
     //Actions
     async function retrieveSystemRoles() {
-        const { data, error } = await useApiFetch(`/api/booth-request`);
+        globalStore.toggleContentLoaderState('on')
+        const { data, error } = await useApiFetch(`/api/role`);
         if(data.value){
-            systemRoles.value = data.value?.data;
+            systemRoles.value = data.value;
+            globalStore.assignAlertMessage('Roles received', 'success')
+            globalStore.toggleContentLoaderState('off')
+
         }
         else {
             globalStore.assignAlertMessage(error.value?.data?.message, 'error')
+            globalStore.toggleContentLoaderState('off')
+
         }
     }
     async function retrieveSystemPermissions() {
-        const { data, error } = await useApiFetch(`/api/booth-request`);
+        const { data, error } = await useApiFetch(`/api/permission`);
         if(data.value){
-            systemPermissions.value = data.value?.data;
+            systemPermissions.value = data.value;
         }
         else {
             globalStore.assignAlertMessage(error.value?.data?.message, 'error')

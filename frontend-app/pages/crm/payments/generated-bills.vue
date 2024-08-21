@@ -24,15 +24,17 @@ onNuxtReady(()=> {
   <div class="">
     <AdminThePageTitle title="PAYMENTS RECORD" />
       <h2 class="text-sky-700 font-bold">All Bills Generated</h2>
-    <UsablesContentLoading />
     <div class="flex flex-wrap justify-between flex-row border border-sky-100 p-4 rounded-md">
       <div class="bg-white shadow-lg rounded-lg ">
         <div class="my-4">
           <template  v-if="globalStore.hasPermission('can_view_bills')">
             <div class="mt-2">
-              <UsablesNoData v-if="billStore.getAllBills.length === 0" source="Bill Payments" />
+              <UsablesNoData v-if="billStore.getAllBills.length !== 0" source="Bill Payments" />
               <AdminPartialsBillsGeneratedTable />
             </div>
+          </template>
+          <template v-else>
+            <UsablesContentLoading />
           </template>
         </div>
       </div>

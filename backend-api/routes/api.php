@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('bill/receive-controll', [BillController::class,'receiveControlNumber']);
 Route::post('bill/receive-payment', [BillController::class,'handlePayment']);
 Route::post('bill/reconciliation-response', [BillController::class,'handleGepgReconcileRes']);
+
 Route::middleware(['auth:sanctum'])->get('/auth/user', [AuthenticatedSessionController::class,'authUserCall']);
 Route::get('/test',function(){  $eventName = 'Taic Event'; return view('pdf.receipt',compact(['eventName']));});
 Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmail']);

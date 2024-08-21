@@ -28,7 +28,7 @@ onNuxtReady(()=> {
 
 <template>
   <div class="">
-    <AdminThePageTitle title="PAYMENTS HISTORY" />
+    <AdminThePageTitle title="BILL INVOICES" />
       <h2 class="text-sky-700 font-bold">Bills Generated</h2>
     <UsablesContentLoading />
     <div class="flex flex-wrap justify-between flex-row border border-sky-100 p-4 rounded-md">

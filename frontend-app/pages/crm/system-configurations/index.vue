@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ContentLoading from "~/components/usables/contentLoading.vue";
+
 useHead({
     title: 'TAIC - Timetable'
 })
@@ -7,6 +9,7 @@ definePageMeta({
 })
 
 const globalData = useGlobalDataStore()
+const roleStore = useRoleStore()
 import type { TabsPaneContext } from 'element-plus'
 
 const activeName = ref('first')
@@ -14,7 +17,14 @@ const activeName = ref('first')
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
-
+const init = async  ()=> {
+   await roleStore.retrieveSystemPermissions()
+   await roleStore.retrieveSystemRoles()
+}
+onNuxtReady(()=> {
+  init()
+})
+const rolesHeader = [{name: "Name", key: 'name'}]
 </script>
 <template>
   <div class="">
@@ -25,9 +35,14 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
         <el-tab-pane label="Role Configuration" name="first">
           <div class="">
             <p>Roles</p>
-            <ul>
-              <li></li>
-            </ul>
+            <div class="">
+              <template v-if="roleStore.getSystemRoles.length !== 0">
+                <UsablesSimpleDataTable :headers="rolesHeader" :data="roleStore.getSystemRoles" />
+              </template>
+              <template v-else>
+                <UsablesContentLoading />
+              </template>
+            </div>
           </div>
 
         </el-tab-pane>
