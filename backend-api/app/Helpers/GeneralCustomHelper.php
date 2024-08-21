@@ -43,8 +43,9 @@ class GeneralCustomHelper{
 
     public static function isVerifyPayload($vdata, $vsignature){
         $gepgPublicKeyPass = env('GEPG_PUBLIC');
+        $gepgPublicCertificate = env('GEPG_PUBLIC_CERT');
         //Get Certificate contents
-        if (!$pcert_store = file_get_contents(__DIR__."/gepgpubliccertificate.pfx")) {
+        if (!$pcert_store = file_get_contents(__DIR__.$gepgPublicCertificate)) {
             Log::info("---Error: Unable to read the cert file\n");
             exit;
         }else{

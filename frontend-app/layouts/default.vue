@@ -43,7 +43,7 @@ const handleLinkActive = (routeLink: string) => {
             </span>
             </div>
           </div>
-          <div class="flex flex-col flex-grow p-4 overflow-auto">
+          <div class="flex flex-col flex-grow p-4 w-96">
             <template v-if="authStore.getLoggedUser?.email_verified_at">
               <template v-for="route in sidebarRoutes">
                 <nuxt-link  @click="handleLinkActive(route.path)"
@@ -58,12 +58,6 @@ const handleLinkActive = (routeLink: string) => {
             <template v-else>
               <!--            <p class="text-sm text-white bg-red-600 px-2 py-0.5 rounded-md text-center">Verify your Email First</p>-->
             </template>
-
-            <!--          <a class="flex items-center flex-shrink-0 h-10 px-3 mt-auto text-sm font-medium bg-gray-200 rounded hover:bg-emerald-300"-->
-            <!--             href="#">-->
-            <!--            <i class="fa fa-plus"></i>-->
-            <!--            <span class="ml-2 leading-none">New Item</span>-->
-            <!--          </a>-->
           </div>
 
         </div>

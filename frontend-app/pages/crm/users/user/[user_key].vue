@@ -13,7 +13,7 @@ const init = async  ()=> {
 onNuxtReady(()=> {
    init()
 })
-
+const goTo = () => navigateTo('/crm/users')
 </script>
 
 <template>
@@ -85,7 +85,7 @@ onNuxtReady(()=> {
 
         <!-- Action Buttons -->
         <div class="mt-8 flex justify-end space-x-4">
-          <button class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">Edit Profile</button>
+          <button @click="goTo()" class="px-4 py-0.5 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600">Go back</button>
         </div>
       </div>
     </template>

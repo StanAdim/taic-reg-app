@@ -67,10 +67,10 @@ onNuxtReady(()=> {
               <span v-else class="text-red-600"><i class="fa fa-dot-circle fa-xl"></i></span>
             </td>
             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-            <span @click="goToUser(item.userKey)"
+            <div @click="goToUser(item.userKey)"
                   class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-sky-400 bg-sky-600 ">
-              <p class="text-sm font-normal mx-3"><i class="fa-solid fa-receipt"></i></p>
-            </span>
+              <p class="text-sm font-normal mx-3"><i class="fa-solid fa-circle-info"></i></p>
+            </div>
               <div
                   class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-yellow-400 bg-yellow-600 ">
                 <p class="text-sm font-normal mx-3"><i class="fa fa-lock"></i></p>
@@ -81,7 +81,7 @@ onNuxtReady(()=> {
               </div>
               <div
                   class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-zinc-400 bg-zinc-600">
-                <p class="text-sm font-normal mx-3"><i class="fa fa-anchor-circle-check"></i></p>
+                <p class="text-sm font-normal mx-3"><i class="fa-solid fa-pen-ruler"></i></p>
               </div>
             </td>
           </tr>

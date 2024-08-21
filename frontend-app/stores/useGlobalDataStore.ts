@@ -38,6 +38,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         {name: 'Documents', path: '/crm/documents', userRole: '', isActiveLink:false},
         // {name: 'Uploads', path: '/crm/documents/upload', userRole: 'admin', isActiveLink:false},
         {name: 'System Reports', path: '/crm/reports', userRole: 'admin', isActiveLink:false},
+        {name: 'Configuration', path: '/crm/system-configurations', userRole: 'admin', isActiveLink:false},
     ])
 
     //computed property

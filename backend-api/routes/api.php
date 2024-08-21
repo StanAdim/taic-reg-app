@@ -16,6 +16,8 @@ use App\Http\Controllers\Taic\SpeakerController;
 use App\Http\Controllers\Taic\TimetableController;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\ExhibitionBoothController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('bill/receive-controll', [BillController::class,'receiveControlNumber']);
@@ -87,6 +89,10 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     
     Route::apiResource('/booth-request', ExhibitionRequestController::class);
     Route::apiResource('/exhibition-booth', ExhibitionBoothController::class);
+    Route::apiResource('/role', RoleController::class);
+    Route::apiResource('/permission', PermissionController::class);
+
+    
 });
 Route::get('/test-2', [BillController::class, 'generateCustomQrCode']);
     

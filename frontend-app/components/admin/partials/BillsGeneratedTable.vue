@@ -110,8 +110,8 @@ const handleBillDownloading = async (docType, row) => {
     </div>
 
     <!-- Scrollable Table -->
-    <div class="overflow-x-auto rounded-lg shadow-lg">
-      <table class="max-w-full bg-white rounded-lg overflow-hidden">
+    <div class="overflow-auto rounded-lg shadow-lg">
+      <table class="max-w-full bg-white rounded-lg overflow-x-auto">
         <thead class="bg-gray-100">
         <tr>
           <th
@@ -128,9 +128,7 @@ const handleBillDownloading = async (docType, row) => {
             v-for="(item, index) in filterTableData"
             :key="item.id"
             class="hover:bg-gray-50">
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-            {{ index + 1 }}
-          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ index + 1 }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.user }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.name }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.conferenceFee }}</td>
