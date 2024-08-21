@@ -49,7 +49,7 @@ class GeneralController extends Controller
         $conferences = Conference::all()->count();
         $booths = ExhibitionBooth::all()->count();
         $booth_request = ExhibitionRequest::all()->count();
-        $activeConferences = Conference::where('status', 0)->count();
+        $activeConferences = Conference::where('status', 1)->count();
         $settle_payments = Bill::where('status', 1)->count();
         $booked_events = $authUser->subscriptions->count();
         $bills = $authUser->bills->count();
