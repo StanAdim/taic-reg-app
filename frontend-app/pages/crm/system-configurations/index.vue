@@ -46,9 +46,9 @@ const rolesHeader = [{name: "Name", key: 'name'}]
           </div>
 
         </el-tab-pane>
-        <el-tab-pane label="Task" name="second">
+        <el-tab-pane label="Gepg Configuration" name="second">
           <div class="">
-              <p>System configurations</p>
+              <p>Gepg Configurations</p>
           </div>
 
         </el-tab-pane>

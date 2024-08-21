@@ -14,20 +14,22 @@ const headers = [
     {key:'userName', name:'Name'},{key:'phoneNumber',
     name:' Phone'},{key:'institution',
     name:'Institution'},{key:'region', name:'Region'},{key:'payment', name:'Status'},]
-initialize()
+onNuxtReady(()=> {
+  initialize()
+    }
+)
 </script>
 
 <template>
   <div class="">
-    <AdminThePageTitle title="EVENT DETAILS"/>
+    <AdminThePageTitle :title="`${eventData?.name}EVENT DETAILS`"/>
     <template v-if="eventData">
       <div class="flex justify-center flex-wrap md:flex-nowrap mt-3">
       <div class="container w-full md:w-3/5 border rounded-md p-1 border-sky-600 mx-1 ">
         <div class="ml-3 text-gray-900 block">
           <p
               class=" bg-sky-300 mt-0.5 my-0.5 py-1 px-4 rounded-sm pl-4 text-lg text-sky-900 font-bold">
-            TAIC
-            <span class="text-lg font-medium text-sky-900">{{ eventData?.conferenceYear }}</span>
+            <span class="text-lg font-medium text-sky-900">{{ eventData?.name }}</span>
             <span v-if="eventData?.lock" class=" ml-4 text-xl text-emerald-700 text-right"><i
                 class="fa fa-check-double mx-2"></i></span>
           </p>
@@ -60,13 +62,6 @@ initialize()
         </div>
         <div class="mx-2 my-4 flex justify-center md:justify-normal">
 
-<!--          <button-->
-<!--              v-if="globalStore.hasPermission('can_subscribe_event')"-->
-<!--              class="mx-1 h-8 w-auto bg-teal-500 hover:bg-teal-700 border-teal-500-->
-<!--                            hover:border-teal-700 text-sm border-4 text-white py-0.5 px-2 rounded"-->
-<!--              type="button">-->
-<!--            Attend  <i class="fa-solid fa-right-to-bracket mx-2"></i>-->
-<!--          </button>-->
         </div>
       </div>
       <div class="container w-full md:w-3/5 border rounded-md p-1 border-sky-600 mx-1"

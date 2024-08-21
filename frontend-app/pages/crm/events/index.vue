@@ -22,10 +22,14 @@ const handleEventConfirmation = (passedItem)=> {
   globalStore.toggleConfirmToAttendModalStatus()
   itemToBePassed.value = passedItem
 }
+const goToEvent = (eventId) => navigateTo(`/crm/events/event-${eventId}`);
 async function handleCall(){
     globalStore.toggleLoadingState('on')
     await eventStore.retrieveEvents()
 
+}
+const cancelEvent = () => {
+  console.log('cancel!')
 }
 onNuxtReady(()=> {
     handleCall();
@@ -72,27 +76,36 @@ onNuxtReady(()=> {
                             </p>
 
                         </div>
-    <!--                    <div class="ml-3 block text-teal-900">-->
-    <!--                        <p class="my-0.5 py-0 text-lg text-sky-800 font-medium">Event fees</p>-->
-    <!--                        <span class="mx-3 font-medium">Register Professional:<em class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(item.defaultFee) }} Tsh</em></span>-->
-    <!--                        <span class="mx-3 font-medium">Not Registered | Others: <em class="text-fuchsia-950 p-2">{{ globalStore.separateNumber(item.guestFee) }} Tsh</em></span>-->
-    <!--                        <span class="mx-3 font-medium">Foreigner: <em class="text-fuchsia-950 p-2"> {{ item.foreignerFee * 2760  }} Tsh &asymp; {{ item.foreignerFee }} USD </em></span>-->
-    <!--                    </div>-->
+
 
                         <div class="mx-2 flex justify-end" >
     <!--                          eventDetails-->
-                            <nuxt-link :to="`events/event-${item.id}`">
                               <usables-default-btn
+                                  @click="goToEvent(item.id)"
                                   name="Read more.."
                                   color-name="green"
                                   icon-class="fa-solid fa-newspaper mx-2"/>
-                            </nuxt-link>
                           <template v-if="globalStore.hasPermission('can_modify_event')">
                             <usables-default-btn
                                 @click="openDialog('update', item)"
                                 name=""
                                 color-name="emerald"
                                 icon-class="fa-regular fa-pen-to-square mx-2"/>
+                              <el-popconfirm
+                                  confirm-button-text="Yes"
+                                  cancel-button-text="No"
+                                  :icon="InfoFilled"
+                                  icon-color="#626AEF"
+                                  title="are your sure!!"
+                                  @confirm="eventStore.handleConferenceShowStatus(item.id)"
+                                  @cancel="cancelEvent">
+                                <template #reference >
+                                  <usables-default-btn
+                                      name="Show Status"
+                                      color-name="gray"
+                                      icon-class="fa-solid fa-hurricane"/>
+                                </template>
+                              </el-popconfirm>
 
                             <template v-if="!item?.lock">
                                 <usables-default-btn
@@ -101,8 +114,9 @@ onNuxtReady(()=> {
                                     color-name="sky"
                                     icon-class="fa-brands fa-creative-commons-sampling"/>
                             </template>
+
                           </template>
-                          <usables-default-btn v-if="globalStore.hasPermission('can_subscribe_event')"
+                          <usables-default-btn v-if="globalStore.hasPermission('can_subscribe_event') && item?.status"
                               @click="handleEventConfirmation(item)"
                               name="Register"
                               color-name="teal"

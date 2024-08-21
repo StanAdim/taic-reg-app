@@ -61,7 +61,16 @@ export const useEventStore = defineStore('eventStore', () => {
           globalStore.toggleLoadingState('off')
           await retrieveEvents()
         }
-        return {data, error};
+      }      async function handleConferenceShowStatus (passId: string){
+        globalStore.toggleContentLoaderState('on')
+        const {data, error} = await useApiFetch(`/api/conference/change-status/${passId}`);
+        const dataResponse = data.value as ApiResponse
+        if(dataResponse?.code === 200){
+          globalStore.assignAlertMessage(dataResponse?.message, 'success')
+          eventDialogStatus.value = false;
+          globalStore.toggleContentLoaderState('off')
+          await retrieveEvents()
+        }
       }
       async function fetchSingleEvent(eventId: string){
         globalStore.toggleLoadingState('on')
@@ -89,6 +98,7 @@ export const useEventStore = defineStore('eventStore', () => {
          eventDialogStatus,retrieveEvents,
           getEvents,handleUpComingEvents,
          createUpdateEvent,getSingleEventDetail,
-         handleConferenceActivation,fetchSingleEvent
+         handleConferenceActivation,fetchSingleEvent,
+        handleConferenceShowStatus
         }
     })

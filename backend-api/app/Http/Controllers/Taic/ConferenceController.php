@@ -8,15 +8,18 @@ use App\Http\Resources\Taic\ConferenceResource;
 use App\Http\Resources\UpcomingEventResource;
 use App\Models\Taic\Conference;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ConferenceController extends Controller
 {
 
-    public function index()
-    {
+    public function index(){
         //
-        $conferences = ConferenceResource::collection(Conference::all()->sortByDesc('createdDate'));
+        $isAdmin = Auth::user()->role->name === 'admin';
+        $isAdmin ? $conferences = ConferenceResource::collection(Conference::all()->sortByDesc('createdDate')):
+        $conferences = UpcomingEventResource::collection(Conference::all()->sortByDesc('createdDate'));
+
         if($conferences){
             return response()->json([
                 'message'=> "Conferences Fetch Success",
@@ -28,7 +31,6 @@ class ConferenceController extends Controller
             'message'=> "No Conferences found",
             'code' => 300,
         ]);
-        
     }
 
     public function create(Request $request)
@@ -60,9 +62,7 @@ class ConferenceController extends Controller
             'code'=> 200
         ],200);
     }
-
-    public function getConferenceData(string $uuid)
-    {
+    public function getConferenceData(string $uuid) {
         $tgtConference = ConferenceResource::collection(Conference::where('id',$uuid)->get())->first();
         if($tgtConference){
             return response()->json([
@@ -77,8 +77,7 @@ class ConferenceController extends Controller
         ]);
     }
 
-    public function update(Request $request)
-    {
+    public function update(Request $request){
         $validator = Validator::make($request->all(), [
             "id" => 'required',
             "startDate" => '',
@@ -114,8 +113,8 @@ class ConferenceController extends Controller
             'code' => 300
         ]);
     }
-    public function conferenceActiveate($uuid)
-    {
+
+    public function conferenceActiveate($uuid){
         $tgtConference = Conference::where('id',$uuid)->get()->first();
         if($tgtConference){
             // Dispatching an Event
@@ -134,8 +133,24 @@ class ConferenceController extends Controller
         ]);
     }
 
-    public function getUpcomingEvents()
-    {
+    public function conferenceDeactivate($uuid){
+        $tgtConference = Conference::where('id',$uuid)->get()->first();
+        if($tgtConference){
+            // Dispatching an Event
+            $tgtConference->status = !$tgtConference->status;
+            $tgtConference->save();
+            return response()->json([
+                'message'=> 'Conference Status changed',
+                'code' => 200
+            ]);
+        }
+        return response()->json([
+            'message'=> 'Conference Not Found',
+            'code' => 300
+        ]);
+    }
+
+    public function getUpcomingEvents(){
         //
         $targetUpdated = UpcomingEventResource::collection(Conference::where('status', false)->get());
         if($targetUpdated){

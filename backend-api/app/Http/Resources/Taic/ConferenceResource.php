@@ -33,6 +33,7 @@ class ConferenceResource extends JsonResource
             'guestFee' => $this->guestFee,
             'isFree' => $this->defaultFee === 0 & $this->guestFee  === 0 ,
             'lock' => $this->lock,
+            'status' => $this->status,
             'createdTime' => date('h:i A', strtotime($this->created_at)),
             'createdDate' => date('j F Y', strtotime($this->created_at)),
             'attendees' => count($this->subscriptions),

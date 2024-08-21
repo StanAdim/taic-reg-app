@@ -65,6 +65,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::get('/taic-conferences', [ConferenceController::class,'index']);
     Route::get('/conference-data/{uuid}', [ConferenceController::class,'getConferenceData']);
     Route::get('/conference/activate/{uuid}', [ConferenceController::class,'conferenceActiveate']);
+    Route::get('/conference/change-status/{uuid}', [ConferenceController::class,'conferenceDeactivate']);
     Route::post('/create-conference-data', [ConferenceController::class,'create']);
     Route::post('/update-conference-data', [ConferenceController::class,'update']);
     // Speakers --------------

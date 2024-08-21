@@ -29,7 +29,7 @@ onNuxtReady(() => {
     <div class="flex border border-sky-100 p-4 rounded-md">
       <div class="mx-auto bg-white shadow-lg rounded-lg overflow-hidden w-full">
         <div class="w-full px-4 py-2">
-          <h2  class="text-sky-700 font-bold text-lg my-1">Events you booked</h2>
+          <h2  class="text-sky-700 font-bold text-lg my-1">Events booked</h2>
           <div class="flex justify-center my-2">
             <UsablesContentLoading />
           </div>
