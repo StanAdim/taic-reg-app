@@ -22,7 +22,7 @@ onNuxtReady(()=> {
 
 <template>
   <div class="">
-    <AdminThePageTitle :title="`${eventData?.name}EVENT DETAILS`"/>
+    <AdminThePageTitle :title="`${(eventData?.name.toUpperCase() ?? '' ) } EVENT DETAILS`"/>
     <template v-if="eventData">
       <div class="flex justify-center flex-wrap md:flex-nowrap mt-3">
       <div class="container w-full md:w-3/5 border rounded-md p-1 border-sky-600 mx-1 ">
