@@ -73,12 +73,12 @@ export const useEventStore = defineStore('eventStore', () => {
         }
       }
       async function fetchSingleEvent(eventId: string){
-        globalStore.toggleLoadingState('on')
+        globalStore.toggleContentLoaderState('on')
         const {data, error} = await useApiFetch(`/api/conference-data/${eventId}`);
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
           singleEventDetail.value = dataResponse.data
-          globalStore.toggleLoadingState('off')
+          globalStore.toggleContentLoaderState('off')
         }
         return {data, error};
       }

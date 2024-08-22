@@ -152,7 +152,7 @@ class ConferenceController extends Controller
 
     public function getUpcomingEvents(){
         //
-        $targetUpdated = UpcomingEventResource::collection(Conference::where('status', false)->get());
+        $targetUpdated = UpcomingEventResource::collection(Conference::where('status', true)->get());
         if($targetUpdated){
             return response()->json([
                 'message'=> 'Active Conferences',

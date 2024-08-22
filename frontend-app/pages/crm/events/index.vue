@@ -57,11 +57,11 @@ onNuxtReady(()=> {
               <UsablesContentLoading />
             <ul class="divide-y divide-gray-300 py-1 px-4" v-if="eventStore.getEvents">
                 <UsablesNoData v-if="eventStore.getEvents.length === 0" source="Events" />
-                <li class="mb-3 mt-0.5" v-for="item in eventStore.getEvents" :key="item">
-                    <div class="flex flex-md-column flex-wrap mt-3">
+                <li class="mb-3 mt-0.5 " v-for="item in eventStore.getEvents" :key="item">
+                    <div class="flex flex-md-column  flex-wrap mt-3">
                         <div class="ml-3 text-gray-900 block">
                             <p
-                            class=" bg-blue-200 mt-0.5 my-0.5 py-1 px-4 rounded-sm pl-4 text-lg text-sky-900 font-bold">
+                            class=" bg-blue-200 mt-0.5 my-0.5 py-1 px-4 rounded-sm pl-4 md:text-lg text-sky-900 font-bold">
                               {{ item?.name }}
                             <span class="text-lg font-medium text-sky-900">{{item?.conferenceYear}}</span>
                             <span v-if="item?.lock" class=" ml-4 text-xl text-emerald-700 text-right"><i class="fa fa-check-double mx-2"></i></span>
@@ -69,7 +69,7 @@ onNuxtReady(()=> {
                         </div>
                         <div class="ml-3 block text-teal-900">
                             <p class="my-0.5 py-0 font-medium line-clamp-1	">{{ item.theme }}</p>
-                            <p class="my-0.5 py-0 font-medium line-clamp-1	">Commence on</p>
+                            <p class=" my-0.5 py-0 font-medium line-clamp-1	">Commence on</p>
                             <p class="my-0.5 py-0 font-medium line-clamp-1	">
                               <span class="text-blue-600">{{item.startDate}}</span> -
                               <span class="text-orange-700">{{item.endDate}}</span>
@@ -78,11 +78,11 @@ onNuxtReady(()=> {
                         </div>
 
 
-                        <div class="mx-2 flex justify-end" >
-    <!--                          eventDetails-->
+                        <div class="mx-2 flex md:justify-end flex-wrap gap-2" >
+                          <!--    eventDetails-->
                               <usables-default-btn
                                   @click="goToEvent(item.id)"
-                                  name="Read more.."
+                                  name="Details"
                                   color-name="green"
                                   icon-class="fa-solid fa-newspaper mx-2"/>
                           <template v-if="globalStore.hasPermission('can_modify_event')">
