@@ -75,11 +75,11 @@ export const useBillStore = defineStore('billStore', () => {
                 const url = window.URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
-                link.setAttribute('download', `invoice_${bill_uuid}.pdf`);
+                link.setAttribute('download', `ems_document_${billDocType}_${bill_uuid}_.pdf`);
                 document.body.appendChild(link);
                 link.click();
                 window.URL.revokeObjectURL(url); // Cleanup memory
-                globalStore.assignAlertMessage('Invoice downloaded successfully', 'success');
+                globalStore.assignAlertMessage('Downloaded success', 'success');
             }
 
             if (error.value) {
