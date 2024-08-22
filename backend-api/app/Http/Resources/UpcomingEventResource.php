@@ -28,9 +28,13 @@ class UpcomingEventResource extends JsonResource
             'aboutConference' => $this->aboutConference,
             'defaultFee' => $this->defaultFee,
             'foreignerFee' => $this->foreignerFee,
+            'foreignerFeeInTzs' => $this->foreignerFeeInTzs,
             'guestFee' => $this->guestFee,
+            'isFree' => $this->defaultFee === 0 & $this->guestFee  === 0 ,
             'lock' => $this->lock,
             'status' => $this->status,
+            'createdTime' => date('h:i A', strtotime($this->created_at)),
+
         ];
     }
 }
