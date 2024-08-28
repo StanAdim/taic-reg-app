@@ -1,4 +1,5 @@
 <script setup>
+const authStore = useAuthStore()
 
 // Props for the component
 const props = defineProps({
@@ -10,7 +11,9 @@ const props = defineProps({
       addressingTo: '',
       po_box: '',
       hostPosition: '',
+      email_to: '',
       conference_id: 0,
+      region_Id: 0,
       status: false,
       user_id: 0
     })
@@ -26,27 +29,27 @@ const props = defineProps({
 })
 const invitationStore = useInvitationStore()
 const eventStore = useEventStore()
+const globalStore = useGlobalDataStore()
 // Reactive form data initialized from props
 const formData = reactive({
   id: props.invitationRequest.id,
-  institutionName: props.invitationRequest.institutionName,
+  institutionName: authStore.getLoggedUserInfo?.institution,
+  email_to: props.invitationRequest.email_to,
   addressingTo: props.invitationRequest.addressingTo,
   po_box: props.invitationRequest.po_box,
   hostPosition: props.invitationRequest.hostPosition,
-  // status: props.invitationRequest.status,
   conference_id: props.invitationRequest.conference_id,
-  // user_id: props.invitationRequest.user_id
+  region_Id: props.invitationRequest.region_Id,
 })
 // Handle form submission
 const handleSubmit = async () => {
   try {
     if (props.isUpdateMode) {
       // Update mode: send PUT request
-      // await  boothStore.updateBooth(formData);
+      await  invitationStore.createInvitationRequest(formData);
     } else {
       // Create mode: send POST request
-      console.log(formData)
-      //  await  boothStore.createBooth(formData);
+       await  invitationStore.createInvitationRequest(formData);
     }
   } catch (error) {
     console.error('Error submitting form:', error)
@@ -54,7 +57,7 @@ const handleSubmit = async () => {
   await closeModal()
 }
 const closeModal = async ()=> {
-  // await  boothStore.retrieveBooths();
+   await  invitationStore.retrieveAllInvitationRequests();
   invitationStore.toggleNewInvitationModalStatus(false)
 }
 </script>
@@ -95,6 +98,18 @@ const closeModal = async ()=> {
                 />
               </div>
 
+              <div class="mb-4">
+                <label for="email_to" class="input-label">Receiving Institution Email</label>
+                <input
+                    v-model="formData.email_to"
+                    type="email"
+                    id="email_to"
+                    class="input-form"
+                    placeholder="Company | Institution name"
+                    required
+                />
+              </div>
+
               <!-- Size Input -->
               <div class="mb-4">
                 <label for="size" class="input-label">Address To </label>
@@ -108,21 +123,45 @@ const closeModal = async ()=> {
                 />
               </div>
               <div class="mb-4">
-                <label for="amount" class="input-label">Office PO BOX</label>
+                <label for="hostPosition" class="input-label">Your position </label>
                 <input
-                    v-model="formData.po_box"
+                    v-model="formData.hostPosition"
                     type="text"
-                    id="amount"
+                    id="hostPosition"
                     class="input-form"
-                    placeholder="Eg PO.Box 222 Dodoma"
+                    placeholder="Your designation"
                     required
                 />
               </div>
               <div class="mb-4">
-                <label for="status" class="input-label">Conference | Event </label>
+                <label for="poBox" class="input-label">Office PO BOX</label>
+                <input
+                    v-model="formData.po_box"
+                    type="text"
+                    id="poBox"
+                    class="input-form"
+                    placeholder="Eg PO.Box 222"
+                    required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="region_Id" class="input-label">Region </label>
+                <select
+                    v-model="formData.region_Id"
+                    id="region_Id"
+                    class="input-form"
+                    required
+                >
+                  <option value="0" disabled>Select Region</option>
+                  <option :value="item.id" v-for="item in globalStore.getRegions " :key="item">{{item.name}}</option>
+                </select>
+              </div>
+
+              <div class="mb-4">
+                <label for="conference_id" class="input-label">Conference | Event </label>
                 <select
                     v-model="formData.conference_id"
-                    id="status"
+                    id="conference_id"
                     class="input-form"
                     required
                 >
@@ -136,7 +175,7 @@ const closeModal = async ()=> {
                     type="submit"
                     class="submit-btn"
                 >
-                  {{ isUpdateMode ? 'Update' : 'Create' }}
+                  {{ isUpdateMode ? 'Update' : 'Submit' }} Request
                 </button>
               </div>
             </form>

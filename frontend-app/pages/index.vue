@@ -21,6 +21,7 @@ const handleLogin = async ()=>{
 }
 const date = new Date();
 onNuxtReady(()=> {
+
 })
 </script>
 <template>

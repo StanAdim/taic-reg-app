@@ -16,6 +16,7 @@ use App\Http\Controllers\Taic\SpeakerController;
 use App\Http\Controllers\Taic\TimetableController;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\ExhibitionBoothController;
+use App\Http\Controllers\InvitationRequestController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
@@ -93,6 +94,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::apiResource('/exhibition-booth', ExhibitionBoothController::class);
     Route::apiResource('/role', RoleController::class);
     Route::apiResource('/permission', PermissionController::class);
+    Route::apiResource('/request-invitation-letter',InvitationRequestController::class);
 
     
 });

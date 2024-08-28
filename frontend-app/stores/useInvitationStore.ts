@@ -1,5 +1,3 @@
-import type {ApiResponse, DocumentMaterial} from "~/types/interfaces";
-import {useApiFetch} from "~/composables/useApiFetch";
 
 export const useInvitationStore = defineStore('invitationStore', () => {
 
@@ -17,39 +15,30 @@ export const useInvitationStore = defineStore('invitationStore', () => {
     //Actions
     const toggleNewInvitationModalStatus = (state) =>  invitationModalStatus.value = state;
     const createInvitationRequest = async (passedData)=> {
-        try {
-            for (let [key, value] of passedData.entries()) {
-                console.log(`${key}:`, value);
-            }
-            const { data, error } = await useApiFetch('/anchor/download', {
-                method: 'POST',
-                body: passedData,
-            });
-            if(data.value){
-                const message = 'Document uploaded successfully!';
-                await  retrieveAllInvitationRequests()
-                toggleDocumentUploadModalStatus(false)
-                globalStore.assignAlertMessage(message, 'success');
-            }
-            if(error.value){
-                globalStore.assignAlertMessage(error.value?.message, 'error');
-            }
-        } catch (err) {
-            console.log(error)
-            const message = 'Failed to upload document.';
-            globalStore.assignAlertMessage(message, 'error');
+        const { data, error } = await useApiFetch(`/api/request-invitation-letter`, {
+            method: 'POST',
+            body: passedData,
+        });
+        if(data.value){
+            const message = 'New request initiated!';
+            await  retrieveAllInvitationRequests()
+            toggleNewInvitationModalStatus(false)
+            globalStore.assignAlertMessage(message, 'success');
+        }else {
+            console.log(error.value.data.message)
+            globalStore.assignAlertMessage(error.value?.data?.message, 'error');
         }
     }
     async function retrieveAllInvitationRequests() {
         globalStore.toggleContentLoaderState('on')
-        const { data, error } = await useApiFetch(`/api/events-documents`);
+        const { data, error } = await useApiFetch(`/api/request-invitation-letter`);
         if(data.value){
-            allInvitations.value = data.value?.data;
+            allInvitations.value = data.value;
             globalStore.toggleContentLoaderState('off');
         }
         else {
             globalStore.toggleContentLoaderState('off');
-            globalStore.assignAlertMessage(error.value?.data?.message, 'error')
+            globalStore.assignAlertMessage(error.value?.message, 'error')
         }
     }
 
