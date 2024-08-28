@@ -18,7 +18,7 @@ class ConferenceController extends Controller
         //
         $isAdmin = Auth::user()->role->name === 'admin';
         $isAdmin ? $conferences = ConferenceResource::collection(Conference::all()->sortByDesc('createdDate')):
-        $conferences = UpcomingEventResource::collection(Conference::all()->sortByDesc('createdDate'));
+        $conferences = UpcomingEventResource::collection(Conference::where('status', 1)->get()->sortByDesc('createdDate'));
 
         if($conferences){
             return response()->json([
