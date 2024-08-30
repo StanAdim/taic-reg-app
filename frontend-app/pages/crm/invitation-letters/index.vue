@@ -63,7 +63,7 @@ onNuxtReady(()=>{
           <el-table-column label="Status">
             <template #default="scope">
               <div class="text-left text-xl">
-                <span v-if="scope.row.status"><i class="fa-solid fa-hourglass-half text-yellow-500 font-bold"></i></span>
+                <span v-if="!scope.row.status"><i class="fa-solid fa-hourglass-half text-yellow-500 font-bold"></i></span>
                 <span v-else><i class="fa-solid fa-check text-sky-400 font-bold"></i></span>
               </div>
             </template>
