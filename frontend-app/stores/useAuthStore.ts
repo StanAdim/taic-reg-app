@@ -36,12 +36,15 @@ export const useAuthStore = defineStore('auth', ()=> {
         globalStore.toggleContentLoaderState('on')
         const {data,error} = await useApiFetch(`/api/application-users?page=${page}`);
         if(data.value){
-            globalStore.assignAlertMessage(data.value.message, 'success')
+            // globalStore.assignAlertMessage(data.value.message, 'success')
             appUsers.value = data.value as LoggedUser
+            globalStore.toggleContentLoaderState('off')
+
         }else {
             console.log(error.value)
+            globalStore.toggleContentLoaderState('off')
+
         }
-        globalStore.toggleContentLoaderState('off')
     }
     // resend Verification
     async function resendEmailVerification(){
@@ -169,7 +172,8 @@ export const useAuthStore = defineStore('auth', ()=> {
             globalStore.assignAlertMessage(error.value?.data?.message, 'error');
         }
         return {data,error}
-    }    async function verifyProfessionalNumber(userRegNo : string){
+    }
+    async function verifyProfessionalNumber(userRegNo : string){
         await useApiFetch("/sanctum/csrf-cookie");
         const {data, error} = await useApiFetch("/api/call/professional-details", {
             method: "POST",
@@ -185,6 +189,30 @@ export const useAuthStore = defineStore('auth', ()=> {
             globalStore.assignAlertMessage(error.value?.data?.message, 'error');
         }
     }
+
+    // update user data
+    async  function updateUserData (userKey: string , passedData : object): Promise {
+        const  {data , error} = await  useApiFetch(`/api/admin-update-user-data/${userKey}`, {
+            method:'post',
+            body: passedData
+        })
+        if (data.value){
+            globalStore.assignAlertMessage(data.value.message, 'success')
+            console.log(data.value)
+        }else{
+            globalStore.assignAlertMessage(error.value.data?.message, 'warning')
+        }
+    }
+    // update user Email
+    async  function updateUseRole (userKey: string , roleId : string): Promise {
+        const  {data , error} = await  useApiFetch(`/api/admin-update-user-role/${userKey}-${roleId}`)
+        if (data.value){
+            globalStore.assignAlertMessage(data.value.message, 'success')
+            console.log(data.value)
+        }else{
+            globalStore.assignAlertMessage(error.value.data?.message, 'warning')
+        }
+    }
     return {
         user,login,isLoggedIn,getAuthErrors,saveUserInfo,
         logout,fetchUser,register,getLoggedUser,getUserRole
@@ -195,5 +223,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         sendPasswordResetLink,resetUserPassword,
         verifyProfessionalNumber,
         getProfessionalDetails,
+        updateUserData,
+        updateUseRole
     }
 })

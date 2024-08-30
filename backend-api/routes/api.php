@@ -49,8 +49,11 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
      Route::post('/user-info-create',[UserInfoController::class, 'create']);
      Route::get('/analytics-data',[GeneralController::class, 'countsAnalytics']);
      Route::post('/user/information-update',[UserInfoController::class, 'update']);
+     Route::post('/user/information-update',[UserInfoController::class, 'update']);
      Route::get('/application-users',[UserInfoController::class, 'systemUsers']);
      Route::get('/system-user-{user_key}',[UserInfoController::class, 'retrieveSystemUserDetails']);
+     Route::post('/admin-update-user-data/{userKey}',[RegisteredUserController::class, 'adminUpdateUser']);
+     Route::get('/admin-update-user-role/{userKey}-{roleId}',[RegisteredUserController::class, 'adminUpdateRole']);
 
      Route::get('/subscribe-event/{eventId}', [SubscriptionController::class,'subscribeToEvent']);
      Route::post('/unsubscribe-user-from-event', [SubscriptionController::class,'unsubscribeUserFromEvent']);

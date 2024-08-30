@@ -78,6 +78,35 @@ class RegisteredUserController extends Controller
             'code' => 200
          ]);
     }
+
+    // Admin update user data 
+    public function adminUpdateUser($userKey, Request $request){
+        $validator = Validator::make($request->all(), [
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'message'=> 'Validation fails',
+                'errors'=> $validator->errors()
+            ],422);
+        }
+        $newData = $validator->validate();
+        $id = User::where('verificationKey',$userKey)->get()->first()->id;
+        User::where('id',$id)->update($newData);
+        return response()->json([
+            'message'=> 'Data updated!',
+            'code' => 200
+         ]);
+    }
+    public function adminUpdateRole($userKey, $roleId){
+        $user = User::where('verificationKey',$userKey)->get()->first();
+        $user->role_id = $roleId;
+        $user->save();
+        return response()->json([
+            'message'=> 'User role updated!',
+            'code' => 200
+         ]);
+    }
     public function passwordResetting(Request $request)
     {
         return $request;

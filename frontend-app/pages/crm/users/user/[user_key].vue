@@ -1,14 +1,41 @@
 <script setup lang="ts">
 definePageMeta({middleware:'auth'})
+import {
+  ArrowDown,
+  Check,
+  CircleCheck,
+  CirclePlus,
+  CirclePlusFilled,
+  Plus,
+} from '@element-plus/icons-vue'
 
 const userStore = useUserStore()
+const authStore = useAuthStore()
+const roleStore = useRoleStore()
 const globalStore = useGlobalDataStore()
 const route = useRoute()
 const userData = ref(null)
+const  isEditing = ref(false)
+const toggleEditing =  async  () => {
+  isEditing.value = !isEditing.value
 
+}
+const updateData = async  () => {
+  if (isEditing){
+    const data = ref({
+      email : userData.value?.user?.email
+    })
+    await  authStore.updateUserData(route.params.user_key,data.value)
+  }
+}
+const handleRoleSwitch = async  (role) => {
+  await authStore.updateUseRole(route.params.user_key,role.id)
+  // console.log(role.id)
+}
 const init = async  ()=> {
   await userStore.retrieveSystemUserDetail(route.params.user_key)
   userData.value = userStore.getSystemUserDetail
+  await  roleStore.retrieveSystemRoles()
 }
 onNuxtReady(()=> {
    init()
@@ -28,7 +55,16 @@ const goTo = () => navigateTo('/crm/users')
           <img class="w-24 h-24 rounded-full" src="/speakers/placeholder.png" alt="User Avatar">
           <div>
             <h1 class="text-3xl font-bold text-gray-900">{{ userData?.user?.firstName }} {{userData?.user?.lastName}}</h1>
-            <p class="text-gray-600">{{ userData?.user?.role }}</p>
+              <el-dropdown trigger="click">
+                <span class="el-dropdown-link mx-2">
+                  {{ userData?.user?.role }}<el-icon class="el-icon--right"> <ArrowDown /></el-icon>
+                </span>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item @click="handleRoleSwitch(item)" v-for="item in roleStore.getSystemRoles" :icon="Plus">{{ item.name }}</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
           </div>
         </div>
 
@@ -40,7 +76,24 @@ const goTo = () => navigateTo('/crm/users')
             <!-- Detail Item -->
             <div>
               <p class="text-gray-600 font-semibold">Email</p>
-              <p class="text-gray-800">{{ userData?.user?.email }}</p>
+              <div>
+                <!-- Conditionally render paragraph or input field -->
+                <p
+                    v-if="!isEditing"
+                    class="text-gray-800"
+                    @click="toggleEditing"
+                >
+                  {{ userData?.user?.email || 'Click to add email' }}
+                </p>
+
+                <input
+                    v-else
+                    v-model="userData.user.email"
+                    @blur="toggleEditing"
+                    @keyup.enter="updateData"
+                    class="text-sky-800 w-full border-b-2 border-teal-500 rounded-sm px-0.5 outline-none"
+                />
+              </div>
             </div>
 
             <div>

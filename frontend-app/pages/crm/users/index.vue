@@ -35,7 +35,7 @@ onNuxtReady(()=> {
 
 <template>
   <div class="">
-    <AdminThePageTitle title="REGISTERED SYSTEM USER USERS"/>
+    <AdminThePageTitle title="REGISTERED SYSTEM USERS"/>
     <content-loading />
     <div class=" border border-gray-200 md:rounded-lg p-2 bg-sky-100">
       <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
@@ -84,14 +84,14 @@ onNuxtReady(()=> {
                   class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-yellow-400 bg-yellow-600 ">
                 <p class="text-sm font-normal mx-3"><i class="fa fa-lock"></i></p>
               </div>
-              <div
-                  class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-violet-400 bg-violet-600">
-                <p class="text-sm font-normal mx-3"><i class="fa-solid fa-pen"></i></p>
-              </div>
-              <div
-                  class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-zinc-400 bg-zinc-600">
-                <p class="text-sm font-normal mx-3"><i class="fa-solid fa-pen-ruler"></i></p>
-              </div>
+<!--              <div-->
+<!--                  class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-violet-400 bg-violet-600">-->
+<!--                <p class="text-sm font-normal mx-3"><i class="fa-solid fa-pen"></i></p>-->
+<!--              </div>-->
+<!--              <div-->
+<!--                  class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-zinc-400 bg-zinc-600">-->
+<!--                <p class="text-sm font-normal mx-3"><i class="fa-solid fa-pen-ruler"></i></p>-->
+<!--              </div>-->
             </td>
           </tr>
           </tbody>
