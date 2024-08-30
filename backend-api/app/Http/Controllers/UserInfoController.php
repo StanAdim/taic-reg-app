@@ -72,21 +72,32 @@ class UserInfoController extends Controller
         
     }
 
-    public function systemUsers(){
-        //
-        $users = SystemUser::collection(User::all());
-        if($users){
+    public function systemUsers(Request $request)
+    {
+        // Fetch paginated users, e.g., 10 users per page
+        $perPage = $request->input('per_page', 12); // You can pass 'per_page' in the request
+        $users = User::paginate($perPage);
+    
+        if ($users->isNotEmpty()) {
             return response()->json([
-                'message'=> "Application Users",
-                'data' => $users,
+                'message' => "Application Users",
+                'data' => SystemUser::collection($users),
+                'pagination' => [
+                    'current_page' => $users->currentPage(),
+                    'last_page' => $users->lastPage(),
+                    'per_page' => $users->perPage(),
+                    'total' => $users->total(),
+                    'next_page_url' => $users->nextPageUrl(),
+                    'prev_page_url' => $users->previousPageUrl(),
+                ],
                 'code' => 200,
             ]);
         }
+    
         return response()->json([
-            'message'=> "No users Found",
+            'message' => "No users found",
             'code' => 300,
         ]);
-        
     }
     public function retrieveSystemUserDetails($user_key){
         $user = new SystemUser(User::where('verificationKey',$user_key)->first());

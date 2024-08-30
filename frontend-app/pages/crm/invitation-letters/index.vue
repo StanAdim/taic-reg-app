@@ -60,21 +60,20 @@ onNuxtReady(()=>{
           <template v-if="authStore.getUserRole === 'admin'">
               <el-table-column prop="user" label="Request For"  />
           </template>
-          <el-table-column label="Status">
-            <template #default="scope">
-              <div class="text-left text-xl">
-                <span v-if="!scope.row.status"><i class="fa-solid fa-hourglass-half text-yellow-500 font-bold"></i></span>
-                <span v-else><i class="fa-solid fa-check text-sky-400 font-bold"></i></span>
-              </div>
-            </template>
-          </el-table-column>
-
           <el-table-column prop="institutionName" label="Institution Name"  />
           <el-table-column prop="email_to" label="To-be Sent To"  />
           <el-table-column prop="addressingTo" label="Addressed To"  />
           <el-table-column prop="po_box" label="PO box"  />
           <el-table-column prop="region.name" label="Region"  />
           <el-table-column prop="conference" label="Conference Name"  />
+          <el-table-column label="Status" width="80">
+            <template #default="scope">
+              <div class="text-center text-xl">
+                <span v-if="!scope.row.status"><i class="fa-solid fa-hourglass-half text-yellow-500 font-bold"></i></span>
+                <span v-else><i class="fa-solid fa-check text-sky-400 font-bold"></i></span>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" label="Operations" min-width="120">
             <template #default="scope">
               <el-button v-if="authStore.getUserRole === 'admin'" link type="primary" size="small" @click="goToUser(scope.row.userKey)">

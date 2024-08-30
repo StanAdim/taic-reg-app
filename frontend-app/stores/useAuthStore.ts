@@ -32,9 +32,9 @@ export const useAuthStore = defineStore('auth', ()=> {
         return {data,error}
     }
     //Fetch Application Users
-    async function retrieveAppUsers(){
+    async function retrieveAppUsers(page : number = 1) : Promise<[]>{
         globalStore.toggleContentLoaderState('on')
-        const {data,error} = await useApiFetch('/api/application-users');
+        const {data,error} = await useApiFetch(`/api/application-users?page=${page}`);
         if(data.value){
             globalStore.assignAlertMessage(data.value.message, 'success')
             appUsers.value = data.value as LoggedUser

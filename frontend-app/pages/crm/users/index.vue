@@ -8,12 +8,24 @@ useHead({
   title: 'TAIC - Users'
 })
 const authStore = useAuthStore()
-const initialize = async () => {
-  await authStore.retrieveAppUsers()
-}
+
 const handleSelected = (selectedIds) => {
   const selectedUser = []
   selectedUser.push(selectedIds)
+}
+const currentPage = ref <number>(1)
+const pageSwitchValue = ref(1)
+const movePage = async (type:number) => {
+  if (type === 1){
+    currentPage.value = currentPage.value + pageSwitchValue.value
+  }else {
+    currentPage.value = currentPage.value - pageSwitchValue.value
+  }
+  await authStore.retrieveAppUsers(currentPage.value)
+
+}
+const initialize = async () => {
+  await authStore.retrieveAppUsers(currentPage.value)
 }
 const  goToUser = (pathKey)=> navigateTo(`/crm/users/user/${pathKey}`)
 onNuxtReady(()=> {
@@ -40,14 +52,11 @@ onNuxtReady(()=> {
                 </button>
               </div>
             </th>
-
             <th class="px-4 py-3.5 text-sm  text-center" scope="col">Role</th>
             <th class="px-4 py-3.5 text-sm  text-center" scope="col">Email</th>
             <th class="px-4 py-3.5 text-sm  text-center" scope="col">Registered On</th>
             <th class="px-4 py-3.5 text-sm  text-center" scope="col">Email Verification</th>
             <th class="px-4 py-3.5 text-sm  text-center" scope="col">Actions</th>
-
-
           </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700">
@@ -91,36 +100,22 @@ onNuxtReady(()=> {
         </div>
       </div>
       <div class="flex items-center justify-between mt-6">
-        <a class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100    "
-           href="#">
+        <p class="page-btn"
+           @click="movePage(2)">
           <i class="fa fa-arrow-left"></i>
-          <span>
-                  previous
-              </span>
-        </a>
+          <span>previous</span>
+        </p>
 
-        <div class="items-center hidden md:flex gap-x-3">
-          <a class="px-2 py-1 text-sm text-blue-500 rounded-md  bg-blue-100/60" href="#">1</a>
-          <a class="px-2 py-1 text-sm  rounded-md  hover:bg-gray-100" href="#">2</a>
-          <a class="px-2 py-1 text-sm  rounded-md  hover:bg-gray-100" href="#">3</a>
-          <a class="px-2 py-1 text-sm  rounded-md  hover:bg-gray-100" href="#">...</a>
-          <a class="px-2 py-1 text-sm  rounded-md  hover:bg-gray-100" href="#">12</a>
-          <a class="px-2 py-1 text-sm  rounded-md  hover:bg-gray-100" href="#">13</a>
-          <a class="px-2 py-1 text-sm  rounded-md  hover:bg-gray-100" href="#">14</a>
-        </div>
-
-        <a class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100    "
-           href="#">
-              <span>
-                  Next
-              </span>
-          <i class="fa fa-arrow-right"></i>
-        </a>
+        <p class="page-btn"
+           @click="movePage(1)"><span>Next</span><i class="fa fa-arrow-right"></i>
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-
+.page-btn {
+ @apply flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100
+}
 </style>

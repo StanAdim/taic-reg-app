@@ -62,29 +62,24 @@ const handleLinkActive = (routeLink: string) => {
 
         </div>
         <div class="flex flex-col flex-grow">
-          <div class="flex items-center justify-end flex-shrink-0 h-16 px-1 border-b-2 border-blue-600/30 bg-gray-100">
-          <span :class="{'hidden': !hideSideBar}" class="bg-zinc-100 rounded-md hover:cursor-pointer hover:bg-sky-700 p-0.5 "
-                @click="handleSidebar()">
-            <i class="fa fa-bars mx-2 text-sky-400"></i></span>
-            <div class="hidden md:block text-lg font-medium ml-2"><i
-                class="fa fa-user mx-1"></i>{{ authStore.getLoggedUser?.firstName }}
-              {{ authStore.getLoggedUser?.lastName }}
-            </div>
-            <div class="hidden md:block  font-thin ml-2">
-              <nuxt-link to="#"><i class="fa fa-angles-left mx-2"></i></nuxt-link>
-            </div>
-            <div :class="{'hidden': !hideSideBar}"
-                 class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded ">
-            </div>
-
-            <div class=" text-sm focus:outline-none group">
-              <span class="px-4 py-2 text-left hover:bg-sky-600 hover:text-white rounded-md"
-                    @click.prevent="globalData.toggleUserProfileModalStatus()"
-              ><i class="fa fa-user px-2"></i> Profile</span>
-              <span  class="px-4 py-2 text-left hover:bg-red-600 hover:text-white hover:cursor-pointer justify-center text-sm font-medium bg-red-100  rounded"
-                     @click="handleLogout()"><i class="fa-solid fa-lock mx-1"></i>Logout
-              </span>
-            </div>
+          <div class="flex items-center justify-end gap-2 flex-shrink-0 h-16 border-b-2 border-blue-600/30 bg-gray-100">
+                  <span :class="{'hidden': !hideSideBar}" class="bg-zinc-100 rounded-md hover:cursor-pointer hover:bg-sky-700 p-0.5 "
+                 @click="handleSidebar()"><i class="fa fa-bars mx-2 text-sky-400"></i></span>
+                  <div class="hidden md:block text-lg font-medium ml-2">{{ authStore.getLoggedUser?.firstName }} {{ authStore.getLoggedUser?.lastName }} </div>
+                  <div :class="{'hidden': !hideSideBar}"
+                       class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded ">
+                  </div>
+                  <div class="text-sm sm:mr-10 mr-6">
+                    <el-dropdown placement="bottom-start">
+                      <el-button>My Account </el-button>
+                      <template #dropdown>
+                        <el-dropdown-menu>
+                          <el-dropdown-item @click.prevent="globalData.toggleUserProfileModalStatus()"><i class="fa fa-user pr-4"></i> Profile</el-dropdown-item>
+                          <el-dropdown-item @click="handleLogout()"> <i class="fa-solid fa-lock pr-4"></i> Logout</el-dropdown-item>
+                        </el-dropdown-menu>
+                      </template>
+                    </el-dropdown>
+                  </div>
           </div>
           <div class="flex-grow p-6 overflow-auto bg-white">
             <template v-if="!authStore.getLoggedUser?.email_verified_at">
