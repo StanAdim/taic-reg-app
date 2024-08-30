@@ -59,8 +59,11 @@ class InvitationRequestController extends Controller
      // Fetch a specific invitation request
      public function show($id)
      {
-         $invitationRequest = InvitationRequest::findOrFail($id);
-         return response()->json($invitationRequest, 200);
+        $invitationRequest = InvitationRequest::findOrFail($id);
+        // Updating an status
+        $invitationRequest->status = !$invitationRequest->status;
+        $invitationRequest->save();
+         return response()->json(['message' => 'udpdated'], 200);
      }
  
      // Update an existing invitation request

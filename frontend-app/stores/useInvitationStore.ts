@@ -29,6 +29,17 @@ export const useInvitationStore = defineStore('invitationStore', () => {
             globalStore.assignAlertMessage(error.value?.data?.message, 'error');
         }
     }
+    const updateRequestStatus = async (requestId)=> {
+        const { data, error } = await useApiFetch(`/api/request-invitation-letter/${requestId}`);
+        if(data.value){
+            const message = 'Request status changed!';
+            await  retrieveAllInvitationRequests()
+            globalStore.assignAlertMessage(message, 'success');
+        }else {
+            console.log(error.value.data.message)
+            globalStore.assignAlertMessage(error.value?.data?.message, 'error');
+        }
+    }
     async function retrieveAllInvitationRequests() {
         globalStore.toggleContentLoaderState('on')
         const { data, error } = await useApiFetch(`/api/request-invitation-letter`);
@@ -45,6 +56,7 @@ export const useInvitationStore = defineStore('invitationStore', () => {
     return {
         getInvitationRequests,getSingleInvitation,
         toggleNewInvitationModalStatus,
+        updateRequestStatus,
         createInvitationRequest,retrieveAllInvitationRequests,
         getInvitationModalStatus
     }

@@ -21,6 +21,7 @@ class InvitationLetterResource extends JsonResource
             'institutionName' => $this -> institutionName,
             'conference' => $this -> conference->name,
             'user' =>  $this -> user -> firstName.' '. $this -> user -> middleName. ' '. $this -> user -> lastName,
+            'userKey' =>  $this -> user -> verificationKey,
             "region" => RegionResource::collection(Region::where('id',$this->region_Id)->get())->first(),
             'po_box' => $this -> po_box,
             'hostPosition' => $this -> hostPosition,
