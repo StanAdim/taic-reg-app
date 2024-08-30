@@ -39,10 +39,12 @@ class InvitationRequestController extends Controller
              'cc_To' => 'nullable|array',
              'others' => 'nullable|array',
          ]);
-         $user_id = Auth::id();
-         $merged_data = array_merge($validated , ['user_id'=> $user_id]);
-         $reqExist = InvitationRequest::where('conference_id', $request->conference_id)->exists();
+         $user_id = Auth::id();         
+         $reqExist = InvitationRequest::where('conference_id', $request->conference_id)
+         ->where('user_id', $user_id)
+         ->exists();
         if(!$reqExist){
+            $merged_data = array_merge($validated , ['user_id'=> $user_id]);
             $invitationRequest = InvitationRequest::create($merged_data);
             return response()->json($invitationRequest, 201);
         }else{
