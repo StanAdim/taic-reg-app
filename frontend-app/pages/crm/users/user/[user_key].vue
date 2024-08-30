@@ -15,11 +15,10 @@ const roleStore = useRoleStore()
 const globalStore = useGlobalDataStore()
 const route = useRoute()
 const userData = ref(null)
-const  isEditing = ref(false)
-const toggleEditing =  async  () => {
-  isEditing.value = !isEditing.value
 
-}
+const  isEditing = ref(false)
+const toggleEditing =  async  () => isEditing.value = !isEditing.value
+
 const updateData = async  () => {
   if (isEditing){
     const data = ref({
@@ -75,13 +74,17 @@ const goTo = () => navigateTo('/crm/users')
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <!-- Detail Item -->
             <div>
-              <p class="text-gray-600 font-semibold">Email</p>
+              <p class="text-gray-600 font-semibold">Email
+                <span class="font-bold" @click="toggleEditing">
+                  <i v-if="!isEditing"  class="fa-solid fa-pen-to-square text-emerald-600 mx-2"></i>
+                  <i v-else  class="fa-solid fa-check text-sky-600 mx-2"></i>
+                </span>
+              </p>
               <div>
                 <!-- Conditionally render paragraph or input field -->
                 <p
                     v-if="!isEditing"
                     class="text-gray-800"
-                    @click="toggleEditing"
                 >
                   {{ userData?.user?.email || 'Click to add email' }}
                 </p>

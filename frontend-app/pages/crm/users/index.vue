@@ -14,6 +14,7 @@ const handleSelected = (selectedIds) => {
   selectedUser.push(selectedIds)
 }
 const currentPage = ref <number>(1)
+const per_page = ref <number>(10)
 const pageSwitchValue = ref(1)
 const movePage = async (type:number) => {
   if (type === 1){
@@ -21,11 +22,18 @@ const movePage = async (type:number) => {
   }else {
     currentPage.value = currentPage.value - pageSwitchValue.value
   }
-  await authStore.retrieveAppUsers(currentPage.value)
+  await authStore.retrieveAppUsers(per_page.value,currentPage.value)
 
 }
 const initialize = async () => {
-  await authStore.retrieveAppUsers(currentPage.value)
+  await authStore.retrieveAppUsers(per_page.value,currentPage.value)
+}
+
+// change page number
+const  isEditing = ref(false)
+const toggleEditing =  () => isEditing.value = !isEditing.value
+const  updateData = async () => {
+  await authStore.retrieveAppUsers(per_page.value,currentPage.value)
 }
 const  goToUser = (pathKey)=> navigateTo(`/crm/users/user/${pathKey}`)
 onNuxtReady(()=> {
@@ -105,7 +113,17 @@ onNuxtReady(()=> {
           <i class="fa fa-arrow-left"></i>
           <span>previous</span>
         </p>
-
+          <div class="flex justify-center flex-row gap-2">
+            <div class="">Per page</div>
+            <div class="">
+              <input
+                  v-model="per_page"
+                  @blur="toggleEditing"
+                  @keyup.enter="updateData"
+                  class="text-sky-800 w-16 text-center border-b-2 border-teal-500 rounded-sm px-0.5 outline-none"
+              />
+            </div>
+          </div>
         <p class="page-btn"
            @click="movePage(1)"><span>Next</span><i class="fa fa-arrow-right"></i>
         </p>
