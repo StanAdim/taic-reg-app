@@ -11,6 +11,10 @@ onNuxtReady(()=> {
 <template>
   <div class="flex flex-col">
     <div class="">
+      <LandingHeroSlider />
+
+    </div>
+    <div class="">
       <div class="grid grid-rows-2  md:grid-cols-3 mt-10 gap-2 md:gap-6  mx-10">
         <div class="col-span-2">
           <div class="  bg-white mt-4 md:mt-4 mr-5">
