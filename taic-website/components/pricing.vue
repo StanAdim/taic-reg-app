@@ -5,7 +5,7 @@ const global = useGlobalDataStore()
 const feesSetup = ref([
 ])
 const getSitedData = ref({
-    defaultFee: "420,000",
+    defaultFee: "400,000",
     guestFee: '520,000',
     foreignerFee: 300
 })
