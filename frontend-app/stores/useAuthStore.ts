@@ -166,6 +166,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         if(data.value){
             globalStore.toggleLocalLoaderStatus()
             globalStore.assignAlertMessage(data.value.message, 'success');
+            navigateTo('/')
         }
         else {
             globalStore.toggleLocalLoaderStatus()
