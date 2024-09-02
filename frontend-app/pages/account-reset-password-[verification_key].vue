@@ -9,10 +9,10 @@ const warning = ref('')
 const globalStore = useGlobalDataStore()
 const verificationOnSuccess = ref(false)
 const authStore = useAuthStore()
-const resetForm = ref({password: '', password_confirm: ''})
+const resetForm = ref({password: '', password_confirmation: ''})
 const handleFormSubmit = async () => {
   globalStore.toggleLocalLoaderStatus()
-  if(resetForm.value.password === resetForm.value.password_confirm){
+  if(resetForm.value.password === resetForm.value.password_confirmation){
     resetForm.value.token = route.params.verification_key
     warning.value = ''
     const verifyResponse = await authStore.resetUserPassword(resetForm.value)
@@ -33,8 +33,10 @@ const handleFormSubmit = async () => {
     <div class="container">
       <div class="heading">Password Reset</div>
       <form @submit.prevent="handleFormSubmit()" class="form">
-        <input required="" class="input" type="password" v-model="resetForm.password" id="password" placeholder="New Password">
-        <input required="" class="input" type="password" v-model="resetForm.password_confirm" id="password_confirm" placeholder="Confirm Password">
+        <input required="" class="input" type="password" v-model="resetForm.password"
+               id="password" placeholder="New Password">
+        <input required="" class="input" type="password" v-model="resetForm.password_confirmation"
+               id="password_confirmation" placeholder="Confirm Password">
         <p class="text-orange-600 my-2">{{warning}}</p>
         <input class="password-reset-btn" type="submit" value="Reset password">
       </form>

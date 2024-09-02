@@ -159,7 +159,7 @@ export const useAuthStore = defineStore('auth', ()=> {
     }
     async function resetUserPassword(newUserPass : string){
         await useApiFetch("/sanctum/csrf-cookie");
-        const {data, error} = await useApiFetch("/reset-password", {
+        const {data, error} = await useApiFetch("/api/reset-password", {
             method: "POST",
             body: newUserPass,
         });

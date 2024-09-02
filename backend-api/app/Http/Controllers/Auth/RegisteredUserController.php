@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Password;
 
 
 class RegisteredUserController extends Controller
@@ -107,8 +108,30 @@ class RegisteredUserController extends Controller
             'code' => 200
          ]);
     }
-    public function passwordResetting(Request $request)
-    {
-        return $request;
-    }
+    public function passwordResetting(Request $request){
+            // Validate the incoming request
+            $validator = Validator::make($request->all(), [
+                'password' => 'required|string|min:8|confirmed',
+                'token' => 'required|string',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['message' => 'Validation failed.', 'errors' => $validator->errors()], 422);
+            }
+
+            // Find the user by the provided token
+            $user = User::where('verificationKey', $request->token)->first();
+
+            // If no user is found with the token, return an error response
+            if (!$user) {
+                return response()->json(['message' => 'Invalid token.'], 404);
+            }
+
+            // Attempt to reset the user's password
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            // Return a success response
+            return response()->json(['message' => 'Password has been reset successfully.'], 200);
+        }
 }
