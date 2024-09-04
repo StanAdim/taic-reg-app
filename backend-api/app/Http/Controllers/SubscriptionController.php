@@ -94,7 +94,7 @@ class SubscriptionController extends Controller
                         $billData->save();
                         // Subcribe user to event 
                         Subscription::create($newItem);
-                        Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
+                        // Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
                         return response()->json([
                             'message'=> "Bill generated Successful",
                             'data' => $billData,

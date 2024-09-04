@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\BoothRequestsResouce;
 use App\Mail\BoothRequestMail;
+use App\Mail\ReportBoothReqMail;
 use App\Models\ExhibitionBooth;
 use App\Models\ExhibitionRequest;
 use Exception;
@@ -49,15 +50,17 @@ class ExhibitionRequestController extends Controller
         try{
             $isExist = ExhibitionRequest::where('boothId', $newItem["boothId"])->exists();
             if(!$isExist){
-                $itemCreate = new ExhibitionRequest();
-                $itemCreate->boothId  = $newItem['boothId'];
-                $itemCreate->number  = $newItem['number'];
-                $itemCreate->companyEmail  = $newItem['companyEmail'];
-                $itemCreate->message  = $newItem['message'];
-                $itemCreate->companyName  = $newItem['companyName'];
-                $itemCreate->user_id  = Auth::id();
-                $itemCreate->save();
-                Mail::to(Auth::user()->email)->send(new BoothRequestMail(Auth::user(),$booth->name));
+                $itemCreated = new ExhibitionRequest();
+                $itemCreated->boothId  = $newItem['boothId'];
+                $itemCreated->number  = $newItem['number'];
+                $itemCreated->companyEmail  = $newItem['companyEmail'];
+                $itemCreated->message  = $newItem['message'];
+                $itemCreated->companyName  = $newItem['companyName'];
+                $itemCreated->user_id  = Auth::id();
+                $itemCreated->save();
+                // Mail::to(Auth::user()->email)->send(new BoothRequestMail(Auth::user(),$booth->name));
+                Mail::to('taic@ictc.go.tz')->send(new ReportBoothReqMail(Auth::user(),$itemCreated));
+                // Mail::to('ictsupport@ictc.go.tz')->send(new ReportBoothReqMail(Auth::user(),$itemCreated));
                 return response()->json([
                     'message'=> "Exhibition booth Request submitted",
                     'code'=> 200
