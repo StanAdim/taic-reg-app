@@ -38,101 +38,11 @@ class SubscriptionController extends Controller
         $user = Auth::user();
         $userInfo = $user->userInfo;
         $billTobePaid = 0;
-        if($userInfo->nation != 214){
-            $billTobePaid = $event->foreignerFeeInTzs;
-        }else{
-            $userInfo->professionalStatus ? $billTobePaid = $event->defaultFee : $billTobePaid = $event->guestFee;
-        }        
-        $newItem = ['user_id' => $user_id, 'conference_id' => $eventId,];
-
-        // Check if user has  Subscribed already
-        $isUserSubscribed = Subscription::where('conference_id', $eventId)
-        ->where('user_id', $user_id)
-        ->exists();
-        if($isUserSubscribed){
-            return response()->json([
-                'message'=> "This event is Booked!",
-                'code'=> 300
-            ]);
-        } // If not Created Bill for subscription
-        else 
-        {
-            $newBill = [
-                'user_id' => $user_id,
-                'conference_id' =>$eventId,
-                'customer_name' => $user->firstName .' '.$user->middleName.' '.$user->lastName,
-                'billGeneratedBy' => $user->firstName .' '.$user->middleName.' '.$user->lastName,
-                'billApproveBy' => 'EMS Billing System',
-                'payee_name' => 'ICT Commission',
-                'phone_number' => $userInfo->phoneNumber,
-                'name' => $event->name,
-                'amount' => $billTobePaid,
-                'reference_no' => GeneralCustomHelper::generateReqID(16),
-                'event_fee' => $billTobePaid,
-                'remarks' => $event->name. ' - '.$event->conferenceYear,
-                'email' => $user->email,
-                'sp_code' => env('GEPG_SPCODE'),
-                'GfsCode' => env('GEPG_GSFCODE'),
-                'SpGrpCode' => env('GEPG_SPGRPCODE'),
-                'bill_exp' => Carbon::now()->addMonths(8)->format('Y-m-d\TH:i:s'),
-                'ccy' => "TZS",
-                'bill_pay_opt' => 3,
-                'status' => 0,
-            ];
-            try {
-                $billData = Bill::create($newBill);
-                //check  Freee Events
-                if($billTobePaid != 0){
-                    $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
-                    //Check bill is Generated to Gepg
-                if($returedXml){
-                        //request ID
-                        //check for success status
-                    $isSuccessful =  GeneralCustomHelper::get_string_between($returedXml, '<AckStsCode>', '</AckStsCode>') == '7101';
-                    if($isSuccessful){
-                        $billData->ReqId = GeneralCustomHelper::get_string_between($returedXml, '<ReqId>', '</ReqId>');
-                        $billData->save();
-                        // Subcribe user to event 
-                        Subscription::create($newItem);
-                        // Mail::to($user->email)->send(new SubscriptionToEventMail($user,$event->name));
-                        return response()->json([
-                            'message'=> "Bill generated Successful",
-                            'data' => $billData,
-                            'GepgAck' => $returedXml,
-                            'code'=> 200
-                        ],200);
-                    }else {
-                        return response()->json([
-                        'message'=> $returedXml ? GeneralCustomHelper::get_string_between($returedXml, '<AckStsDesc>', '</AckStsDesc>'): 'No message',
-                        'GepgAck' => $returedXml,
-                        'code'=> 300
-                    ],500);
-                    }
-
-                }
-                else{
-                    // DB::table('bills')->where('id', $billData->id)->delete();
-                    return response()->json([
-                        'message'=> "Bill Generation failed: Gepg failure",
-                        'GepgAck' => $returedXml,
-                        'code'=> 300
-                    ],500);
-                }
-            }else{ //Subscribe participant to a free event
-                Subscription::create($newItem);
-                return response()->json([
-                    'message'=> "Subscription Success For Free event",
-                    'data' => $billData,
-                    'code'=> 200
-                ],200);
-            }
-        } catch (\Exception $e) {
-                return response()->json(
-                    ['error' => 'Failed to create bill', 
-                'message' => $e->getMessage(), 'code' => 300]
-                , 500);
-            }
-        }
+        return response()->json([
+            'message'=> "Bill Generation failed: Gepg failure",
+            'GepgAck' => null,
+            'code'=> 300
+        ],500);
     }
     public function unsubscribeUserFromEvent(Request $request){
         // Check if the user is subscribed to the event
