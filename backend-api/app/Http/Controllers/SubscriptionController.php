@@ -44,7 +44,7 @@ class SubscriptionController extends Controller
             'message'=> "Bill Generation failed: Gepg failure",
             'GepgAck' => null,
             'code'=> 300
-        ],500);
+        ],402);
     }
     public function unsubscribeUserFromEvent(Request $request){
         // Check if the user is subscribed to the event
