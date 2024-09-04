@@ -40,6 +40,9 @@ onNuxtReady(()=> {
    init()
 })
 const goTo = () => navigateTo('/crm/users')
+const handleVerification = async () => {
+  await authStore.userEmailVerification(route.params.user_key)
+}
 </script>
 
 <template>
@@ -141,6 +144,7 @@ const goTo = () => navigateTo('/crm/users')
 
         <!-- Action Buttons -->
         <div class="mt-8 flex justify-end space-x-4">
+          <button @click="handleVerification()" class="px-2 py-0.5 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600">Verify User</button>
           <button @click="goTo()" class="px-4 py-0.5 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600">Go back</button>
         </div>
       </div>
