@@ -111,7 +111,7 @@ class SubscriptionController extends Controller
 
                 }
                 else{
-                    DB::table('bills')->where('id', $billData->id)->delete();
+                    // DB::table('bills')->where('id', $billData->id)->delete();
                     return response()->json([
                         'message'=> "Bill Generation failed: Gepg failure",
                         'GepgAck' => $returedXml,
