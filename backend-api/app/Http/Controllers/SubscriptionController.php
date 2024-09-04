@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 
 class SubscriptionController extends Controller
 {
@@ -38,6 +38,8 @@ class SubscriptionController extends Controller
         $user = Auth::user();
         $userInfo = $user->userInfo;
         $billTobePaid = 0;
+        Log::info("--------- Mantainance Mode -------");
+
         return response()->json([
             'message'=> "Bill Generation failed: Gepg failure",
             'GepgAck' => null,
