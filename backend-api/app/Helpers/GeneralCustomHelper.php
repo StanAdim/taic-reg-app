@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Bill;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -69,6 +70,40 @@ class GeneralCustomHelper{
                 return $verified_data;
             }
         }
+    }
+
+    // Create creating a single bill
+    public static function createSingleBill ($bill_data){
+        try{
+            $returedXml = XmlRequestHelper::GepgSubmissionRequest($bill_data);
+                // is Bill Generated to Gepg
+                if($returedXml){
+                        //check for success status
+                    $isSuccessful =  GeneralCustomHelper::get_string_between($returedXml, '<AckStsCode>', '</AckStsCode>') === '7101';
+                    if($isSuccessful){
+                        // Create a Bill
+                        // $bill_data =  Bill::create($bill_data);
+                        return response()->json([
+                            'message'=> "Bill generated Successful",
+                            'GepgAck' => $returedXml,
+                        ],200);
+                    }
+                    else {
+                        return response()->json([
+                        'message'=> $returedXml ? GeneralCustomHelper::get_string_between($returedXml, '<AckStsDesc>', '</AckStsDesc>'): 'No message',
+                        'GepgAck' => $returedXml,
+                    ]);
+                }
+
+            }
+        }catch(\Exception $e){
+            return response()->json([
+                'message'=> $e->getMessage(),
+                // 'GepgAck' => $returedXml,
+            ]);
+            Log::info($e->getMessage());
+        }
+            
     }
 
     // perform curl to GEPG

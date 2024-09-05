@@ -27,7 +27,8 @@ class XmlRequestHelper
                 $spcode =env('GEPG_SPCODE');
                 $systemid =env('GEPG_SYSTEMID');
 
-                $reqID = GeneralCustomHelper::generateReqID(16);
+                // $reqID = GeneralCustomHelper::generateReqID(16);
+                $reqID = $billingData->ReqId;
                 $genDate = GeneralCustomHelper::getGenerationDate();
                 $content ="<billSubReq>
                         <BillHdr>
