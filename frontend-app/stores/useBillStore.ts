@@ -24,10 +24,9 @@ export const useBillStore = defineStore('billStore', () => {
         globalStore.toggleContentLoaderState('on')
         const {data, error} = await useApiFetch(`/api/event-bills?per_page=${per_page}&page=${page}&search=${search}`);
         const response = data.value as ApiResponse
-        if(response.code == 200){
+        if(response.code === 200){
             allBillGenerated.value = response.data
             globalStore.toggleContentLoaderState('off')
-
         }
         if (error.value){
             console.log(error.value)
@@ -35,7 +34,7 @@ export const useBillStore = defineStore('billStore', () => {
 
         }
     }
-    // need revision
+    // Bill reconciliation
     async function handleBillReconciliation(reconDate){
         globalStore.toggleContentLoaderState('on')
 

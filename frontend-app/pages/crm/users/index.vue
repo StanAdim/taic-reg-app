@@ -5,7 +5,7 @@ definePageMeta({
   middleware:'auth'
 })
 useHead({
-  title: 'TAIC - Users'
+  title: 'System - Users'
 })
 const authStore = useAuthStore()
 

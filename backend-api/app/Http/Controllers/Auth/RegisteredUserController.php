@@ -114,19 +114,15 @@ class RegisteredUserController extends Controller
                 'password' => 'required|string|min:8|confirmed',
                 'token' => 'required|string',
             ]);
-
             if ($validator->fails()) {
                 return response()->json(['message' => 'Validation failed.', 'errors' => $validator->errors()], 422);
             }
-
             // Find the user by the provided token
             $user = User::where('verificationKey', $request->token)->first();
-
             // If no user is found with the token, return an error response
             if (!$user) {
                 return response()->json(['message' => 'Invalid token.'], 404);
             }
-
             // Attempt to reset the user's password
             $user->password = Hash::make($request->password);
             $user->save();

@@ -79,7 +79,6 @@ class UserInfoController extends Controller
 
     // Build the query for fetching users
     $query = User::query();
-
     // Apply search if there is a search term
     if ($search) {
         $query->where(function ($q) use ($search) {
@@ -93,7 +92,6 @@ class UserInfoController extends Controller
 
     // Paginate the results
     $users = $query->paginate($perPage);
-
     if ($users->isNotEmpty()) {
         return response()->json([
             'message' => "Application Users",

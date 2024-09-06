@@ -24,6 +24,9 @@ onNuxtReady(()=> {
   <div class="">
     <AdminThePageTitle title="PAYMENTS RECORD" />
       <h2 class="text-sky-700 font-bold">All Bills Generated</h2>
+    <div class="">
+      <UsablesContentLoading />
+    </div>
     <div class="flex flex-wrap justify-between flex-row border border-sky-100 p-4 rounded-md">
       <div class="bg-white shadow-lg rounded-lg ">
         <div class="my-4">
@@ -31,9 +34,6 @@ onNuxtReady(()=> {
             <div class="mt-2">
               <AdminPartialsBillsGeneratedTable />
             </div>
-          </template>
-          <template v-else>
-            <UsablesContentLoading />
           </template>
         </div>
       </div>

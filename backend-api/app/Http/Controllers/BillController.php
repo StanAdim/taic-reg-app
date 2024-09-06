@@ -31,8 +31,7 @@ class BillController extends Controller
     {
         // Fetch the search term from the request (optional)
         $search = $request->input('search');
-        $perPage = $request->input('per_page', 12); // Default items per page is 12
-    
+        $perPage = $request->input('per_page', 12); 
         // Build the query for fetching bills
         $query = Bill::query();
         // Apply search if there is a search term
@@ -45,7 +44,6 @@ class BillController extends Controller
         }
         // Paginate the results
         $pagenated_bills = $query->paginate($perPage);
-    
         // Transform the paginated result into resources
         $bills = BillResource::collection($pagenated_bills);
     
