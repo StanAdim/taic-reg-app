@@ -27,14 +27,28 @@ class BillController extends Controller
             'code'=> 200
         ],200);
     }
-    public function index()
+    public function index(Request $request)
     {
-        $bills = BillResource::collection(Bill::all()->sortByDesc('created_at'));
-        return response()->json([
-            'message'=> "All bills",
-            'data' => $bills,
-            'code'=> 200
-        ],200);
+         // Fetch paginated bill, e.g., 12 bill per page
+         $perPage = $request->input('per_page', 12); // You can pass 'per_page' in the request
+         $pagenated_bills =  Bill::paginate($perPage);
+         $bills = BillResource::collection($pagenated_bills);
+         if ($pagenated_bills->isNotEmpty()) {
+             return response()->json([
+                 'message' => "Application bills",
+                 'data' => $bills,
+                 'pagination' => [
+                     'current_page' => $pagenated_bills->currentPage(),
+                     'last_page' => $pagenated_bills->lastPage(),
+                     'per_page' => $pagenated_bills->perPage(),
+                     'total' => $pagenated_bills->total(),
+                     'next_page_url' => $pagenated_bills->nextPageUrl(),
+                     'prev_page_url' => $pagenated_bills->previousPageUrl(),
+                 ],
+                 'code' => 200,
+             ]);
+         }
+     
     }
 
 

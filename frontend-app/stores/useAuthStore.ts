@@ -61,7 +61,9 @@ export const useAuthStore = defineStore('auth', ()=> {
         return {data,error}
     }
     // resend Verification
-    async function userEmailVerification(verificationKey:string){
+    async function userEmailVerification(verificationKey:string) : Promise{
+        globalStore.toggleContentLoaderState('on')
+
         await useApiFetch("/sanctum/csrf-cookie");
         const verifyResponse = await useApiFetch(`/api/verify-user-email-${verificationKey}`);
         if(verifyResponse.status.value === 'success'){
@@ -72,7 +74,7 @@ export const useAuthStore = defineStore('auth', ()=> {
             globalStore.assignAlertMessage([[verifyResponse.error.value?.data?.message]], 'error');
 
         }
-        return verifyResponse
+        globalStore.toggleContentLoaderState('off')
     }
     // Login
     async function login(credentials: Credential){

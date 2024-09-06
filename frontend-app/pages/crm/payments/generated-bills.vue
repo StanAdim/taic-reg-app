@@ -29,7 +29,6 @@ onNuxtReady(()=> {
         <div class="my-4">
           <template  v-if="globalStore.hasPermission('can_view_bills')">
             <div class="mt-2">
-              <UsablesNoData v-if="billStore.getAllBills.length !== 0" source="Bill Payments" />
               <AdminPartialsBillsGeneratedTable />
             </div>
           </template>

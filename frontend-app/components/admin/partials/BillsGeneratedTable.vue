@@ -26,45 +26,26 @@ const items = ref([
 
 const headers = ref(['Sn', 'Participant', "Conference" , 'Fee',"Control Number",'Payment Status', 'Status code','Status Desc','Paid Amount', 'date', 'Prints', 'Actions'])
 const searchQuery = ref('')
-const currentPage = ref(1)
-const itemsPerPage = ref(10)
 
-const filteredItems = computed(() => {
-  if (!searchQuery.value) {
-    return items.value
+const currentPage = ref <number>(1)
+const per_page = ref <number>(10)
+const pageSwitchValue = ref(1)
+const movePage = async (type:number) => {
+  console.log(type)
+  if (type === 1){
+    currentPage.value = currentPage.value + pageSwitchValue.value
+  }else {
+    currentPage.value = currentPage.value - pageSwitchValue.value
   }
-  return items.value.filter(item =>
-      Object.values(item).some(value =>
-          String(value).toLowerCase().includes(searchQuery.value.toLowerCase())
-      )
-  )
-})
-
-const totalPages = computed(() => {
-  return Math.ceil(filteredItems.value.length / itemsPerPage.value)
-})
-
-const paginatedItems = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value
-  const end = start + itemsPerPage.value
-  return filteredItems.value.slice(start, end)
-})
-
-const goToPage = (page) => {
-  currentPage.value = page
+  await billStore.retrieveAllBills(per_page.value,currentPage.value)
+}
+// change page number
+const  isEditing = ref(false)
+const toggleEditing =  () => isEditing.value = !isEditing.value
+const  updateData = async () => {
+  await billStore.retrieveAllBills(per_page.value,currentPage.value)
 }
 
-const previousPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value -= 1
-  }
-}
-
-const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value += 1
-  }
-}
 const subscriptionStore = useSubscriptionStore()
 const handleBillReconcile = async () => {
   const formData = reactive({
@@ -172,30 +153,29 @@ const handleBillDownloading = async (docType, row) => {
         <ul class="inline-flex space-x-2">
           <li>
             <button
-                @click="previousPage"
-                :disabled="currentPage === 1"
+                @click="movePage(2)"
                 class="px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-50"
             >
               Previous
             </button>
           </li>
-          <li v-for="page in totalPages" :key="page">
-            <button
-                @click="goToPage(page)"
-                :class="[
-                'px-3 py-2 border border-gray-300 rounded-md text-sm font-medium',
-                page === currentPage
-                  ? 'bg-blue-500 text-white'
-                  : 'text-gray-500 hover:bg-gray-50'
-              ]"
-            >
-              {{ page }}
-            </button>
+          <li>
+            <div class="flex justify-center flex-row gap-2">
+              <div class="">Per page</div>
+              <div class="">
+                <input
+                    v-model="per_page"
+                    @blur="toggleEditing"
+                    @keyup.enter="updateData"
+                    class="text-sky-800 w-16 text-center border-b-2 border-teal-500 rounded-sm px-0.5 outline-none"
+                />
+              </div>
+            </div>
+
           </li>
           <li>
             <button
-                @click="nextPage"
-                :disabled="currentPage === totalPages"
+                @click="movePage(1)"
                 class="px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-50"
             >
               Next

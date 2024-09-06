@@ -14,7 +14,7 @@ const handleSelected = (selectedIds) => {
   selectedUser.push(selectedIds)
 }
 const currentPage = ref <number>(1)
-const per_page = ref <number>(10)
+const per_page = ref <number>(12)
 const pageSwitchValue = ref(1)
 const movePage = async (type:number) => {
   if (type === 1){
@@ -23,19 +23,22 @@ const movePage = async (type:number) => {
     currentPage.value = currentPage.value - pageSwitchValue.value
   }
   await authStore.retrieveAppUsers(per_page.value,currentPage.value)
-
 }
-const initialize = async () => {
-  await authStore.retrieveAppUsers(per_page.value,currentPage.value)
-}
-
 // change page number
 const  isEditing = ref(false)
 const toggleEditing =  () => isEditing.value = !isEditing.value
 const  updateData = async () => {
   await authStore.retrieveAppUsers(per_page.value,currentPage.value)
 }
+const initialize = async () => {
+  await authStore.retrieveAppUsers(per_page.value,currentPage.value)
+}
+
 const  goToUser = (pathKey)=> navigateTo(`/crm/users/user/${pathKey}`)
+const handleVerification = async  (pathKey) => {
+  await authStore.userEmailVerification(pathKey)
+
+}
 onNuxtReady(()=> {
    initialize()
 })
@@ -84,11 +87,11 @@ onNuxtReady(()=> {
               <span v-else class="text-red-600"><i class="fa fa-dot-circle fa-xl"></i></span>
             </td>
             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-            <div @click="goToUser(item.userKey)"
-                  class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-sky-400 bg-sky-600 ">
-              <p class="text-sm font-normal mx-3"><i class="fa-solid fa-circle-info"></i></p>
-            </div>
-              <div
+              <div @click="goToUser(item.userKey)"
+                    class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-sky-400 bg-sky-600 ">
+                <p class="text-sm font-normal mx-3"><i class="fa-solid fa-circle-info"></i></p>
+              </div>
+              <div @click="handleVerification(item.userKey)"
                   class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-yellow-400 bg-yellow-600 ">
                 <p class="text-sm font-normal mx-3"><i class="fa fa-lock"></i></p>
               </div>
@@ -98,7 +101,7 @@ onNuxtReady(()=> {
 <!--              </div>-->
 <!--              <div-->
 <!--                  class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-zinc-400 bg-zinc-600">-->
-<!--                <p class="text-sm font-normal mx-3"><i class="fa-solid fa-pen-ruler"></i></p>-->
+<!--                <p  class="text-sm font-normal mx-3"><i class="fa-solid fa-code-compare"></i></p>-->
 <!--              </div>-->
             </td>
           </tr>

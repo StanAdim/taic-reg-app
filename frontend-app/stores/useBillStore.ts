@@ -20,14 +20,17 @@ export const useBillStore = defineStore('billStore', () => {
         }
         return {data, error};
     }
-    async function retrieveAllBills(){
-        const {data, error} = await useApiFetch(`/api/event-bills`);
+    async function retrieveAllBills(per_page: number = 10, page : number = 1){
+        globalStore.toggleContentLoaderState('on')
+        const {data, error} = await useApiFetch(`/api/event-bills?per_page=${per_page}&page=${page}`);
         const response = data.value as ApiResponse
         if(response.code == 200){
-            globalStore.toggleLoadingState('off')
             allBillGenerated.value = response.data
         }
-        return {data, error};
+        if (error.value){
+            console.log(error.value)
+        }
+        globalStore.toggleContentLoaderState('off')
     }
     // need revision
     async function handleBillReconciliation(reconDate){
