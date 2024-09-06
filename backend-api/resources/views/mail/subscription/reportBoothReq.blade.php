@@ -5,8 +5,8 @@
     </b>
     </p>
 <p style="padding:4px 2px; margin: 4px 1px;">New booth request data is submitted</p>
-<p style="padding:4px 2px; margin: 4px 1px;">{{$boothData}}</p>
-<p style="padding:4px 2px; margin: 4px 1px;">{{$user}}</p>
+<p style="padding:4px 2px; margin: 4px 1px;">{{$boothData->boothName}}</p>
+<p style="padding:4px 2px; margin: 4px 1px;">{{$user['firstName']}} {{$user['lastName']}}</p>
 {{-- <p style="padding:4px 2px; margin: 4px 1px;">bootData</p> --}}
 
 <p style="padding:4px 2px; margin: 4px 1px;">

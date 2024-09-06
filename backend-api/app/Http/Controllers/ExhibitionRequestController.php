@@ -46,9 +46,12 @@ class ExhibitionRequestController extends Controller
             ],422);
         }
         $newItem = $validator->validate();
+        $user_id = Auth::id();
         $booth = ExhibitionBooth::where('id', $newItem["boothId"])->get()->first();
         try{
-            $isExist = ExhibitionRequest::where('boothId', $newItem["boothId"])->exists();
+            $isExist = ExhibitionRequest::where('boothId', $newItem["boothId"])
+            ->where('user_id', $user_id)
+            ->exists();
             if(!$isExist){
                 $itemCreated = new ExhibitionRequest();
                 $itemCreated->boothId  = $newItem['boothId'];
@@ -59,7 +62,7 @@ class ExhibitionRequestController extends Controller
                 $itemCreated->user_id  = Auth::id();
                 $itemCreated->save();
                 // Mail::to(Auth::user()->email)->send(new BoothRequestMail(Auth::user(),$booth->name));
-                Mail::to('taic@ictc.go.tz')->send(new ReportBoothReqMail(Auth::user(),$itemCreated));
+                // Mail::to('taic@ictc.go.tz')->send(new ReportBoothReqMail(Auth::user(),$itemCreated));
                 // Mail::to('ictsupport@ictc.go.tz')->send(new ReportBoothReqMail(Auth::user(),$itemCreated));
                 return response()->json([
                     'message'=> "Exhibition booth Request submitted",

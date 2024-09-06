@@ -39,7 +39,7 @@ class ReportBoothReqMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.subscription.bootRequestMail',
+            view: 'mail.subscription.reportBoothReq',
             with: [
                 'boothData' => $this->boothData,
                 'user' => $this->user,
