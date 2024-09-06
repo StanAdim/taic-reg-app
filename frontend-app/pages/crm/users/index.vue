@@ -16,6 +16,7 @@ const handleSelected = (selectedIds) => {
 const currentPage = ref <number>(1)
 const per_page = ref <number>(12)
 const pageSwitchValue = ref(1)
+const searchQuery = ref('')
 const movePage = async (type:number) => {
   if (type === 1){
     currentPage.value = currentPage.value + pageSwitchValue.value
@@ -29,6 +30,9 @@ const  isEditing = ref(false)
 const toggleEditing =  () => isEditing.value = !isEditing.value
 const  updateData = async () => {
   await authStore.retrieveAppUsers(per_page.value,currentPage.value)
+}
+const  searchUserData = async () => {
+  await authStore.retrieveAppUsers(per_page.value,currentPage.value, searchQuery.value)
 }
 const initialize = async () => {
   await authStore.retrieveAppUsers(per_page.value,currentPage.value)
@@ -48,6 +52,17 @@ onNuxtReady(()=> {
   <div class="">
     <AdminThePageTitle title="REGISTERED SYSTEM USERS"/>
     <content-loading />
+    <div class="flex flex-wrap justify-end">
+      <div class="mx-4">
+        <input
+            v-model="searchQuery"
+            @keyup.enter="searchUserData"
+            type="text"
+            placeholder="Search..."
+            class="border border-gray-300 rounded-md px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+    </div>
     <div class=" border border-gray-200 md:rounded-lg p-2 bg-sky-100">
       <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
         <table v-if="authStore.getAppUsers" class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -89,11 +104,29 @@ onNuxtReady(()=> {
             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
               <div @click="goToUser(item.userKey)"
                     class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-sky-400 bg-sky-600 ">
-                <p class="text-sm font-normal mx-3"><i class="fa-solid fa-circle-info"></i></p>
+                <el-popover
+                    placement="top-start"
+                    :width="100"
+                    trigger="hover"
+                    content="User Data"
+                >
+                  <template #reference>
+                    <p class="text-sm font-normal mx-3"><i class="fa-solid fa-circle-info"></i></p>
+                  </template>
+                </el-popover>
               </div>
               <div @click="handleVerification(item.userKey)"
                   class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-yellow-400 bg-yellow-600 ">
-                <p class="text-sm font-normal mx-3"><i class="fa fa-lock"></i></p>
+                <el-popover
+                    placement="top-start"
+                    :width="100"
+                    trigger="hover"
+                    content="Verify User"
+                >
+                  <template #reference>
+                    <p class="text-sm font-normal mx-3"><i class="fa fa-lock"></i></p>
+                  </template>
+                </el-popover>
               </div>
 <!--              <div-->
 <!--                  class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-violet-400 bg-violet-600">-->

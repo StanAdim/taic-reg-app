@@ -72,33 +72,50 @@ class UserInfoController extends Controller
         
     }
 
-    public function systemUsers(Request $request)
-    {
-        // Fetch paginated users, e.g., 10 users per page
-        $perPage = $request->input('per_page', 12); // You can pass 'per_page' in the request
-        $users = User::paginate($perPage);
-    
-        if ($users->isNotEmpty()) {
-            return response()->json([
-                'message' => "Application Users",
-                'data' => SystemUser::collection($users),
-                'pagination' => [
-                    'current_page' => $users->currentPage(),
-                    'last_page' => $users->lastPage(),
-                    'per_page' => $users->perPage(),
-                    'total' => $users->total(),
-                    'next_page_url' => $users->nextPageUrl(),
-                    'prev_page_url' => $users->previousPageUrl(),
-                ],
-                'code' => 200,
-            ]);
-        }
-    
+    public function systemUsers(Request $request){
+    // Fetch the search term from the request (optional)
+    $search = $request->input('search');
+    $perPage = $request->input('per_page', 12); // Default items per page is 12
+
+    // Build the query for fetching users
+    $query = User::query();
+
+    // Apply search if there is a search term
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('firstName', 'like', "%{$search}%")
+              ->orWhere('lastName', 'like', "%{$search}%")
+              ->orWhere('middleName', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%");
+              // Add other fields for search if needed
+        });
+    }
+
+    // Paginate the results
+    $users = $query->paginate($perPage);
+
+    if ($users->isNotEmpty()) {
         return response()->json([
-            'message' => "No users found",
-            'code' => 300,
+            'message' => "Application Users",
+            'data' => SystemUser::collection($users),
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'per_page' => $users->perPage(),
+                'total' => $users->total(),
+                'next_page_url' => $users->nextPageUrl(),
+                'prev_page_url' => $users->previousPageUrl(),
+            ],
+            'code' => 200,
         ]);
     }
+
+    return response()->json([
+        'message' => "No users found",
+        'code' => 300,
+    ]);
+}
+
     public function retrieveSystemUserDetails($user_key){
         $user = new SystemUser(User::where('verificationKey',$user_key)->first());
          if ($user) { 

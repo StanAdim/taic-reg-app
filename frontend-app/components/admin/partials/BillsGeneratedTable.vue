@@ -45,6 +45,9 @@ const toggleEditing =  () => isEditing.value = !isEditing.value
 const  updateData = async () => {
   await billStore.retrieveAllBills(per_page.value,currentPage.value)
 }
+const  searchUserData = async () => {
+  await billStore.retrieveAllBills(per_page.value,currentPage.value, searchQuery.value)
+}
 
 const subscriptionStore = useSubscriptionStore()
 const handleBillReconcile = async () => {
@@ -69,20 +72,21 @@ const handleBillDownloading = async (docType, row) => {
 
 </script>
 <template>
-  <div class="p-2">
+  <div class="">
     <!-- Search Input -->
-    <div class="flex justify-end items-center gap-2 mb-4">
+    <div class="flex justify-end items-center gap-2 mb-2">
       <input
-          v-model="search"
+          v-model="searchQuery"
+          @keyup.enter="searchUserData"
           type="text"
           placeholder="Search..."
-          class="border border-gray-300 rounded-md px-4 py-0.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="search-input"
       />
       <input
           v-model="pickedDate"
           type="date"
           placeholder="Search..."
-          class="border border-gray-300 rounded-md px-4 py-0.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="search-input"
       />
 
       <div class="mx-1">
@@ -98,7 +102,7 @@ const handleBillDownloading = async (docType, row) => {
           <th
               v-for="header in headers"
               :key="header"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
           >
             {{ header }}
           </th>
@@ -108,18 +112,18 @@ const handleBillDownloading = async (docType, row) => {
         <tr
             v-for="(item, index) in filterTableData"
             :key="item.id"
-            class="hover:bg-gray-50">
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ index + 1 }}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.user }}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.name }}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.conferenceFee }}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.controlNumber }}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.status }}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.status_code }}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.bill_status_desc }}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.paid_amt || 0  }}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ item.created_at }}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+            class="hover:bg-sky-100">
+          <td class="table-data">{{ index + 1 }}</td>
+          <td class="table-data">{{ item.user }}</td>
+          <td class="table-data">{{ item.name }}</td>
+          <td class="table-data">{{ item.conferenceFee }}</td>
+          <td class="table-data">{{ item.controlNumber }}</td>
+          <td class="table-data">{{ item.status }}</td>
+          <td class="table-data">{{ item.status_code }}</td>
+          <td class="table-data">{{ item.bill_status_desc }}</td>
+          <td class="table-data">{{ item.paid_amt || 0  }}</td>
+          <td class="table-data">{{ item.created_at }}</td>
+          <td class="table-data">
             <el-button class="mx-1 my-0.5"  size="default" type="primary" @click="handleBillDownloading(1,item)">
               <span v-if="item.hasPaid"><i class="fa-solid fa-arrow-down mr-1"></i>Receipt</span>
               <span v-else><i class="fa-solid fa-arrow-down mr-1"></i>Invoice</span>
@@ -187,8 +191,14 @@ const handleBillDownloading = async (docType, row) => {
   </div>
 </template>
 <style scoped>
+.table-data {
+  @apply px-4 py-0.5 whitespace-nowrap text-sm text-gray-700
+}
 .btn{
   @apply px-2 py-0.5 mx-0.5 text-sm border border-sky-500 hover:border-sky-700
+}
+.search-input{
+  @apply border border-gray-300 rounded-md px-4 py-1 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 </style>
 
