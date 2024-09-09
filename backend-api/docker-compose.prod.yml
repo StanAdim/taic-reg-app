@@ -25,7 +25,7 @@ services:
     depends_on:
       - db-events-app
     healthcheck:
-      test: ["CMD", "curl", "-f", "https://innovation.ictc.go.tz"]
+      test: ["CMD", "curl", "-f", "https://events.ictc.go.tz"]
       interval: 30s
       timeout: 10s
       retries: 3

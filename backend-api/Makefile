@@ -19,23 +19,23 @@ staging.up:
 	docker compose up -d
 
 staging.composer-update:
-	docker exec  test-ems-api bash -c "composer update"
+	docker exec  staging-reg-events bash -c "composer update"
 staging.data:
-	docker exec  test-ems-api bash -c "php artisan migrate:fresh --seed"
+	docker exec  staging-reg-events bash -c "php artisan migrate:fresh --seed"
 staging.bash:
-	docker exec -it  test-ems-api bash
+	docker exec -it  staging-reg-events bash
 staging.start:
 	docker compose restart
 staging.boost:
-	docker exec  test-ems-api bash -c "php artisan optimize"
-	docker exec  test-ems-api bash -c "composer dump-autoload"
-	docker exec  test-ems-api bash -c "php artisan key:generate"
-	docker exec  test-ems-api bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
-	docker exec  test-ems-api bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
+	docker exec  staging-reg-events bash -c "php artisan optimize"
+	docker exec  staging-reg-events bash -c "composer dump-autoload"
+	docker exec  staging-reg-events bash -c "php artisan key:generate"
+	docker exec  staging-reg-events bash -c "chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache"
+	docker exec  staging-reg-events bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
 staging.rmi:
-	docker image rm -f test-ems-api-test-ems-api
+	docker image rm -f staging-reg-events-staging-reg-events
 staging.logs:
-	docker logs -f test-ems-api
+	docker logs -f staging-reg-events
 staging.update: 
 	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../ && make start
 # Define the directory and the command

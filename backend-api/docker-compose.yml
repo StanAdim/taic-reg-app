@@ -1,14 +1,16 @@
 version: '3'
 
 services:
-  test-ems-api:
+  staging-events:
     build: .
-    container_name: test-ems-api
+    container_name: staging-reg-events
     working_dir: /var/www/html
     ports:
       - 2020:80
     volumes:
       - .:/var/www/html
+      - /tmp:/tmp
+
     environment:
       APP_ENV: ${APP_ENV}  # Example environment variable
       APP_DEBUG: 'true'
@@ -19,17 +21,17 @@ services:
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
     networks:
-      - testems-network
+      - staging-reg-events
     depends_on:
-      - test-ems-db
+      - db-events-stage
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
+      test: ["CMD", "curl", "-f", "https://events.ictc.go.tz"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  test-ems-db:
-    image: postgres:13.4
+  db-events-stage:
+    image: postgres:15.0
     container_name: ${DB_HOST}
     restart: unless-stopped
     environment:
@@ -37,11 +39,11 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - 2003:${DB_PORT}
+      - 2021:${DB_PORT}
     networks:
-      - testems-network
+      - staging-reg-events
     volumes:
-      - test_ems_pgdata:/var/lib/postgresql/data
+      - pgeventsstagesdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $DB_USERNAME"]
       interval: 30s
@@ -49,9 +51,9 @@ services:
       retries: 3
 
 volumes:
-  test_ems_pgdata:
+  pgeventsstagesdata:
     driver: local
 
 networks:
-  testems-network:
+  staging-reg-events:
     driver: bridge
