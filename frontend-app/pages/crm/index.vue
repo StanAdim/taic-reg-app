@@ -16,17 +16,17 @@ const init = async ()=>{
   await globalStore.analyticData()
   await  subscriptionStore.retrieveSubscribedEvents()
    cardsInfo.value= [
-    {title: 'Upcoming Events', icon: '---', number: globalStore.getOthersStatisticalData?.activeConferences},
-    {title: 'Total Booked Events', icon: '---', number: globalStore.getOthersStatisticalData?.bookedEvents},
-    {title: 'Bill generated', icon: '---', number: globalStore.getOthersStatisticalData?.invoices},
+    {title: 'Upcoming Events', icon: '---', number: globalStore.getOthersStatisticalData?.activeConferences, link_to: '/crm/events'},
+    {title: 'Total Booked Events', icon: '---', number: globalStore.getOthersStatisticalData?.bookedEvents, link_to: '/crm/events/my-booking'},
+    {title: 'Bill generated', icon: '---', number: globalStore.getOthersStatisticalData?.invoices, link_to: '/crm/payments'},
   ]
   statisticsAdmin.value= [
-    {title: 'Registered Events', icon: '---', number: globalStore.getAdminStatisticalData?.conferences},
-    {title: 'Registered Users', icon: '---', number: globalStore.getAdminStatisticalData?.users},
-    {title: 'Registered Exhibition Booths', icon: '---', number: globalStore.getAdminStatisticalData?.booths},
-    {title: 'Submitted Booth Requests', icon: '---', number: globalStore.getAdminStatisticalData?.boothRequest},
-    {title: 'Generated Invoices', icon: '---', number: globalStore.getAdminStatisticalData?.all_invoices},
-    {title: 'Settled Bills', icon: '---', number: globalStore.getAdminStatisticalData?.settle_payments},
+    {title: 'Registered Events', icon: '---', number: globalStore.getAdminStatisticalData?.conferences, link_to: '/'},
+    {title: 'Registered Users', icon: '---', number: globalStore.getAdminStatisticalData?.users, link_to: '/'},
+    {title: 'Registered Exhibition Booths', icon: '---', number: globalStore.getAdminStatisticalData?.booths, link_to: '/'},
+    {title: 'Submitted Booth Requests', icon: '---', number: globalStore.getAdminStatisticalData?.boothRequest, link_to: '/'},
+    {title: 'Generated Invoices', icon: '---', number: globalStore.getAdminStatisticalData?.all_invoices, link_to: '/'},
+    {title: 'Settled Bills', icon: '---', number: globalStore.getAdminStatisticalData?.settle_payments, link_to: '/'},
   ]
 }
 

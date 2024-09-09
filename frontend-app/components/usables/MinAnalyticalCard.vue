@@ -6,6 +6,7 @@ const props = defineProps({
       'title': '...',
       'icon': '...',
       'number': '...',
+      'link_to': '/',
     }
   }
 })
@@ -24,9 +25,12 @@ const props = defineProps({
       </div>
       <div>
         <!--        {{ props.info.icon }}-->
-        <div class="min-card">
-          <div class="text-white text-xl md:text-4xl"><i class="fa-solid fa-location-arrow xl"></i></div>
-        </div>
+        <nuxt-link :to="props.info.link_to">
+          <div class="min-card">
+            <div class="text-white text-xl md:text-4xl"><i class="fa-solid fa-location-arrow xl"></i></div>
+          </div>
+        </nuxt-link>
+
       </div>
     </div>
   </div>
