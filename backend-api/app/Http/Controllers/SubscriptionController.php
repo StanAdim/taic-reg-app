@@ -56,7 +56,7 @@ class SubscriptionController extends Controller
         $isUserSubscribed = Subscription::where('conference_id', $eventId)
         ->where('user_id', $user_id)
         ->exists();
-        if(!$isUserSubscribed){
+        if($isUserSubscribed){
             return response()->json([
                 'message'=> "You've booked this event!",
                 'code'=> 300
@@ -94,7 +94,6 @@ class SubscriptionController extends Controller
                     $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
                         //Check bill is Generated to Gepg
                         if($returedXml){
-                                //request ID
                                 //check for success status
                             $isSuccessful =  GeneralCustomHelper::get_string_between($returedXml, '<AckStsCode>', '</AckStsCode>') == '7101';
                             if($isSuccessful){
