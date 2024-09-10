@@ -56,9 +56,9 @@ class SubscriptionController extends Controller
         $isUserSubscribed = Subscription::where('conference_id', $eventId)
         ->where('user_id', $user_id)
         ->exists();
-        if($isUserSubscribed){
+        if(!$isUserSubscribed){
             return response()->json([
-                'message'=> "This event is Booked!",
+                'message'=> "You've booked this event!",
                 'code'=> 300
             ]);
         } // If not Created Bill for subscription
@@ -88,6 +88,7 @@ class SubscriptionController extends Controller
             ];
             try {
                 $billData = Bill::create($newBill);
+                Subscription::create($newItem);
                 //check  Freee Events
                 if($billTobePaid != 0){
                     $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
@@ -126,7 +127,6 @@ class SubscriptionController extends Controller
                             ],500);
                         }
                 }else{ //Subscribe participant to a free event
-                    Subscription::create($newItem);
                     return response()->json([
                         'message'=> "Subscription Success For Free event",
                         'data' => $billData,
