@@ -34,10 +34,15 @@ staging.boost:
 	docker exec  staging-reg-events bash -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
 staging.rmi:
 	docker image rm -f staging-reg-events-staging-reg-events
+staging.fronts: 
+	cd ../frontend-app && yarn build && pm2 restart staging.config.cjs &&  
+	cd  ../backend-api && make staging.start
 staging.logs:
 	docker logs -f staging-reg-events
 staging.update: 
-	 git pull && cd mgt-app &&  yarn ; yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../ && make start
+	 git pull && cd mgt-app &&  yarn ; yarn build && 
+	 pm2 restart ecosystem.config.cjs &&  
+	 cd  ../ && make start
 # Define the directory and the command
 DIR1 := ../frontend-app 
 DIR2 := ./site-app 
@@ -102,7 +107,7 @@ production.logs:
 
 production.fronts: 
 	cd ../frontend-app && yarn build && pm2 restart production.config.cjs &&  cd  ../backend-api && make production.start
-	cd ../taic-website && yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../backend-api 
+	#cd ../taic-website && yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../backend-api 
 # Define the directory and the command
 DIR1 := ../frontend-app 
 DIR2 := ../taic-website 
