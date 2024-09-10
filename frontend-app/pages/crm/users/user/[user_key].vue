@@ -126,7 +126,13 @@ const handleVerification = async () => {
             <!-- Detail Item -->
             <div>
               <p class="text-gray-600 font-semibold">Address</p>
-              <p class="text-gray-800">{{  userData?.user?.userInfo?.position }}, {{  userData?.user?.userInfo?.nation }}</p>
+              <p class="text-gray-800">{{  userData?.user?.userInfo?.region?.name }},{{ userData?.user?.userInfo?.district?.name }}</p>
+                <p class="text-gray-800">{{  userData?.user?.userInfo?.nation }}</p>
+            </div>
+            <div>
+              <p class="text-gray-600 font-semibold">Company | Institution</p>
+              <p class="text-gray-800">{{  userData?.user?.userInfo?.position }}</p>
+              <p class="text-gray-800">{{  userData?.user?.userInfo?.institution }}</p>
             </div>
 
             <!-- Detail Item -->
@@ -138,11 +144,11 @@ const handleVerification = async () => {
         </div>
 
         <!-- Additional Information -->
-        <div class="mt-8">
-          <h2 class="text-2xl font-semibold text-gray-800 mb-4">About</h2>
-          <p class="text-gray-700 leading-relaxed">...</p>
-          <p class="text-gray-700 leading-relaxed"></p>
-        </div>
+<!--        <div class="mt-8">-->
+<!--          <h2 class="text-2xl font-semibold text-gray-800 mb-4">About</h2>-->
+<!--          <p class="text-gray-700 leading-relaxed">...</p>-->
+<!--          <p class="text-gray-700 leading-relaxed"></p>-->
+<!--        </div>-->
 
         <!-- Action Buttons -->
         <div class="mt-8 flex justify-end space-x-4">

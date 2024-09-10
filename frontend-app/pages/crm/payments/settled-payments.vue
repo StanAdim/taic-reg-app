@@ -7,7 +7,7 @@ const billStore = useBillStore();
 const globalStore = useGlobalDataStore();
 const initialize = async  () => {
   globalStore.toggleLoadingState('on')
-  await  billStore.retrieveUserPayments()
+  await  billStore.retrieveAllSettledBills()
 }
 
 
@@ -24,7 +24,7 @@ onNuxtReady(()=> {
     <div class="flex flex-wrap justify-between flex-row border border-sky-100 p-4 rounded-md">
       <div class="mx-auto bg-white shadow-lg rounded-lg overflow-hidden w-full">
         <div class="my-4">
-          settled-payemnt
+          <admin-partials-payments-table />
         </div>
       </div>
     </div>

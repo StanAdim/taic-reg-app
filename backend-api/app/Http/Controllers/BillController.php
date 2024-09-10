@@ -27,8 +27,7 @@ class BillController extends Controller
             'code'=> 200
         ],200);
     }
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         // Fetch the search term from the request (optional)
         $search = $request->input('search');
         $perPage = $request->input('per_page', 12); 
@@ -62,9 +61,47 @@ class BillController extends Controller
                 'code' => 200,
             ]);
         }
-    
         return response()->json([
             'message' => "No bills found",
+            'code' => 300,
+        ]);
+    }
+
+    public function settledBills(Request $request){
+        // Fetch the search term from the request (optional)
+        $search = $request->input('search');
+        $perPage = $request->input('per_page', 12); 
+        // Build the query for fetching bills
+        $query = Bill::query()->where('status', 1)->orderBy('created_at', 'desc');        // Apply search if there is a search term
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('ReqId', 'like', "%{$search}%")
+                  ->orWhere('customer_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%"); // Add other fields for search if needed
+            });
+        }
+        // Paginate the results
+        $pagenated_bills = $query->paginate($perPage);
+        // Transform the paginated result into resources
+        $bills = BillResource::collection($pagenated_bills);
+    
+        if ($pagenated_bills->isNotEmpty()) {
+            return response()->json([
+                'message' => "Application bills",
+                'data' => $bills,
+                'pagination' => [
+                    'current_page' => $pagenated_bills->currentPage(),
+                    'last_page' => $pagenated_bills->lastPage(),
+                    'per_page' => $pagenated_bills->perPage(),
+                    'total' => $pagenated_bills->total(),
+                    'next_page_url' => $pagenated_bills->nextPageUrl(),
+                    'prev_page_url' => $pagenated_bills->previousPageUrl(),
+                ],
+                'code' => 200,
+            ]);
+        }
+        return response()->json([
+            'message' => "No payment is found",
             'code' => 300,
         ]);
     }

@@ -5,9 +5,11 @@ export const useBillStore = defineStore('billStore', () => {
     const globalStore = useGlobalDataStore()
     const userPayments = ref([])
     const allBillGenerated = ref([])
+    const settledBills = ref([])
 
     const getUserPayments = computed(() => {return userPayments.value})
     const getAllBills = computed(() => {return allBillGenerated.value})
+    const getSettledBills = computed(() => {return settledBills.value})
 
     async function retrieveUserPayments(){
         globalStore.toggleContentLoaderState('on')
@@ -33,6 +35,26 @@ export const useBillStore = defineStore('billStore', () => {
             globalStore.toggleContentLoaderState('off')
 
         }
+    }
+    async function retrieveAllSettledBills(per_page: number = 10, page : number = 1, search: string = ''){
+        globalStore.toggleContentLoaderState('on')
+        const {data, error} = await useApiFetch(`/api/event-bills-settled?per_page=${per_page}&page=${page}&search=${search}`);
+        const response = data.value as ApiResponse
+        if(response.code === 200){
+            settledBills.value = response.data
+            globalStore.toggleContentLoaderState('off')
+        }
+        if(response.code === 300){
+            // settledBills.value = response.data
+            globalStore.toggleContentLoaderState('off')
+            globalStore.assignAlertMessage(response.message, 'success')
+        }
+        if (error.value){
+            console.log(error.value)
+            globalStore.toggleContentLoaderState('off')
+
+        }
+
     }
     // Bill reconciliation
     async function handleBillReconciliation(reconDate){
@@ -101,6 +123,7 @@ export const useBillStore = defineStore('billStore', () => {
 
     return {
         retrieveUserPayments,
+        retrieveAllSettledBills,getSettledBills,
         getUserPayments,
         retrieveAllBills,
         handleBillReconciliation,

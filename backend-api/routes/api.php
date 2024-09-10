@@ -87,6 +87,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     // Route::get('/honorable-speaker/activate/{uuid}', [SpeakerController::class,'activateHonourable']);
 
     Route::get('/event-bills', [BillController::class,'index']);
+    Route::get('/event-bills-settled', [BillController::class,'settledBills']);
     
     Route::post('/bill/reconciliation', [BillController::class,'handleReconciliationRequest']);
     Route::get('/bill/cancellation/{bill_id}', [BillController::class,'handleCancellationRequest']);
