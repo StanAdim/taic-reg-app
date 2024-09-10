@@ -2,7 +2,7 @@
 import ContentLoading from "~/components/usables/contentLoading.vue";
 
 definePageMeta({
-  middleware:'auth'
+  middleware:['auth','admin-role-checker']
 })
 useHead({
   title: 'System - Users'

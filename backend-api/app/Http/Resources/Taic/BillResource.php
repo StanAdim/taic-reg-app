@@ -35,6 +35,7 @@ class BillResource extends JsonResource
     {
         return [
             'user'=>$this->user->firstName.' '.$this->user->middleName. ' '.$this->user->lastName, 
+            'userKey'=>$this->user->verificationKey, 
             'conferenceName'=> 'TAIC '.Conference::where('id',$this->conference_id)->first()->conferenceYear, 
             'conferenceFee'=>$this->separateNumber($this->event_fee), 
             'controlNumber'=>$this->cust_cntr_num, 

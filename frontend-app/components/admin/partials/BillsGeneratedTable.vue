@@ -114,7 +114,11 @@ const handleBillDownloading = async (docType, row) => {
             :key="item.id"
             class="hover:bg-sky-100">
           <td class="table-data">{{ index + 1 }}</td>
-          <td class="table-data">{{ item.user }}</td>
+          <td class="table-data">
+            <nuxt-link class="hover:cursor-pointer" :to="`/crm/users/user/${item.userKey}`">
+              <span class="mx-2">{{ item.user }}</span><i class="fa-solid fa-share text-right"></i>
+            </nuxt-link>
+          </td>
           <td class="table-data">{{ item.name }}</td>
           <td class="table-data">{{ item.conferenceFee }}</td>
           <td class="table-data">{{ item.controlNumber }}</td>

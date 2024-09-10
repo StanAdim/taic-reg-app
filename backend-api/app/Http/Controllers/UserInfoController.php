@@ -78,7 +78,7 @@ class UserInfoController extends Controller
     $perPage = $request->input('per_page', 12); // Default items per page is 12
 
     // Build the query for fetching users
-    $query = User::query();
+    $query = User::query()->orderBy('created_at', 'desc');
     // Apply search if there is a search term
     if ($search) {
         $query->where(function ($q) use ($search) {
@@ -119,7 +119,8 @@ class UserInfoController extends Controller
          if ($user) { 
             $subscriptions = $user->subscriptions ;
             $bills = $user->bills ;
-            $data = array_merge(['user'=> $user] , ['subscriptions'=>$subscriptions->count(), 'bills'=> $bills->count()]);          // Update the email verification status
+            $data = array_merge(['user'=> $user] , 
+            ['subscriptions'=>$subscriptions->count(), 'bills'=> $bills->count()]);          // Update the email verification status
             return response()->json([
                 'message' => 'User Details retrieved',
                 'data' => $data 

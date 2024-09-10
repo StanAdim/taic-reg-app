@@ -99,13 +99,13 @@ const closeModal = async ()=> {
               </div>
 
               <div class="mb-4">
-                <label for="email_to" class="input-label">Receiving Institution Email</label>
+                <label for="email_to" class="input-label">Receiving Email</label>
                 <input
                     v-model="formData.email_to"
                     type="email"
                     id="email_to"
                     class="input-form"
-                    placeholder="Company | Institution name"
+                    placeholder="Company | Institution name | Your Email"
                     required
                 />
               </div>

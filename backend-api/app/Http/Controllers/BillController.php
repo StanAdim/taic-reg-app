@@ -33,7 +33,7 @@ class BillController extends Controller
         $search = $request->input('search');
         $perPage = $request->input('per_page', 12); 
         // Build the query for fetching bills
-        $query = Bill::query();
+        $query = Bill::query()->orderBy('created_at', 'desc');
         // Apply search if there is a search term
         if ($search) {
             $query->where(function ($q) use ($search) {

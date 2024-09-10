@@ -1,5 +1,7 @@
 <script setup lang="ts">
-definePageMeta({middleware:'auth'})
+definePageMeta({
+  middleware:['auth','admin-role-checker']
+})
 import {
   ArrowDown,
   Check,

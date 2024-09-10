@@ -18,7 +18,6 @@ export const useRoleStore = defineStore('roleStore', () => {
         const { data, error } = await useApiFetch(`/api/role`);
         if(data.value){
             systemRoles.value = data.value;
-            globalStore.assignAlertMessage('Roles received', 'success')
             globalStore.toggleContentLoaderState('off')
 
         }
