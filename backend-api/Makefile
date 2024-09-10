@@ -35,12 +35,12 @@ staging.boost:
 staging.rmi:
 	docker image rm -f staging-reg-events-staging-reg-events
 staging.fronts: 
-	cd ../frontend-app && yarn build && pm2 restart staging.config.cjs &&  
+	cd ../frontend-app && yarn build && pm2 restart staging.config.cjs
 	cd  ../backend-api && make staging.start
 staging.logs:
 	docker logs -f staging-reg-events
 staging.update: 
-	 git pull && cd mgt-app &&  yarn ; yarn build && 
+	 git pull && cd mgt-app &&  yarn ; yarn build
 	 pm2 restart ecosystem.config.cjs &&  
 	 cd  ../ && make start
 # Define the directory and the command
