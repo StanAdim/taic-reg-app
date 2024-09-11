@@ -57,7 +57,7 @@ onNuxtReady(()=>{
 
               <!-- block for each support request -->
               <div v-for="item in supportStore.getUserSupportRequests" :key="item.id" @click="handleShowData(item)"
-                  class="mb-4 border-b border-gray-200 pb-4 hover:bg-sky-100 px-2 rounded-md">
+                  class="mb-4 border-b border-gray-200 pb-4 hover:bg-sky-100 hover:cursor-pointer px-2 rounded-md">
                 <h3 class="text-md font-medium text-blue-600">
                   <span>{{ item?.subject }}</span>
                 </h3>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ContentLoading from "~/components/usables/contentLoading.vue";
+
 const docStore = useDocumentMaterialStore()
 const props = defineProps({
   title: {
@@ -35,7 +37,8 @@ const  close = () => {
                     :src="props.blobDataFile"
                     width="100%"
                     height="600px"
-                ></iframe>
+                >
+                </iframe>
               </div>
             </div>
           </div>

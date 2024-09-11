@@ -26,7 +26,8 @@ const handlePostingResponse = async  () => {
       supportRequestId :route.params.id
     })
     await  supportStore.createResponseToRequest(data.value)
-    // isEditing.value = false
+    isEditing.value = false
+    formData.value.response = ''
   }
 }
 
@@ -85,7 +86,6 @@ const goTo = () => navigateTo('/crm/support')
                   <textarea
                       rows="4"
                       v-model="formData.response"
-                      @blur="toggleEditing"
                       class="text-sky-800 w-full border-b-2 border-teal-500 rounded-sm px-0.5 outline-none"
                   />
                   <button type="submit" class="px-4 py-0.5 bg-blue-500 text-white font-semibold rounded-md hover:bg-gray-600">Submit</button>

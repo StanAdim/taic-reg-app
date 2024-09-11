@@ -41,7 +41,7 @@ const authStore = useAuthStore()
 
         </div>
         <div>
-          <h3 class="text-xl font-semibold mb-4">Responses</h3>
+          <h3 class="text-xl font-semibold mb-4 px-2 relative">Responses <small class="absolute top-[2px] bg-emerald-200/80 rounded-full px-2 mx-2 text-green-600">{{props.requestData?.responses.length}}</small></h3>
 
           <!--   block for each response -->
           <template v-if="props.requestData?.responses.length != 0">
