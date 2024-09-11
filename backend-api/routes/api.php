@@ -19,6 +19,8 @@ use App\Http\Controllers\ExhibitionBoothController;
 use App\Http\Controllers\InvitationRequestController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SupportRequestController;
+use App\Http\Controllers\SupportResponseController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('bill/receive-controll', [BillController::class,'receiveControlNumber']);
@@ -65,7 +67,6 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
      Route::get('/events-documents', [DocumentMaterialController::class, 'index']);
 
     //Conferences ------------
-
     Route::get('/taic-conferences', [ConferenceController::class,'index']);
     Route::get('/conference-data/{uuid}', [ConferenceController::class,'getConferenceData']);
     Route::get('/conference/activate/{uuid}', [ConferenceController::class,'conferenceActiveate']);
@@ -85,7 +86,6 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::post('/update-conference-timetable', [TimetableController::class,'update']);
     Route::post('/create-conference-activity', [ActivityController::class,'create']);
     // Route::get('/honorable-speaker/activate/{uuid}', [SpeakerController::class,'activateHonourable']);
-
     Route::get('/event-bills', [BillController::class,'index']);
     Route::get('/event-bills-settled', [BillController::class,'settledBills']);
     
@@ -93,15 +93,25 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::get('/bill/cancellation/{bill_id}', [BillController::class,'handleCancellationRequest']);
     Route::get('/generate-invoice/{type}/{user_bill}', [BillController::class, 'generateInvoice']);
     
-    
     Route::apiResource('/booth-request', ExhibitionRequestController::class);
     Route::apiResource('/exhibition-booth', ExhibitionBoothController::class);
     Route::apiResource('/role', RoleController::class);
     Route::apiResource('/permission', PermissionController::class);
     Route::apiResource('/request-invitation-letter',InvitationRequestController::class);
-
+    Route::apiResource('/request-support',SupportRequestController::class);
+    Route::apiResource('/respond-support-request',SupportResponseController::class);
     
 });
 Route::get('/test-2', [BillController::class, 'generateCustomQrCode']);
     
 ///Test route
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/send-test-email', function () {
+    $details = [
+        'title' => 'Test Email from EMS',
+        'body' => 'This is a test email sent EMS system.',
+    ];
+    Mail::to('stanjustine@gmail.com')->send(new \App\Mail\TestMail($details));
+    return 'Test Email Sent!';
+});
