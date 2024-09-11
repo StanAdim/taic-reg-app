@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class GeneralController extends Controller
 {     
@@ -142,4 +143,18 @@ class GeneralController extends Controller
         }
 
       }
+      public function previewDocument(Request $request)
+      {
+          $file_name = $request->name;
+          if ($file_name == null) {
+              abort(404);
+          }
+  
+          if (!Storage::disk('local')->exists($file_name)) {
+              abort(404);
+          }
+          $pdfPath = storage_path('app/'. $file_name);
+          return response()->file($pdfPath);
+      }
+  
 }

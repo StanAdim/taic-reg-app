@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('support_requests', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->uuid('id')->primary();
             $table->string('subject');
-            $table->text('message');
+            $table->longText('message');
             $table->enum('status', ['open','pending', 'closed'])->default('open');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -14,6 +14,14 @@ class SupportRequestResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user' => $this->user->firstName. ' '.$this->user->lastName ,
+            'userKey' => $this->user->verificationKey,
+            'subject' => $this->subject,
+            'message' => $this->message,
+            'created_at' => $this->created_at,
+            'responses' =>  SupportResponseResource::collection($this->responses),
+        ];
     }
 }

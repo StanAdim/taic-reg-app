@@ -6,13 +6,26 @@ use App\Http\Resources\SupportRequestResource;
 use App\Models\SupportRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class SupportRequestController extends Controller
 {
     // List all support requests (with optional pagination)
     public function index()
     {
-        $requests = SupportRequest::with('responses')->orderBy('created_at', 'desc')->paginate(10); // Or you can use all() for all requests
+        $user = Auth::user();
+        $userRequest = SupportRequest::with('responses')
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        $allRequests = SupportRequest::with('responses')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        $isAdmin = Auth::user()->role->name === 'admin';
+        $isAdmin ? $requests = $allRequests :$requests = $userRequest;
+            
         return SupportRequestResource::collection($requests);
     }
 
@@ -22,6 +35,29 @@ class SupportRequestController extends Controller
         $request = SupportRequest::with('responses')->findOrFail($id);
         return new SupportRequestResource($request);
     }
+
+        // Show a single support request
+        public function latestUserRequest()
+        {
+            try {
+                $user = Auth::user();
+                $request = SupportRequest::with('responses')
+                    ->where('user_id', $user->id)
+                    ->latest() // Get the latest support request
+                    ->firstOrFail();
+        
+                return new SupportRequestResource($request);
+            } catch (ModelNotFoundException $e) {
+                return response()->json([
+                    'message' => 'No support request found for this user.'
+                ], 404);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'An error occurred while retrieving the support request.'
+                ], 500);
+            }
+        }
+    
 
     // Store a new support request
     public function store(Request $request)

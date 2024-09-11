@@ -31,27 +31,21 @@ export const useSupportActionStore = defineStore('supportStore', () => {
             globalStore.assignAlertMessage(error.value?.data?.message, 'error');
         }
     }
-    const createResponseToRequest = async (passedData)=> {
-        const { data, error } = await useApiFetch(`/api/respond-support-request`, {
-            method: 'POST',
-            body: passedData,
-        });
+    const triggerSingleRequest = async (requestId)=> {
+        const { data, error } = await useApiFetch(`/api/request-support/${requestId}`);
         if(data.value){
-            const message = 'New request initiated!';
-            await  retrieveAllInvitationRequests()
-            toggleModalStatus(false)
-            globalStore.assignAlertMessage(message, 'success');
+            singleSupportRequest.value = data.value?.data;
         }else {
             console.log(error.value.data.message)
             globalStore.assignAlertMessage(error.value?.data?.message, 'error');
         }
     }
-    const triggerSingleRequest = async (requestId)=> {
-        const { data, error } = await useApiFetch(`/api/request-support/${requestId}`);
+    const retrieveLatestSingleRequest = async ()=> {
+        const { data, error } = await useApiFetch(`/api/request-support-latest`);
         if(data.value){
-            const message = 'Request status changed!';
+            const message = '!';
             singleSupportRequest.value = data.value?.data;
-            globalStore.assignAlertMessage(message, 'success');
+            // globalStore.assignAlertMessage(message, 'success');
         }else {
             console.log(error.value.data.message)
             globalStore.assignAlertMessage(error.value?.data?.message, 'error');
@@ -93,6 +87,27 @@ export const useSupportActionStore = defineStore('supportStore', () => {
         }
     }
 
+
+    // Responses
+    const createResponseToRequest = async (passedData)=> {
+        globalStore.toggleLoadingState('on');
+        const { data, error } = await useApiFetch(`/api/respond-support-request`, {
+            method: 'POST',
+            body: passedData,
+        });
+        if(data.value){
+            const message = 'New response initiated!';
+            await  retrieveUserSupportRequests()
+            toggleModalStatus(false)
+            globalStore.toggleLoadingState('off');
+            globalStore.assignAlertMessage(message, 'success');
+        }else {
+            console.log(error.value.data.message)
+            globalStore.toggleLoadingState('off');
+            globalStore.assignAlertMessage(error.value?.data?.message, 'error');
+        }
+    }
+
     return {
         getUserSupportRequests,getModalStatus,
         getAllSupportRequest,
@@ -100,6 +115,7 @@ export const useSupportActionStore = defineStore('supportStore', () => {
         updateRequestStatus,
         createNewRequest,createResponseToRequest,
         retrieveResponseRequests,
+        retrieveLatestSingleRequest,
         triggerSingleRequest,
         retrieveUserSupportRequests,
     }

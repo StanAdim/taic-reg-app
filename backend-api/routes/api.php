@@ -63,8 +63,11 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
      Route::get('/user/subscribed-event-bills', [BillController::class,'userBill']);
 
      // Conference Document Material
-     Route::post('/upload-document', [DocumentMaterialController::class, 'upload']);
+     Route::post('/upload-document', [DocumentMaterialController::class, 'docUpload']);
      Route::get('/events-documents', [DocumentMaterialController::class, 'index']);
+     Route::delete('/events-document-delete-{id}', [DocumentMaterialController::class, 'destroy']);
+     Route::put('/events-document-update-{id}', [DocumentMaterialController::class, 'updateStatus']);
+     Route::get('/preview-document', [GeneralController::class, 'previewDocument']);
 
     //Conferences ------------
     Route::get('/taic-conferences', [ConferenceController::class,'index']);
@@ -98,6 +101,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::apiResource('/role', RoleController::class);
     Route::apiResource('/permission', PermissionController::class);
     Route::apiResource('/request-invitation-letter',InvitationRequestController::class);
+    Route::get('/request-support-latest',[SupportRequestController::class,'latestUserRequest']);
     Route::apiResource('/request-support',SupportRequestController::class);
     Route::apiResource('/respond-support-request',SupportResponseController::class);
     

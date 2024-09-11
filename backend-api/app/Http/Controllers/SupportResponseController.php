@@ -12,13 +12,14 @@ class SupportResponseController extends Controller
 {
    
 // Store a new response to a support request
-public function store(Request $request, $supportRequestId)
+public function store(Request $request)
 {
     $request->validate([
         'response' => 'required',
+        'supportRequestId' => 'required',
     ]);
 
-    $supportRequest = SupportRequest::findOrFail($supportRequestId);
+    $supportRequest = SupportRequest::findOrFail($request->supportRequestId);
 
     $supportResponse = SupportResponse::create([
         'support_request_id' => $supportRequest->id,

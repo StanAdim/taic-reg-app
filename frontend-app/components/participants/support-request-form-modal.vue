@@ -50,8 +50,6 @@ const closeModal = async ()=> {
   supportStore.toggleModalStatus(false)
 }
 </script>
-
-
 <template>
   <div class="fixed z-20  inset-0 overflow-y-auto rounded-lg mt-32" :class="{'hidden': !props.showStatus}" id="modal">
     <div class="flex  justify-center align-middle ">
@@ -62,7 +60,7 @@ const closeModal = async ()=> {
             <i class="fa fa-xl  fa-user mx-2"></i>
           </span>
             <span class="text-emerald-800 my-2 p-0.5 bg-zinc-50/5 flex-grow text-xl text-center font-bold">
-             SUPPORT INQUIRY REQUEST FORM
+             ANY QUESTION | INQUIRY FOR ASSISTANCE
           </span>
             <span class="text-emerald-800 p-0.5 bg-zinc-50/5 rounded-md hover:bg-red-500 hover:text-white flex-shrink-0"
                   @click="closeModal()"
@@ -72,9 +70,7 @@ const closeModal = async ()=> {
           </div>
           <!-- component -->
           <div class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold mb-6 text-center">
-              {{ isUpdateMode ? 'Update Request' : 'Create Request' }}
-            </h2>
+
               <form @submit.prevent="handleSubmit()">
                 <!-- Subject -->
                 <div class="mb-4">
@@ -94,7 +90,7 @@ const closeModal = async ()=> {
                 <div class="flex justify-end">
                   <button type="submit"
                           class="btn">
-                    Submit Request
+                    Submit
                   </button>
                 </div>
               </form>
@@ -105,8 +101,6 @@ const closeModal = async ()=> {
       </div>
     </div>
   </div>
-
-
 </template>
 
 <style scoped>

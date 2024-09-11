@@ -12,12 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('support_responses', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('support_request_id');
-            $table->unsignedBigInteger('user_id');
-            $table->text('response');
-            $table->foreign('support_request_id')->references('id')->on('support_requests')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->longText('response');
+            $table->foreignUuid('support_request_id')->references('id')->on('support_requests')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

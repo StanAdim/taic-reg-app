@@ -8,13 +8,16 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
     const allDocuments= ref <DocumentMaterial[]>([]);
     const eventDocuments= ref <DocumentMaterial[]>([]);
     const documentUploadModalStatus= ref <boolean>(false);
+    const docPreviewModal= ref <boolean>(false);
 
     //Computed
     const getEventDocument = computed(() => {return eventDocuments.value})
     const getAllDocs = computed(() => {return allDocuments.value})
     const getDocumentUploadDialogStatus = computed(() => {return documentUploadModalStatus.value})
+    const getPreviewModalStatus = computed(() => docPreviewModal.value);
 
     //Actions
+    const togglePreviewModalStatus = (newState: boolean) => docPreviewModal.value = newState;
     const toggleDocumentUploadModalStatus = (state) =>  documentUploadModalStatus.value = state;
     const uploadNewDocument = async (passedData)=> {
         // Make the API request to upload the file
@@ -57,10 +60,40 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
             globalStore.assignAlertMessage(error.value?.data?.message, 'error')
         }
     }
+    async function deleteDoc(docId : string) : Promise {
+        globalStore.toggleContentLoaderState('on')
+        const { data, error } = await useApiFetch(`/api/events-document-delete-${docId}`, {
+            method: 'DELETE'
+        });
+        if(data.value){
+            await  retrieveAllDocuments()
+            globalStore.toggleContentLoaderState('off');
+        }
+        else {
+            globalStore.toggleContentLoaderState('off');
+            globalStore.assignAlertMessage(error.value?.data?.message, 'error')
+        }
+    }
+    async function updateDocStatus(docId : string) : Promise {
+            globalStore.toggleContentLoaderState('on')
+            const { data, error } = await useApiFetch(`/api/events-document-update-${docId}`, {
+                method: 'PUT'
+            });
+            if(data.value){
+                await  retrieveAllDocuments()
+                globalStore.toggleContentLoaderState('off');
+            }
+            else {
+                globalStore.toggleContentLoaderState('off');
+                globalStore.assignAlertMessage(error.value?.data?.message, 'error')
+            }
+        }
 
     return {
         getAllDocs,getEventDocument,
         getDocumentUploadDialogStatus,toggleDocumentUploadModalStatus,
-        uploadNewDocument,retrieveAllDocuments
+        uploadNewDocument,retrieveAllDocuments,
+        togglePreviewModalStatus,getPreviewModalStatus,
+        deleteDoc,updateDocStatus,
     }
 })

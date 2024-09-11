@@ -6,6 +6,7 @@ definePageMeta({
   middleware:'auth'
 })
 const eventStore = useEventStore();
+const authStore = useAuthStore();
 const globalStore = useGlobalDataStore()
 const documentStore = useDocumentMaterialStore()
 const  config = useRuntimeConfig()
@@ -20,17 +21,20 @@ const tableData: DocumentMaterial[] = ref( [
   ...documentStore.getAllDocs
 ])
 const filterTableData = computed(() =>
-    tableData.value.filter(
+    documentStore.getAllDocs?.filter(
         (data) =>
             !search.value ||
             data.name.toLowerCase().includes(search.value.toLowerCase())
     )
 )
-const handleEdit = (index: number, row: DocumentMaterial) => {
-  console.log(index, row)
+
+const deleteFile = async (docID: string) => {
+  // console.log(row)
+  await  documentStore.deleteDoc(docID)
 }
-const handleDownload = (index: number, row: DocumentMaterial) => {
-  console.log(index, row)
+const changeDocStatus = async (docID: string) => {
+  // console.log(row)
+  await  documentStore.updateDocStatus(docID)
 }
 const openUploadModal = () => {
   documentStore.toggleDocumentUploadModalStatus(true)}
@@ -38,8 +42,27 @@ const openUploadModal = () => {
 const init = async () => {
   await eventStore.retrieveEvents();
   await documentStore.retrieveAllDocuments();
+};
 
-
+//handle file preview
+const blobDataFile = ref(null)
+const blobDataName = ref('')
+const previewFile = async (file_data) => {
+  documentStore.togglePreviewModalStatus(true)
+  globalStore.toggleContentLoaderState('on');
+  console.log(file_data)
+  blobDataName.value = file_data.name
+  let headers: any = {
+    accept: "application/json",
+    // Authorization: `Bearer ${authStore.getAccessToken}`,
+  };
+  const { data, error } = await useApiFetch(`/api/preview-document?name=`+file_data.path, { ...headers });
+  const blob = URL.createObjectURL(data.value as Blob);
+  blobDataFile.value = blob;
+  globalStore.toggleContentLoaderState('off');
+  if(error.value){
+    console.log(error.value)
+  }
 };
 
 onNuxtReady(() => {
@@ -49,6 +72,8 @@ onNuxtReady(() => {
 
 <template>
   <div class="">
+    <ParticipantsDocPreviewerModal :mode="documentStore.getPreviewModalStatus" :title="blobDataName" :blob-data-file="blobDataFile" />
+    <UsablesContentLoading />
     <AdminThePageTitle title="DOCUMENTS AND TIMETABLES" />
     <div class="flex justify-between">
       <div class="sub-heading">
@@ -70,8 +95,8 @@ onNuxtReady(() => {
           <el-table :data="filterTableData" style="width: 100%">
             <el-table-column label="Document Name" prop="name" />
             <el-table-column label="Event" prop="event" />
-            <el-table-column label="status" prop="status" />
-            <el-table-column align="right">
+            <el-table-column v-if="authStore.getUserRole === 'admin'"  label="status" prop="status" />
+            <el-table-column label="Action" align="right">
               <template #header>
                 <el-input v-model="search" size="default" placeholder="Type to search" />
               </template>
@@ -79,12 +104,26 @@ onNuxtReady(() => {
                 <el-button
                     size="small"
                     type="primary"
-                    @click="handleDownload(scope.$index, scope.row)"
+                    @click="previewFile(scope.row)"
                 >
-                  <a :href="scope.row.path" :download="scope.row.name"
-                     target="_blank" class="download-link">
-                    Download File
-                  </a>
+                  Preview File
+                </el-button>
+                <el-button
+                    v-if="authStore.getUserRole === 'admin'"
+                    size="small"
+                    type="danger"
+                    @click="deleteFile(scope.row?.id)"
+                >
+                  Delete
+                </el-button>
+                <el-button
+                    v-if="authStore.getUserRole === 'admin'"
+                    size="small"
+                    type="success"
+                    @click="changeDocStatus(scope.row?.id)"
+                >
+                  <span v-if="scope.row?.status != 'active'">Activate<i class="fa-solid fa-eye mx-2"></i></span>
+                  <span v-else>Disable<i class="fa-solid fa-eye-slash mx-2"></i></span>
                 </el-button>
               </template>
             </el-table-column>

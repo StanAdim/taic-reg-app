@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import {useBillStore} from "~/stores/useBillStore";
-import NoData from "~/components/usables/noData.vue";
 import ContentLoading from "~/components/usables/contentLoading.vue";
 import {useSupportActionStore} from "~/stores/useSupportActionStore";
 
@@ -10,11 +8,12 @@ definePageMeta({
 const supportStore = useSupportActionStore()
 const  handleNewSupport = () => {
   supportStore.toggleModalStatus(true)
-  console.log(supportStore.getModalStatus)
 }
+const passData = ref(null)
 const init = async () => {
-  console.log(supportStore.getModalStatus)
+ await  supportStore.retrieveLatestSingleRequest()
  await  supportStore.retrieveUserSupportRequests()
+  passData.value = supportStore.getSingleSupportRequest
 }
 
 const isUpdating  = ref(false)
@@ -25,10 +24,9 @@ const handleRequestUpdate = (item) => {
   supportStore.toggleModalStatus(true)
   // console.log(item)
 }
-const passData = ref(null)
+const title = ref('REQUEST FOR HELP')
 const handleShowData = async  (item) => {
   passData.value = item
-  console.log(item)
 }
 onNuxtReady(()=>{
   init()
@@ -37,7 +35,8 @@ onNuxtReady(()=>{
 
 <template>
   <div class="">
-    <AdminThePageTitle title="INVITATION LETTERS" />
+    <AdminThePageTitle :title="title" />
+    <ContentLoading />
     <ParticipantsSupportRequestFormModal :invitationRequest="toBeEdited"
                                          :is-update-mode="isUpdating"
                                          :show-status="supportStore.getModalStatus" />
@@ -50,7 +49,6 @@ onNuxtReady(()=>{
       </div>
     </div>
       <div class="my-2 py-2">
-        <ContentLoading />
         <div class="container md:py-8 md:px-4">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Left Column: List of Support Requests -->
