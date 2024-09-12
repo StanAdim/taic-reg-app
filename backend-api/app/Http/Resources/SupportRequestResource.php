@@ -21,6 +21,8 @@ class SupportRequestResource extends JsonResource
             'subject' => $this->subject,
             'message' => $this->message,
             'created_at' => $this->created_at,
+            'status' => $this->status,
+            'responseCount' => $this->responses->count(),
             'responses' =>  SupportResponseResource::collection($this->responses),
         ];
     }

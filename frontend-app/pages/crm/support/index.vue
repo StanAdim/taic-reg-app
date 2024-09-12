@@ -61,8 +61,8 @@ onNuxtReady(()=>{
                 <h3 class="text-md font-medium text-blue-600">
                   <span>{{ item?.subject }}</span>
                 </h3>
-                <p class="text-sm text-gray-600 mt-1">Status: <span class="text-green-500">{{ item.status }}</span></p>
-                <p class="text-sm text-gray-600 mt-1">Responses:{{ item?.responseCount }}</p>
+                <p class="text-sm text-gray-600 mt-1">Status: <span class="text-green-500">{{ item?.status }}</span></p>
+                <p class="text-sm text-gray-600 mt-1">Responses: <small class="absolute top-[2px] bg-emerald-200/80 rounded-full px-2 mx-2 text-green-600">{{item?.responseCount}}</small></p>
               </div>
               <!-- End  block -->
             </div>
