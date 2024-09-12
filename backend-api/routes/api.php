@@ -22,6 +22,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SupportRequestController;
 use App\Http\Controllers\SupportResponseController;
+use App\Http\Middleware\ApiKeyMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::post('bill/receive-controll', [BillController::class,'receiveControlNumber']);
@@ -110,8 +111,9 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
 
  // ================ Gaywey route routes ============================================
 
-Route::post('/v1/gateway-bill-submission', [PaymentGatewayController::class, 'handleBillSubmission']);
-
+Route::middleware([ApiKeyMiddleware::class])->group(function () {
+    Route::post('/v1/gateway-bill-submission', [PaymentGatewayController::class, 'handleBillSubmission']);
+});
 
 Route::get('/test-2', [BillController::class, 'generateCustomQrCode']);
     
