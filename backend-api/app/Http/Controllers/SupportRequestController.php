@@ -36,28 +36,33 @@ class SupportRequestController extends Controller
         return new SupportRequestResource($request);
     }
 
-        // Show a single support request
-        public function latestUserRequest()
-        {
-            try {
-                $user = Auth::user();
-                $request = SupportRequest::with('responses')
-                    ->where('user_id', $user->id)
-                    ->latest() // Get the latest support request
-                    ->firstOrFail();
-        
-                return new SupportRequestResource($request);
-            } catch (ModelNotFoundException $e) {
-                return response()->json([
-                    'message' => 'No support request found for this user.'
-                ], 404);
-            } catch (\Exception $e) {
-                return response()->json([
-                    'message' => 'An error occurred while retrieving the support request.'
-                ], 500);
-            }
-        }
+    // Show a single support request
+    public function latestUserRequest()
+    {
+        try {
+            $user = Auth::user();
+                $userRequest = SupportRequest::with('responses')
+                ->where('user_id', $user->id)
+                ->latest() // Get the latest support request
+                ->firstOrFail();
+
+                $request = SupportRequest::with('responses')->latest('created_at')
+                ->first();
+                
+            $isAdmin = Auth::user()->role->name === 'admin';
+            $isAdmin ? $request = $request : $request = $userRequest;
     
+            return new SupportRequestResource($request);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'No support request found for this user.'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while retrieving the support request.'
+            ], 500);
+        }
+    }
 
     // Store a new support request
     public function store(Request $request)

@@ -17,6 +17,7 @@ use App\Http\Controllers\Taic\TimetableController;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\ExhibitionBoothController;
 use App\Http\Controllers\InvitationRequestController;
+use App\Http\Controllers\PaymentGatewayController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SupportRequestController;
@@ -106,6 +107,12 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::apiResource('/respond-support-request',SupportResponseController::class);
     
 });
+
+ // ================ Gaywey route routes ============================================
+
+Route::post('/v1/gateway-bill-submission', [PaymentGatewayController::class, 'handleBillSubmission']);
+
+
 Route::get('/test-2', [BillController::class, 'generateCustomQrCode']);
     
 ///Test route
