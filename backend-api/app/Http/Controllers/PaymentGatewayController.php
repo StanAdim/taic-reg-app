@@ -10,5 +10,6 @@ class PaymentGatewayController extends Controller
 {
     public function handleBillSubmission(Request $request){
         Log::info($request);
+        return $request;
     }
 }
