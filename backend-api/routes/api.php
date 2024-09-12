@@ -24,6 +24,8 @@ use App\Http\Controllers\SupportRequestController;
 use App\Http\Controllers\SupportResponseController;
 use App\Http\Middleware\ApiKeyMiddleware;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+
 
 Route::post('bill/receive-controll', [BillController::class,'receiveControlNumber']);
 Route::post('bill/receive-payment', [BillController::class,'handlePayment']);
@@ -115,11 +117,8 @@ Route::middleware([ApiKeyMiddleware::class])->group(function () {
     Route::post('/v1/gateway-bill-submission', [PaymentGatewayController::class, 'handleBillSubmission']);
 });
 
-Route::get('/test-2', [BillController::class, 'generateCustomQrCode']);
     
 ///Test route
-use Illuminate\Support\Facades\Mail;
-
 Route::get('/send-test-email', function () {
     $details = [
         'title' => 'Test Email from EMS',
@@ -128,3 +127,4 @@ Route::get('/send-test-email', function () {
     Mail::to('stanjustine@gmail.com')->send(new \App\Mail\TestMail($details));
     return 'Test Email Sent!';
 });
+Route::get('/test-2', [BillController::class, 'generateCustomQrCode']);
