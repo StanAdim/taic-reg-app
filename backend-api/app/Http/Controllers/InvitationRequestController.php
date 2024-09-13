@@ -49,7 +49,9 @@ class InvitationRequestController extends Controller
         if(!$reqExist){
             $merged_data = array_merge($validated , ['user_id'=> $user_id]);
             $invitationRequest = InvitationRequest::create($merged_data);
-            Mail::to('stanjustine@gmail.com')->send(new ReportInvitationRequest($user,$merged_data));
+            $invData = new InvitationLetterResource($invitationRequest);
+            Mail::to('taic@ictc.go.tz')->send(new ReportInvitationRequest($user,$invData));
+            Mail::to('info@ictc.go.tz')->send(new ReportInvitationRequest($user,$invData));
             return response()->json($invitationRequest, 201);
         }else{
             return response()->json([

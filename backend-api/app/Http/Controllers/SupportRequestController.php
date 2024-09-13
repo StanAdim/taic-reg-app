@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SupportRequestResource;
+use App\Mail\ReportRaisedIssueMail;
 use App\Models\SupportRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use Illuminate\Support\Facades\Mail;
 
 class SupportRequestController extends Controller
 {
@@ -76,7 +77,8 @@ class SupportRequestController extends Controller
             'subject' => $request->subject,
             'message' => $request->message,
         ]);
-
+        // Mail::to('info@ictc.go.tz')->send(new ReportRaisedIssueMail());
+        Mail::to('stanjustine@gmail.com')->send(new ReportRaisedIssueMail());
         return new SupportRequestResource($supportRequest);
     }
 

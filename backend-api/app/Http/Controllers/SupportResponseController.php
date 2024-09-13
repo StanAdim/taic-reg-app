@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SupportResponseResource;
+use App\Mail\ReportRaisedIssueResponse;
 use App\Models\SupportRequest;
 use App\Models\SupportResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class SupportResponseController extends Controller
 {
@@ -26,7 +28,10 @@ public function store(Request $request)
         'user_id' => Auth::id(), // Assuming admin is authenticated via API
         'response' => $request->response,
     ]);
-
+    $submitter = $supportRequest->user;
+    Mail::to($submitter->email)->send(new ReportRaisedIssueResponse());
+    Mail::to('info@ictc.go.tz')->send(new ReportRaisedIssueResponse());
+    Mail::to('stanjustine@gmail.com')->send(new ReportRaisedIssueResponse());
     // Optionally update the support request's status to closed
     $supportRequest->status = 'closed';
     $supportRequest->save();
