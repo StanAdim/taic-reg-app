@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\InvitationLetterResource;
+use App\Mail\ReportInvitationRequest;
 use App\Models\InvitationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class InvitationRequestController extends Controller
 {
@@ -40,12 +42,14 @@ class InvitationRequestController extends Controller
              'others' => 'nullable|array',
          ]);
          $user_id = Auth::id();         
+         $user = Auth::user();         
          $reqExist = InvitationRequest::where('conference_id', $request->conference_id)
          ->where('user_id', $user_id)
          ->exists();
         if(!$reqExist){
             $merged_data = array_merge($validated , ['user_id'=> $user_id]);
             $invitationRequest = InvitationRequest::create($merged_data);
+            Mail::to('stanjustine@gmail.com')->send(new ReportInvitationRequest($user,$merged_data));
             return response()->json($invitationRequest, 201);
         }else{
             return response()->json([
