@@ -75,7 +75,7 @@ class PaymentGatewayController extends Controller
         try {
             $billData = Bill::create($newBill);
             // Update bill ID
-            $ext_bill_generated->bilbill_id = $billData->id;
+            $ext_bill_generated->bill_id = $billData->id;
             $ext_bill_generated->save();
 
                     $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
