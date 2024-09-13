@@ -54,7 +54,6 @@ onNuxtReady(()=>{
             <!-- Left Column: List of Support Requests -->
             <div class="bg-white rounded-lg shadow-md p-4">
               <h2 class="text-xl font-semibold mb-4">Support Requests</h2>
-
               <!-- block for each support request -->
               <div v-for="item in supportStore.getUserSupportRequests" :key="item.id" @click="handleShowData(item)"
                   class="mb-4 border-b border-gray-200 pb-4 hover:bg-sky-100 hover:cursor-pointer px-2 rounded-md">
