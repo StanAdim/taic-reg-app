@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\GeneralCustomHelper;
 use App\Helpers\XmlRequestHelper;
+use App\Http\Resources\GatewayBillResource;
 use App\Models\Bill;
 use App\Models\GatewayBill;
 use App\Models\Taic\Conference;
@@ -15,6 +16,45 @@ use Illuminate\Support\Facades\Log;
 
 class PaymentGatewayController extends Controller
 {
+    public function index(Request $request){
+        // Fetch the search term from the request (optional)
+        $search = $request->input('search');
+        $perPage = $request->input('per_page', 12); 
+        // Build the query for fetching bills
+        $query = GatewayBill::query()->orderBy('created_at', 'desc');
+        // Apply search if there is a search term
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('description', 'like', "%{$search}%")
+                  ->orWhere('customer_name', 'like', "%{$search}%")
+                  ->orWhere('customer_name', 'like', "%{$search}%"); // Add other fields for search if needed
+            });
+        }
+        // Paginate the results
+        $pagenated_bills = $query->paginate($perPage);
+        // Transform the paginated result into resources
+        $bills = GatewayBillResource::collection($pagenated_bills);
+    
+        if ($pagenated_bills->isNotEmpty()) {
+            return response()->json([
+                'message' => "Application bills",
+                'data' => $bills,
+                'pagination' => [
+                    'current_page' => $pagenated_bills->currentPage(),
+                    'last_page' => $pagenated_bills->lastPage(),
+                    'per_page' => $pagenated_bills->perPage(),
+                    'total' => $pagenated_bills->total(),
+                    'next_page_url' => $pagenated_bills->nextPageUrl(),
+                    'prev_page_url' => $pagenated_bills->previousPageUrl(),
+                ],
+                'code' => 200,
+            ]);
+        }
+        return response()->json([
+            'message' => "No bills found",
+            'code' => 300,
+        ]);
+    }
     public function handleBillSubmission(Request $request){
         $external_event = Conference::where('name', 'external_event')->get()->first();
         $external_user = User::where('email', env('MAIL_USERNAME'))->get()->first();

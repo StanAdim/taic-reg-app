@@ -108,7 +108,10 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::get('/request-support-latest',[SupportRequestController::class,'latestUserRequest']);
     Route::apiResource('/request-support',SupportRequestController::class);
     Route::apiResource('/respond-support-request',SupportResponseController::class);
-    
+
+    // Gateway routes
+    Route::get('/gateway/bills-requests', [PaymentGatewayController::class,'index']);
+
 });
 
  // ================ Gaywey route routes ============================================

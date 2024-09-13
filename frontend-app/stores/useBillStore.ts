@@ -6,10 +6,12 @@ export const useBillStore = defineStore('billStore', () => {
     const userPayments = ref([])
     const allBillGenerated = ref([])
     const settledBills = ref([])
+    const gatewayBills = ref([])
 
     const getUserPayments = computed(() => {return userPayments.value})
     const getAllBills = computed(() => {return allBillGenerated.value})
     const getSettledBills = computed(() => {return settledBills.value})
+    const getGatewayBillRequest = computed(() => {return gatewayBills.value})
 
     async function retrieveUserPayments(){
         globalStore.toggleContentLoaderState('on')
@@ -121,6 +123,23 @@ export const useBillStore = defineStore('billStore', () => {
         }
     }
 
+
+    // Gateway bill requests
+    async function retrieveGatewayBillRequests(per_page: number = 10, page : number = 1, search: string = ''){
+        globalStore.toggleContentLoaderState('on')
+        const {data, error} = await useApiFetch(`/api/gateway/bills-requests?per_page=${per_page}&page=${page}&search=${search}`);
+        const response = data.value as ApiResponse
+        if(response.code === 200){
+            gatewayBills.value = response.data
+            globalStore.toggleContentLoaderState('off')
+        }
+        if (error.value){
+            console.log(error.value)
+            globalStore.toggleContentLoaderState('off')
+
+        }
+    }
+
     return {
         retrieveUserPayments,
         retrieveAllSettledBills,getSettledBills,
@@ -129,6 +148,7 @@ export const useBillStore = defineStore('billStore', () => {
         handleBillReconciliation,
         handleBillCancellation,
         getAllBills,
-        handleInvoiceDownload
+        handleInvoiceDownload,
+        retrieveGatewayBillRequests,getGatewayBillRequest
     }
 })
