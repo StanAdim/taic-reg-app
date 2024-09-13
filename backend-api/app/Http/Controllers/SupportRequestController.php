@@ -77,8 +77,8 @@ class SupportRequestController extends Controller
             'subject' => $request->subject,
             'message' => $request->message,
         ]);
-        // Mail::to('info@ictc.go.tz')->send(new ReportRaisedIssueMail());
-        Mail::to('stanjustine@gmail.com')->send(new ReportRaisedIssueMail());
+        Mail::to('info@ictc.go.tz')->send(new ReportRaisedIssueMail());
+        Mail::to('taic@ictc.go.tz')->send(new ReportRaisedIssueMail());
         return new SupportRequestResource($supportRequest);
     }
 

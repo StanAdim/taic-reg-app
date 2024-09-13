@@ -30,8 +30,6 @@ public function store(Request $request)
     ]);
     $submitter = $supportRequest->user;
     Mail::to($submitter->email)->send(new ReportRaisedIssueResponse());
-    Mail::to('info@ictc.go.tz')->send(new ReportRaisedIssueResponse());
-    Mail::to('stanjustine@gmail.com')->send(new ReportRaisedIssueResponse());
     // Optionally update the support request's status to closed
     $supportRequest->status = 'closed';
     $supportRequest->save();

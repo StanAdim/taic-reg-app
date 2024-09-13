@@ -6,7 +6,7 @@
     </p>
 <p style="padding:4px 2px; margin: 4px 1px;">Be informed that there is a New Question | Inquiry raised to EMS </p>
 
-<p style="padding:4px 2px; margin: 4px 1px;">Kindly attend this response by login to https://ems.ictc.go.tz</p>
+<p style="padding:4px 2px; margin: 4px 1px;">Kindly attend this issue by login to https://ems.ictc.go.tz</p>
 
 
 <p style="padding:1px 2px; margin: 4px 1px;">Warm regards!</p>
