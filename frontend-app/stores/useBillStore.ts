@@ -138,6 +138,9 @@ export const useBillStore = defineStore('billStore', () => {
             globalStore.toggleContentLoaderState('off')
 
         }
+        if(response.code === 300){
+            globalStore.toggleContentLoaderState('off')
+        }
     }
 
     return {

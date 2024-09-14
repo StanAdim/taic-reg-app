@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Events\ControllNoReceivedEvent;
 use App\Models\Bill;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
@@ -33,7 +34,9 @@ class XmlResponseHelper
                             $theBill->status_code = $BillStsCode;
                             $theBill->status_description = $BillStsDesc;
                             $theBill->cust_cntr_num = $cust_cntr_num;
-                            $theBill->save();            
+                            $theBill->save();    
+                            //handle Action on received Control number
+                            event(new ControllNoReceivedEvent($theBill));        
                         }
                         else {
                             // "UPDATE billing SET gepgstatus='$ResStsCode' WHERE billid='$billid'");
