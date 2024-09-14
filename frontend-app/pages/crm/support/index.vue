@@ -42,10 +42,10 @@ onNuxtReady(()=>{
                                          :show-status="supportStore.getModalStatus" />
     <div class="flex flex-wrap gap-2 items-center">
       <div class="">
-        <h2 class="text-sky-700 font-bold">Do you have any inquiry ?</h2>
+        <h2 class="text-sky-700 font-bold">Do you have any Inquiry | Question ?</h2>
       </div>
       <div class="">
-        <UsablesTheButton @click.prevent="handleNewSupport()" :is-normal="true" name="New Request" iconClass="fa-solid fa-plus" />
+        <UsablesTheButton @click.prevent="handleNewSupport()" :is-normal="true" name="New Question | Inquiry" iconClass="fa-solid fa-plus" />
       </div>
     </div>
       <div class="my-2 py-2">

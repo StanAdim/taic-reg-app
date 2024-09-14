@@ -40,7 +40,7 @@ class ControllNumberMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'views.mail.payments.billGenerationEmail',
+            view: 'mail.payments.billGenerationEmail',
             with: [
                 'bill_data' => $this->bill_data,
             ],
