@@ -8,6 +8,9 @@
     Thank you for registering to attend to this Event, be informed your bill  is generated successfull. 
 </p>
 <p style="padding:4px 2px; margin: 4px 1px;">Bill Details</p>
+<p style="padding:4px 2px; margin: 6px 1px;">Bill Reference: {{$bill_data->ReqId}}</p>
+<p style="padding:4px 2px; margin: 6px 1px;">Bill Name: {{$bill_data->id}}</p>
+<p style="padding:4px 2px; margin: 6px 1px;">Bill Controll number: {{$bill_data->cust_cntr_num}}</p>
 {{-- <p style="padding:4px 2px; margin: 6px 1px;">Bill Reference: {{$bill_data->id}}</p> --}}
 <p style="padding:4px 2px; margin:.6rem 1px;">
     If you did not request a password reset, please ignore this email or contact our support team.
