@@ -34,7 +34,7 @@ class BillResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'user'=>$this->user->firstName.' '.$this->user->middleName. ' '.$this->user->lastName, 
+            'user'=>$this->customer_name, 
             'userKey'=>$this->user->verificationKey, 
             'conferenceName'=> 'TAIC '.Conference::where('id',$this->conference_id)->first()->conferenceYear, 
             'conferenceFee'=>$this->separateNumber($this->event_fee), 
