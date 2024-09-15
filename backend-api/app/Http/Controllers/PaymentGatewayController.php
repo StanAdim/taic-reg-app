@@ -126,7 +126,9 @@ class PaymentGatewayController extends Controller
                         if($isSuccessful){
                             return response()->json([
                                 'message'=> "Bill generated Successful",
-                                'data' => $billData,
+                                'data' => [
+                                    'bill_reference_id' => $billData->id
+                                ],
                                 'GepgAck' => $returedXml,
                                 'code'=> 200
                             ],200);
