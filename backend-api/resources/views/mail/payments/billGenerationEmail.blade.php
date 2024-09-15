@@ -12,14 +12,11 @@
 <p style="padding:4px 2px; margin: 6px 1px;">Bill Name: {{$bill_data->id}}</p>
 <p style="padding:4px 2px; margin: 6px 1px;">Bill Controll number: {{$bill_data->cust_cntr_num}}</p>
 {{-- <p style="padding:4px 2px; margin: 6px 1px;">Bill Reference: {{$bill_data->id}}</p> --}}
-<p style="padding:4px 2px; margin:.6rem 1px;">
-    If you did not request a password reset, please ignore this email or contact our support team.
-</p>
+<p style="padding:4px 2px; margin:.6rem 1px;">For further assistance contact us via: </p>
 
 <p style="padding:1px 2px; margin: 4px 1px;">Hotline : <span style="color: #105f8d;font-weight:600;">+255 738 171 742</span></p>
 <p style="padding:1px 2px; margin: 4px 1px;">Email : 
-    <span style="color: #0884cb;font-weight:600;">info@ictc.go.tz</span> or 
-    <span style="color: #0884cb;font-weight:600">ictsupport@ictc.go.tz</span>
+    <span style="color: #0884cb;font-weight:600;">info@ictc.go.tz</span>
 </p>
 <p style="padding:1px 2px; margin: 4px 1px;">Warm regards!</p>
 <p style="padding:1px 2px; margin: 4px 1px;">--------------</p>
