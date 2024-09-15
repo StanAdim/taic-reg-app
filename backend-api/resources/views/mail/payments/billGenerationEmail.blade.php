@@ -9,7 +9,8 @@
 </p>
 <p style="padding:4px 2px; margin: 4px 1px;">Bill Details</p>
 <p style="padding:4px 2px; margin: 6px 1px;">Bill Reference: {{$bill_data->ReqId}}</p>
-<p style="padding:4px 2px; margin: 6px 1px;">Bill Name: {{$bill_data->id}}</p>
+<p style="padding:4px 2px; margin: 6px 1px;">Bill For: {{$bill_data->name}}</p>
+<p style="padding:4px 2px; margin: 6px 1px;">Bill By: {{$bill_data->customer_name}}</p>
 <p style="padding:4px 2px; margin: 6px 1px;">Bill Controll number: {{$bill_data->cust_cntr_num}}</p>
 {{-- <p style="padding:4px 2px; margin: 6px 1px;">Bill Reference: {{$bill_data->id}}</p> --}}
 <p style="padding:4px 2px; margin:.6rem 1px;">For further assistance contact us via: </p>
