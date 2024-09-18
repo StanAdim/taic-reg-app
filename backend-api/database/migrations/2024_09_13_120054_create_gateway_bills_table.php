@@ -25,10 +25,10 @@ return new class extends Migration
             $table->integer('status_code')->nullable();
             $table->timestamp('expires_at');
             $table->integer('payment_order_id');
-            $table->string('callback_url');
             $table->string('flag')->nullable();
             $table->boolean('status')->default(false);
             $table->string('bill_id')->nullable();
+            $table->string('system_code');
             $table->timestamps();
         });
     }

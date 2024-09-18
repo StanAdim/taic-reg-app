@@ -6,6 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Events\ControllNoReceivedEvent;
 use App\Models\GatewayBill;
+use App\Models\GatewaySystem;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
@@ -40,11 +41,13 @@ class GatewayControllNoListener
                     'control_number' => $bill_data-> cust_cntr_num
                 ]
             ]);
+            $system = GatewaySystem::where('code',$gatewayBill->system_code)->first();
+            $url = $system->base_url.$system->callback_controll_number.$gatewayBill->user_id;
             // Send the HTTP request with the required headers
              Http::withHeaders([
                 'User-Agent' =>$user_agent,
                 'Authorization' => $authorization_token
-            ])->post($gatewayBill->callback_url, $data);
+            ])->post($url, $data);
         }else{
             Log::info('--- Internal  Bill ----');
         }

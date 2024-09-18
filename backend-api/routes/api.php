@@ -110,6 +110,9 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::apiResource('/respond-support-request',SupportResponseController::class);
 
     // Gateway routes
+    Route::get('/gateway/registered-system', [PaymentGatewayController::class,'registeredSystem']);
+    Route::post('/gateway/register-system', [PaymentGatewayController::class,'addNewSystem']);
+    Route::post('/gateway/updated-system/{id}', [PaymentGatewayController::class,'updateSystem']);
     Route::get('/gateway/bills-requests', [PaymentGatewayController::class,'index']);
 
 });

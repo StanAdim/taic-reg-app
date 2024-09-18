@@ -25,7 +25,7 @@ class GatewayBill extends Model
         'status_code',
         'expires_at',
         'payment_order_id',
-        'callback_url',
+        'system_code',
     ];
 
     protected $dates = ['expires_at']; // Ensure 'expires_at' is treated as a date

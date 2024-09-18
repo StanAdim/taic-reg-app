@@ -5,7 +5,7 @@ useHead({
     title: 'TAIC - Timetable'
 })
 definePageMeta({
-    middleware:'auth'
+  middleware:['auth','admin-role-checker']
 })
 
 const globalData = useGlobalDataStore()
@@ -46,11 +46,16 @@ const rolesHeader = [{name: "Name", key: 'name'}]
           </div>
 
         </el-tab-pane>
-        <el-tab-pane label="Gepg Configuration" name="second">
+        <el-tab-pane label="Gateway Systems" name="second">
+          <div class="">
+            <GatewaySytemList />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Gepg Configuration" name="third">
           <div class="">
               <p>Gepg Configurations</p>
           </div>
-
+            <div class=""></div>
         </el-tab-pane>
       </el-tabs>
     </div>

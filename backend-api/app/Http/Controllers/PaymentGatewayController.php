@@ -7,6 +7,7 @@ use App\Helpers\XmlRequestHelper;
 use App\Http\Resources\GatewayBillResource;
 use App\Models\Bill;
 use App\Models\GatewayBill;
+use App\Models\GatewaySystem;
 use App\Models\Taic\Conference;
 use App\Models\User;
 use Carbon\Carbon;
@@ -16,6 +17,14 @@ use Illuminate\Support\Facades\Log;
 
 class PaymentGatewayController extends Controller
 {
+
+    public function registeredSystem(){
+        $data_req = GatewaySystem::all();
+        return response()->json([
+            'message' => 'System registered',
+            'data' => $data_req,
+        ]);
+    }
     public function index(Request $request){
         // Fetch the search term from the request (optional)
         $search = $request->input('search');
@@ -60,7 +69,7 @@ class PaymentGatewayController extends Controller
         $external_user = User::where('email', env('MAIL_USERNAME'))->get()->first();
         $validatedData = $request->validate([
             'description' => 'required|string|max:255',
-            'user_id' => 'required|integer',
+            'user_id' => 'required',
             'phone_number' => 'required|string|min:3', // Validate '+' sign
             'customer_name' => 'required|string|max:255',
             'customer_email' => 'nullable|email',
@@ -71,7 +80,7 @@ class PaymentGatewayController extends Controller
             'status_code' => 'required|integer',
             'expires_at' => 'required|date',
             'payment_order_id' => 'required|integer',
-            'callback_url' => 'required|url',
+            'system_code' => 'required',
         ]);
         // Create a new payment record
         $ext_bill_generated = GatewayBill::create([
@@ -87,7 +96,7 @@ class PaymentGatewayController extends Controller
             'status_code' => $validatedData['status_code'],
             'expires_at' => Carbon::now()->addMonths(8)->format('Y-m-d\TH:i:s'), // Parse date
             'payment_order_id' => $validatedData['payment_order_id'],
-            'callback_url' => $validatedData['callback_url'],
+            'system_code' => $validatedData['system_code'],
         ]);
         $newBill = [
             'user_id' => $external_user->id,
@@ -140,7 +149,6 @@ class PaymentGatewayController extends Controller
                             'code'=> 300
                         ],500);
                         }
-
                     }
                     else{
                         return response()->json([
@@ -157,5 +165,46 @@ class PaymentGatewayController extends Controller
             , 500);
         }
         // Log::info($request);
+    }
+
+
+    // create system
+    public function addNewSystem(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'callback_controll_number' => 'required|string|max:100',
+            'callback_payment_number' => 'required|string|max:100',
+            'callback_reconcilliation' => 'required|string|max:100',
+            'callback_addition' => 'required|string|max:100',
+            'base_url' => 'required|url',
+        ]);
+        
+        $newSystem = GatewaySystem::create($validated);
+        return response()->json([
+            'message' => 'New system added',
+            'data' => $newSystem
+        ], 201);
+    }
+
+    // Update an existing Example
+    public function updateSystem(Request $request, GatewaySystem $updatedSystem)
+    {
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'code' => 'sometimes|required|string|max:50',
+            'description' => 'nullable|string',
+            'callback_controll_number' => 'sometimes|required|string|max:100',
+            'callback_payment_number' => 'sometimes|required|string|max:100',
+            'callback_reconcilliation' => 'sometimes|required|string|max:100',
+            'callback_addition' => 'sometimes|required|string|max:100',
+            'base_url' => 'sometimes|required|url',
+        ]);
+        $updatedSystem->update($validated);
+        return response()->json([
+            'message' => 'New system added',
+            'data' => $updatedSystem
+        ], 200);
     }
 }
