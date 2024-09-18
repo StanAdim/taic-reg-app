@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+ 
 
 class GatewaySystem extends Model
 {
@@ -21,4 +23,12 @@ class GatewaySystem extends Model
         'callback_addition',
         'base_url',
     ];
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($newSystem ) {
+            $newSystem ->code = 'SYS-' . Str::random(8); //code generation
+        });
+    }
 }

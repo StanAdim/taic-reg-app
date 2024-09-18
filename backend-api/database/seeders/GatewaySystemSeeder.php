@@ -23,7 +23,7 @@ class GatewaySystemSeeder extends Seeder
             'callback_reconcilliation' => '/sample',
             'callback_addition' => 'sample',
             'base_url' => 'https://rhino-present-firmly.ngrok-free.app',
-            'code' => Str::random(8),
+            // 'code' => Str::random(8),
         ]);
     }
 }
