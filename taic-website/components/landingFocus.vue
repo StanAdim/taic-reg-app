@@ -32,7 +32,8 @@ const getSitedData = ref({
                     <div class="d-flex justify-content-start">
                         <!-- <a href="#contact" class="btn-get-started mr-20" data-aos="fade-up" data-aos-delay="800">Get Quotes</a> -->
                       <a href="https://ems.ictc.go.tz" class="btn-get-started" data-aos="fade-up" data-aos-delay="1000">Register Now</a>
-                      <a href="/static/files/documents/ConceptNote.pdf" target="_blank">
+<!--                      <a href="/static/files/documents/ConceptNote.pdf" target="_blank">-->
+                      <a href="/static/files/documents/TAIC_2024_Concept_new.pdf" target="_blank">
                           <usables-dowload-btn name="TAIC Extra Details" />
                       </a>
                       <a href="/static/files/documents/call_for_speakers_2024.pdf" target="_blank">
