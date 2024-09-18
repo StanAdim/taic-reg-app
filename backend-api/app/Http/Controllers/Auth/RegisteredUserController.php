@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomEmailVerification;
 use App\Models\Role;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Password;
+
 
 
 class RegisteredUserController extends Controller
@@ -129,4 +131,5 @@ class RegisteredUserController extends Controller
             // Return a success response
             return response()->json(['message' => 'Password has been reset successfully.'], 200);
         }
+       
 }

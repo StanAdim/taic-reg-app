@@ -83,11 +83,16 @@ const options = [
     label: 'Option2',
   },
 ]
+const handleExcelExport = async  () => {
+  console.log('payments')
+}
 </script>
 <template>
   <div class="">
     <!-- Search Input -->
     <div class="flex justify-end items-center gap-2 mb-2">
+      <UsablesTheButton @click.prevent="handleExcelExport" :is-normal="true" name="Excel" iconClass="fa-regular fa-file-excel" />
+
       <div class="">
         <input
             v-model="searchQuery"

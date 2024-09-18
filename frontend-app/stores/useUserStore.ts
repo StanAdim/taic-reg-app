@@ -17,6 +17,7 @@ export const useUserStore = defineStore('userStore', () => {
         }
         globalStore.toggleContentLoaderState('off')
     }
+
     return {
         retrieveSystemUserDetail,
         getSystemUserDetail,

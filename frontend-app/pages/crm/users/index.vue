@@ -8,6 +8,7 @@ useHead({
   title: 'System - Users'
 })
 const authStore = useAuthStore()
+const exportStore = useFileExportsStore()
 
 const handleSelected = (selectedIds) => {
   const selectedUser = []
@@ -43,6 +44,9 @@ const handleVerification = async  (pathKey) => {
   await authStore.userEmailVerification(pathKey)
 
 }
+const handleExcelExport = async () => {
+  await exportStore.downloadUsersExcel()
+}
 onNuxtReady(()=> {
    initialize()
 })
@@ -53,6 +57,9 @@ onNuxtReady(()=> {
     <AdminThePageTitle title="REGISTERED SYSTEM USERS"/>
     <content-loading />
     <div class="flex flex-wrap justify-end">
+      <div class="">
+        <UsablesTheButton @click.prevent="handleExcelExport" :is-normal="true" name="Excel" iconClass="fa-regular fa-file-excel" />
+      </div>
       <div class="mx-4">
         <input
             v-model="searchQuery"

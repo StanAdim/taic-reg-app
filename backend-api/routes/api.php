@@ -16,6 +16,7 @@ use App\Http\Controllers\Taic\SpeakerController;
 use App\Http\Controllers\Taic\TimetableController;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\ExhibitionBoothController;
+use App\Http\Controllers\FileExportController;
 use App\Http\Controllers\InvitationRequestController;
 use App\Http\Controllers\PaymentGatewayController;
 use App\Http\Controllers\PermissionController;
@@ -114,6 +115,12 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::post('/gateway/register-system', [PaymentGatewayController::class,'addNewSystem']);
     Route::post('/gateway/updated-system/{id}', [PaymentGatewayController::class,'updateSystem']);
     Route::get('/gateway/bills-requests', [PaymentGatewayController::class,'index']);
+
+    // Excells and file exports
+    Route::get('/export-users', [FileExportController::class, 'exportUsers']);
+    Route::get('/export-bills', [FileExportController::class, 'exportBills']);
+    Route::get('/export-payments', [FileExportController::class, 'exportPayments']);
+
 
 });
 

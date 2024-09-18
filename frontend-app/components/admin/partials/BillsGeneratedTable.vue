@@ -70,11 +70,17 @@ const handleBillDownloading = async (docType, row) => {
   await billStore.handleInvoiceDownload(docType,row?.id);
 }
 
+const handleExcelExport = async  () => {
+  console.log('bills')
+}
+
 </script>
 <template>
   <div class="">
     <!-- Search Input -->
     <div class="flex justify-end items-center gap-2 mb-2">
+      <UsablesTheButton @click.prevent="handleExcelExport" :is-normal="true" name="Excel" iconClass="fa-regular fa-file-excel" />
+
       <input
           v-model="searchQuery"
           @keyup.enter="searchUserData"
