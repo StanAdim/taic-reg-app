@@ -23,7 +23,7 @@ onNuxtReady(()=> {
           <UsablesTheButton :is-normal="true" name="Add System" iconClass="fa-solid fa-plus" />
         </div>
       </div>
-    <UsablesSimpleDataTable :headers="systemHeader" :data="systemStore.getRegisteredSystems" />
+      <UsablesSimpleDataTable :headers="systemHeader" :data="systemStore.getRegisteredSystems" />
     </div>
 </template>
 
