@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\DocumentMaterialController;
+use App\Http\Controllers\EventBadgeController;
 use App\Http\Controllers\ExhibitionRequestController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\ProfessionalController;
@@ -61,6 +62,9 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
      Route::get('/system-user-{user_key}',[UserInfoController::class, 'retrieveSystemUserDetails']);
      Route::post('/admin-update-user-data/{userKey}',[RegisteredUserController::class, 'adminUpdateUser']);
      Route::get('/admin-update-user-role/{userKey}-{roleId}',[RegisteredUserController::class, 'adminUpdateRole']);
+
+     Route::get('/professional-list',[ProfessionalController::class, 'professionalList']);
+     Route::post('/store-professional',[ProfessionalController::class, 'store']);
 
      Route::get('/subscribe-event/{eventId}', [SubscriptionController::class,'subscribeToEvent']);
      Route::post('/unsubscribe-user-from-event', [SubscriptionController::class,'unsubscribeUserFromEvent']);
@@ -141,3 +145,4 @@ Route::get('/send-test-email', function () {
     return 'Test Email Sent!';
 });
 Route::get('/test-2', [BillController::class, 'generateCustomQrCode']);
+Route::get('/test-card', [EventBadgeController::class, 'sendBadgeToParticipant']);

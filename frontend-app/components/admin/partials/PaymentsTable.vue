@@ -16,14 +16,6 @@ pastDate.setDate(now.getDate() - 1); // Subtract 10 days from the current date
 
 const pickedDate = ref(`${pastDate.getFullYear()}-${(pastDate.getMonth() + 1).toString().padStart(2, '0')}-${pastDate.getDate().toString().padStart(2, '0')}`);
 
-
-// Sample data - Replace with your API call or data source
-const items = ref([
-  { id: 1, column1: 'Data 1', column2: 'Data 2', column3: 'Data 3', column4: 'Data 4' },
-  { id: 2, column1: 'Data A', column2: 'Data B', column3: 'Data C', column4: 'Data D' },
-  // Add more items as needed
-])
-
 const headers = ref(['Sn', 'Participant', "Conference" , 'Fee',"Control Number",'Payment Status', 'Status code','Status Desc','Paid Amount', 'date', 'Prints', 'Actions'])
 const searchQuery = ref('')
 
@@ -92,7 +84,6 @@ const handleExcelExport = async  () => {
     <!-- Search Input -->
     <div class="flex justify-end items-center gap-2 mb-2">
       <UsablesTheButton @click.prevent="handleExcelExport" :is-normal="true" name="Excel" iconClass="fa-regular fa-file-excel" />
-
       <div class="">
         <input
             v-model="searchQuery"

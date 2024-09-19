@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProfessinalResource extends JsonResource
+class ProfessionaListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,6 +17,11 @@ class ProfessinalResource extends JsonResource
         return [
             'name'=> $this->Name,
             'phoneNumber'=> $this->Mobile,
+            'RegNo'=> $this->RegNo,
+            'Email'=> $this->Email,
+            'isVerified'=> $this->isVerified,
+            'DateOfRegistration'=> $this->DateOfRegistration,
+            'ProfessionalCategory'=> $this->ProfessionalCategory,
             'Employer'=> $this->Employer,
         ];   
     }

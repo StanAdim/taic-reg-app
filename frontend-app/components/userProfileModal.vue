@@ -25,7 +25,7 @@ const handleUserDetailUpdateModal = async () => {
 initialize()
 </script>
 <template>
-  <div id="modal" :class="{'hide': !props.showStatus}" class="fixed z-20 inset-0 overflow-y-auto mt-1 top-32">
+  <div id="modal" :class="{'hide': !props.showStatus}" class="fixed z-20 inset-0 overflow-y-auto mt-1 top-32 bg-black bg-opacity-60">
     <div class="flex  justify-center items-center">
       <div class="relative bg-blue-100 w-full md:w-3/5 lg:w-3/5 rounded-lg shadow-xl py-2">
         <div class="border-b-2 border-teal-500 flex justify-between items-center py-1">

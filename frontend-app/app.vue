@@ -2,7 +2,7 @@
 const globalStore = useGlobalDataStore()
 </script>
 <template>
-  <div>
+  <div class="quicksand">
     <top-labels />
 <!--    <usables-alert-success :message="globalStore.getAlertMessage" :hide="globalStore.getSuccessStatus" />-->
 <!--    <usables-alert-danger :errors="globalStore.getAlertMessage" :hide="globalStore.getDangerStatus" />-->
@@ -12,6 +12,12 @@ const globalStore = useGlobalDataStore()
   </div>
 </template>
 <style>
+.quicksand{
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
 .layout-enter-active,
 .layout-leave-active {
   transition: all 0.4s;

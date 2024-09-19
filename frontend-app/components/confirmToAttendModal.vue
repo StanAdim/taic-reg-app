@@ -41,7 +41,7 @@ const handleSubscription = async ()=> {
 }
 </script>
 <template>
-  <div id="modal" :class="{'hide': !props.showStatus}" class="fixed z-20 inset-0 overflow-y-auto mt-1 top-48">
+  <div id="modal" :class="{'hide': !props.showStatus}" class="fixed z-20 inset-0 overflow-y-auto mt-1 top-48 bg-black bg-opacity-75">
     <div class="flex  justify-center items-center ">
       <div class="relative bg-blue-100  rounded-lg shadow-xl py-1 w-2/3 md:w-2/5">
         <div class="border-b-2 border-teal-500 flex justify-between items-center py-1 px-2">
