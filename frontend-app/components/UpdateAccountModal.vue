@@ -21,7 +21,7 @@ const handleFormSubmit = async () => {
 }
 </script>
 <template>
-  <div class="fixed z-[40] inset-0 overflow-y-auto rounded-lg mt-32" :class="{'hide': !props.showStatus}" id="modal">
+  <div class="fixed z-[40] inset-0 overflow-y-auto rounded-lg mt-32 bg-black bg-opacity-60" :class="{'hide': !props.showStatus}" id="modal">
     <div class="flex  justify-center align-middle ">
       <div class="bg-blue-100 rounded-lg px-2 shadow-xl">
         <div class="border-b-2 border-teal-500">

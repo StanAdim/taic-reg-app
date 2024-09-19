@@ -54,7 +54,7 @@ onNuxtReady(()=> {
 })
 </script>
 <template>
-  <div class="fixed z-[40] inset-0 overflow-y-auto mt-1 top-32" :class="{'hide': !props.showStatus}" id="modal">
+  <div class="fixed z-[40] inset-0 overflow-y-auto mt-1 top-32 bg-black bg-opacity-60" :class="{'hide': !props.showStatus}" id="modal">
     <div class="flex  justify-center items-center">
       <div class="relative bg-blue-100 w-4/5 md:w-1/5 lg:w-2/5 rounded-lg shadow-xl py-2">
         <div class="border-b-2 border-teal-500">

@@ -51,7 +51,7 @@ const closeModal = async ()=> {
 }
 </script>
 <template>
-  <div class="fixed z-20  inset-0 overflow-y-auto rounded-lg mt-32" :class="{'hidden': !props.showStatus}" id="modal">
+  <div class="fixed z-20  inset-0 overflow-y-auto rounded-lg mt-32 bg-black bg-opacity-60" :class="{'hidden': !props.showStatus}" id="modal">
     <div class="flex  justify-center align-middle ">
       <div class="bg-blue-100 rounded-lg px-2 shadow-xl md:p-4">
         <div class="border-b-2 border-teal-500">
@@ -105,11 +105,11 @@ const closeModal = async ()=> {
 
 <style scoped>
 .input {
-  @apply mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm
+  @apply mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm
 }
 
 .btn {
-  @apply px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+  @apply px-4 py-2 bg-sky-400 text-white font-semibold rounded-md shadow hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500
 }
 
 </style>

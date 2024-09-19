@@ -55,7 +55,7 @@ const closeModal = async ()=> {
 }
 </script>
 <template>
-  <div class="fixed z-20  inset-0 overflow-y-auto rounded-lg mt-32" :class="{'hide': !props.showStatus}" id="modal">
+  <div class="fixed z-20  inset-0 overflow-y-auto rounded-lg mt-32 bg-black bg-opacity-60" :class="{'hide': !props.showStatus}" id="modal">
     <div class="flex  justify-center align-middle ">
       <div class="bg-blue-100 rounded-lg px-2 shadow-xl md:w-1/2">
         <div class="border-b-2 border-teal-500">
