@@ -61,7 +61,7 @@ class ProfessionalController extends Controller
             // $request->file('file')->storeAs('uploads/professionals', time(), 'public');
         }catch (\Exception $e) {
             return response()->json([
-            'message' => 'Failed to create bill',
+            'message' => 'Error: '.$e->getMessage(),
             'error' => $e->getMessage(), 'code' => 300]
             , 500);
         }
