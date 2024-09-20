@@ -11,7 +11,11 @@ class FileExportController extends Controller
 {
     //
     public function exportUsers() {
-        return Excel::download(new UsersExport, 'users.xlsx');
+        $fileName = 'users.xlsx';
+        $filePath = public_path('documents/excels/' . $fileName);
+        Excel::store(new UsersExport, $filePath);
+        // return response()->download($filePath);
+        // return Excel::download(new UsersExport, 'users.xlsx');
     }
 
     public function exportBills() {

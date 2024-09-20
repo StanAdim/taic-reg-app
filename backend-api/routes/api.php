@@ -133,7 +133,8 @@ Route::middleware([ApiKeyMiddleware::class])->group(function () {
     Route::post('/v1/gateway-bill-submission', [PaymentGatewayController::class, 'handleBillSubmission']);
 });
 
-    
+Route::get('/export-test', [FileExportController::class, 'exportUsers']);
+
 ///Test route
 Route::get('/send-test-email', function () {
     $details = [

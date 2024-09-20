@@ -18,8 +18,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BillController extends Controller
 {
-    public function userBill()
-    {
+    public function userBill(){
         $bills = BillResource::collection(Auth::user()->bills->sortByDesc('created_at'));
         return response()->json([
             'message'=> "All your bills",
@@ -67,7 +66,6 @@ class BillController extends Controller
             'code' => 300,
         ]);
     }
-
     public function settledBills(Request $request){
         // Fetch the search term from the request (optional)
         $search = $request->input('search');
@@ -106,7 +104,6 @@ class BillController extends Controller
             'code' => 300,
         ]);
     }
-
     // Handle the receipt of Control number
     public function receiveControlNumber(Request $request)  {
         // process response 
@@ -114,7 +111,6 @@ class BillController extends Controller
         return $dataResult;
         
    }
-
    //deal with payments receipt 
    public function handlePayment(Request $request)  {
     // process response 
@@ -124,10 +120,10 @@ class BillController extends Controller
     }
 
     //Handle response on Reconcile request
-   public function handleGepgReconcileRes(Request $request)  {
-    // process response 
-    $dataResult = XmlResponseHelper::handleReconcileReceipt($request->getContent());
-    return $dataResult;
+   public function handleGepgReconcileRes(Request $request) {
+        // process response 
+        $dataResult = XmlResponseHelper::handleReconcileReceipt($request->getContent());
+        return $dataResult;
     }
 
     // user request reconciliation
@@ -186,7 +182,6 @@ class BillController extends Controller
         }
         
     }
-
     public function generateInvoice($type, $user_bill){
         try {
             $bank_details = [];
