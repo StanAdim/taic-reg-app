@@ -53,11 +53,18 @@ class ProfessionalController extends Controller
         $request->validate([
             'file' => 'required|mimes:xlsx,xls,csv'
         ]);
-        Excel::import(new ProfessionalImport, $request->file('file'), null, \Maatwebsite\Excel\Excel::XLSX);
-        $request->file('file')->storeAs('uploads/professionals', time(), 'public');
-        return response()->json([
-            'message' => 'Success importing Professional',
-        ],200);
+        try{
+            Excel::import(new ProfessionalImport, $request->file('file'), null, \Maatwebsite\Excel\Excel::XLSX);
+            return response()->json([
+                'message' => 'Success importing Professional',
+            ],200);
+            // $request->file('file')->storeAs('uploads/professionals', time(), 'public');
+        }catch (\Exception $e) {
+            return response()->json([
+            'message' => 'Failed to create bill',
+            'error' => $e->getMessage(), 'code' => 300]
+            , 500);
+        }
     }
     
     public function getProfessionalDetails(Request $request){

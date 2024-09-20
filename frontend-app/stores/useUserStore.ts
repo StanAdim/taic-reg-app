@@ -42,7 +42,7 @@ export const useUserStore = defineStore('userStore', () => {
         if(data.value){
             globalStore.toggleLoadingState('off')
             toggleImportModalStatus(false)
-            globalStore.assignAlertMessage('DataImport Success','success')
+            globalStore.assignAlertMessage('Data Imported Success','success')
         }else{
             globalStore.toggleLoadingState('off')
             globalStore.assignAlertMessage(error.value?.data?.message, 'error')
