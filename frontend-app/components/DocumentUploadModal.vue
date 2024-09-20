@@ -44,7 +44,6 @@ const handleFileUpload = async () => {
   formData.append('document', formInputs.value.file);
   formData.append('name', formInputs.value.name);
   formData.append('conference_id', formInputs.value.conference_id);
-
   // Log the form data contents for debugging
   // for (let [key, value] of formData.entries()) {
   //   console.log(`${key}:`, value);

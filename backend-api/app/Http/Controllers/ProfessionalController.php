@@ -6,6 +6,8 @@ use App\Http\Resources\ProfessinalResource;
 use App\Http\Resources\ProfessionaListResource;
 use App\Models\Professional;
 use Illuminate\Http\Request;
+use App\Imports\ProfessionalImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProfessionalController extends Controller
 {
@@ -46,7 +48,19 @@ class ProfessionalController extends Controller
             'data' => $new_data
         ],200);
     }
-        public function getProfessionalDetails(Request $request){
+
+    public function importExel(Request $request){
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv'
+        ]);
+        Excel::import(new ProfessionalImport, $request->file('file'), null, \Maatwebsite\Excel\Excel::XLSX);
+        $request->file('file')->storeAs('uploads/professionals', time(), 'public');
+        return response()->json([
+            'message' => 'Success importing Professional',
+        ],200);
+    }
+    
+    public function getProfessionalDetails(Request $request){
             $query = $request->input('reg_number');
             $query = strtoupper(trim($query));
             $result = ProfessinalResource::collection(Professional::where('RegNo' , $query)->get())->first();

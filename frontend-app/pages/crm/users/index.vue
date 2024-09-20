@@ -61,7 +61,7 @@ onNuxtReady(()=> {
   <div class="">
     <AdminThePageTitle title="REGISTERED SYSTEM USERS"/>
     <content-loading />
-    <template>
+    <div class="">
       <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane label="System Users" name="first">
           <div class="flex flex-wrap justify-end">
@@ -187,8 +187,7 @@ onNuxtReady(()=> {
           </div>
         </el-tab-pane>
       </el-tabs>
-    </template>
-
+    </div>
   </div>
 </template>
 

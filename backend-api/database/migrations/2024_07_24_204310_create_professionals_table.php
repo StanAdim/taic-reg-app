@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("RegNo")->unique();
             $table->string("Name");
             $table->string("Employer");
-            $table->integer("ProfessionalCategory");
+            $table->integer("ProfessionalCategory");// 1 .Professionals 2. Graduate 3. Technician 4. Affiliatte 5. Consultant
             $table->string("AreaOfSpecialization");
             $table->string("Email");
             $table->string("Mobile");

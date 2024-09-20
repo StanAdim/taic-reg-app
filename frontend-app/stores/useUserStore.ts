@@ -7,14 +7,17 @@ export const useUserStore = defineStore('userStore', () => {
     const systemUserDetail = ref(null)
     const professionalList = ref(null)
     const regModalStatus = ref(false)
+    const importModalStatus = ref(false)
 
     const getSystemUserDetail = computed(() => {return systemUserDetail.value})
     const getProfessionalList = computed(() => {return professionalList.value})
     const getRegModalStatus : boolean = computed(() => {return regModalStatus.value})
+    const getImportModalStatus : boolean = computed(() => {return importModalStatus.value})
 
     // Actions
 
     const toggleRegModalStatus = (state) => regModalStatus.value = state
+    const toggleImportModalStatus = (state) => importModalStatus.value = state
 
     async function store(professional_data ) : Promise{
         const  {data, error} = await useApiFetch("/api/store-professional", {
@@ -23,12 +26,26 @@ export const useUserStore = defineStore('userStore', () => {
         });
         if(data.value){
             globalStore.toggleLoadingState('off')
+            toggleRegModalStatus(false)
             globalStore.assignAlertMessage('Registration Success','success')
-            globalStore.toggleRegistrationForm()
         }else{
-            authErrors.value = error.value?.data
             globalStore.toggleLoadingState('off')
-            globalStore.assignAlertMessage(authErrors.value?.message, 'error')
+            globalStore.assignAlertMessage(error.value?.message, 'error')
+        }
+    }
+    async function importExcel(passed_data ) : Promise{
+        globalStore.toggleLoadingState('on')
+        const  {data, error} = await useApiFetch("/api/import-professionals-excel", {
+            method: "POST",
+            body: passed_data,
+        });
+        if(data.value){
+            globalStore.toggleLoadingState('off')
+            toggleImportModalStatus(false)
+            globalStore.assignAlertMessage('DataImport Success','success')
+        }else{
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage(error.value?.data?.message, 'error')
         }
     }
 
@@ -62,6 +79,7 @@ export const useUserStore = defineStore('userStore', () => {
         retrieveSystemUserDetail,
         getSystemUserDetail,
         toggleRegModalStatus,getRegModalStatus,
+        getImportModalStatus,toggleImportModalStatus,importExcel,
         getProfessionalList, store,
         retrieveProfessionalList
 

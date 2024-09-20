@@ -32,16 +32,15 @@ const init = async () => {
 onNuxtReady(()=> {
   init()
 })
-const handleExcelExport = ()=> {
-  console.log("Helloe")
-}
+
 </script>
 
 <template>
   <div class="mt-2">
     <reg-professional-modal />
+    <ImportProfessionalsModal />
     <div class="flex justify-end items-center gap-2 mb-2 mx-4">
-      <UsablesTheButton @click.prevent="handleExcelExport" :is-normal="true" name="Upload New" iconClass="fa-regular fa-file-excel" />
+      <UsablesTheButton @click.prevent="userStore.toggleImportModalStatus(true)" :is-normal="true" name="Import New" iconClass="fa-regular fa-file-excel" />
       <UsablesTheButton @click.prevent="userStore.toggleRegModalStatus(true)" :is-normal="true" name="Add New" iconClass="fa-solid fa-plus" />
       <div class="">
         <input

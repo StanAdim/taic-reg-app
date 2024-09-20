@@ -34,6 +34,9 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && docker-php-ext-install pdo_pgsql
 
+RUN apt-get install -y libzip-dev \
+    && docker-php-ext-install zip
+
 
 EXPOSE 80
 

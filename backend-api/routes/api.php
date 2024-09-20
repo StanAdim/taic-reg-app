@@ -44,9 +44,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
  Route::get('/verify-user-email-{verificationKey}',[GeneralController::class, 'verifyUserEmail']);
  Route::get('/site-data', [SiteController::class , 'fetchSiteData']);
  Route::get('/get-districts/{targetRegion}',[GeneralController::class, 'getDistricts']);
- Route::post('/reset-password', [RegisteredUserController::class, 'passwordResetting'])
- ->middleware('guest')
- ->name('password.reseting');
+ Route::post('/reset-password', [RegisteredUserController::class, 'passwordResetting'])->middleware('guest')->name('password.reseting');
 
  Route::post('/call/professional-details', [ProfessionalController::class,'getProfessionalDetails']);
 
@@ -65,6 +63,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
 
      Route::get('/professional-list',[ProfessionalController::class, 'professionalList']);
      Route::post('/store-professional',[ProfessionalController::class, 'store']);
+     Route::post('/import-professionals-excel',[ProfessionalController::class, 'importExel']);
 
      Route::get('/subscribe-event/{eventId}', [SubscriptionController::class,'subscribeToEvent']);
      Route::post('/unsubscribe-user-from-event', [SubscriptionController::class,'unsubscribeUserFromEvent']);
