@@ -34,7 +34,7 @@ export const useBillStore = defineStore('billStore', () => {
         }
         if(response.code === 300){
             allBillGenerated.value = response.data
-            globalStore.assignAlertMessage(data.value?.message, 'success')
+            globalStore.assignAlertMessage(response?.message, 'warning')
             globalStore.toggleContentLoaderState('off')
         }
         if (error.value){
