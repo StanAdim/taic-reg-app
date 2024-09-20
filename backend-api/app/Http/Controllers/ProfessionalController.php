@@ -53,18 +53,44 @@ class ProfessionalController extends Controller
         $request->validate([
             'file' => 'required|mimes:xlsx,xls,csv'
         ]);
-        try{
+        try {
             Excel::import(new ProfessionalImport, $request->file('file'), null, \Maatwebsite\Excel\Excel::XLSX);
+        
             return response()->json([
                 'message' => 'Success importing Professional',
-            ],200);
-            // $request->file('file')->storeAs('uploads/professionals', time(), 'public');
-        }catch (\Exception $e) {
+            ], 200);
+        
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            // If there's a validation error during the import
+            $failures = $e->failures();
+        
+            // Collect the errors
+            $duplicateEntries = [];
+            foreach ($failures as $failure) {
+                $row = $failure->row(); // Row number at which the failure occurred
+                $attribute = $failure->attribute(); // Column that caused the failure
+                $errors = $failure->errors(); // Error messages
+        
+                $duplicateEntries[] = [
+                    'row' => $row,
+                    'attribute' => $attribute,
+                    'errors' => $errors,
+                ];
+            }
+        
             return response()->json([
-            'message' => 'Error: '.$e->getMessage(),
-            'error' => $e->getMessage(), 'code' => 300]
-            , 500);
+                'message' => 'Error: Duplicate entries found - '.$duplicateEntries,
+                'duplicates' => $duplicateEntries,
+            ], 409); // 409 Conflict status code
+        
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error: ' . $e->getMessage(),
+                'error' => $e->getMessage(),
+                'code' => 300
+            ], 500);
         }
+        
     }
     
     public function getProfessionalDetails(Request $request){
