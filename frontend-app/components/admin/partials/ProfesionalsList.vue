@@ -2,7 +2,7 @@
 const userStore = useUserStore()
 
 const currentPage = ref <number>(1)
-const per_page = ref <number>(12)
+const per_page = ref <number>(30)
 const searchQuery = ref('')
 const pageSwitchValue = ref(1)
 const movePage = async (type:number) => {
@@ -23,7 +23,7 @@ const  updateData = async () => {
 const  searchUserData = async () => {
   await userStore.retrieveProfessionalList(per_page.value,currentPage.value, searchQuery.value)
 }
-const headers = ref(['Sn', 'Name', "RegNo" , 'Phone', 'Email', 'is Verified','DateOfRegistration', 'Actions'])
+const headers = ref(['Sn', 'Name', "RegNo" , 'is Verified', 'Actions'])
 
 
 const init = async () => {
@@ -75,13 +75,13 @@ onNuxtReady(()=> {
             <td class="table-data">{{ index + 1 }}</td>
             <td class="table-data">{{ item.name }}</td>
             <td class="table-data">{{ item.RegNo }}</td>
-            <td class="table-data">{{ item.phoneNumber }}</td>
-            <td class="table-data">{{ item.Email }}</td>
+<!--            <td class="table-data">{{ item.phoneNumber }}</td>-->
+<!--            <td class="table-data">{{ item.Email }}</td>-->
             <td class="table-data">
               <span  class="text-green-600 px-2" v-if="item.isVerified"><i class="fa-regular fa-circle-dot"></i></span>
               <span class="text-red-600 px-2" v-else><i class="fa-regular fa-circle-dot"></i></span>
             </td>
-            <td class="table-data">{{ item.DateOfRegistration }}</td>
+<!--            <td class="table-data">{{ item.DateOfRegistration }}</td>-->
 <!--            <td class="table-data">{{ item.Employer }}</td>-->
             <td class="table-data">
               <el-button class="mx-1 my-0.5"  size="default" type="primary" @click="handleBillDownloading(1,item)">
