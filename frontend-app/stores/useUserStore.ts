@@ -27,6 +27,7 @@ export const useUserStore = defineStore('userStore', () => {
         if(data.value){
             globalStore.toggleLoadingState('off')
             toggleRegModalStatus(false)
+            await retrieveProfessionalList()
             globalStore.assignAlertMessage('Registration Success','success')
         }else{
             globalStore.toggleLoadingState('off')
@@ -42,6 +43,7 @@ export const useUserStore = defineStore('userStore', () => {
         if(data.value){
             globalStore.toggleLoadingState('off')
             toggleImportModalStatus(false)
+            await retrieveProfessionalList()
             globalStore.assignAlertMessage('Data Imported Success','success')
         }else{
             globalStore.toggleLoadingState('off')
