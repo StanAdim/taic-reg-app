@@ -28,11 +28,9 @@ class ProfessionalImport implements ToModel, WithHeadingRow
             ]);   
          } catch (QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
-                // Log the duplicate RegNo for further review
                 Log::warning('Duplicate RegNo found: ' . $row['regno']);
                 return null;
             }
-
             throw $e;
         }
     }

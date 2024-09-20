@@ -63,6 +63,7 @@ class BillController extends Controller
         }
         return response()->json([
             'message' => "No bills found",
+            'data' => [],
             'code' => 300,
         ]);
     }
