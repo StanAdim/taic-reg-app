@@ -136,7 +136,11 @@ export const useAuthStore = defineStore('auth', ()=> {
             await fetchUser();
             globalStore.toggleUserInfoDialogStatus('off')
             globalStore.assignAlertMessage(userInfoResponse.data.value?.message,'success')
-        }else{
+        }if(userInfoResponse.data.value?.code == 300){
+            globalStore.toggleLoadingState('off')
+            globalStore.assignAlertMessage(userInfoResponse.data.value?.message,'warning')
+        }
+        else{
             authErrors.value = userInfoResponse.error.value?.data
             globalStore.toggleLoadingState('off')
             globalStore.assignAlertMessage(authErrors.value?.errors, 'error')

@@ -56,7 +56,8 @@ class UserInfoController extends Controller
            else{
             return response()->json([
                 'message'=> 'Wrong Professional Number',
-            ],422);
+                'code'=> 300
+            ],200);
            }
         }
         $user  = User::where('id',$newItem['user_id'] )->get()->first();
