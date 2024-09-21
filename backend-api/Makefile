@@ -121,3 +121,8 @@ production.yarn:
 	@cd $(DIR1) && $(CMD) && $(CMD1)
 	@cd $(DIR2) && $(CMD) && $(CMD2)
 	@echo "Command executed in $(DIR1) and in $(DIR2)"
+
+git-merge:
+	git checkout main; git fetch origin; git merge staging && git commit ; git push origin  main
+	git checkout production; git fetch origin; git merge main && git commit && git push origin  production
+	git checkout staging
