@@ -144,5 +144,7 @@ Route::get('/send-test-email', function () {
     Mail::to('stanjustine@gmail.com')->send(new \App\Mail\TestMail($details));
     return 'Test Email Sent!';
 });
-Route::get('/test-2', [BillController::class, 'generateCustomQrCode']);
+Route::get('/test', function() {
+    return 12;
+});
 Route::get('/test-card', [EventBadgeController::class, 'sendBadgeToParticipant']);
