@@ -17,6 +17,7 @@ onNuxtReady(() => {
       <el-carousel :interval="5000" arrow="always" class="py-4 md:py-12">
         <el-carousel-item v-for="item in eventStore.getUpComingEvents" :key="item.id" style="height:auto">
           <div class=" my-2 mx-auto rounded ">
+            <UsablesHanceLoader />
             <div class="">
 <!--            <img src="/image/handling.png" class="w-fit" alt="img" />-->
             </div>

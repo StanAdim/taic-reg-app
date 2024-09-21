@@ -85,6 +85,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         });
         if (loginResponse.status.value === 'success'){
             await fetchUser();
+            globalStore.toggleBtnLoadingState(false)
             globalStore.assignAlertMessage('Welcome back!!','success')
         if (user.value){
             navigateTo('/crm/');
@@ -92,6 +93,7 @@ export const useAuthStore = defineStore('auth', ()=> {
         }else {
             authErrors.value = loginResponse.error.value
             globalStore.toggleLoadingState('off')
+            globalStore.toggleBtnLoadingState(false)
             globalStore.assignAlertMessage(authErrors.value?.data?.message, 'error')
         }
         return loginResponse;
@@ -116,11 +118,13 @@ export const useAuthStore = defineStore('auth', ()=> {
         });
         if(registrationResponse?.data.value?.code == 200){
             globalStore.toggleLoadingState('off')
+            globalStore.toggleBtnLoadingState(false)
             globalStore.assignAlertMessage('Registration Success: Check your Email','success')
             globalStore.toggleRegistrationForm()
         }else{
             authErrors.value = registrationResponse?.error.value?.data
             globalStore.toggleLoadingState('off')
+            globalStore.toggleBtnLoadingState(false)
             globalStore.assignAlertMessage(authErrors.value?.message, 'error')
         }
         return registrationResponse;

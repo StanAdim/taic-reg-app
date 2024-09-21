@@ -3,26 +3,7 @@ const authStore = useAuthStore()
 
 // Props for the component
 const props = defineProps({
-  invitationRequest: {
-    type: Object,
-    default: () => ({
-      id: '',
-      institutionName: '',
-      addressingTo: '',
-      po_box: '',
-      hostPosition: '',
-      email_to: '',
-      conference_id: 0,
-      region_Id: 0,
-      status: false,
-      user_id: 0
-    })
-  },
   isUpdateMode: {
-    type: Boolean,
-    default: false
-  },
-  showStatus: {
     type: Boolean,
     default: false
   }
@@ -32,14 +13,14 @@ const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
 // Reactive form data initialized from props
 const formData = reactive({
-  id: props.invitationRequest.id,
+  id: invitationStore.getDataToBeUpdated?.id,
   institutionName: authStore.getLoggedUserInfo?.institution,
-  email_to: props.invitationRequest.email_to,
-  addressingTo: props.invitationRequest.addressingTo,
-  po_box: props.invitationRequest.po_box,
-  hostPosition: props.invitationRequest.hostPosition,
-  conference_id: props.invitationRequest.conference_id,
-  region_Id: props.invitationRequest.region_Id,
+  email_to: invitationStore.getDataToBeUpdated?.email_to,
+  addressingTo: invitationStore.getDataToBeUpdated?.addressingTo,
+  po_box: invitationStore.getDataToBeUpdated?.po_box,
+  hostPosition: invitationStore.getDataToBeUpdated?.hostPosition,
+  conference_id: invitationStore.getDataToBeUpdated?.conference_id,
+  region_Id: invitationStore.getDataToBeUpdated?.region_Id,
 })
 // Handle form submission
 const handleSubmit = async () => {
@@ -47,7 +28,7 @@ const handleSubmit = async () => {
   try {
     if (props.isUpdateMode) {
       // Update mode: send PUT request
-      await  invitationStore.createInvitationRequest(formData);
+      await  invitationStore.updateInvitationRequest(formData, invitationStore.getDataToBeUpdated?.id);
     } else {
       // Create mode: send POST request
        await  invitationStore.createInvitationRequest(formData);
@@ -58,12 +39,24 @@ const handleSubmit = async () => {
   await closeModal()
 }
 const closeModal = async ()=> {
-   await  invitationStore.retrieveAllInvitationRequests();
   invitationStore.toggleNewInvitationModalStatus(false)
 }
+function childFunction() {
+      formData.id = invitationStore.getDataToBeUpdated?.id
+      formData.institutionName = authStore.getLoggedUserInfo?.institution
+      formData.email_to = invitationStore.getDataToBeUpdated?.email_to
+      formData.addressingTo = invitationStore.getDataToBeUpdated?.addressingTo
+      formData.po_box = invitationStore.getDataToBeUpdated?.po_box
+      formData.hostPosition = invitationStore.getDataToBeUpdated?.hostPosition
+      formData.conference_id = invitationStore.getDataToBeUpdated?.conference_id
+      formData.region_Id = invitationStore.getDataToBeUpdated?.region_Id
+}
+defineExpose({
+  childFunction
+});
 </script>
 <template>
-  <div class="fixed z-20  inset-0 overflow-y-auto rounded-lg mt-32bg-black bg-opacity-60" :class="{'hide': !props.showStatus}" id="modal">
+  <div v-if="invitationStore.getInvitationModalStatus" class="fixed z-20  inset-0 overflow-y-auto rounded-lg mt-32bg-black bg-opacity-60"  id="modal">
     <div class="flex  justify-center align-middle ">
       <div class="bg-blue-100 rounded-lg px-2 shadow-xl md:p-4">
         <div class="border-b-2 border-teal-500">

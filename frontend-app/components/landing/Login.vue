@@ -7,6 +7,7 @@ const globalData = useGlobalDataStore()
 const authStore = useAuthStore()
 const credentials = ref({ email:'', password: ''})
 const handleLogin = async ()=>{
+  globalData.toggleBtnLoadingState(true)
   if(credentials.value.password === '' && credentials.value.email === ''){
     return globalData.assignAlertMessage('Enter your email & password', 'error')
   }
@@ -22,7 +23,6 @@ const date = new Date();
     <register-modal :showStatus="globalData.getRegistrationModalStatus" />
     <div class="">
       <h2 class="font-bold text-xl text-sky-600">Please login to continue|</h2>
-      <UsablesHanceLoader />
       <div class="mt-4 ">
         <form @submit.prevent="handleLogin()" class="w-full md:w-4/5">
           <div>
@@ -65,7 +65,7 @@ const date = new Date();
             </div>
           </div>
           <div class="my-6 text-white">
-            <button class=" rounded-md bg-sky-600 w-fit px-16 py-3 hover:bg-sky-800">Login</button>
+            <button class=" rounded-md bg-sky-600 w-fit px-16 py-3 hover:bg-sky-800">Login <UsablesBtnLoader /></button>
           </div>
 
         </form>

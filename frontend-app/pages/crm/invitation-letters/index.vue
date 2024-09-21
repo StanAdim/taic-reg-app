@@ -21,13 +21,15 @@ const indexMethod = (index: number) => index + 1
 const handleClick = () => {
   console.log('click')
 }
+const childRef = ref(null);
 const isUpdating  = ref(false)
 const toBeEdited  = ref()
 const handleRequestUpdate = (item) => {
   isUpdating.value = true
+  invitationStore.assignDataToBeUpdated(item)
+  childRef.value.childFunction();
   toBeEdited.value = item
   invitationStore.toggleNewInvitationModalStatus(true)
-  // console.log(item)
 }
 const  goToUser = (pathKey)=> navigateTo(`/crm/users/user/${pathKey}`)
 const  handleRequestResolve = async (requestId)=> {
@@ -42,9 +44,7 @@ onNuxtReady(()=>{
 <template>
   <div class="">
     <AdminThePageTitle title="INVITATION LETTERS" />
-    <CreateUpdateInvitationLetterRequest :invitationRequest="toBeEdited"
-                                         :is-update-mode="isUpdating"
-                                         :show-status="invitationStore.getInvitationModalStatus" />
+    <CreateUpdateInvitationLetterRequest ref="childRef" :is-update-mode="isUpdating" />
     <div class="flex flex-wrap gap-2 items-center">
       <div class="">
         <h2 class="text-sky-700 font-bold">Your Invitation letter Request</h2>

@@ -6,8 +6,8 @@ const props = defineProps({
 <template>
     <div class="mb-4 mt-2 text-center">
       <p class="">
-        <span class="text-2xl font-bold text-uppercase px-2">{{ props.title }}</span>
-        <span class=""> <UsablesRobotLoading /></span>
+        <span class="text-2xl font-bold text-uppercase">{{ props.title }}</span>
+        <span class="mx-2"> <UsablesRobotLoading /></span>
       </p>
       <hr class="py-0.5 my-1 bg-blue-300">
     </div>

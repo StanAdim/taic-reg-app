@@ -81,7 +81,7 @@ class InvitationRequestController extends Controller
              'po_box' => 'sometimes|string',
              'institutionName' => 'sometimes|string',
              'addressingTo' => 'sometimes|string',
-             'region_Id' => 'sometimes|string',
+             'region_Id' => 'sometimes',
              'hostPosition' => 'sometimes|string',
              'status' => 'sometimes|string',
              'email' => 'sometimes|email',

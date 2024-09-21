@@ -91,7 +91,6 @@ export const useSupportActionStore = defineStore('supportStore', () => {
         }
     }
 
-
     // Responses
     const createResponseToRequest = async (passedData)=> {
         globalStore.toggleLoadingState('on');
