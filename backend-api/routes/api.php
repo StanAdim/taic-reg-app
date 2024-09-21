@@ -145,6 +145,6 @@ Route::get('/send-test-email', function () {
     return 'Test Email Sent!';
 });
 Route::get('/test', function() {
-    return 12;
+    return 'test is live';
 });
 Route::get('/test-card', [EventBadgeController::class, 'sendBadgeToParticipant']);
