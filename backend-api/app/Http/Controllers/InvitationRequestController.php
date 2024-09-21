@@ -91,7 +91,6 @@ class InvitationRequestController extends Controller
  
          $invitationRequest = InvitationRequest::findOrFail($id);
          $invitationRequest->update($validated);
- 
          return response()->json($invitationRequest, 200);
      }
  
@@ -100,7 +99,6 @@ class InvitationRequestController extends Controller
      {
          $invitationRequest = InvitationRequest::findOrFail($id);
          $invitationRequest->delete();
- 
          return response()->json(null, 204);
      }
 }
