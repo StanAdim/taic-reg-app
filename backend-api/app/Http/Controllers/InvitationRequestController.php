@@ -76,16 +76,15 @@ class InvitationRequestController extends Controller
      public function update(Request $request, $id)
      {
          $validated = $request->validate([
-             'user_id' => 'sometimes|string',
-             'conference_id' => 'sometimes|string',
-             'po_box' => 'sometimes|string',
-             'institutionName' => 'sometimes|string',
-             'addressingTo' => 'sometimes|string',
-             'region_Id' => 'sometimes',
-             'hostPosition' => 'sometimes|string',
-             'status' => 'sometimes|string',
-             'email' => 'sometimes|email',
-             'ccTo' => 'nullable|string',
+             'user_id' => 'sometimes',
+             'conference_id' => 'sometimes',
+             'institutionName' => '',
+             'po_box' => '',
+             'region_Id' => '',
+             'addressingTo' => '',
+             'conference_id' => '',
+             'hostPosition' => '',
+             'email_to' => 'email',
              'cc_To' => 'nullable|array',
              'others' => 'nullable|array',
          ]);
