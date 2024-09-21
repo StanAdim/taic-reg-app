@@ -60,7 +60,6 @@ onNuxtReady(()=> {
 <template>
   <div class="">
     <AdminThePageTitle title="REGISTERED SYSTEM USERS"/>
-    <content-loading />
     <div class="">
       <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane label="System Users" name="first">

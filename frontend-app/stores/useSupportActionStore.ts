@@ -25,9 +25,11 @@ export const useSupportActionStore = defineStore('supportStore', () => {
             const message = 'New request initiated!';
             await  retrieveUserSupportRequests()
             toggleModalStatus(false)
+            globalStore.toggleBtnLoadingState(false);
             globalStore.assignAlertMessage(message, 'success');
         }else {
             console.log(error.value.data.message)
+            globalStore.toggleBtnLoadingState(false);
             globalStore.assignAlertMessage(error.value?.data?.message, 'error');
         }
     }
@@ -56,9 +58,11 @@ export const useSupportActionStore = defineStore('supportStore', () => {
         if(data.value){
             const message = 'Request status changed!';
             await  retrieveAllInvitationRequests()
+            globalStore.toggleBtnLoadingState(false);
             globalStore.assignAlertMessage(message, 'success');
         }else {
             console.log(error.value.data.message)
+            globalStore.toggleBtnLoadingState(false);
             globalStore.assignAlertMessage(error.value?.data?.message, 'error');
         }
     }
@@ -99,11 +103,13 @@ export const useSupportActionStore = defineStore('supportStore', () => {
             const message = 'New response initiated!';
             await  retrieveUserSupportRequests()
             toggleModalStatus(false)
+            globalStore.toggleBtnLoadingState(false);
             globalStore.toggleLoadingState('off');
             globalStore.assignAlertMessage(message, 'success');
         }else {
             console.log(error.value.data.message)
             globalStore.toggleLoadingState('off');
+            globalStore.toggleBtnLoadingState(false);
             globalStore.assignAlertMessage(error.value?.data?.message, 'error');
         }
     }

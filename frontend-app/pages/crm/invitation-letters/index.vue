@@ -54,7 +54,6 @@ onNuxtReady(()=>{
       </div>
     </div>
       <div class="my-2 py-2">
-        <ContentLoading />
         <el-table :data="invitationStore.getInvitationRequests" style="width: 100%">
             <el-table-column label="Sn" type="index" :index="indexMethod" />
           <template v-if="authStore.getUserRole === 'admin'">

@@ -36,7 +36,6 @@ onNuxtReady(()=>{
 <template>
   <div class="">
     <AdminThePageTitle :title="title" />
-    <ContentLoading />
     <ParticipantsSupportRequestFormModal :invitationRequest="toBeEdited"
                                          :is-update-mode="isUpdating"
                                          :show-status="supportStore.getModalStatus" />

@@ -34,7 +34,8 @@ export const useEventStore = defineStore('eventStore', () => {
         }
         return {data, error};
       }
-      async function createUpdateEvent(passEvent: ConferenceData){
+      async function createUpdateEvent(passEvent: ConferenceData) : Promise{
+
         await useApiFetch("/sanctum/csrf-cookie");
         const action = passEvent.action
         const {data, error} = await useApiFetch(`/api/${action}-conference-data`,{
@@ -43,10 +44,15 @@ export const useEventStore = defineStore('eventStore', () => {
         });
         const dataResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
-          globalStore.toggleLoadingState('off')
+          globalStore.toggleBtnLoadingState(false)
           globalStore.assignAlertMessage(dataResponse?.message,'success')
           eventDialogStatus.value = false;
           await retrieveEvents()
+        }
+        else
+        {
+          globalStore.toggleBtnLoadingState(false)
+          console.log(error.value)
         }
         return {data, error};
       }

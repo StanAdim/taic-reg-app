@@ -31,7 +31,6 @@ onNuxtReady(() => {
         <div class="w-full px-4 py-2">
           <h2  class="text-sky-700 font-bold text-lg my-1">Events booked</h2>
           <div class="flex justify-center my-2">
-            <UsablesContentLoading />
           </div>
           <div class=" my-2">
             <template v-if="subscriptionStore.getSubscribedEvents.length !== 0">

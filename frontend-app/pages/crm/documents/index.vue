@@ -73,7 +73,6 @@ onNuxtReady(() => {
 <template>
   <div class="">
     <ParticipantsDocPreviewerModal :mode="documentStore.getPreviewModalStatus" :title="blobDataName" :blob-data-file="blobDataFile" />
-    <UsablesContentLoading />
     <AdminThePageTitle title="DOCUMENTS AND TIMETABLES" />
     <div class="flex justify-between">
       <div class="sub-heading">

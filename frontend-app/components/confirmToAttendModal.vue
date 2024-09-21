@@ -31,6 +31,7 @@ const closeModal = ()=> {
 }
 const handleSubscription = async ()=> {
   globalData.hanceLoaderTurn('on')
+  globalData.toggleBtnLoadingState(true)
   const subscription = {eventId : props.eventDetail.id}
   if(authStore.getLoggedUserInfo?.isForeigner){
     subscription.eventFee = props.eventDetail?.foreignerFee
@@ -46,7 +47,7 @@ const handleSubscription = async ()=> {
       <div class="relative bg-blue-100  rounded-lg shadow-xl py-1 w-2/3 md:w-2/5">
         <div class="border-b-2 border-teal-500 flex justify-between items-center py-1 px-2">
           <span class="text-emerald-800 text-center px-1 py-0.5 bg-zinc-50/5 flex-shrink-0 font-bold">
-            CONFIRM TO ATTEND
+            CONFIRM TO ATTEND <UsablesBtnLoader />
           </span>
           <span class=" bg-rose-100 text-emerald-800 p-0.5 bg-zinc-50/5 rounded-md hover:bg-red-500 hover:text-white flex-shrink-0"
                 @click="closeModal"

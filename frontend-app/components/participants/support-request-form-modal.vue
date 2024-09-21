@@ -32,6 +32,7 @@ const formData = reactive({
 })
 // Handle form submission
 const handleSubmit = async () => {
+  globalStore.toggleBtnLoadingState(true)
   try {
     if (props.isUpdateMode) {
       // Update mode: send PUT request
@@ -90,7 +91,7 @@ const closeModal = async ()=> {
                 <div class="flex justify-end">
                   <button type="submit"
                           class="btn">
-                    Submit
+                    Submit <UsablesBtnLoader />
                   </button>
                 </div>
               </form>

@@ -24,9 +24,11 @@ export const useInvitationStore = defineStore('invitationStore', () => {
             await  retrieveAllInvitationRequests()
             toggleNewInvitationModalStatus(false)
             globalStore.assignAlertMessage(message, 'success');
+            globalStore.toggleBtnLoadingState(false);
         }else {
             console.log(error.value.data.message)
             globalStore.assignAlertMessage(error.value?.data?.message, 'error');
+            globalStore.toggleBtnLoadingState(false);
         }
     }
     const updateRequestStatus = async (requestId)=> {
@@ -34,9 +36,11 @@ export const useInvitationStore = defineStore('invitationStore', () => {
         if(data.value){
             const message = 'Request status changed!';
             await  retrieveAllInvitationRequests()
+            globalStore.toggleBtnLoadingState(false);
             globalStore.assignAlertMessage(message, 'success');
         }else {
             console.log(error.value.data.message)
+            globalStore.toggleBtnLoadingState(false);
             globalStore.assignAlertMessage(error.value?.data?.message, 'error');
         }
     }

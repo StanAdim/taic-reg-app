@@ -20,6 +20,7 @@ const  isEditing = ref(false)
 const toggleEditing =  async  () => isEditing.value = !isEditing.value
 
 const handlePostingResponse = async  () => {
+  globalStore.toggleBtnLoadingState(true)
   if (isEditing){
     const data = ref({
       response : formData.value?.response,
@@ -55,7 +56,6 @@ const goTo = () => navigateTo('/crm/support')
 
 <template>
   <div class="mx-2">
-    <UsablesContentLoading />
     <AdminThePageTitle title="ISSUE RAISED DETAILS"/>
     <!-- Container -->
       <div class="max-w-4xl p-6 bg-white shadow-md rounded-lg mt-10">
@@ -95,7 +95,7 @@ const goTo = () => navigateTo('/crm/support')
                       v-model="formData.response"
                       class="text-sky-800 w-full border-b-2 border-teal-500 rounded-sm px-0.5 outline-none"
                   />
-                    <button type="submit" class="px-4 py-0.5 bg-blue-500 text-white font-semibold rounded-md hover:bg-gray-600">Submit</button>
+                    <button type="submit" class="px-4 py-0.5 bg-blue-500 text-white font-semibold rounded-md hover:bg-gray-600">Submit  <UsablesBtnLoader /></button>
                   </form>
 
                 </div>

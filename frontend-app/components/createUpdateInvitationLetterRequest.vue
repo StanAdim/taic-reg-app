@@ -43,6 +43,7 @@ const formData = reactive({
 })
 // Handle form submission
 const handleSubmit = async () => {
+  globalStore.toggleBtnLoadingState(true)
   try {
     if (props.isUpdateMode) {
       // Update mode: send PUT request
@@ -175,7 +176,7 @@ const closeModal = async ()=> {
                     type="submit"
                     class="submit-btn"
                 >
-                  {{ isUpdateMode ? 'Update' : 'Submit' }} Request
+                  {{ isUpdateMode ? 'Update' : 'Submit' }} Request <UsablesBtnLoader />
                 </button>
               </div>
             </form>

@@ -54,7 +54,6 @@ onNuxtReady(()=> {
                         :is-normal="true" name="Add Mini Event" iconClass="fa-solid fa-plus" />
                 </div>
             </div>
-              <UsablesContentLoading />
             <ul class="divide-y divide-gray-300 py-1 px-4" v-if="eventStore.getEvents">
                 <UsablesNoData v-if="eventStore.getEvents.length === 0" source="Events" />
                 <li class="mb-3 mt-0.5 " v-for="item in eventStore.getEvents" :key="item">

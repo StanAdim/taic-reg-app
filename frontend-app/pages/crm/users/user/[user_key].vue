@@ -158,7 +158,6 @@ const handleVerification = async () => {
       </div>
     </template>
     <div class="" v-else>
-      <UsablesContentLoading />
     </div>
     </div>
 </template>

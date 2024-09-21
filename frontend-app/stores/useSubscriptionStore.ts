@@ -16,18 +16,22 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
             globalStore.assignAlertMessage(dataResponse?.message, 'success')
             eventDialogStatus.value = false;
             globalStore.toggleLoadingState('off')
+            globalStore.toggleBtnLoadingState(false)
+
             globalStore.toggleDoneCheckVisibility()
         }
         if(dataResponse?.code === 300){
             globalStore.assignAlertMessage(dataResponse?.message, 'danger')
             eventDialogStatus.value = false;
             globalStore.toggleLoadingState('off')
+            globalStore.toggleBtnLoadingState(false)
             globalStore.toggleDoneCheckVisibility()
         }
         if(error.value){
             globalStore.assignAlertMessage(error.value?.data?.message, 'warning')
             eventDialogStatus.value = false;
             globalStore.toggleLoadingState('off')
+            globalStore.toggleBtnLoadingState(false)
             // globalStore.toggleDoneCheckVisibility()
         }
         return {data, error};

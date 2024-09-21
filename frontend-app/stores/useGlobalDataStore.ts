@@ -21,6 +21,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const isHanceLoader = ref(true)
     const isContentLoading = ref(false)
     const statisticData = ref([])
+    const btnLoaderStatus = ref(false)
 
     const appRoutes  = ref([
         {name: 'Dashboard', path: '/crm/', userRole: '', isActiveLink:true},
@@ -66,6 +67,8 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const getContentLoadingState = computed(() => {return isContentLoading.value})
     const getAdminStatisticalData = computed(() => {return statisticData.value?.admin})
     const getOthersStatisticalData = computed(() => {return statisticData.value?.attendee})
+    const getBtnLoaderStatus = computed(() => {return btnLoaderStatus.value})
+
 
 
     // Transforms
@@ -73,6 +76,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
     const toggleContentLoaderState = (key)=> key == 'on' ? isContentLoading.value = true : isContentLoading.value = false
     const toggleUserInfoDialogStatus = (key)=> key == 'on' ? userInfoDialogStatus.value = true :userInfoDialogStatus.value = false
     const hanceLoaderTurn = (key)=> (key == 'on') ? isHanceLoader.value = true: isHanceLoader.value = false;
+    const toggleBtnLoadingState =  (state : boolean)=> btnLoaderStatus.value = state;
 
     const toggleRegistrationForm = (state:boolean)=> { registrationDialogStatus.value = state  }
     const toggleForgotPassDialog = ()=> { forgotPassDialogStatus.value = !forgotPassDialogStatus.value  }
@@ -184,6 +188,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         getForgotPassModalStatus, toggleForgotPassDialog,
         retrieveLocation,getNations,getRegions,getContentLoadingState,toggleContentLoaderState,
         analyticData, getAdminStatisticalData,getOthersStatisticalData,
-        shortenText
+        shortenText,
+        getBtnLoaderStatus, toggleBtnLoadingState
     }
 })

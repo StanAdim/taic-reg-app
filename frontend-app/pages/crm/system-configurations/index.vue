@@ -40,7 +40,6 @@ const rolesHeader = [{name: "Name", key: 'name'}]
                 <UsablesSimpleDataTable :headers="rolesHeader" :data="roleStore.getSystemRoles" />
               </template>
               <template v-else>
-                <UsablesContentLoading />
               </template>
             </div>
           </div>
