@@ -48,11 +48,12 @@ const handleFileUpload = async () => {
   // for (let [key, value] of formData.entries()) {
   //   console.log(`${key}:`, value);
   // }
+  globalData.toggleBtnLoadingState(true)
   await documentStore.uploadNewDocument(formData)
 };
 </script>
 <template>
-  <div class="fixed z-[40] inset-0 overflow-y-auto rounded-lg mt-32 bg-black bg-opacity-60" :class="{'hide': !props.showStatus}" id="modal">
+  <div class="fixed z-[40] inset-0 overflow-y-auto rounded-lg mt-32 bg-black bg-opacity-70" :class="{'hide': !props.showStatus}" id="modal">
     <div class="flex  justify-center align-middle ">
       <div class="bg-blue-100 rounded-lg px-2 shadow-xl">
         <div class="border-b-2 border-teal-500">
@@ -93,7 +94,7 @@ const handleFileUpload = async () => {
                          class="input-form"
                          required>
                 </div>
-                <button class="w-fit px-6 rounded-md bg-sky-400 py-2 text-white hover:bg-sky-600">Submit Document</button>
+                <button class="w-fit px-6 rounded-md bg-sky-400 py-2 text-white hover:bg-sky-600">Submit Document <UsablesBtnLoader /></button>
               </form>
             </div>
           </div>
