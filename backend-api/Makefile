@@ -107,7 +107,8 @@ production.logs:
 
 production.fronts: 
 	cd ../frontend-app && yarn build && pm2 restart production.config.cjs &&  cd  ../backend-api && make production.start
-	#cd ../taic-website && yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../backend-api 
+production.site: 
+	cd ../taic-website && yarn build && pm2 restart ecosystem.config.cjs &&  cd  ../backend-api 
 # Define the directory and the command
 DIR1 := ../frontend-app 
 DIR2 := ../taic-website 

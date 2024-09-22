@@ -12,17 +12,18 @@ const config = useRuntimeConfig()
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><nuxt-link to="/" class="">Home</nuxt-link></li>
-                    <li><nuxt-link to="/" class="">About</nuxt-link></li>
-                    <li class="dropdown"><a href="#"><span>Sponsorship</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                        <ul>
-                            <li><nuxt-link to="/">Local Sponsorships</nuxt-link></li>
-                            <li><nuxt-link to="/">International Sponsorship</nuxt-link></li>
-                        </ul>
-                    </li>
-                    <li><nuxt-link to="/" class="">Exhibitors</nuxt-link></li>
+<!--                    <li><nuxt-link to="/" class="">About</nuxt-link></li>-->
+<!--                    <li class="dropdown"><a href="#"><span>Sponsorship</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>-->
+<!--                        <ul>-->
+<!--                            <li><nuxt-link to="/">Local Sponsorships</nuxt-link></li>-->
+<!--                            <li><nuxt-link to="/">International Sponsorship</nuxt-link></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+                    <li><nuxt-link to="/#exhibitors" class="">Exhibitors</nuxt-link></li>
+                    <li><nuxt-link to="/#sponsors" class="">Sponsors</nuxt-link></li>
                     <li><nuxt-link to="/" class="">Hospitality</nuxt-link></li>
-                    <li><nuxt-link to="/" class="">Tours</nuxt-link></li>
-                    <li><nuxt-link to="/" class="">Gallery</nuxt-link></li>
+                    <li><a target="_blank" href="https://www.tanzaniatourism.go.tz/">Tours</a></li>
+<!--                    <li><nuxt-link to="/" class="">Gallery</nuxt-link></li>-->
 
                 </ul>
             </nav>

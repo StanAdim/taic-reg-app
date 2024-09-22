@@ -1,5 +1,5 @@
 <script setup>
-const hasAgenda = ref(false)
+const hasAgenda = ref(true)
 </script>
 <template>
 <section>

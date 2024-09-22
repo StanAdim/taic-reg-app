@@ -23,9 +23,6 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
         // Make the API request to upload the file
         await useApiFetch("/sanctum/csrf-cookie");
         try {
-            for (let [key, value] of passedData.entries()) {
-                console.log(`${key}:`, value);
-            }
             const { data, error } = await useApiFetch('/api/upload-document', {
                 method: 'POST',
                 body: passedData,
