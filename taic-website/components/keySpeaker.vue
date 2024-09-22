@@ -1,5 +1,5 @@
 <script setup>
-const hasHonarableGuest = ref(false)
+const hasHonarableGuest = ref(true)
 const speakerList = ref([
   {fullName: 'To be known', designation: 
   'Designation', imgPath: '/team/placeholder.jpg'
@@ -26,11 +26,11 @@ const siteDataStore = useSiteDataStore()
             <h2>CONFERENCE SPEAKER</h2>
             <p class="text-center">Speakers and Presenter and Fanicilitors</p>
         </div>
-        <div class="row gy-1 justify-content-center">
+        <div class="row gy-1 justify-content-center justify-center">
           <div class="col-md-6 aos-init aos-animate" >
             <p class="text-center key-speaker">GUEST OF HONOUR</p>
             <UsablesSpinLoader v-if="!hasHonarableGuest" />
-            <div class="member" v-if="hasHonarableGuest">
+            <div class="" v-if="hasHonarableGuest">
                 <img src="/team/placeholder.jpg" class="img-fluid" alt="">
                 <h4>Sani Awesome</h4>
                 <span>Social Media</span>
@@ -44,7 +44,7 @@ const siteDataStore = useSiteDataStore()
         <div class="row gy-4 justify-content-center">
           <p class="text-center key-speaker">INVITED GUEST</p>
 
-          <template  v-for="item in siteDataStore.getSitedData?.speakers" :key="item">
+          <template  v-for="item in speakerList" :key="item">
             <div class="col-xl-3 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
                 <div class="member">
 

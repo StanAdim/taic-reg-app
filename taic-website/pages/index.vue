@@ -11,6 +11,7 @@
 <!--        <featured />-->
         <!-- Featured -->
 <!--        <KeySpeaker />-->
+    <OurPartners />
 
         
   </div>

@@ -24,45 +24,11 @@ class DocumentMaterialController extends Controller
     {
         $this->destinationPath = 'events/documents';
     }
-    public function upload(Request $request ){
-        // Validate the request
-        $request->validate([
-            'document' => 'required|extensions:pdf,xlsx|max:2048', // less 2MB
-            'name' => 'required', // 
-            'conference_id' => 'required', // 
-        ]);
-
-        // Handle the file upload
-        if ($request->hasFile('document')) {
-            $file = $request->file('document');
-            $user_id = Auth::id();
-            // Generate a unique file name
-            $filename = $request->file('name').'-'.Str::uuid() . '.' . $file->getClientOriginalExtension();
-            // Store directory
-            // $file->move($this->destinationPath, $filename);
-            $filePath = $file->storeAs('events/documents', $filename, 'public');
-            // Save file information to the database
-            $document = new DocumentMaterial();
-            $document->name = $request->name;
-            $document->user_id = $user_id;
-            $document->conference_id = $request->conference_id;
-            $document->file_name = $file->getClientOriginalName();
-            $document->path = $filename;
-            $document->save();
-
-            return response()->json([
-                'message' => 'Document uploaded successfully',
-                'data' => $document
-            ], 201);
-        }
-
-        return response()->json(['error' => 'Failed to uploaded'], 400);
-    }
 
     public function docUpload(Request $request){
           // Validate the request
           $request->validate([
-            'document' => 'required|extensions:pdf,xlsx|max:2048', // less 2MB
+            'document' => 'required|extensions:pdf,xlsx', // less 2MB
             'name' => 'required', // 
             'conference_id' => 'required', // 
         ]);
@@ -71,7 +37,6 @@ class DocumentMaterialController extends Controller
             if (!($request->document instanceof \Illuminate\Http\UploadedFile)) {
                 return response()->json(['message' => "Attachment not found"], 400);
             }
-
             $file = $request->file('document');
             $filename =  time() . '_' .str_replace(' ', '',$file->getClientOriginalName());
             $filename = $file->storeAs('documents', $filename, 'local');
