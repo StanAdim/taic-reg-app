@@ -37,14 +37,17 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
                 const message = 'Document uploaded successfully!';
                 await  retrieveAllDocuments()
                 toggleDocumentUploadModalStatus(false)
+                globalStore.toggleBtnLoadingState(false);
                 globalStore.assignAlertMessage(message, 'success');
             }
             if(error.value){
+                globalStore.toggleBtnLoadingState(false);
                 globalStore.assignAlertMessage(error.value?.message, 'error');
             }
         } catch (err) {
             console.log(error)
             const message = 'Failed to upload document.';
+            globalStore.toggleBtnLoadingState(false);
             globalStore.assignAlertMessage(message, 'error');
         }
     }
