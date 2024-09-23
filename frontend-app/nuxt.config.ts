@@ -1,7 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", '@pinia/nuxt', "@element-plus/nuxt"],
+  modules:
+      ["@nuxtjs/tailwindcss",
+        '@pinia/nuxt',
+        "nuxt-particles",
+        "@element-plus/nuxt"],
   app: {
     pageTransition: { name: 'page', mode: 'out-in' , name: 'fade' },
     layoutTransition: { name: 'layout', mode: 'out-in' ,    name: 'bounce',},

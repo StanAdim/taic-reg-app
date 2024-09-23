@@ -19,6 +19,7 @@
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
-    "element-plus": "^2.7.7"
+    "element-plus": "^2.7.7",
+    "nuxt-particles": "^0.3.0"
   }
 }
