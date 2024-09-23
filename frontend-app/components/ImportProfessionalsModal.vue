@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const userStore = useUserStore()
+const  globalStore = useGlobalDataStore()
 
 const formInputs = ref({ file: ''});
 
@@ -29,7 +30,8 @@ const submitForm = async () => {
       for (let [key, value] of formData.entries()) {
         console.log(`${key}:`, value);
       }
-      await userStore.importExcel(formData)
+  globalStore.toggleBtnLoadingState(true)
+  await userStore.importExcel(formData)
       // Optionally reset form
       Object.keys(form.value).forEach((key) => {
         formInputs.value[key] = '';
@@ -72,7 +74,7 @@ const submitForm = async () => {
                 type="submit"
                 class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded"
             >
-              Submit
+              Submit <UsablesBtnLoader />
             </button>
           </div>
         </form>
