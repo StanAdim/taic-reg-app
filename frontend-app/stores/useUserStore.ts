@@ -35,18 +35,17 @@ export const useUserStore = defineStore('userStore', () => {
         }
     }
     async function importExcel(passed_data ) : Promise{
-        globalStore.toggleLoadingState('on')
         const  {data, error} = await useApiFetch("/api/import-professionals-excel", {
             method: "POST",
             body: passed_data,
         });
         if(data.value){
-            globalStore.toggleLoadingState('off')
+            globalStore.toggleBtnLoadingState(false)
             toggleImportModalStatus(false)
             await retrieveProfessionalList()
             globalStore.assignAlertMessage('Data Imported Success','success')
         }else{
-            globalStore.toggleLoadingState('off')
+            globalStore.toggleBtnLoadingState(false)
             globalStore.assignAlertMessage(error.value?.data?.message, 'error')
         }
     }
