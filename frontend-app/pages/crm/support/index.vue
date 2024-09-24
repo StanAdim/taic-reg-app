@@ -46,6 +46,9 @@ onNuxtReady(()=>{
       <div class="">
         <UsablesTheButton @click.prevent="handleNewSupport()" :is-normal="true" name="New Question | Inquiry" iconClass="fa-solid fa-plus" />
       </div>
+      <div class="">
+        Whatsapp <i class="fa-brands fa-whatsapp"></i> <a href="">+255 736 848 444</a>
+      </div>
     </div>
       <div class="my-2 py-2">
         <div class="container md:py-8 md:px-4">

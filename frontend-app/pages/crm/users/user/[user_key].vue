@@ -11,6 +11,7 @@ import {
   Plus,
 } from '@element-plus/icons-vue'
 
+const config = useRuntimeConfig()
 const userStore = useUserStore()
 const authStore = useAuthStore()
 const roleStore = useRoleStore()
@@ -107,6 +108,9 @@ const handleVerification = async () => {
             <div>
               <p class="text-gray-600 font-semibold">Professional Status</p>
               <p class="text-gray-800">{{ userData?.user?.userInfo?.professionalStatus }}</p>
+              <p class="text-gray-800 ">
+                <span class="bg-emerald-300 px-4 py.5 text-sky-800 font-bold rounded-md">{{ userData?.user?.userInfo?.professionalNumber || 'N/A' }}</span>
+              </p>
             </div>
             <div>
               <p class="text-gray-600 font-semibold">Booked Events</p>
@@ -142,13 +146,23 @@ const handleVerification = async () => {
             </div>
           </div>
         </div>
-
-        <!-- Additional Information -->
-<!--        <div class="mt-8">-->
-<!--          <h2 class="text-2xl font-semibold text-gray-800 mb-4">About</h2>-->
-<!--          <p class="text-gray-700 leading-relaxed">...</p>-->
-<!--          <p class="text-gray-700 leading-relaxed"></p>-->
-<!--        </div>-->
+<!--        Additional Information-->
+        <div class="mt-8">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-4">Additional Information</h2>
+          <el-popover
+              style="background-color: #0CA6EA;color:black"
+              placement="right-start"
+              title="Password Reset Link"
+              :width="400"
+              trigger="click"
+              :content="config.public.baseUrl+`/account-reset-password-${userData?.user?.userKey}`"
+          >
+            <template #reference>
+              <el-button class=" text-gray-700 leading-relaxed m-2">Password reset Link<i class="px-2 fa-solid fa-key"></i></el-button>
+            </template>
+          </el-popover>
+          <p class="text-gray-700 leading-relaxed"></p>
+        </div>
 
         <!-- Action Buttons -->
         <div class="mt-8 flex justify-end space-x-4">
