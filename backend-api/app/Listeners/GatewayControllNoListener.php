@@ -24,8 +24,7 @@ class GatewayControllNoListener
     /**
      * Handle the event.
      */
-    public function handle(ControllNoReceivedEvent $event): void
-    {
+    public function handle(ControllNoReceivedEvent $event): void{
         //
         $user_agent = 'ICTCAPIUserAgent/1.0';
         $authorization_token = 'Bearer 3|h0rirUCYjh2JRpju7Kb7q0NStcdcOnFsXgVjZwIOddbef43c';
@@ -33,7 +32,6 @@ class GatewayControllNoListener
         $gatewayBill = GatewayBill::where('bill_id', $bill_data->id)->first();
         if($gatewayBill){
             Log::info('Received Bill -----' , ['Bill ID' =>$bill_data->id ]);
-            Log::info('Received For -----' , ['Call back URL' =>$gatewayBill->callback_url]);
             $data = json_encode([
                 'message' => "Receive Control number",
                 'data' => [
@@ -43,6 +41,7 @@ class GatewayControllNoListener
             ]);
             $system = GatewaySystem::where('code',$gatewayBill->system_code)->first();
             $url = $system->base_url.$system->callback_controll_number.$gatewayBill->user_id;
+            Log::info(["____URL: -----" => $url ]);
             // Send the HTTP request with the required headers
              Http::withHeaders([
                 'User-Agent' =>$user_agent,
