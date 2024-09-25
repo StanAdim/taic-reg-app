@@ -12,27 +12,18 @@ class FileExportController extends Controller
 {
     //
     public function exportUsers() {
-        // Define the file path and name
-        $filePath = 'exports/users.xlsx';
-        
-        // Save the Excel file to the storage
-        Excel::store(new UsersExport, $filePath, 'local');
-
-        // Optionally, return the file path or download link
-        return response()->json([
-            'message' => 'Export successful',
-            'file_path' => $filePath
-        ]);
+        $fileName = 'users.xlsx';
+        $filePath = public_path('documents/excels/' . $fileName);
+        // Excel::store(new UsersExport, $filePath);
+        return response()->download($filePath);
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
-
     public function exportBills() {
         return Excel::download(new UsersExport, 'users.xlsx');
     }
-    
     public function exportPayments() {
         return Excel::download(new UsersExport, 'users.xlsx');
     }
-    
     public function exportParticipationCertificate() {
         return view('pdf.participation_certificate');
     }

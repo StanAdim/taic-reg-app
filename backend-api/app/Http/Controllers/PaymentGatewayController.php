@@ -85,7 +85,7 @@ class PaymentGatewayController extends Controller
         // Create a new payment record
         $ext_bill_generated = GatewayBill::create([
             'description' => $validatedData['description'],
-            'user_id' => $validatedData['user_id'],
+            'uuid' => $validatedData['uuid'],
             'phone_number' => $validatedData['phone_number'],
             'customer_name' => $validatedData['customer_name'],
             'customer_email' => $validatedData['customer_email'] ?? null, // Optional field
