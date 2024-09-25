@@ -31,10 +31,10 @@ class GatewayControllNoListener
         $system = GatewaySystem::where('code',$gatewayBill->system_code)->first();
         if($gatewayBill){
             Log::info('Received Bill -----' , ['Bill ID' =>$bill_data->id ]);
-            $data = json_encode([
+            $data = [
                 'message' => "Receive Control number",
                 'control_number' => $bill_data-> cust_cntr_num
-            ]);
+            ];
             //making path
             $url = $system->base_url.$system->callback_controll_number.$gatewayBill->uuid;
             // Send the HTTP request with the required headers
