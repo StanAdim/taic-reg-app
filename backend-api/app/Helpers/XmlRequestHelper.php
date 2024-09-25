@@ -105,8 +105,12 @@ class XmlRequestHelper
                     $vsignature = GeneralCustomHelper::get_string_between($resultCurlPost, '<signature>', '</signature>');
     
                     //Sign return contents
-                    return GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
-
+                    if(env('APP_ENV') === 'production'){
+                        GeneralCustomHelper::isVerifyPayload($vdata, $vsignature);
+                    }else{
+                        return $vdata;
+                    }
+                    // return 
                 }
                 else{ Log::info("No result Returned"."\n");}
             }

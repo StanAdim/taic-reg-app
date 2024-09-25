@@ -126,9 +126,10 @@ class PaymentGatewayController extends Controller
             // Update bill ID
             $ext_bill_generated->bill_id = $billData->id;
             $ext_bill_generated->save();
-
+            // submission of Bill to gepg
                     $returedXml = XmlRequestHelper::GepgSubmissionRequest($billData);
                     //Check bill is Generated to Gepg
+                    Log:info(['return-gepg-', $returedXml]);
                     if($returedXml){
                             //check for success status
                         $isSuccessful =  GeneralCustomHelper::get_string_between($returedXml, '<AckStsCode>', '</AckStsCode>') == '7101';
@@ -156,6 +157,7 @@ class PaymentGatewayController extends Controller
                             'GepgAck' => $returedXml,
                             'code'=> 300
                         ],500);
+                   
                     }
             } 
             catch (\Exception $e){

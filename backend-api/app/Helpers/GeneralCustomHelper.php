@@ -69,6 +69,9 @@ class GeneralCustomHelper{
                 Log::info("---- End Verification ---");
                 return $verified_data;
             }
+            else {
+                Log::info("---Error: Unable to Verify the payload\n");
+            }
         }
     }
 
