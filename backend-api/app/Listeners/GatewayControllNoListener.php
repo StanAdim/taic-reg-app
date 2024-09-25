@@ -33,9 +33,7 @@ class GatewayControllNoListener
             Log::info('Received Bill -----' , ['Bill ID' =>$bill_data->id ]);
             $data = json_encode([
                 'message' => "Receive Control number",
-                'data' => [
-                    'control_number' => $bill_data-> cust_cntr_num
-                ]
+                'control_number' => $bill_data-> cust_cntr_num
             ]);
             //making path
             $url = $system->base_url.$system->callback_controll_number.$gatewayBill->uuid;
