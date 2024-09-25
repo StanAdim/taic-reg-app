@@ -43,6 +43,7 @@ class GatewayControllNoListener
             $response = Http::withHeaders([
                 'User-Agent' =>$system->user_agent,
                 'Authorization' => $system->authorization_token,
+                "Accept" => "application/json",
                "ngrok-skip-browser-warning" => 1
             ])->post($url, $data);
 
