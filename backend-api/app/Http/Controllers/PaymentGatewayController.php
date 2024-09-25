@@ -125,7 +125,7 @@ class PaymentGatewayController extends Controller
                 'status' => 0,
             ];
             try {
-    
+
                 $billData = Bill::create($newBill);
                 // Update bill ID
                 $ext_bill_generated->bill_id = $billData->id;
