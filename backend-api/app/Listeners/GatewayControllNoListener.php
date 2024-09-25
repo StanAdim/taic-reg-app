@@ -42,7 +42,8 @@ class GatewayControllNoListener
             // Send the HTTP request with the required headers
             $response = Http::withHeaders([
                 'User-Agent' =>$system->user_agent,
-                'Authorization' => $system->authorization_token
+                'Authorization' => $system->authorization_token,
+               "ngrok-skip-browser-warning" => 1
             ])->post($url, $data);
 
             Log::info('------ Controll number Data Posted ------');
