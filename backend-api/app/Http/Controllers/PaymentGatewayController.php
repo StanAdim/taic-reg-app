@@ -83,7 +83,7 @@ class PaymentGatewayController extends Controller
             'system_code' => 'required',
         ]);
 
-        $isAllowedSystem = GatewaySystem::where('code',$validatedData['system_code']->system_code)->first();
+        $isAllowedSystem = GatewaySystem::where('code',$validatedData['system_code'])->first();
         // Create a new payment record
         if($isAllowedSystem){
             $ext_bill_generated = GatewayBill::create([
