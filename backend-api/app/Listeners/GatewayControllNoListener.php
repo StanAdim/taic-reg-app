@@ -41,12 +41,14 @@ class GatewayControllNoListener
             ]);
             $system = GatewaySystem::where('code',$gatewayBill->system_code)->first();
             $url = $system->base_url.$system->callback_controll_number.$gatewayBill->user_id;
-            Log::info(["____URL: -----" => $url ]);
             // Send the HTTP request with the required headers
-             Http::withHeaders([
+            $response = Http::withHeaders([
                 'User-Agent' =>$user_agent,
                 'Authorization' => $authorization_token
             ])->post($url, $data);
+            Log::info([
+                "Posted to: -----" => $url,
+                "response : -----" => $response]);
         }else{
             Log::info('--- Internal  Bill ----');
         }
