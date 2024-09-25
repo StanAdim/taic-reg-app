@@ -47,6 +47,7 @@ class GatewayControllNoListener
                 'User-Agent' =>$system->user_agent,
                 'Authorization' => $system->authorization_token
             ])->post($url, $data);
+            
             Log::info('------ Controll number Data Posted ------');
         }else{
             Log::info('--- Internal  Bill ----');
