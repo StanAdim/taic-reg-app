@@ -21,6 +21,8 @@ class GatewaySystem extends Model
         'callback_payment_number',
         'callback_reconcilliation',
         'callback_addition',
+        'user_agent',
+        'authorization_token',
         'base_url',
     ];
     public static function boot()
