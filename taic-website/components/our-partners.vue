@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const exhibitor = ref([
-  // {name: 'liquid', pathName: 'liquid-logo.png'},
+  //   aspect ratio 4500 x 4072
+  {name: 'liquid', pathName: 'liquid-logo.png'},
+  {name: 'liquid', pathName: 'flashnet-logo.png'},
 ])
 const sponsors = ref([
   // {name: '', pathName: 'liquid-logo.png'}
