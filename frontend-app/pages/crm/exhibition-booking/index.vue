@@ -57,7 +57,6 @@ const boothToBeUpdated = ref()
                               :is-normal="true" name="Add Exhibition Booth" iconClass="fa-solid fa-plus" />
           </div>
         </div>
-        <UsablesContentLoading />
         <div v-if="!globalStore.hasPermission('can_create_event')"
              class="flex flex-col flex-wrap justify-center md:flex-row  mx-2 my-1">
             <div v-for="item in boothStore.getBooths"  :key="item.id" class="">

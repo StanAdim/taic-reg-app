@@ -8,7 +8,7 @@ export const useFileExportsStore = defineStore('exportsStore', () => {
     const downloadUsersExcel = async () => {
         let headers: any = {
             accept: "application/json",
-            responseType: 'blob' // Important to specify blob to handle file download
+            responseType: 'arraybuffer',
             // Authorization: `Bearer ${authStore.getAccessToken}`,
         };
         try {

@@ -16,11 +16,14 @@ return new class extends Migration
             $table->string('name');
             $table->string('code');
             $table->string('base_url');
+            $table->string('description')->nullable();
             $table->string('callback_controll_number');
             $table->string('callback_payment_number');
             $table->string('callback_reconcilliation')->nullable();
             $table->string('callback_addition')->nullable();
-            $table->string('description')->nullable();
+            $table->string('user_agent')->nullable();
+            $table->string('authorization_token')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

@@ -142,14 +142,6 @@ onNuxtReady(()=> {
                         </template>
                       </el-popover>
                     </div>
-                    <!--              <div-->
-                    <!--                  class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-violet-400 bg-violet-600">-->
-                    <!--                <p class="text-sm font-normal mx-3"><i class="fa-solid fa-pen"></i></p>-->
-                    <!--              </div>-->
-                    <!--              <div-->
-                    <!--                  class="hover:cursor-pointer inline-flex items-center mx-2 py-1 rounded-lg gap-x-2 text-white hover:bg-zinc-400 bg-zinc-600">-->
-                    <!--                <p  class="text-sm font-normal mx-3"><i class="fa-solid fa-code-compare"></i></p>-->
-                    <!--              </div>-->
                   </td>
                 </tr>
                 </tbody>

@@ -23,7 +23,6 @@ onNuxtReady(()=> {
 <template>
   <div class="">
     <AdminThePageTitle :title="`${(eventData?.name.toUpperCase() ?? '' ) } EVENT DETAILS`"/>
-    <UsablesContentLoading />
     <template v-if="eventData">
       <div class="flex justify-center flex-wrap md:flex-nowrap mt-3">
       <div class="container w-full md:w-3/5 border rounded-md p-1 border-sky-600 mx-1 ">
@@ -60,6 +59,7 @@ onNuxtReady(()=> {
         </div>
         <div class="mx-2 my-4 flex justify-center md:justify-normal">
           <el-link type="primary"><nuxt-link  to="/crm/documents" class="mx-3 my-1 font-medium">Documents</nuxt-link></el-link>
+          <el-link type="primary"><nuxt-link  to="/crm/documents" class="mx-3 my-1 font-medium">Certificate of Participation</nuxt-link></el-link>
         </div>
         <div class="mx-2 my-4 flex justify-center md:justify-normal">
 

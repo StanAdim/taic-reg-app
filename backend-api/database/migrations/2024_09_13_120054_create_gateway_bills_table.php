@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('gateway_bills', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('description');
-            $table->string('user_id');
+            $table->string('uuid');
             $table->string('phone_number');
             $table->string('customer_name');
             $table->string('customer_email')->nullable();

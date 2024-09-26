@@ -134,6 +134,8 @@ Route::middleware([ApiKeyMiddleware::class])->group(function () {
 });
 
 Route::get('/export-test', [FileExportController::class, 'exportUsers']);
+Route::get('/certificate-participation', [FileExportController::class, 'exportParticipationCertificate']);
+Route::get('/certificate-participation-1', [FileExportController::class, 'printCertificate']);
 
 ///Test route
 Route::get('/send-test-email', function () {

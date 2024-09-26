@@ -64,6 +64,7 @@ const year = new Date();
                         <div class="footer-text">
                             <p><i class="bi bi-geo-alt-fill mr-15"></i>14 Jamhuri Street, Dar es salaam </p>
                             <p><i class="bi bi-telephone-inbound-fill mr-15"></i> +2557 38 171 742</p>
+                            <p><i class="fa-brands fa-whatsapp"></i> Whatsapp <a href="tel:+255 736 848 444">+255 736 848 444</a></p>
                             <p><i class="bi bi-envelope-fill mr-15"></i> dg@ictc.go.tz</p>
                             <p><i class="bi bi-envelope-fill mr-15"></i> info@ictc.go.tz</p>
                         </div>

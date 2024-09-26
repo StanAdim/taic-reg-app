@@ -21,9 +21,10 @@ class GatewaySystemSeeder extends Seeder
             'callback_controll_number' => '/api/billing/update-control-number/',
             'callback_payment_number' => '/api/billing/update-payment-status/',
             'callback_reconcilliation' => '/sample',
-            'callback_addition' => 'sample',
             'base_url' => 'https://rhino-present-firmly.ngrok-free.app',
-            // 'code' => Str::random(8),
+            'callback_addition' => 'sample',
+            'user_agent' => 'ICTCAPIUserAgent/1.0',
+            'authorization_token' => 'Bearer 3|h0rirUCYjh2JRpju7Kb7q0NStcdcOnFsXgVjZwIOddbef43c',
         ]);
     }
 }

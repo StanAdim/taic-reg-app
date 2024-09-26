@@ -14,7 +14,7 @@ class GatewayBill extends Model
     public $incrementing = false; // ensure that primary key is not auto-incrementing
     protected $fillable = [
         'description',
-        'user_id',
+        'uuid',
         'phone_number',
         'customer_name',
         'customer_email',
