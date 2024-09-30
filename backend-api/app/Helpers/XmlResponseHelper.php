@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Events\ControllNoReceivedEvent;
+use App\Events\PaymentProccessedEvent;
 use App\Models\Bill;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
@@ -107,6 +108,9 @@ class XmlResponseHelper
                             $theBill->save();
                          // Signing response
                          Log::info("### Payment Updated For Bill ID: ", ['Bill ID' => $BillId ]);
+                        //  Payment Processed Events
+                         event(new PaymentProccessedEvent($theBill));        
+
                         return GeneralCustomHelper::signedPayemtAck($gepg_pay_res['ReqId'],7101);
                         // Log::info('RECPAY-GEPG-RESPONSE', [$response, $serial, 'GEPG']);
                 }else{
