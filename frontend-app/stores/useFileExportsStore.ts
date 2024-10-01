@@ -1,41 +1,56 @@
 import type { ApiResponse } from "~/types/interfaces";
+import {useApiFetch} from "~/composables/useApiFetch";
 
 export const useFileExportsStore = defineStore('exportsStore', () => {
 
     const globalStore = useGlobalDataStore()
+    const authStore = useAuthStore()
     const blobDataFile = ref(null)
 
-    const downloadUsersExcel = async () => {
-        let headers: any = {
-            accept: "application/json",
-            responseType: 'arraybuffer',
-            // Authorization: `Bearer ${authStore.getAccessToken}`,
-        };
+// Function to initiate the download of users' Excel file
+    const downloadUsersExcel = async (): Promise<void> => {
+        const filePath = ref('')
         try {
-            // Make the request to download the file
-            const response = await useApiFetch(`/api/export-users`, { ...headers });
-            // Create a blob from the response data
-            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            const { data, error } = await useApiFetch(`/api/export-test`, {
+                accept: "application/json",
+            });
+             filePath.value = data.value?.path;
+            if (!filePath.value) {
+                throw new Error('File path not received');
+            }
+            console.log(filePath.value);
+        } catch (error) {
+            console.error('Error downloading file:', error);
+        }
+        await downloadFile(filePath.value);
+    };
 
+// Function to download a file given its path
+    const downloadFile = async (filePath: string): Promise<void> => {
+        const headers = {
+            responseType: 'blob',
+            // Authorization: `Bearer ${auth.getAccessToken}`,
+        };
+
+        try {
+            const { data, error } = await useApiFetch(`/api/file-preview?name=${encodeURIComponent(filePath)}`, { ...headers });
+                let fileName = 'excel.xlsx'
             // Create a link element
+            const url = window.URL.createObjectURL(new Blob([data]));
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.setAttribute('download', 'system-users.xlsx'); // Set file name
+            link.href = url;
+            link.setAttribute('download', fileName); // Specify the file name
 
-            // Append link to the body
+            // Append to the body and trigger download
             document.body.appendChild(link);
-
-            // Programmatically click the link to trigger the download
             link.click();
 
-            // Remove the link after download
-            document.body.removeChild(link);
+            // Clean up and remove the link
+            link.parentNode.removeChild(link);
         } catch (error) {
             console.error('Error downloading the file', error);
         }
-    }
-
-
+    };
     return {
         downloadUsersExcel,
 

@@ -37,7 +37,7 @@ class GatewayBillPaymentListener
                  'status' => $bill_data-> status
              ];
              //making path
-             $url = $system->base_url.$system->callback_controll_number.$gatewayBill->uuid;
+             $url = $system->base_url.$system->callback_payment_number.$gatewayBill->uuid;
              // Send the HTTP request with the required headers
              $response = Http::withHeaders([
                  'User-Agent' =>$system->user_agent,

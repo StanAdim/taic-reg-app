@@ -49,6 +49,7 @@ const handleVerification = async  (pathKey) => {
   await authStore.userEmailVerification(pathKey)
 
 }
+const isDownload = ref(false)
 const handleExcelExport = async () => {
   await exportStore.downloadUsersExcel()
 }
@@ -65,7 +66,7 @@ onNuxtReady(()=> {
         <el-tab-pane label="System Users" name="first">
           <div class="flex flex-wrap justify-end">
             <div class="">
-              <UsablesTheButton @click.prevent="handleExcelExport" :is-normal="true" name="Excel" iconClass="fa-regular fa-file-excel" />
+              <UsablesExportButton @click.prevent="handleExcelExport" :is-normal="true" name="Export Excel" iconClass="fa-regular fa-file-excel" />
             </div>
             <div class="mx-4">
               <input

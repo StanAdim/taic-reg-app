@@ -123,6 +123,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::get('/export-users', [FileExportController::class, 'exportUsers']);
     Route::get('/export-bills', [FileExportController::class, 'exportBills']);
     Route::get('/export-payments', [FileExportController::class, 'exportPayments']);
+    Route::get('/file-preview', [FileExportController::class, 'downloadFile']);
 
 
 });

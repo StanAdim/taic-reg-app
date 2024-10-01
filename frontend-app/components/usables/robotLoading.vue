@@ -1,10 +1,16 @@
 <script setup lang="ts">
+const props = defineProps({
+  color: {
+    type:String,
+    default: '#1884ecv'
+  }
+})
 const globalStore = useGlobalDataStore()
 </script>
 
 <template>
   <span v-if="globalStore.getContentLoadingState" class="relative -top-1">
-    <span class="loader-02"></span>
+    <span class="loader-02 " :class="`text-${props.color}`"></span>
   </span>
 </template>
 
@@ -13,7 +19,7 @@ const globalStore = useGlobalDataStore()
   display: inline-block;
   width: 1em;
   height: 1em;
-  color: #1884ec;
+  //color: #ecf0f3;
   vertical-align: middle;
   pointer-events: none;
   border: .4em solid transparent;
