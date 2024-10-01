@@ -1,43 +1,68 @@
 import type { ApiResponse } from "~/types/interfaces";
+import {useApiFetch} from "~/composables/useApiFetch";
 
 export const useFileExportsStore = defineStore('exportsStore', () => {
 
     const globalStore = useGlobalDataStore()
+    const authStore = useAuthStore()
     const blobDataFile = ref(null)
 
-    const downloadUsersExcel = async () => {
-        let headers: any = {
-            accept: "application/json",
-            responseType: 'arraybuffer',
-            // Authorization: `Bearer ${authStore.getAccessToken}`,
-        };
+// Function to initiate the download of users' Excel file
+    const handleExcelFileExport = async (file_path, file_name): Promise<void> => {
+        globalStore.toggleBtnLoadingState(true)
+        const returned_file_path = ref('')
         try {
-            // Make the request to download the file
-            const response = await useApiFetch(`/api/export-users`, { ...headers });
-            // Create a blob from the response data
-            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            const { data, error } = await useApiFetch(`/api/export-report-${file_path}`, {
+                accept: "application/json",
+            });
+             returned_file_path.value = data.value?.path;
+            globalStore.toggleBtnLoadingState(false)
 
-            // Create a link element
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.setAttribute('download', 'system-users.xlsx'); // Set file name
-
-            // Append link to the body
-            document.body.appendChild(link);
-
-            // Programmatically click the link to trigger the download
-            link.click();
-
-            // Remove the link after download
-            document.body.removeChild(link);
+            if (!returned_file_path.value) {
+                throw new Error('File path not received');
+            }
         } catch (error) {
-            console.error('Error downloading the file', error);
+            console.error('Error downloading file:', error);
         }
-    }
+        if (returned_file_path.value !=''){
+            await downloadStoredFile(returned_file_path.value, file_name);
+        }else {
+            console.log('No file path returned')
+        }
+    };
 
+// Function to download a file given its path
+    const downloadStoredFile = async (pass_path: string, file_name: string = "file") : Promise => {
+        globalStore.toggleBtnLoadingState(true)
+        const { data, error } = await useApiFetch(`/api/file-preview?name=${encodeURIComponent(pass_path)}`, {
+            'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' // Set to Excel MIME type
+        });
+        if (data.value) {
+            const blob = new Blob([data.value],
+                { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); // Set blob type to Excel
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${file_name}-file.xlsx`); // Change the file extension to .xlsx
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Clean up the URL object
+            URL.revokeObjectURL(url);
+            globalStore.toggleBtnLoadingState(false)
+            globalStore.assignAlertMessage('File Downloaded', 'success')
+        }
+        if (error.value) {
+            console.log(error.value);
+            globalStore.toggleBtnLoadingState(false)
+            globalStore.assignAlertMessage(error.value?.message, 'error')
+        }
+    };
 
     return {
-        downloadUsersExcel,
+        handleExcelFileExport,
 
     }
 })

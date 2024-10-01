@@ -50,7 +50,7 @@ const handleVerification = async  (pathKey) => {
 
 }
 const handleExcelExport = async () => {
-  await exportStore.downloadUsersExcel()
+  await exportStore.handleExcelFileExport('users', 'users-list')
 }
 onNuxtReady(()=> {
    initialize()
@@ -65,7 +65,7 @@ onNuxtReady(()=> {
         <el-tab-pane label="System Users" name="first">
           <div class="flex flex-wrap justify-end">
             <div class="">
-              <UsablesTheButton @click.prevent="handleExcelExport" :is-normal="true" name="Excel" iconClass="fa-regular fa-file-excel" />
+              <UsablesExportButton @click.prevent="handleExcelExport" :is-normal="true" name="Export Excel" iconClass="fa-regular fa-file-excel" />
             </div>
             <div class="mx-4">
               <input

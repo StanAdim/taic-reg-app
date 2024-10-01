@@ -20,7 +20,7 @@ onNuxtReady(()=> {
 
 <template>
   <div class="">
-    <AdminThePageTitle title="PAYMENTS RECORD" />
+    <AdminThePageTitle title="BILLS GENERATED RECORD" />
       <h2 class="text-sky-700 font-bold">All Bills Generated</h2>
     <div class="">
     </div>
