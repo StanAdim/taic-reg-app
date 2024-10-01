@@ -7,26 +7,34 @@ useHead({
 definePageMeta({
     middleware:'auth'
 })
+const initDialog = ref(null);
+const isUpdating  = ref(false)
 const globalData = useGlobalDataStore()
-const confSpeaker = ref([])
 const keySpeakerStore = useSpeakerStore()
-const itemToUpdate = ref(null)
-const setAction = ref('')
+const handleItemUpdate = (item) => {
+  isUpdating.value = true
+  keySpeakerStore.assignDataToBeUpdated(item)
+  initDialog.value.initDialogData();
+  keySpeakerStore.toggleKeySpeakerModal(true)
+}
+const eventStore = useEventStore()
+
 const handleInitializing = async ()=>{
     await keySpeakerStore.retrieveConferenceSpeakers()
+    await  eventStore.retrieveEvents()
 }
 const openDialog = (method)=>{
-    setAction.value = method
-    keySpeakerStore.toggleKeySpeakerModal('open');
+    keySpeakerStore.toggleKeySpeakerModal(true);
 }
-handleInitializing()
+onNuxtReady(()=> {
+  handleInitializing()
+
+})
 </script>
 <template>
   <div class="">
     <AdminThePageTitle title="KEY SPEAKERS" />
-    <AdminCreateUpdateKeySpeaker :passedItem ="itemToUpdate"
-                                 :showStatus="keySpeakerStore.openKeySpeakDialog"
-                                 :dialogAction="setAction" />
+    <AdminCreateUpdateKeySpeaker ref="initDialog" :is-update-mode="isUpdating" />
     <div class="">
       <div class=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div class="w-full max-w-sm mx-auto px-4 py-4">

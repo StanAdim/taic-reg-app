@@ -18,9 +18,7 @@ const init = async () => {
  await  invitationStore.retrieveAllInvitationRequests()
 }
 const indexMethod = (index: number) => index + 1
-const handleClick = () => {
-  console.log('click')
-}
+
 const childRef = ref(null);
 const isUpdating  = ref(false)
 const toBeEdited  = ref()

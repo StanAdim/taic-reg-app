@@ -2,9 +2,11 @@
 const props = defineProps({
     info: {
         type:Object,
-
     }
 })
+const config = useRuntimeConfig()
+const apiBaseUlr = config.public.apiBaseUlr
+const imageFullPath = (imgPath) => `${apiBaseUlr}/${imgPath}`
 </script>
 <template>
 <!-- component -->
@@ -22,7 +24,7 @@ const props = defineProps({
         <div class=" bg-emerald-200 hover:text-white hover:bg-emerald-500 p-1 rounded-md">GoH<i class="mx-0.5 fa-brands fa-creative-commons-sampling"></i></div>
     </div>
   <div class=" mx-2 mt-2 h-40 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
-    <img :src="`${props.info?.imgPath}`" :alt="props.info?.name" />
+    <img :src="imageFullPath(props.info?.imgPath)" :alt="props.info?.name" />
   </div>
   <div class="p-3 text-center">
     <h4 class="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">

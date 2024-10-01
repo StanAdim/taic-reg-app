@@ -1,108 +1,162 @@
-<script  setup>
+<script  setup lang="ts">
 const props = defineProps({
-    passedItem:{
-        type:String,
-        default: null
-    },
-    dialogAction: {
-        type: String,
-        default: 'create'
-    },
-    showStatus:{
-        type: Boolean,
-        default: false
-    }
+  isUpdateMode: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const keySpeakerStore = useSpeakerStore()
 const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
-const formData = ref({
-  conference_id:0
+const formInputs = reactive({
+  conference_id:0,
+  name: '',
+  email: '',
+  institution: '',
+  designation: '',
+  twitterLink: '',
+  linkedinLink: '',
+  agenda_title: '',
+  agenda_desc: '',
+  brief_bio: '',
+  imgPath: '',
 })
-const initialize = async ()=> {
-    await eventStore.retrieveEvents();
-}
-const handleFileUpload = (event) => {
-  const selectedFile = event.target.files[0];
-  if (selectedFile) {
-    formData.value.imageFile = selectedFile;
+let action = 'create'
+const handleFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files[0]) {
+    formInputs.imgPath = target.files[0];
   }
 };
 const handleForm = async ()=> {
-  globalStore.toggleLoadingState('on')
     if(props.dialogAction === 'update'){
-        formData.value.id = props.passedItem
+        // formData.id = props.passedItem
     }
-    formData.value.action = props.dialogAction
-   await keySpeakerStore.createUpdateSpeaker(formData.value)
+  if (!formInputs.imgPath) {
+    const message = 'Please select a Image to upload.';
+    globalStore.assignAlertMessage(message, 'warning');
+    return;
+  }
+  // Create FormData
+  const formData = new FormData();
+  formData.append('imgPath', formInputs.imgPath);
+  formData.append('name', formInputs.name);
+  formData.append('conference_id', formInputs.conference_id);
+  formData.append('email', formInputs.email);
+  formData.append('institution', formInputs.institution);
+  formData.append('designation', formInputs.designation);
+  formData.append('twitterLink', formInputs.twitterLink);
+  formData.append('linkedinLink', formInputs.linkedinLink);
+  formData.append('agenda_title', formInputs.agenda_title);
+  formData.append('agenda_desc', formInputs.agenda_desc);
+  formData.append('brief_bio', formInputs.brief_bio);
+  globalStore.toggleBtnLoadingState(true)
+   await keySpeakerStore.createUpdateSpeaker(formData, action)
+
 
 }
-
-initialize()
+function initDialogData() {
+  console.log('edit mode')
+  formInputs.id = keySpeakerStore.getSpeakerTobeEdited?.id
+  formInputs.email = keySpeakerStore.getSpeakerTobeEdited?.email
+  formInputs.institution = keySpeakerStore.getSpeakerTobeEdited?.institution
+  formInputs.designation = keySpeakerStore.getSpeakerTobeEdited?.designation
+  formInputs.twitterLink = keySpeakerStore.getSpeakerTobeEdited?.twitterLink
+  formInputs.conference_id = keySpeakerStore.getSpeakerTobeEdited?.conference_id
+  formInputs.linkedinLink = keySpeakerStore.getSpeakerTobeEdited?.linkedinLink
+  formInputs.agenda_title = keySpeakerStore.getSpeakerTobeEdited?.agenda_title
+  formInputs.agenda_desc = keySpeakerStore.getSpeakerTobeEdited?.agenda_desc
+  formInputs.agenda_desc = keySpeakerStore.getSpeakerTobeEdited?.agenda_desc
+  formInputs.brief_bio = keySpeakerStore.getSpeakerTobeEdited?.brief_bio
+}
+defineExpose({
+  initDialogData
+});
 </script>
 <template>
-    <div class="fixed z-10 inset-0 overflow-y-auto" :class="{'hide': !props.showStatus}" id="modal">
+    <div class="fixed z-10 inset-0 overflow-y-auto bg-black bg-opacity-80" v-if="keySpeakerStore.getSpeakerModalStatus" id="modal">
         <div class="flex items-center justify-center min-h-screen">
             <div class="relative bg-white w-3/5 rounded-lg shadow-xl p-8">
                 <h2 class="text-xl font-semibold mb-4 text-center capitalize">{{props.dialogAction}} Conference Speakers</h2>
         <form @submit.prevent="handleForm()">
-            <div class="mb-4 border-b-2 border-teal-500 py-2">
-                <label for="StartDate" class="block text-sm font-medium text-gray-700">Select Conference</label>
-                <select v-model="formData.conference_id" id="" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none">
-                    <option value="0" disabled>Choose Year</option>
-                    <option v-for="conference in eventStore.getEvents" :key="conference" :value="conference.id">{{conference.conferenceYear}}</option>
+            <div class="form-section">
+                <label for="selectedConference" class="form-labels">Select Conference</label>
+                <select id="selectedConference" v-model="formInputs.conference_id"  class="form-input">
+                    <option value="0" disabled>Choose conference</option>
+                    <option v-for="conference in eventStore.getEvents" :key="conference" :value="conference.id">{{conference.name + ' - '+ conference.year}}</option>
                 </select>
             </div>
             <div class="flex flex-row justify-evenly">
-                <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
-                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                    <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    type="text" v-model="formData.name" placeholder="Speaker full name" id="name">
+                <div class="form-section w-3/4 mx-2">
+                    <label for="name" class="form-labels">Name</label>
+                    <input class="form-input"
+                    type="text" v-model="formInputs.name" placeholder="Speaker full name" id="name">
                 </div>
-                <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    type="text" v-model="formData.email" placeholder="speaker email" id="email">
-                </div>
-            </div>
-            <div class="flex flex-row justify-evenly">
-                <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
-                    <label for="institution" class="block text-sm font-medium text-gray-700">Institution | Company</label>
-                    <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    type="text" v-model="formData.institution" placeholder="Speaker institution" id="institution">
-                </div>
-                <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
-                    <label for="designation" class="block text-sm font-medium text-gray-700">Designation</label>
-                    <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    type="text" v-model="formData.designation" placeholder="Speaker designation" id="designation">
+                <div class="form-section w-3/4 mx-2">
+                    <label for="email" class="form-labels">Email</label>
+                    <input class="form-input"
+                    type="text" v-model="formInputs.email" placeholder="speaker email" id="email">
                 </div>
             </div>
             <div class="flex flex-row justify-evenly">
-                <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
-                    <label for="linkedinLink" class="block text-sm font-medium text-gray-700">Linkedin</label>
-                    <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    type="text" v-model="formData.linkedinLink" placeholder="Add a Conference linkedinLink" id="linkedinLink">
+                <div class="form-section w-3/4 mx-2">
+                    <label for="institution" class="form-labels">Institution | Company</label>
+                    <input class="form-input"
+                    type="text" v-model="formInputs.institution" placeholder="Speaker institution" id="institution">
                 </div>
-                <div class="mb-4 border-b-2 border-teal-500 py-2 w-3/4 mx-2">
-                    <label for="twitterLink" class="block text-sm font-medium text-gray-700">X-Link | Twitter</label>
-                    <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    type="text" v-model="formData.twitterLink" placeholder="Add a Conference twitterLink" id="twitterLink">
+                <div class="form-section w-3/4 mx-2">
+                    <label for="designation" class="form-labels">Designation</label>
+                    <input class="form-input"
+                    type="text" v-model="formInputs.designation" placeholder="Speaker designation" id="designation">
                 </div>
             </div>
-            <div class="mb-4 border-b-2 border-teal-500 py-2">
+            <div class="flex flex-row justify-evenly">
+                <div class="form-section w-3/4 mx-2">
+                    <label for="linkedinLink" class="form-labels">Linkedin</label>
+                    <input class="form-input"
+                    type="text" v-model="formInputs.linkedinLink" placeholder="Add a Conference linkedinLink" id="linkedinLink">
+                </div>
+                <div class="form-section w-3/4 mx-2">
+                    <label for="twitterLink" class="form-labels">X-Link | Twitter</label>
+                    <input class="form-input"
+                    type="text" v-model="formInputs.twitterLink" placeholder="Add a Conference twitterLink" id="twitterLink">
+                </div>
+            </div>
+          <div class="form-section">
+            <label for="StartDate" class="form-labels">Speaker's Agenda Title</label>
+            <input class="form-input"
+                   type="text" v-model="formInputs.agenda_title" placeholder="Add a Conference twitterLink" id="twitterLink">
+          </div>
+          <div class="flex flex-row justify-evenly">
+                <div class="form-section w-3/4 mx-2">
+                  <label for="AboutConference" class="form-labels">Speaker's Agenda Description</label>
+                  <textarea v-model="formInputs.agenda_desc" id="AboutConference" cols="3" rows="4"
+                            placeholder="Write something about the Conference"
+                            class="form-input">
+                  </textarea>
+                </div>
+                <div class="form-section w-3/4 mx-2">
+                  <label for="AboutConference" class="form-labels">Speaker's Bio</label>
+                  <textarea v-model="formInputs.brief_bio" id="AboutConference" cols="3" rows="4"
+                            placeholder="Write something about the Conference"
+                            class="form-input">
+                  </textarea>
+                </div>
+            </div>
+            <div class="mb-2 border-b-2 border-teal-500 py-2">
                 <div class="col-span-full">
                     <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Passport Photo</label>
-                    <div class="mt-2 bg-stone-100 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                    <div class="mt-2 bg-stone-100 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-2 py-4">
                     <div class="text-center">
-                        <span class="mx-auto h-12 w-12 text-gray-300"><i class="fa-solid fa-upload fa-3x"></i></span>
+                        <span class="mx-auto h-6 w-6 text-gray-300"><i class="fa-solid fa-upload fa-3x"></i></span>
                         <div class="mt-4 flex text-sm leading-6 text-gray-600">
                         <label for="file-upload" class="relative cursor-pointer rounded-md p-2 bg-white font-semibold text-teal-600 
                         focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-teal-500">
-                            <span>{{formData.imageFile?.name || 'Upload a passport size img'}}</span>
+                            <span>{{formInputs.imageFile?.name || 'Upload a passport size img'}}</span>
                             <input id="file-upload" name="path" type="file" class="sr-only"
                                    accept=".jpg"
-                                   @change="handleFileUpload"
+                                   @change="handleFileChange"
                             />
                         </label>
                         </div>
@@ -112,8 +166,10 @@ initialize()
                 </div>
             </div>
         <div class="mt-6">
-          <button class="bg-green-500 text-white px-4 py-0.5 mx-3  rounded-md hover:bg-green-600">Save <i class="fa-regular fa-floppy-disk mx-2"></i></button>
-          <button @click="keySpeakerStore.toggleKeySpeakerModal('close')" class="flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500
+          <button class="bg-green-500 text-white px-4 py-0.5 mx-3  rounded-md hover:bg-green-600">Save <i class="fa-regular fa-floppy-disk mx-2"></i>
+            <span class="px-2"><UsablesBtnLoader /></span>
+          </button>
+          <button @click="keySpeakerStore.toggleKeySpeakerModal(false)" class="flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500
                     hover:border-teal-700 text-sm border-4 text-white py-0.5 px-4 rounded"
                 type="button">
                 Close <i class="fa-regular fa-circle-xmark mx-2"></i>
@@ -128,5 +184,14 @@ initialize()
 <style scoped>
 .hide {
     display: none;
+}
+.form-section {
+  @apply mb-4 border-b-2 border-teal-500 py-2
+}
+.form-labels {
+  @apply block text-sm font-medium text-gray-700 ;
+}
+.form-input {
+  @apply appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none
 }
 </style>
