@@ -5,6 +5,7 @@
 /public/storage
 /backups/
 /public/events/documents/*
+/public/Uploads/*
 /storage/*.key
 /vendor
 .env

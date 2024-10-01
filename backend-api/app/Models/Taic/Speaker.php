@@ -20,6 +20,9 @@ class Speaker extends Model
         "linkedinLink",
         "twitterLink",
         "isMain",
+        "agenda_title",
+        "agenda_desc",
+        "brief_bio",
         "conference_id",
         "imageFileName",
         'is_visible'

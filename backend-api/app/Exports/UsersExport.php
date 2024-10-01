@@ -14,10 +14,31 @@ class UsersExport implements  FromCollection, WithHeadings
     */
     public function collection()
     {
-        return User::select( "firstName", "middleName", "lastName","email")->get();
+        return  User::join(
+            'user_infos', 'users.id', '=', 'user_infos.user_id')
+        ->select(
+            "users.firstName", 
+            "users.middleName",
+            "users.lastName", 
+            "users.email",
+            "user_infos.phoneNumber", // Example additional field
+            "user_infos.institution",       // Example additional field
+            "user_infos.position",     // Example additional field
+            // "user_infos.nation",     // Example additional field
+        )
+        ->get();
     }
     public function headings(): array
     {
-        return ["FIRST NAME", "MIDDLE NAME", "LAST NAME","EMAIL"];
+        return [
+            "FIRST NAME", 
+            "MIDDLE NAME", 
+            "LAST NAME", 
+            "EMAIL", 
+            "PHONE NUMBER",  // Additional heading
+            "INSTITUTION" ,      // Additional heading
+            "POSITION" ,      // Additional heading
+            // "NATION" ,      // Additional heading
+        ];
     }   
 }

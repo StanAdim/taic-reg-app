@@ -23,7 +23,7 @@ class SpeakerResource extends JsonResource
             'linkedinLink' => $this->linkedinLink,
             'twitterLink' => $this->twitterLink,
             'isMain' => $this->isMain,
-            'imgPath' => $this->imgPath,
+            'imgPath' =>'Uploads/Speakers/'.$this->imageFileName,
             'is_visible' => $this->is_visible,
             'conferenceYear' => $this->conference->conferenceYear,
             'createdTime' => date('h:i A', strtotime($this->created_at)),

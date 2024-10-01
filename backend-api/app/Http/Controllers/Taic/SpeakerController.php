@@ -44,6 +44,9 @@ class SpeakerController extends Controller
             "institution" => 'required|max:225|min:3',
             "linkedinLink" => '',
             "twitterLink" => '',
+            "brief_bio" => '',
+            "agenda_title" => '',
+            "agenda_desc" => '',
             "conference_id" => 'required|min:3',
         ]);
         if($validator->fails()){
@@ -68,7 +71,6 @@ class SpeakerController extends Controller
             'imageFileName' => $imageFileName,
           ];
         $newSpeakerInfo = array_merge($newSpeakerInfo,$fileName);
-        return $newSpeakerInfo;
         $newSpeaker = Speaker::create($newSpeakerInfo);
         return response()->json([
             'message'=> "Conference Speaker Created",
