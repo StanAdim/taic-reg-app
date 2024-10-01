@@ -34,7 +34,8 @@ class GatewayBillPaymentListener
              $data = [
                  'message' => "Receive Payment Update",
                  'control_number' => $bill_data-> cust_cntr_num,
-                 'status' => $bill_data-> status
+                 'status' => $bill_data-> status,
+                 'paid_amount' => $bill_data-> paid_amt
              ];
              //making path
              $url = $system->base_url.$system->callback_payment_number.$gatewayBill->uuid;

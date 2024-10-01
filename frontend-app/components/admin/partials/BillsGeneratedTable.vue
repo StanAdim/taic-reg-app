@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 const billStore = useBillStore();
+const exportStore = useFileExportsStore();
 
 const search = ref('')
 const filterTableData = computed(() =>
@@ -71,7 +72,7 @@ const handleBillDownloading = async (docType, row) => {
 }
 
 const handleExcelExport = async  () => {
-  console.log('bills')
+  await exportStore.handleExcelFileExport('bills', 'bill-list')
 }
 
 </script>
@@ -79,7 +80,7 @@ const handleExcelExport = async  () => {
   <div class="">
     <!-- Search Input -->
     <div class="flex justify-end items-center gap-2 mb-2">
-      <UsablesTheButton @click.prevent="handleExcelExport" :is-normal="true" name="Excel" iconClass="fa-regular fa-file-excel" />
+      <UsablesExportButton @click.prevent="handleExcelExport" :is-normal="true" name="Export Excel" iconClass="fa-regular fa-file-excel" />
 
       <input
           v-model="searchQuery"

@@ -13,6 +13,6 @@ const props = defineProps({
      text-sm border-4 text-white py-0.5 px-1 rounded"
     type="button">
     {{props.name}} <i class="mx-2" :class="props.iconClass"></i>
-      <UsablesRobotLoading color="#ecf0f3" />
+      <UsablesBtnLoader />
     </button>
 </template>

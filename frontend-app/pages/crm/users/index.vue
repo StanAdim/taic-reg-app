@@ -49,9 +49,8 @@ const handleVerification = async  (pathKey) => {
   await authStore.userEmailVerification(pathKey)
 
 }
-const isDownload = ref(false)
 const handleExcelExport = async () => {
-  await exportStore.downloadUsersExcel()
+  await exportStore.handleExcelFileExport('users', 'users-list')
 }
 onNuxtReady(()=> {
    initialize()

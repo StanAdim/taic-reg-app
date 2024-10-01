@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\BillsExport;
 use App\Exports\ParticipantsExport;
 use App\Exports\PaymentExport;
+use App\Exports\PaymentsExport;
 use App\Exports\UsersExport;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -21,13 +22,19 @@ class FileExportController extends Controller
         return response() ->json(['path' => $filePath]);
     }
     public function exportParticipants() {
-        return Excel::download(new ParticipantsExport, 'event_participants.xlsx');
+        $filePath = 'documents/excels/event_participants.xlsx';
+        Excel::store(new ParticipantsExport, $filePath);
+        return response() ->json(['path' => $filePath]);
     }
     public function exportBills() {
-        return Excel::download(new BillsExport, 'all_bills_ems.xlsx');
+        $filePath = 'documents/excels/all_bills_emsv.xlsx';
+        Excel::store(new BillsExport, $filePath);
+        return response() ->json(['path' => $filePath]);
     }
     public function exportPayments() {
-        return Excel::download(new PaymentExport, 'event_payments.xlsx');
+        $filePath = 'documents/excels/event_payments.xlsx';
+        Excel::store(new PaymentsExport, $filePath);
+        return response() ->json(['path' => $filePath]);
     }
     public function exportParticipationCertificate() {
         return view('pdf.participation_certificate');
@@ -45,8 +52,7 @@ class FileExportController extends Controller
          ->setPaper('a4', 'landscape');
         return $pdf->download($slug."-TAIC-PARTICIPATION-CERTIFICATE".'.pdf');
     }
-    public function downloadFile(Request $request)
-    {
+    public function downloadFile(Request $request){
         // return $request 
         $file_name = $request->name;
         if ($file_name == null) {

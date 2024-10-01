@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Subscription;
+use App\Models\Event\Subscription as EventSubscription;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ParticipantsExport implements FromCollection
@@ -12,6 +12,6 @@ class ParticipantsExport implements FromCollection
     */
     public function collection()
     {
-        return Subscription::all();
+        return EventSubscription::all();
     }
 }

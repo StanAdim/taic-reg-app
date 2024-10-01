@@ -35,9 +35,7 @@ export const useEventStore = defineStore('eventStore', () => {
         return {data, error};
       }
       async function createUpdateEvent(passEvent: ConferenceData) : Promise{
-
-        await useApiFetch("/sanctum/csrf-cookie");
-        const action = passEvent.action
+       const action = passEvent.action
         const {data, error} = await useApiFetch(`/api/${action}-conference-data`,{
             method: 'POST',
             body : passEvent

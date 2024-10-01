@@ -120,9 +120,10 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::get('/gateway/bills-requests', [PaymentGatewayController::class,'index']);
 
     // Excells and file exports
-    Route::get('/export-users', [FileExportController::class, 'exportUsers']);
-    Route::get('/export-bills', [FileExportController::class, 'exportBills']);
-    Route::get('/export-payments', [FileExportController::class, 'exportPayments']);
+    Route::get('/export-report-users', [FileExportController::class, 'exportUsers']);
+    Route::get('/export-report-bills', [FileExportController::class, 'exportBills']);
+    Route::get('/export-report-payments', [FileExportController::class, 'exportPayments']);
+    Route::get('/export-report-participants', [FileExportController::class, 'exportParticipants']);
     Route::get('/file-preview', [FileExportController::class, 'downloadFile']);
 
 
@@ -134,7 +135,6 @@ Route::middleware([ApiKeyMiddleware::class])->group(function () {
     Route::post('/v1/gateway-bill-submission', [PaymentGatewayController::class, 'handleBillSubmission']);
 });
 
-Route::get('/export-test', [FileExportController::class, 'exportUsers']);
 Route::get('/certificate-participation', [FileExportController::class, 'exportParticipationCertificate']);
 Route::get('/certificate-participation-1', [FileExportController::class, 'printCertificate']);
 
