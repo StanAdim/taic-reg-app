@@ -79,9 +79,23 @@ class SpeakerController extends Controller
         ],200);
     }
 
-    public function getConferenceData(string $id)
+    public function singleSpeaker(string $id)
     {
         //
+        $exists = Speaker::where('id', $id)->exists();
+        if($exists){
+            $data = new SpeakerResource(Speaker::findOrFail($id));
+            return response()->json([
+                'message' => 'Speaker data found',
+                'data' => $data
+            ]);
+        }else{
+            return response()->json([
+                'message' => 'Speaker Data not found',
+                'data' => null
+            ]);
+        }
+       
     }
 
     public function update(Request $request, string $id)

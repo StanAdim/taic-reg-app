@@ -22,6 +22,11 @@ class SpeakerResource extends JsonResource
             'institution' => $this->institution,
             'linkedinLink' => $this->linkedinLink,
             'twitterLink' => $this->twitterLink,
+            
+            'agenda_title' => $this->agenda_title,
+            'agenda_desc' => $this->agenda_desc,
+            'brief_bio' => $this->brief_bio,
+
             'isMain' => $this->isMain,
             'imgPath' =>'Uploads/Speakers/'.$this->imageFileName,
             'is_visible' => $this->is_visible,

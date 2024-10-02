@@ -89,6 +89,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::post('/create-conference-speaker', [SpeakerController::class,'create']);
     Route::post('/update-conference-speaker', [SpeakerController::class,'update']);
     Route::get('/honorable-speaker/activate/{uuid}', [SpeakerController::class,'activateHonourable']);
+    Route::get('/conference-speaker/{uuid}', [SpeakerController::class,'singleSpeaker']);
     //Conference Schedules ---------
     Route::get('/conference-schedules', [DayController::class,'schedules']);
     Route::post('/create-conference-day', [DayController::class,'create']);

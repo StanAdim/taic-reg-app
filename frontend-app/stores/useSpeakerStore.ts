@@ -1,17 +1,20 @@
 import type {ConferenceData, ApiResponse, SpeakerData} from "~/types/interfaces";
 import {map} from "yaml/dist/schema/common/map";
 import type {ComputedRef} from "vue";
+import {useApiFetch} from "~/composables/useApiFetch";
 
 export const useSpeakerStore = defineStore('keySpeakerStore', () => {
 
     const openKeySpeakDialog = ref(false);
     const updatingData  = ref({})
+    const singleSpeaker  = ref({})
     const eventSpeakers = ref([])
     const globalStore = useGlobalDataStore()
 
       const getSpeakers = computed(() => {return eventSpeakers.value})
       const getSpeakerModalStatus : ComputedRef = computed(() => {return openKeySpeakDialog.value})
       const getSpeakerTobeEdited : ComputedRef = computed(() => {return updatingData.value})
+      const getSpeakerData : ComputedRef = computed(() => {return singleSpeaker.value})
 
       // toggle loading
       const toggleKeySpeakerModal = (state:boolean) => openKeySpeakDialog.value = state
@@ -56,6 +59,18 @@ export const useSpeakerStore = defineStore('keySpeakerStore', () => {
         }
         return {data, error};
       }
+
+      async function retrieveSingleSpeaker(passId: string) : Promise{
+          globalStore.toggleContentLoaderState('on')
+          const {data, error} = await useApiFetch(`/api/conference-speaker/${passId}`);
+          if(data.value){
+              console.log(data.value?.data)
+              singleSpeaker.value = data.value?.data
+          }else {
+              console.log(error.value)
+          }
+          globalStore.toggleContentLoaderState('off')
+      }
       
       return { 
         
@@ -66,5 +81,6 @@ export const useSpeakerStore = defineStore('keySpeakerStore', () => {
          getSpeakers,
          createUpdateSpeaker,
           handleActivateHonorable,
+          retrieveSingleSpeaker,getSpeakerData
         }
     })
