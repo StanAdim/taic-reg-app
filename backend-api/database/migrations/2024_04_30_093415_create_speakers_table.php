@@ -19,11 +19,16 @@ return new class extends Migration
             $table->string('institution');
             $table->string('linkedinLink')->nullable();
             $table->string('twitterLink')->nullable();
+
             $table->string('imageFileName')->default('/speakers/placeholder.png');
             $table->boolean('isMain')->default(false);
             $table->uuid('conference_id')->nullable()
                     ->constrained('speakers')->cascadeOnDelete();
             $table->boolean('is_visible')->default(false);
+
+            $table->longText('brief_bio')->nullable();
+            $table->string('agenda_title')->nullable();
+            $table->longText('agenda_desc')->nullable();
             $table->timestamps();
         });
     }

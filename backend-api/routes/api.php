@@ -50,6 +50,8 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
 
  //public events
  Route::get('/get-upcoming-events',[ConferenceController::class, 'getUpcomingEvents']);
+ Route::get('/site-conference-speakers', [SpeakerController::class,'taicSite']);
+
  //--- Auth routes
  Route::middleware(['auth:sanctum'])->group(function(){
      Route::post('/user-info-create',[UserInfoController::class, 'create']);
@@ -89,6 +91,11 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::post('/create-conference-speaker', [SpeakerController::class,'create']);
     Route::post('/update-conference-speaker', [SpeakerController::class,'update']);
     Route::get('/honorable-speaker/activate/{uuid}', [SpeakerController::class,'activateHonourable']);
+    Route::get('/conference-speaker/{uuid}', [SpeakerController::class,'singleSpeaker']);
+    Route::get('/conference-goh-speaker', [SpeakerController::class,'getGoH']);
+    Route::get('/conference-speaker/switch-visibility/{uuid}', [SpeakerController::class,'switchVisibility']);
+    Route::get('/conference-speaker/guest-of-honour/{conference_id}/{uuid}', [SpeakerController::class,'makeSpeakerGuestOfHonour']);
+
     //Conference Schedules ---------
     Route::get('/conference-schedules', [DayController::class,'schedules']);
     Route::post('/create-conference-day', [DayController::class,'create']);

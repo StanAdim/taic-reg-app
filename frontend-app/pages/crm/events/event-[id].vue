@@ -4,6 +4,7 @@ definePageMeta({
 })
 const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
+const exportStore = useFileExportsStore()
 const route = useRoute()
 const eventData = ref(null)
 const initialize = async () => {
@@ -14,6 +15,10 @@ const headers = [
     {key:'userName', name:'Name'},{key:'phoneNumber',
     name:' Phone'},{key:'institution',
     name:'Institution'},{key:'region', name:'Region'},{key:'payment', name:'Status'},]
+const handleExcelExport = async () => {
+  await exportStore.handleExcelFileExport('participants', 'event-participants-list',route.params.id)
+}
+
 onNuxtReady(()=> {
   initialize()
     }
@@ -83,7 +88,9 @@ onNuxtReady(()=> {
       </div>
       </div>
           <div class="mx-1 my-2 " v-if="globalStore.hasPermission('can_modify_event')">
-            <h2 class="text-xl text-center font-bold">Registered Participants</h2>
+            <h2 class="text-xl text-center font-bold">Registered Participants
+              <UsablesExportButton @click.prevent="handleExcelExport" :is-normal="true" name="Export Excel" iconClass="fa-regular fa-file-excel" />
+            </h2>
                 <AdminPartialsSubscribers :subscribers="eventData?.subscribers" />
 <!--              <simple-data-table :headers="headers" :data="eventData?.subscribers" />-->
           </div>

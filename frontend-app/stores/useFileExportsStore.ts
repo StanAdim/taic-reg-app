@@ -8,11 +8,12 @@ export const useFileExportsStore = defineStore('exportsStore', () => {
     const blobDataFile = ref(null)
 
 // Function to initiate the download of users' Excel file
-    const handleExcelFileExport = async (file_path, file_name): Promise<void> => {
+    const handleExcelFileExport = async (file_path, file_name , conference_id: string = ''): Promise<void> => {
         globalStore.toggleBtnLoadingState(true)
         const returned_file_path = ref('')
+        console.log(conference_id);
         try {
-            const { data, error } = await useApiFetch(`/api/export-report-${file_path}`, {
+            const { data, error } = await useApiFetch(`/api/export-report-${file_path}?name=${conference_id}`, {
                 accept: "application/json",
             });
              returned_file_path.value = data.value?.path;

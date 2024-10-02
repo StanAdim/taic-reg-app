@@ -7,6 +7,7 @@ use App\Exports\ParticipantsExport;
 use App\Exports\PaymentExport;
 use App\Exports\PaymentsExport;
 use App\Exports\UsersExport;
+use App\Models\Taic\Conference;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -21,9 +22,10 @@ class FileExportController extends Controller
         Excel::store(new UsersExport, $filePath);
         return response() ->json(['path' => $filePath]);
     }
-    public function exportParticipants() {
+    public function exportParticipants(Request $request) {
         $filePath = 'documents/excels/event_participants.xlsx';
-        Excel::store(new ParticipantsExport, $filePath);
+        // return Conference::where('id', $request-> conference_id );
+        Excel::store(new ParticipantsExport($request -> conference_id), $filePath);
         return response() ->json(['path' => $filePath]);
     }
     public function exportBills() {

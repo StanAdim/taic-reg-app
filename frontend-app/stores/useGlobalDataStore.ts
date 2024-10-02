@@ -31,7 +31,7 @@ export const useGlobalDataStore = defineStore('globalData', () => {
         {name: 'All Bills', path: '/crm/payments/generated-bills', userRole: 'admin', isActiveLink:false},
         {name: 'Payments', path: '/crm/payments/settled-payments', userRole: 'admin', isActiveLink:false},
         // {name: 'Group Booking', path: '/crm/group-booking', userRole: '', isActiveLink:false},
-        {name: 'Key Speakers', path: '/crm/speakers', userRole: 'admin', isActiveLink:false},
+        {name: 'Key Speakers', path: '/crm/speakers', userRole: '', isActiveLink:false},
         {name: 'Schedules', path: '/crm/schedules', userRole: 'admin', isActiveLink:false},
         {name: 'System Users', path: '/crm/users', userRole: 'admin', isActiveLink:false},
         {name: 'Agenda', path: '/crm/agenda', userRole: 'admin', isActiveLink:false},
