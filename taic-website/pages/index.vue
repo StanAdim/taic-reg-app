@@ -10,7 +10,7 @@
         <!-- Featured -->
 <!--        <featured />-->
         <!-- Featured -->
-<!--        <KeySpeaker />-->
+        <KeySpeaker />
     <OurPartners />
 
         

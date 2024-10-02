@@ -84,7 +84,8 @@ defineExpose({
                 <label for="selectedConference" class="form-labels">Select Conference</label>
                 <select id="selectedConference" v-model="formInputs.conference_id"  class="form-input">
                     <option value="0" disabled>Choose conference</option>
-                    <option v-for="conference in eventStore.getEvents" :key="conference" :value="conference.id">{{conference.name + ' - '+ conference.year}}</option>
+                    <option v-for="conference in eventStore.getEvents"
+                            :key="conference" :value="conference.id">{{conference.name + ' - '+ conference.year}}</option>
                 </select>
             </div>
             <div class="flex flex-row justify-evenly">
@@ -124,22 +125,22 @@ defineExpose({
                 </div>
             </div>
           <div class="form-section">
-            <label for="StartDate" class="form-labels">Speaker's Agenda Title</label>
+            <label for="title-agenda" class="form-labels">Speaker's Agenda Title</label>
             <input class="form-input"
-                   type="text" v-model="formInputs.agenda_title" placeholder="Add a Conference twitterLink" id="twitterLink">
+                   type="text" v-model="formInputs.agenda_title" placeholder="Add a Conference twitterLink" id="title-agenda">
           </div>
           <div class="flex flex-row justify-evenly">
                 <div class="form-section w-3/4 mx-2">
-                  <label for="AboutConference" class="form-labels">Speaker's Agenda Description</label>
-                  <textarea v-model="formInputs.agenda_desc" id="AboutConference" cols="3" rows="4"
-                            placeholder="Write something about the Conference"
+                  <label for="about-agenda-desc" class="form-labels">Speaker's Agenda Description</label>
+                  <textarea v-model="formInputs.agenda_desc" id="about-agenda-desc" cols="3" rows="4"
+                            placeholder="Brief about agenda"
                             class="form-input">
                   </textarea>
                 </div>
                 <div class="form-section w-3/4 mx-2">
-                  <label for="AboutConference" class="form-labels">Speaker's Bio</label>
-                  <textarea v-model="formInputs.brief_bio" id="AboutConference" cols="3" rows="4"
-                            placeholder="Write something about the Conference"
+                  <label for="about-speaker-bio" class="form-labels">Speaker's Bio</label>
+                  <textarea v-model="formInputs.brief_bio" id="about-speaker-bio" cols="3" rows="4"
+                            placeholder="Brief about speaker"
                             class="form-input">
                   </textarea>
                 </div>
@@ -155,7 +156,7 @@ defineExpose({
                         focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-teal-500">
                             <span>{{formInputs.imageFile?.name || 'Upload a passport size img'}}</span>
                             <input id="file-upload" name="path" type="file" class="sr-only"
-                                   accept=".jpg"
+                                   accept=""
                                    @change="handleFileChange"
                             />
                         </label>

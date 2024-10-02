@@ -37,6 +37,20 @@ class SpeakerController extends Controller
             'code' => 300,
         ]);
     }
+    public function taicSite(){
+        $conferenceSpeakers = SpeakerResource::collection(Speaker::where('is_visible', 1)->get()->sortByDesc('createdDate'));
+        if($conferenceSpeakers){
+            return response()->json([
+                'message'=> "TAIC Speakers",
+                'data' => $conferenceSpeakers,
+                'code' => 200,
+            ]);
+        }
+        return response()->json([
+            'message'=> "No Speakers Found",
+            'code' => 300,
+        ]);
+    }
     public function create(Request $request) {
         $validator = Validator::make($request->all(), [
             "email" => 'required|unique:speakers',

@@ -4,11 +4,17 @@ const props = defineProps({
         type:Object,
     }
 })
-const config = useRuntimeConfig()
 const speakerStore = useSpeakerStore()
 const globalData = useGlobalDataStore()
+const config = useRuntimeConfig()
 const apiBaseUlr = config.public.apiBaseUlr
-const imageFullPath = (imgPath) => `${apiBaseUlr}/${imgPath}`
+const imageFullPath = (imgPath) => {
+  if (!imgPath){
+    return `/speakers/placeholder.png`
+  }else {
+    return `${apiBaseUlr}/${imgPath}`
+  }
+}
 const handleSpeakerInfo = (infoKey) => {
   navigateTo(`/crm/speakers/speaker/${infoKey}`, {})
   console.log(infoKey)

@@ -44,7 +44,7 @@ onNuxtReady(()=> {
             <UsablesTheButton v-if="globalData.hasPermission('can_manage_site')"  @click="openDialog('create')" :is-normal="true" name="Add Speaker" iconClass="fa-solid fa-plus" />
           </div>
         </div>
-        <div class="flex justify-center items-center border-b-2 border-teal-500 py-2">
+        <div class="flex justify-center items-center border-b-2 border-teal-500 py-2" v-if="keySpeakerStore.getSpeakerGoH">
           <AdminSpeakerCard :info="keySpeakerStore.getSpeakerGoH" />
         </div>
         <ul class="flex justify-center divide-y divide-gray-300 px-4">

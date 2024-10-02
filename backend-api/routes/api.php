@@ -50,6 +50,8 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
 
  //public events
  Route::get('/get-upcoming-events',[ConferenceController::class, 'getUpcomingEvents']);
+ Route::get('/site-conference-speakers', [SpeakerController::class,'taicSite']);
+
  //--- Auth routes
  Route::middleware(['auth:sanctum'])->group(function(){
      Route::post('/user-info-create',[UserInfoController::class, 'create']);
