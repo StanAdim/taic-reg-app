@@ -8,6 +8,7 @@ export const useSpeakerStore = defineStore('keySpeakerStore', () => {
     const openKeySpeakDialog = ref(false);
     const updatingData  = ref({})
     const singleSpeaker  = ref({})
+    const guestOfHonour  = ref({})
     const eventSpeakers = ref([])
     const globalStore = useGlobalDataStore()
 
@@ -15,6 +16,7 @@ export const useSpeakerStore = defineStore('keySpeakerStore', () => {
       const getSpeakerModalStatus : ComputedRef = computed(() => {return openKeySpeakDialog.value})
       const getSpeakerTobeEdited : ComputedRef = computed(() => {return updatingData.value})
       const getSpeakerData : ComputedRef = computed(() => {return singleSpeaker.value})
+      const getSpeakerGoH : ComputedRef = computed(() => {return guestOfHonour.value})
 
       // toggle loading
       const toggleKeySpeakerModal = (state:boolean) => openKeySpeakDialog.value = state
@@ -64,15 +66,52 @@ export const useSpeakerStore = defineStore('keySpeakerStore', () => {
           globalStore.toggleContentLoaderState('on')
           const {data, error} = await useApiFetch(`/api/conference-speaker/${passId}`);
           if(data.value){
-              console.log(data.value?.data)
+              // console.log(data.value?.data)
               singleSpeaker.value = data.value?.data
           }else {
               console.log(error.value)
           }
           globalStore.toggleContentLoaderState('off')
       }
-      
-      return { 
+
+    async function retrieveGoHSpeaker() : Promise{
+        globalStore.toggleContentLoaderState('on')
+        const {data, error} = await useApiFetch(`/api/conference-goh-speaker`);
+        if(data.value){
+            // console.log(data.value?.data)
+            guestOfHonour.value = data.value?.data
+        }else {
+            console.log(error.value)
+        }
+        globalStore.toggleContentLoaderState('off')
+    }
+
+
+    async function toggleSpeakerVisibility(passId: string) : Promise{
+        globalStore.toggleContentLoaderState('on')
+        const {data, error} = await useApiFetch(`/api/conference-speaker/switch-visibility/${passId}`);
+        if(data.value){
+            globalStore.assignAlertMessage(data.value.message, 'success')
+            await  retrieveConferenceSpeakers();
+        }else {
+            console.log(error.value)
+        }
+        globalStore.toggleContentLoaderState('off')
+    }
+    async function makeSpeakerGuestOfHonour(passedId: string, conference_id:string) : Promise{
+        globalStore.toggleContentLoaderState('on')
+        const {data, error} = await useApiFetch(`/api/conference-speaker/guest-of-honour/${conference_id}/${passedId}`);
+        if(data.value){
+            globalStore.assignAlertMessage(data.value.message, 'success')
+            await  retrieveConferenceSpeakers();
+            await  retrieveGoHSpeaker()
+        }else {
+            console.log(error.value)
+        }
+        globalStore.toggleContentLoaderState('off')
+    }
+
+    return {
         
       toggleKeySpeakerModal,getSpeakerModalStatus,
         getSpeakerTobeEdited,
@@ -81,6 +120,9 @@ export const useSpeakerStore = defineStore('keySpeakerStore', () => {
          getSpeakers,
          createUpdateSpeaker,
           handleActivateHonorable,
-          retrieveSingleSpeaker,getSpeakerData
+          retrieveSingleSpeaker,getSpeakerData,
+            toggleSpeakerVisibility,
+            makeSpeakerGuestOfHonour, getSpeakerGoH,
+            retrieveGoHSpeaker
         }
     })

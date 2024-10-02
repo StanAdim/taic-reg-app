@@ -21,6 +21,7 @@ const eventStore = useEventStore()
 
 const handleInitializing = async ()=>{
     await keySpeakerStore.retrieveConferenceSpeakers()
+    await keySpeakerStore.retrieveGoHSpeaker()
     await  eventStore.retrieveEvents()
 }
 const openDialog = (method)=>{
@@ -39,9 +40,12 @@ onNuxtReady(()=> {
       <div class=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div class="w-full max-w-sm mx-auto px-4 py-4">
           <div class="flex justify-center items-center border-b-2 border-teal-500 py-2">
-            <UsablesTheButton @click="handleInitializing()" :is-normal="true" name="Refresh" iconClass="fa-solid fa-arrows-rotate" />
-            <UsablesTheButton  @click="openDialog('create')" :is-normal="true" name="Add Speaker" iconClass="fa-solid fa-plus" />
+<!--            <UsablesTheButton @click="handleInitializing()" :is-normal="true" name="Refresh" iconClass="fa-solid fa-arrows-rotate" />-->
+            <UsablesTheButton v-if="globalData.hasPermission('can_manage_site')"  @click="openDialog('create')" :is-normal="true" name="Add Speaker" iconClass="fa-solid fa-plus" />
           </div>
+        </div>
+        <div class="flex justify-center items-center border-b-2 border-teal-500 py-2">
+          <AdminSpeakerCard :info="keySpeakerStore.getSpeakerGoH" />
         </div>
         <ul class="flex justify-center divide-y divide-gray-300 px-4">
           <li class="mb-3 mt-2" >

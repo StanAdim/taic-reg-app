@@ -31,6 +31,8 @@ class SpeakerResource extends JsonResource
             'imgPath' =>'Uploads/Speakers/'.$this->imageFileName,
             'is_visible' => $this->is_visible,
             'conferenceYear' => $this->conference->conferenceYear,
+            'conferenceName' => $this->conference->name,
+            'conferenceId' => $this->conference->id,
             'createdTime' => date('h:i A', strtotime($this->created_at)),
             'createdDate' => date('F j, Y', strtotime($this->created_at)),
         ];
