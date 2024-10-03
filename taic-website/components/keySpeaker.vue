@@ -57,12 +57,10 @@ onNuxtReady(()=> {
 <!--          </div>-->
 <!--        </div>-->
         <div class="row gy-4 justify-content-center">
-          <p class="text-center key-speaker">CONFERENCE PRESENTERS</p>
 
           <template  v-for="item in siteDataStore.getEventSpeakers" :key="item">
             <div class="col-xl-3 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
                 <div class="member">
-
                     <img :src="imageFullPath(item.imgPath)" class="img-fluid" :alt="item?.name">
                     <h4>{{item?.name}}</h4>
                     <span>{{item.designation}}</span>

@@ -3,9 +3,11 @@ const exhibitor = ref([
   //   aspect ratio 4500 x 4072
   {name: 'liquid', pathName: 'liquid-logo.png'},
   {name: 'liquid', pathName: 'flashnet-logo.png'},
+  {name: 'liquid', pathName: 'sag-logo.png'},
 ])
 const sponsors = ref([
-  // {name: '', pathName: 'liquid-logo.png'}
+  {name: '', pathName: 'huawei-logos.png' , category: "PLATINUM"},
+  {name: '', pathName: 'fsd-logos.png' , category: "SILVER"}
 ])
 const getImagePath = (imageName: string) => `/logo/sponsor/${imageName}`;
 </script>
@@ -16,14 +18,16 @@ const getImagePath = (imageName: string) => `/logo/sponsor/${imageName}`;
       <section id="sponsors" class="partner-logos" v-if="sponsors.length != 0">
         <UsablesLandingSectionHead title="OUR SPONSORS" sub-title="" />
         <div class="logo-container">
-          <div v-for="item in sponsors" :key="item.pathName" class="logo-item">
-            <img :src="getImagePath(item.pathName)" :alt="item.name">
+          <div v-for="item in sponsors" :key="item?.pathName" class="logo-item">
+            <img :src="getImagePath(item.pathName)" :alt="item?.name">
+            <p>{{item?.category}}</p>
           </div>
         </div>
       </section>
 <!--      exhibitors-->
       <section id="exhibitors" class="partner-logos" v-if="exhibitor.length != 0">
-        <UsablesLandingSectionHead title="CONFERENCE EXHIBITORS" sub-title="" />
+
+        <UsablesLandingSectionHead title="EXHIBITORS AND PARTNERS" sub-title="" />
         <div class="logo-container">
           <div v-for="item in exhibitor" :key="item.pathName" class="logo-item">
             <img :src="getImagePath(item.pathName)" :alt="item.name">
@@ -59,6 +63,10 @@ h2 {
   justify-content: center;
   gap: 20px;
   padding: 10px 2px;
+}
+.logo-container p{
+  margin: 0;
+  color: #f68e16;
 }
 
 .logo-item {

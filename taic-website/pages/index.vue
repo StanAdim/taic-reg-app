@@ -5,15 +5,13 @@
     <LandingFocus />
     <AboutConference />
         <!-- Start Pricing Section -->
+        <OurPartners />
         <pricing />
         <!-- End Pricing Section -->
         <!-- Featured -->
 <!--        <featured />-->
         <!-- Featured -->
         <KeySpeaker />
-    <OurPartners />
-
-        
   </div>
 </template>
 
