@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useSponsorshipStore} from "~/stores/useSponsorshipStore";
+import {first} from "lodash-es";
 
 useHead({
     title: 'Conference - Sponsors'
@@ -28,8 +29,19 @@ const openDialog = (method)=>{
   sponsorshipStore.toggleSponsorModal(true);
 }
 const activeName = ref('first')
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  // console.log(tab, event)
+const handleClick = async  (tab: TabsPaneContext, event: Event) => {
+  // console.log(tab.paneName)
+  let type = '1';
+  if(tab.paneName === 'first'){
+    type = '1';
+  }
+  else if(tab.paneName === 'second'){
+    type = '2'
+  }
+    else{
+    type = '3'
+  }
+  await sponsorshipStore.retrieveConferenceSponsors(type)
 }
 onNuxtReady(()=> {
   handleInitializing()
@@ -67,7 +79,9 @@ onNuxtReady(()=> {
                   <div class="">
                     <div class="text-sky-600 text-lg font-medium">Partners</div>
                     <div class="list-data">
-
+                      <div class=" text-gray-900 " v-for="item in sponsorshipStore.getSponsors" :key="item.email">
+                        <AdminSponsorshipCard :info="item" />
+                      </div>
                     </div>
                   </div>
                 </el-tab-pane>
@@ -76,7 +90,9 @@ onNuxtReady(()=> {
                   <div class="">
                     <div class="text-sky-600 text-lg font-medium">Exhibitors</div>
                     <div class="list-data">
-
+                      <div class=" text-gray-900 " v-for="item in sponsorshipStore.getSponsors" :key="item.email">
+                        <AdminSponsorshipCard :info="item" />
+                      </div>
                     </div>
                   </div>
                 </el-tab-pane>
