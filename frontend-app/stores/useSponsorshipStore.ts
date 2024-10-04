@@ -1,110 +1,62 @@
-import type {ConferenceData, ApiResponse, SpeakerData} from "~/types/interfaces";
-import {map} from "yaml/dist/schema/common/map";
-import type {ComputedRef} from "vue";
-import {useApiFetch} from "~/composables/useApiFetch";
+import type {ConferenceData, ApiResponse, SponsorData} from "~/types/interfaces";
 
-export const useSpeakerStore = defineStore('keySpeakerStore', () => {
+export const useSponsorshipStore = defineStore('sponsorship', () => {
 
-    const openKeySpeakDialog = ref(false);
+    const openSponsorDialog = ref(false);
     const updatingData  = ref({})
-    const singleSpeaker  = ref({})
-    const guestOfHonour  = ref({})
-    const eventSpeakers = ref([])
+    const singleSponsor  = ref({})
+    const eventSponsors = ref([])
     const globalStore = useGlobalDataStore()
 
-      const getSpeakers = computed(() => {return eventSpeakers.value})
-      const getSpeakerModalStatus : ComputedRef = computed(() => {return openKeySpeakDialog.value})
-      const getSpeakerTobeEdited : ComputedRef = computed(() => {return updatingData.value})
-      const getSpeakerData : ComputedRef = computed(() => {return singleSpeaker.value})
-      const getSpeakerGoH : ComputedRef = computed(() => {return guestOfHonour.value})
+      const getSponsors = computed(() => {return eventSponsors.value})
+      const getSponsorModalStatus : ComputedRef = computed(() => {return openSponsorDialog.value})
+      const getSponsorTobeEdited : ComputedRef = computed(() => {return updatingData.value})
+      const getSponsorData : ComputedRef = computed(() => {return singleSponsor.value})
 
-      // toggle loading
-      const toggleKeySpeakerModal = (state:boolean) => openKeySpeakDialog.value = state
+      // toggle modals
+      const toggleSponsorModal = (state:boolean) => openSponsorDialog.value = state
       const assignDataToBeUpdated = (speaker_data) => updatingData.value = speaker_data
 
-      async function retrieveConferenceSpeakers(){
-        const {data, error} = await useApiFetch(`/api/conference-speakers`);
-        const response = data.value as ApiResponse
-        if(response.code === 200){
+    // Mutation
+      async function retrieveConferenceSponsors(type:string = '1') : Promise{
+        const {data, error} = await useApiFetch(`/api/sponsorship?category=${type}`);
+        if(data.value){
           globalStore.toggleLoadingState('off')
-          eventSpeakers.value = response.data
+          eventSponsors.value = data.value?.data
         }
-        return {data, error};
       }
-      async function createUpdateSpeaker(passedItem: SpeakerData, action: string = 'create') : Promise{
-        const {data, error} = await useApiFetch(`/api/${action}-conference-speaker`,{
-            method: 'POST',
+      async function createUpdateSponsor(passedItem: SponsorData, action: string = 'create') : Promise{
+        const {data, error} = await useApiFetch(`/api/sponsorship`,{
+            method: action  === 'create' ? 'POST': 'PUT',
             body : passedItem
         });
         const dataResponse : ApiResponse = data.value as ApiResponse
         if(dataResponse?.code === 200){
             globalStore.toggleBtnLoadingState(false)
           globalStore.assignAlertMessage(dataResponse?.message,'success')
-          openKeySpeakDialog.value = false;
-          await retrieveConferenceSpeakers()
+          openSponsorDialog.value = false;
+          await retrieveConferenceSponsors()
         }else{
             globalStore.toggleBtnLoadingState(false)
         }
-        return {data, error};
       }
-      
-      async function handleActivateHonorable(passId: string){
-        globalStore.toggleLoadingState('on')
-        await useApiFetch("/sanctum/csrf-cookie");
-        const {data, error} = await useApiFetch(`/api/honorable-speaker/activate/${passId}`);
-        const dataResponse = data.value as ApiResponse
-        if(dataResponse?.code === 200){
-          globalStore.assignAlertMessage(dataResponse?.message,'success')
-          openKeySpeakDialog.value = false;
-          globalStore.toggleLoadingState('off')
-            await retrieveConferenceSpeakers()
-        }
-        return {data, error};
-      }
-
-      async function retrieveSingleSpeaker(passId: string) : Promise{
+      async function retrieveSingleSponsor(passId: string) : Promise{
           globalStore.toggleContentLoaderState('on')
           const {data, error} = await useApiFetch(`/api/conference-speaker/${passId}`);
           if(data.value){
               // console.log(data.value?.data)
-              singleSpeaker.value = data.value?.data
+              singleSponsor.value = data.value?.data
           }else {
               console.log(error.value)
           }
           globalStore.toggleContentLoaderState('off')
       }
-
-    async function retrieveGoHSpeaker() : Promise{
-        globalStore.toggleContentLoaderState('on')
-        const {data, error} = await useApiFetch(`/api/conference-goh-speaker`);
-        if(data.value){
-            // console.log(data.value?.data)
-            guestOfHonour.value = data.value?.data
-        }else {
-            console.log(error.value)
-        }
-        globalStore.toggleContentLoaderState('off')
-    }
-
-
-    async function toggleSpeakerVisibility(passId: string) : Promise{
+      async function toggleSponsorVisibility(passId: string) : Promise{
         globalStore.toggleContentLoaderState('on')
         const {data, error} = await useApiFetch(`/api/conference-speaker/switch-visibility/${passId}`);
         if(data.value){
             globalStore.assignAlertMessage(data.value.message, 'success')
-            await  retrieveConferenceSpeakers();
-        }else {
-            console.log(error.value)
-        }
-        globalStore.toggleContentLoaderState('off')
-    }
-    async function makeSpeakerGuestOfHonour(passedId: string, conference_id:string) : Promise{
-        globalStore.toggleContentLoaderState('on')
-        const {data, error} = await useApiFetch(`/api/conference-speaker/guest-of-honour/${conference_id}/${passedId}`);
-        if(data.value){
-            globalStore.assignAlertMessage(data.value.message, 'success')
-            await  retrieveConferenceSpeakers();
-            await  retrieveGoHSpeaker()
+            await  retrieveConferenceSponsors();
         }else {
             console.log(error.value)
         }
@@ -112,17 +64,14 @@ export const useSpeakerStore = defineStore('keySpeakerStore', () => {
     }
 
     return {
-        
-      toggleKeySpeakerModal,getSpeakerModalStatus,
-        getSpeakerTobeEdited,
+      toggleSponsorModal,getSponsorModalStatus,
+        getSponsorTobeEdited,
         assignDataToBeUpdated,
-         openKeySpeakDialog,retrieveConferenceSpeakers,
-         getSpeakers,
-         createUpdateSpeaker,
-          handleActivateHonorable,
-          retrieveSingleSpeaker,getSpeakerData,
-            toggleSpeakerVisibility,
-            makeSpeakerGuestOfHonour, getSpeakerGoH,
-            retrieveGoHSpeaker
+         openSponsorDialog,retrieveConferenceSponsors,
+         getSponsors,
+         createUpdateSponsor,
+          retrieveSingleSponsor,
+            getSponsorData,
+            toggleSponsorVisibility,
         }
     })

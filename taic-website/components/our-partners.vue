@@ -6,6 +6,7 @@ const exhibitor = ref([
   {name: 'liquid', pathName: 'sag-logo.png'},
 ])
 const sponsors = ref([
+  {name: '', pathName: 'ucsaf-logos.png' , category: "SILVER"},
   {name: '', pathName: 'huawei-logos.png' , category: "PLATINUM"},
   {name: '', pathName: 'fsd-logos.png' , category: "SILVER"}
 ])

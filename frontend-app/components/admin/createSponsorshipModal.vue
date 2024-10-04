@@ -6,20 +6,14 @@ const props = defineProps({
   }
 })
 
-const keySpeakerStore = useSpeakerStore()
+const sponsorshipStore = useSponsorshipStore()
 const eventStore = useEventStore()
 const globalStore = useGlobalDataStore()
 const formInputs = reactive({
   conference_id:0,
   name: '',
-  email: '',
-  institution: '',
-  designation: '',
-  twitterLink: '',
-  linkedinLink: '',
-  agenda_title: '',
-  agenda_desc: '',
-  brief_bio: '',
+  category: '',
+  sub_category: '',
   imgPath: '',
 })
 let action = 'create'
@@ -43,42 +37,44 @@ const handleForm = async ()=> {
   formData.append('imgPath', formInputs.imgPath);
   formData.append('name', formInputs.name);
   formData.append('conference_id', formInputs.conference_id);
-  formData.append('email', formInputs.email);
-  formData.append('institution', formInputs.institution);
-  formData.append('designation', formInputs.designation);
-  formData.append('twitterLink', formInputs.twitterLink);
-  formData.append('linkedinLink', formInputs.linkedinLink);
-  formData.append('agenda_title', formInputs.agenda_title);
-  formData.append('agenda_desc', formInputs.agenda_desc);
-  formData.append('brief_bio', formInputs.brief_bio);
+  formData.append('category', formInputs.category);
+  formData.append('sub_category', formInputs.sub_category);
+
   globalStore.toggleBtnLoadingState(true)
-   await keySpeakerStore.createUpdateSpeaker(formData, action)
-
-
+   await sponsorshipStore.createUpdateSponsor(formData, action)
 }
 function initDialogData() {
   console.log('edit mode')
-  formInputs.id = keySpeakerStore.getSpeakerTobeEdited?.id
-  formInputs.email = keySpeakerStore.getSpeakerTobeEdited?.email
-  formInputs.institution = keySpeakerStore.getSpeakerTobeEdited?.institution
-  formInputs.designation = keySpeakerStore.getSpeakerTobeEdited?.designation
-  formInputs.twitterLink = keySpeakerStore.getSpeakerTobeEdited?.twitterLink
-  formInputs.conference_id = keySpeakerStore.getSpeakerTobeEdited?.conference_id
-  formInputs.linkedinLink = keySpeakerStore.getSpeakerTobeEdited?.linkedinLink
-  formInputs.agenda_title = keySpeakerStore.getSpeakerTobeEdited?.agenda_title
-  formInputs.agenda_desc = keySpeakerStore.getSpeakerTobeEdited?.agenda_desc
-  formInputs.agenda_desc = keySpeakerStore.getSpeakerTobeEdited?.agenda_desc
-  formInputs.brief_bio = keySpeakerStore.getSpeakerTobeEdited?.brief_bio
+  formInputs.id = sponsorshipStore.getSponsorTobeEdited?.id
+  formInputs.name = sponsorshipStore.getSponsorTobeEdited?.name
+  formInputs.category = sponsorshipStore.getSponsorTobeEdited?.category
+  formInputs.sub_category = sponsorshipStore.getSponsorTobeEdited?.sub_category
+  formInputs.conference_id = sponsorshipStore.getSponsorTobeEdited?.conference_id
+  formInputs.imgPath = sponsorshipStore.getSponsorTobeEdited?.imgPath
+
 }
+
+const categories = [
+  {id : 1 , name : 'Sponsor'},
+  {id : 2 , name : 'Partner'},
+  {id : 3 , name : 'Exhibitor'},
+]
+const subcategories = [
+  {id : 1 , name : 'Main'},
+  {id : 2 , name : 'Platinum'},
+  {id : 3 , name : 'Silver'},
+  {id : 4, name : 'Silver'},
+  {id : 5, name : 'None'},
+]
 defineExpose({
   initDialogData
 });
 </script>
 <template>
-    <div class="fixed z-10 inset-0 overflow-y-auto bg-black bg-opacity-80" v-if="keySpeakerStore.getSpeakerModalStatus" id="modal">
+    <div class="fixed z-10 inset-0 overflow-y-auto bg-black bg-opacity-80" v-if="sponsorshipStore.getSponsorModalStatus" id="modal">
         <div class="flex items-center justify-center min-h-screen">
             <div class="relative bg-white w-3/5 rounded-lg shadow-xl p-8">
-                <h2 class="text-xl font-semibold mb-4 text-center capitalize">{{props.dialogAction}} Conference Speakers</h2>
+                <h2 class="text-xl font-semibold mb-4 text-center capitalize">{{props.dialogAction}} Conference Sponsorship</h2>
         <form @submit.prevent="handleForm()">
             <div class="form-section">
                 <label for="selectedConference" class="form-labels">Select Conference</label>
@@ -92,59 +88,25 @@ defineExpose({
                 <div class="form-section w-3/4 mx-2">
                     <label for="name" class="form-labels">Name</label>
                     <input class="form-input"
-                    type="text" v-model="formInputs.name" placeholder="Speaker full name" id="name">
+                    type="text" v-model="formInputs.name" placeholder="Sponsors Company name" id="name">
                 </div>
                 <div class="form-section w-3/4 mx-2">
-                    <label for="email" class="form-labels">Email</label>
-                    <input class="form-input"
-                    type="text" v-model="formInputs.email" placeholder="speaker email" id="email">
+                  <label for="selectCat" class="form-labels">Select Category</label>
+                  <select id="selectCat" v-model="formInputs.category"  class="form-input">
+                    <option value="0" disabled>Choose category</option>
+                    <option v-for="item in categories"
+                            :key="item?.id" :value="item?.name">{{item?.name}}</option>
+                  </select>
                 </div>
             </div>
-            <div class="flex flex-row justify-evenly">
-                <div class="form-section w-3/4 mx-2">
-                    <label for="institution" class="form-labels">Institution | Company</label>
-                    <input class="form-input"
-                    type="text" v-model="formInputs.institution" placeholder="Speaker institution" id="institution">
-                </div>
-                <div class="form-section w-3/4 mx-2">
-                    <label for="designation" class="form-labels">Designation</label>
-                    <input class="form-input"
-                    type="text" v-model="formInputs.designation" placeholder="Speaker designation" id="designation">
-                </div>
-            </div>
-            <div class="flex flex-row justify-evenly">
-                <div class="form-section w-3/4 mx-2">
-                    <label for="linkedinLink" class="form-labels">Linkedin</label>
-                    <input class="form-input"
-                    type="text" v-model="formInputs.linkedinLink" placeholder="Add a Conference linkedinLink" id="linkedinLink">
-                </div>
-                <div class="form-section w-3/4 mx-2">
-                    <label for="twitterLink" class="form-labels">X-Link | Twitter</label>
-                    <input class="form-input"
-                    type="text" v-model="formInputs.twitterLink" placeholder="Add a Conference twitterLink" id="twitterLink">
-                </div>
-            </div>
-          <div class="form-section">
-            <label for="title-agenda" class="form-labels">Speaker's Agenda Title</label>
-            <input class="form-input"
-                   type="text" v-model="formInputs.agenda_title" placeholder="Add a Conference twitterLink" id="title-agenda">
+          <div class="form-section" v-if="formInputs.category === 'Sponsor'">
+            <label for="selectSubCat" class="form-labels">Select Sub Category</label>
+            <select id="selectSubCat" v-model="formInputs.sub_category"  class="form-input">
+              <option value="0" disabled>Choose sub category</option>
+              <option v-for="item in subcategories"
+                      :key="item?.id" :value="item?.name">{{item?.name }}</option>
+            </select>
           </div>
-          <div class="flex flex-row justify-evenly">
-                <div class="form-section w-3/4 mx-2">
-                  <label for="about-agenda-desc" class="form-labels">Speaker's Agenda Description</label>
-                  <textarea v-model="formInputs.agenda_desc" id="about-agenda-desc" cols="3" rows="4"
-                            placeholder="Brief about agenda"
-                            class="form-input">
-                  </textarea>
-                </div>
-                <div class="form-section w-3/4 mx-2">
-                  <label for="about-speaker-bio" class="form-labels">Speaker's Bio</label>
-                  <textarea v-model="formInputs.brief_bio" id="about-speaker-bio" cols="3" rows="4"
-                            placeholder="Brief about speaker"
-                            class="form-input">
-                  </textarea>
-                </div>
-            </div>
             <div class="mb-2 border-b-2 border-teal-500 py-2">
                 <div class="col-span-full">
                     <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Passport Photo</label>
@@ -170,7 +132,7 @@ defineExpose({
           <button class="bg-green-500 text-white px-4 py-0.5 mx-3  rounded-md hover:bg-green-600">Save <i class="fa-regular fa-floppy-disk mx-2"></i>
             <span class="px-2"><UsablesBtnLoader /></span>
           </button>
-          <button @click="keySpeakerStore.toggleKeySpeakerModal(false)" class="flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500
+          <button @click="sponsorshipStore.toggleSponsorModal(false)" class="flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500
                     hover:border-teal-700 text-sm border-4 text-white py-0.5 px-4 rounded"
                 type="button">
                 Close <i class="fa-regular fa-circle-xmark mx-2"></i>

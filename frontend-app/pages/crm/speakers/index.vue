@@ -50,11 +50,9 @@ onNuxtReady(()=> {
         <ul class="flex justify-center divide-y divide-gray-300 px-4">
           <li class="mb-3 mt-2" >
             <div class="flex flex-initial flex-wrap" v-if="keySpeakerStore.getSpeakers">
-              <no-data v-if="keySpeakerStore.getSpeakers.length === 0" source="Events Speakers" />
               <div class=" text-gray-900 " v-for="item in keySpeakerStore.getSpeakers" :key="item.email">
                 <AdminSpeakerCard :info="item" />
               </div>
-
             </div>
           </li>
         </ul>

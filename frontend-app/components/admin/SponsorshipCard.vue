@@ -4,7 +4,7 @@ const props = defineProps({
         type:Object,
     }
 })
-const speakerStore = useSpeakerStore()
+const sponsorshipStore = useSponsorshipStore()
 const globalData = useGlobalDataStore()
 const config = useRuntimeConfig()
 const apiBaseUlr = config.public.apiBaseUlr
@@ -15,20 +15,11 @@ const imageFullPath = (imgPath) => {
     return `${apiBaseUlr}/${imgPath}`
   }
 }
-const handleSpeakerInfo = (infoKey) => {
-  navigateTo(`/crm/speakers/speaker/${infoKey}`, {})
-  console.log(infoKey)
-}
 const changeVisibility = async (uuid) => {
-  await speakerStore.toggleSpeakerVisibility(uuid)
-}
-const makeGoH = async (uuid, conference ) => {
-  // console.log(uuid,conference)
-  await speakerStore.makeSpeakerGuestOfHonour(uuid, conference)
+  await sponsorshipStore.toggleSponsorVisibility(uuid)
 }
 </script>
 <template>
-<!-- component -->
 <div class="flex w-64 mx-4 my-2 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
     <div class="flex  p-2 text-sm " :class="{'justify-between': globalData.hasPermission('can_manage_site'), 'justify-center': !globalData.hasPermission('can_manage_site') }">
         <div class="hover:cursor-pointer" @click="changeVisibility(props.info?.id)" v-if="globalData.hasPermission('can_manage_site')">
@@ -40,9 +31,6 @@ const makeGoH = async (uuid, conference ) => {
             {{props.info?.conferenceYear}} 
             </span>
         </div>
-        <div v-if="globalData.hasPermission('can_manage_site')"
-             @click="makeGoH(props.info.id,props.info.conferenceId)"
-             class=" bg-emerald-200 hover:text-white hover:cursor-pointer hover:bg-emerald-500 p-1 rounded-md">GoH<i class="mx-0.5 fa-brands fa-creative-commons-sampling"></i></div>
     </div>
   <div class=" mx-2 mt-2 h-40 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
     <img :src="imageFullPath(props.info?.imgPath)" class="w-fit max-h-80" :alt="props.info?.name" />
@@ -55,13 +43,12 @@ const makeGoH = async (uuid, conference ) => {
     {{ props.info?.conferenceName }}
     </p>
     <p class="para">
-      {{props.info?.designation}}
+      {{props.info?.category}}
     </p>
     <small class="para">
-    {{props.info?.institution}}
+    {{props.info?.sub_category}}
     </small>
-    <button @click="handleSpeakerInfo(props.info?.id)" class="hover:text-sky-600">More Details</button>
-   
+<!--    <button @click="handleSpeakerInfo(props.info?.id)" class="hover:text-sky-600">More Details</button>-->
   </div>
 
 </div>
