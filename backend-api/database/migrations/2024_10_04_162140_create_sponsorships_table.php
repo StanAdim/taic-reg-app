@@ -11,24 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('speakers', function (Blueprint $table) {
+        Schema::create('sponsorships', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('email');
-            $table->string('designation');
-            $table->string('institution');
-            $table->string('linkedinLink')->nullable();
-            $table->string('twitterLink')->nullable();
-
-            $table->boolean('isMain')->default(false);
+            $table->string('category');
+            $table->string('sub_category')->nullable();
             $table->string('imageFileName')->default('/speakers/placeholder.png');
             $table->uuid('conference_id')->nullable()
-                    ->constrained('speakers')->cascadeOnDelete();
+                    ->constrained('sponsorships')->cascadeOnDelete();
             $table->boolean('is_visible')->default(false);
-
-            $table->longText('brief_bio')->nullable();
-            $table->string('agenda_title')->nullable();
-            $table->longText('agenda_desc')->nullable();
             $table->timestamps();
         });
     }
@@ -38,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('speakers');
+        Schema::dropIfExists('sponsorships');
     }
 };
