@@ -19,7 +19,8 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://taic.ictc.go.tz','https://ems.ictc.go.tz', 'http://localhost:3000' , 'http://localhost:3001'],
+    // 'allowed_origins' => ['https://taic.ictc.go.tz','https://ems.ictc.go.tz', 'http://localhost:3000' , 'http://localhost:3001'],
+    'allowed_origins' => explode(',', env('FRONTEND_URL', '')),
 
     'allowed_origins_patterns' => [],
 
