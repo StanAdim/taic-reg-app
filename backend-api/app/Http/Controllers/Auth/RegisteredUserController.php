@@ -45,13 +45,11 @@ class RegisteredUserController extends Controller
             'verificationKey' => strtolower(Str::random(32)),
             'password' => Hash::make($request->password),
         ]);
-
-        $baseUrl = config('app.frontend_url');
+        $frontendUrls = explode(',', env('FRONTEND_URL', ''));        
+        $baseUrl = $frontendUrls[0] ?? null;
         $url = $baseUrl . '/verify-user-account-' . $user->verificationKey;
         Mail::to($user->email)->send(new CustomEmailVerification($user,$url));
-
         event(new Registered($user));
-
         return response()->json([
                 'message'=> "Registration Success: Check Your Inbox",
                 'data' => $user,
