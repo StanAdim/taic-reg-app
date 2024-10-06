@@ -1,5 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
+  layout: 'auth'
   // middleware: ["auth-middleware"],
 });
 
@@ -20,7 +21,7 @@ const timetableDocument = async () => {
       notificationStore.assignAlertMessage(error.value?.data?.message, "error");
     }
   }
-  globalData.setLoading(false);
+  // globalData.setLoading(false);
 };
 
 const getPdfFile = async () => {
@@ -49,12 +50,11 @@ onNuxtReady(()=> {
 <template>
   <div class="pt-5 font-['quicksand']">
     <div class="bg-white">
-      <div>
-<!--        <usablesPageTitle title="Service Level Agreement - Confirmation Form" />-->
-      </div>
-
-      <div class="py-5 px-5">
+      <div class="px-5 flex justify-center">
         <div class="bg-white">
+          <div class="">
+            <div class="title">TIMETABLE</div>
+          </div>
           <div class="">
             <div>
               <div class="mt-[10px]">
