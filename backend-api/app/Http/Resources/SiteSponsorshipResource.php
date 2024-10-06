@@ -14,6 +14,11 @@ class SiteSponsorshipResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'name' => $this->name,
+            'category' => $this->category,
+            'sub_category' => $this->sub_category,
+            'imgPath' =>'Uploads/Sponsors/'.$this->imageFileName,
+        ];
     }
 }

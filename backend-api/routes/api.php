@@ -52,6 +52,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
  //public events
  Route::get('/get-upcoming-events',[ConferenceController::class, 'getUpcomingEvents']);
  Route::get('/site-conference-speakers', [SpeakerController::class,'taicSite']);
+ Route::get('/site-sponsorship',[SponsorshipController::class,'taicSiteSponsorships']);
 
  //--- Auth routes
  Route::middleware(['auth:sanctum'])->group(function(){
@@ -121,6 +122,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::apiResource('/request-support',SupportRequestController::class);
     Route::apiResource('/respond-support-request',SupportResponseController::class);
     Route::apiResource('/sponsorship', SponsorshipController::class);
+
 
     // Gateway routes
     Route::get('/gateway/registered-system', [PaymentGatewayController::class,'registeredSystem']);

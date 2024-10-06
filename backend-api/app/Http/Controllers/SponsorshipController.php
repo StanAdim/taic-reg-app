@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SiteSponsorshipResource;
 use App\Http\Resources\SponsorshipResource;
 use App\Models\Sponsorship;
 use Illuminate\Http\Request;
@@ -37,9 +38,48 @@ class SponsorshipController extends Controller
         }
         return SponsorshipResource::collection($data);
     }
+    public function taicSiteSponsorships(){
+        $sponsors = SiteSponsorshipResource::collection(Sponsorship::where('is_visible', 1)
+        ->where('category', 'Sponsor')
+        ->get()->sortByDesc('createdDate'));
+        $partners = SiteSponsorshipResource::collection(Sponsorship::where('is_visible', 1)
+        ->where('category', 'Partner')
+        ->get()->sortByDesc('createdDate'));
+        $exhibitors = SiteSponsorshipResource::collection(Sponsorship::where('is_visible', 1)
+        ->where('category', 'Exhibitor')
+        ->get()->sortByDesc('createdDate'));
+        if($sponsors){
+            return response()->json([
+                'message'=> "TAIC Speakers",
+                'data' => [
+                    'sponsors'=> $sponsors,
+                    'partners'=> $partners,
+                    'exhibitors'=> $exhibitors,
+                ],
+                'code' => 200,
+            ]);
+        }
+        return response()->json([
+            'message'=> "No data Found",
+            'code' => 300,
+        ]);
+    }
 
     public function show($id){
-        return Sponsorship::findOrFail($id);
+        $exists = Sponsorship::where('id', $id)->exists();
+        if($exists){
+            $tgtSponsorship = Sponsorship::where('id',$id)->get()->first();
+            $tgtSponsorship->is_visible = !$tgtSponsorship->is_visible;
+            $tgtSponsorship->save();
+            return response()->json([
+                'message' => 'Visibility switched',
+            ]);
+        }else{
+            return response()->json([
+                'message' => 'Sponsorship data not found',
+                'data' => null
+            ]);
+        }
     }
 
     public function store(Request $request){

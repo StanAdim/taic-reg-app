@@ -53,7 +53,7 @@ export const useSponsorshipStore = defineStore('sponsorship', () => {
       }
       async function toggleSponsorVisibility(passId: string) : Promise{
         globalStore.toggleContentLoaderState('on')
-        const {data, error} = await useApiFetch(`/api/conference-speaker/switch-visibility/${passId}`);
+        const {data, error} = await useApiFetch(`/api/sponsorship/${passId}`);
         if(data.value){
             globalStore.assignAlertMessage(data.value.message, 'success')
             await  retrieveConferenceSponsors();
