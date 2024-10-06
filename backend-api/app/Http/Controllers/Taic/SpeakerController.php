@@ -71,7 +71,6 @@ class SpeakerController extends Controller
             ],422);
         }
         $newSpeakerInfo = $validator->validate();
-
           // Handling files 
           $imageFile = $request->file('imgPath');
           $imageOwnerName = $request->name;

@@ -22,6 +22,7 @@ use App\Http\Controllers\InvitationRequestController;
 use App\Http\Controllers\PaymentGatewayController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SponsorshipController;
 use App\Http\Controllers\SupportRequestController;
 use App\Http\Controllers\SupportResponseController;
 use App\Http\Middleware\ApiKeyMiddleware;
@@ -51,6 +52,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
  //public events
  Route::get('/get-upcoming-events',[ConferenceController::class, 'getUpcomingEvents']);
  Route::get('/site-conference-speakers', [SpeakerController::class,'taicSite']);
+ Route::get('/site-sponsorship',[SponsorshipController::class,'taicSiteSponsorships']);
 
  //--- Auth routes
  Route::middleware(['auth:sanctum'])->group(function(){
@@ -119,6 +121,8 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::get('/request-support-latest',[SupportRequestController::class,'latestUserRequest']);
     Route::apiResource('/request-support',SupportRequestController::class);
     Route::apiResource('/respond-support-request',SupportResponseController::class);
+    Route::apiResource('/sponsorship', SponsorshipController::class);
+
 
     // Gateway routes
     Route::get('/gateway/registered-system', [PaymentGatewayController::class,'registeredSystem']);

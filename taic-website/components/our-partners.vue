@@ -6,31 +6,56 @@ const exhibitor = ref([
   {name: 'liquid', pathName: 'sag-logo.png'},
 ])
 const sponsors = ref([
+  {name: '', pathName: 'ucsaf-logos.png' , category: "SILVER"},
   {name: '', pathName: 'huawei-logos.png' , category: "PLATINUM"},
   {name: '', pathName: 'fsd-logos.png' , category: "SILVER"}
 ])
-const getImagePath = (imageName: string) => `/logo/sponsor/${imageName}`;
+// const getImagePath = (imageName: string) => `/logo/sponsor/${imageName}`;
+const siteDataStore = useSiteDataStore()
+const config = useRuntimeConfig()
+const apiBaseUlr = config.public.apiBaseUlr
+const imageFullPath = (imgPath) => {
+  if (!imgPath){
+    return `/team/placeholder.jpg`
+  }else {
+    return `${apiBaseUlr}/${imgPath}`
+  }
+}
+const init = async  ()=> {
+  await siteDataStore.retrieveSiteSponsors()
+}
+onNuxtReady(()=> {
+  init()
+})
 </script>
 
 <template>
-    <div class="section-partner">
+    <div class="PARTNERS">
 <!--      Sponsors-->
       <section id="sponsors" class="partner-logos" v-if="sponsors.length != 0">
         <UsablesLandingSectionHead title="OUR SPONSORS" sub-title="" />
         <div class="logo-container">
-          <div v-for="item in sponsors" :key="item?.pathName" class="logo-item">
-            <img :src="getImagePath(item.pathName)" :alt="item?.name">
-            <p>{{item?.category}}</p>
+          <div v-for="item in siteDataStore.getEventSponsors" :key="item?.imgPath" class="logo-item">
+            <img :src="imageFullPath(item.imgPath)" :alt="item?.name">
+            <p>{{item?.sub_category}}</p>
           </div>
         </div>
       </section>
-<!--      exhibitors-->
-      <section id="exhibitors" class="partner-logos" v-if="exhibitor.length != 0">
-
-        <UsablesLandingSectionHead title="EXHIBITORS AND PARTNERS" sub-title="" />
+<!--      PARTNERS-->
+      <section id="partners" class="partner-logos" v-if="exhibitor.length != 0">
+        <UsablesLandingSectionHead title="PARTNERS" sub-title="" />
         <div class="logo-container">
-          <div v-for="item in exhibitor" :key="item.pathName" class="logo-item">
-            <img :src="getImagePath(item.pathName)" :alt="item.name">
+          <div v-for="item in siteDataStore.getEventPartners" :key="item.imgPath" class="logo-item">
+            <img :src="imageFullPath(item.imgPath)" :alt="item.name">
+          </div>
+        </div>
+      </section>
+      <!--      EXHIBITORS-->
+      <section id="exhibitors" class="partner-logos" v-if="exhibitor.length != 0">
+        <UsablesLandingSectionHead title="EXHIBITORS" sub-title="" />
+        <div class="logo-container">
+          <div v-for="item in siteDataStore.getEventExhibitors" :key="item.imgPath" class="logo-item">
+            <img :src="imageFullPath(item.imgPath)" :alt="item.name">
           </div>
         </div>
       </section>
