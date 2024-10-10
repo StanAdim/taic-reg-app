@@ -48,6 +48,8 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
  Route::post('/reset-password', [RegisteredUserController::class, 'passwordResetting'])->middleware('guest')->name('password.reseting');
 
  Route::post('/call/professional-details', [ProfessionalController::class,'getProfessionalDetails']);
+ Route::get('/events-document/{name}', [DocumentMaterialController::class, 'getDocumentByName']);
+
 
  //public events
  Route::get('/get-upcoming-events',[ConferenceController::class, 'getUpcomingEvents']);

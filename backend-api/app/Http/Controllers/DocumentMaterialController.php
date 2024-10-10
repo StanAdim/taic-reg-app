@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 
 
 
@@ -58,11 +60,7 @@ class DocumentMaterialController extends Controller
             return response()->json(['message' => "Failed to upload guidelines"], 400);
         }
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function index()
-    {
+    public function index(){
         //
         $isAdmin = Auth::user()->role->name === 'admin';
         $isAdmin ? $adminDoc = DocumentMaterial::all() : $adminDoc = DocumentMaterial::where('status',1)->get();
@@ -81,11 +79,25 @@ class DocumentMaterialController extends Controller
         ]);
         
     }
-    public function updateStatus($id)
-    {
-        $supportRequest = DocumentMaterial::findOrFail($id);
-        $supportRequest->status = !$supportRequest->status;
-        $supportRequest->save();
+    //Get Document public
+    public function getDocumentByName($name){
+        $data = DocumentMaterial::where('name', $name);
+        $exists = $data -> exists();
+        if($exists){
+            $file_name  =  $data->first()->path;
+            if (!Storage::disk('local')->exists($file_name)) {
+                abort(404);
+            }
+            $pdfPath = storage_path('app/'. $file_name);
+            return response()->file($pdfPath);
+        }
+        return response()->json(['message' => 'File not found'], 500);
+    }
+    //Update
+    public function updateStatus($id) {
+        $dataTgt = DocumentMaterial::findOrFail($id);
+        $dataTgt->status = !$dataTgt->status;
+        $dataTgt->save();
         return response()->json(['message' => 'Status updated successfully'], 200);
     }
      // Delete 

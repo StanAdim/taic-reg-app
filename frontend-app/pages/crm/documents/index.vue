@@ -50,7 +50,6 @@ const blobDataName = ref('')
 const previewFile = async (file_data) => {
   documentStore.togglePreviewModalStatus(true)
   globalStore.toggleContentLoaderState('on');
-  console.log(file_data)
   blobDataName.value = file_data.name
   let headers: any = {
     accept: "application/json",
