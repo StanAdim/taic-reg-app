@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\BillsExport;
 use App\Exports\ParticipantsExport;
-use App\Exports\PaymentExport;
+use App\Exports\FullUserDetailPaymentExport;
 use App\Exports\PaymentsExport;
 use App\Exports\UsersExport;
 use App\Models\Taic\Conference;
@@ -35,7 +35,8 @@ class FileExportController extends Controller
     }
     public function exportPayments() {
         $filePath = 'documents/excels/event_payments.xlsx';
-        Excel::store(new PaymentsExport, $filePath);
+        Excel::store(new FullUserDetailPaymentExport, $filePath);
+        // Excel::store(new PaymentsExport, $filePath);
         return response() ->json(['path' => $filePath]);
     }
     public function exportParticipationCertificate() {
