@@ -40,7 +40,7 @@ class FullUserDetailPaymentExport implements FromCollection, WithHeadings, WithM
             $user->email,
             $user->userInfo ? $user->userInfo->phoneNumber : 'N/A',
             $user->userInfo && is_object($user->userInfo->nation) ? $user->userInfo->nation->name : 'N/A',  // Ensure nation is an object
-            $user->userInfo && is_object($user->userInfo->region) ? $user->userInfo->region->name : 'N/A',  // Ensure region is an object
+            $user->userInfo && is_object($user->userInfo->region) ? $user->userInfo->region->region : 'N/A',  // Ensure region is an object
             $user->userInfo ? $user->userInfo->address : 'N/A',
             $user->userInfo ? $user->userInfo->institution : 'N/A',
             $user->userInfo ? $user->userInfo->position : 'N/A',

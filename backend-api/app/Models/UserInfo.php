@@ -32,11 +32,11 @@ class UserInfo extends Model
     }
     public function nation()
     {
-        return $this->belongsTo(Nation::class, 'nation_id'); // Adjust the foreign key if necessary
+        return $this->belongsTo(Nation::class); // Adjust the foreign key if necessary
     }
 
     public function region()
     {
-        return $this->belongsTo(Region::class, 'region_id'); // Adjust the foreign key if necessary
+        return $this->belongsTo(Region::class); // Adjust the foreign key if necessary
     }
 }
