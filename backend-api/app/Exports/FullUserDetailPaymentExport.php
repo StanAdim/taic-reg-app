@@ -1,6 +1,8 @@
 <?php
 namespace App\Exports;
 
+use App\Models\Nation;
+use App\Models\Region;
 use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -24,7 +26,9 @@ class FullUserDetailPaymentExport implements FromCollection, WithHeadings, WithM
             'Name',
             'Email',
             'phoneNumber', // Add other relevant userInfo fields
+            'Country', // Add other relevant userInfo fields
             'Region', // Add other relevant userInfo fields
+            'Address', // Add other relevant userInfo fields
             'Instititon', // Add other relevant userInfo fields
             'Position', // Add other relevant userInfo fields
             'Paid Amount', // Add other relevant bill fields
@@ -42,8 +46,9 @@ class FullUserDetailPaymentExport implements FromCollection, WithHeadings, WithM
             $user->firstName.' '.$user->middleName.' '.$user->lastName,
             $user->email,
             $user->userInfo ? $user->userInfo->phoneNumber : 'N/A',  // Customize this with userInfo fields
-            $user->userInfo ? $user->userInfo->region_id : 'N/A',  // Customize this with userInfo fields
-            $user->userInfo ? $user->userInfo->district_id : 'N/A',  // Customize this with userInfo fields
+            $user->userInfo ? Nation::where('id',$user->userInfo->nation)->first()->name : 'N/A',  // Customize this with userInfo fields
+            $user->userInfo ? Region::where('id', $user->userInfo->region_id)->first()->region : 'N/A',  // Customize this with userInfo fields
+            $user->userInfo ? $user->userInfo->address : 'N/A',  // Customize this with userInfo fields
             $user->userInfo ? $user->userInfo->institution : 'N/A',  // Customize this with userInfo fields
             $user->userInfo ? $user->userInfo->position : 'N/A',  // Customize this with userInfo fields
             $firstBillPaidAmt,  // Customize this with bill fields
