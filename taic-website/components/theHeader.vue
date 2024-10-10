@@ -21,10 +21,9 @@ const config = useRuntimeConfig()
 <!--                    </li>-->
                     <li><nuxt-link to="/#exhibitors" class="">Exhibitors</nuxt-link></li>
                     <li><nuxt-link to="/#sponsors" class="">Sponsors</nuxt-link></li>
-                    <li><nuxt-link to="/" class="">Hospitality</nuxt-link></li>
+<!--                    <li><nuxt-link to="/" class="">Hospitality</nuxt-link></li>-->
                     <li><a target="_blank" href="https://www.tanzaniatourism.go.tz/">Tours</a></li>
-<!--                    <li><nuxt-link to="/" class="">Gallery</nuxt-link></li>-->
-
+                    <li><a target="_blank" href="https://ems.ictc.go.tz/conference-timetable">Conference Timetable</a></li>
                 </ul>
             </nav>
             <!-- .navbar -->
