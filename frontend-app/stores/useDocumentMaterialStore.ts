@@ -9,12 +9,14 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
     const eventDocuments= ref <DocumentMaterial[]>([]);
     const documentUploadModalStatus= ref <boolean>(false);
     const docPreviewModal= ref <boolean>(false);
+    const DocFilePath= ref <string>('');
 
     //Computed
     const getEventDocument = computed(() => {return eventDocuments.value})
     const getAllDocs = computed(() => {return allDocuments.value})
     const getDocumentUploadDialogStatus = computed(() => {return documentUploadModalStatus.value})
     const getPreviewModalStatus = computed(() => docPreviewModal.value);
+    const getDocFilePath = computed(() => DocFilePath.value);
 
     //Actions
     const togglePreviewModalStatus = (newState: boolean) => docPreviewModal.value = newState;
@@ -60,6 +62,19 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
             globalStore.assignAlertMessage(error.value?.data?.message, 'error')
         }
     }
+    async function retrieveDocByName(name: string) : Promise {
+        globalStore.toggleContentLoaderState('on')
+        const { data, error } = await useApiFetch(`/api/events-document/${name}`);
+        if(data.value){
+            globalStore.toggleContentLoaderState('off');
+            return data.value?.data;
+        }
+        else {
+            globalStore.toggleContentLoaderState('off');
+            globalStore.assignAlertMessage(error.value?.data?.message, 'error')
+            return null;
+        }
+    }
     async function deleteDoc(docId : string) : Promise {
         globalStore.toggleContentLoaderState('on')
         const { data, error } = await useApiFetch(`/api/events-document-delete-${docId}`, {
@@ -95,5 +110,6 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
         uploadNewDocument,retrieveAllDocuments,
         togglePreviewModalStatus,getPreviewModalStatus,
         deleteDoc,updateDocStatus,
+        retrieveDocByName, getDocFilePath
     }
 })

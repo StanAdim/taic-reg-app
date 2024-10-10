@@ -36,9 +36,9 @@ const getSitedData = ref({
                       <a href="/static/files/documents/TAIC_2024_Concept_new.pdf" target="_blank">
                           <usables-dowload-btn name="TAIC Extra Details" />
                       </a>
-                      <a href="/static/files/documents/call_for_speakers_2024.pdf" target="_blank">
-                        <usables-dowload-btn name="Call For Speakers" />
-                      </a>
+
+                      <a href="tel:+255 736 848 444" class="btn-get-started" data-aos="fade-up" data-aos-delay="1000" ><i class="fa-brands fa-whatsapp"></i>+255 736 848 444</a>
+
                     </div>
                 </div>
             </div>
