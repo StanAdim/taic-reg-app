@@ -101,9 +101,10 @@ class DocumentMaterialController extends Controller
         return response()->json(['message' => 'Status updated successfully'], 200);
     }
      // Delete 
-     public function destroy($id)
-     {
+     public function destroy($id){
          $supportRequest = DocumentMaterial::findOrFail($id);
+         Storage::disk('local')->delete($supportRequest->path);
+         // Delete the record from the database
          $supportRequest->delete();
          return response()->json(['message' => 'Event Doc deleted successfully'], 200);
      }
