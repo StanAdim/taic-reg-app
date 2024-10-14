@@ -138,8 +138,6 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::get('/export-report-payments', [FileExportController::class, 'exportPayments']);
     Route::get('/export-report-participants', [FileExportController::class, 'exportParticipants']);
     Route::get('/file-preview', [FileExportController::class, 'downloadFile']);
-
-
 });
 
  // ================ Gaywey route routes ============================================
@@ -164,3 +162,4 @@ Route::get('/test', function() {
     return 'test is live';
 });
 Route::get('/test-card', [EventBadgeController::class, 'sendBadgeToParticipant']);
+

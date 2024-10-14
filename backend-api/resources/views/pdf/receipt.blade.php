@@ -102,6 +102,13 @@
             font-size: 12px;
             margin-top: 20px;
         }
+        .signature-img {
+            position: relative;
+            left: 120px;
+            top: 40px;
+        }
+        .signature-img img{
+        }
 
     </style>
 </head>
@@ -110,7 +117,7 @@
         <header>
             <img src="{{public_path('images/nembo.png')}}" alt="Coat of Arms" class="coat-of-arms">
             <h2>United Republic of Tanzania</h2>
-            <p>PMO - Labour, Youth, Employment and Persons With Disability</p>
+            <p>ICT COMMISSION</p>
             <p><strong>Exchequer Receipts</strong></p>
             <hr class="dotted-line">
         </header>
@@ -140,6 +147,9 @@
             <p><strong>Payment Date:</strong> {{ \Carbon\Carbon::parse($bill_data->paid_date)->format('d M Y') }}</p>
             <p><strong>Issued by:</strong> {{$bill_data->billApproveBy}}</p>
             <p><strong>Date Issued:</strong> {{ date('l, F j, Y') }}</p>
+            <div class="signature-img">
+            <img src="{{public_path('images/dg-signature.png')}}" alt="img-signature" class="coat-of-arms">
+            </div>
             <p><strong>Signature:</strong> _________________________</p>
         </section>
         <footer>

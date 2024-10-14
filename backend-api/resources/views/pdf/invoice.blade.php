@@ -108,6 +108,15 @@
             top: 200px;
             right:10px;
         }
+        .signature-img {
+            position: relative;
+            left: 120px;
+            top: 40px;
+        }
+        .signature-img img{
+            height: 100px;
+            width: 100px
+        }
     </style>
 </head>
 <body>
@@ -169,6 +178,9 @@
             <tr>
                 <td>Signature</td>
                 <td colspan="2">
+                    {{-- <div class="signature-img">
+                        <img src="{{public_path('images/dg-signature.png')}}" alt="img-signature" class="coat-of-arms">
+                    </div> --}}
                     <div class="signature"></div>
                 </td>
             </tr>
