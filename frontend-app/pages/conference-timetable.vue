@@ -45,13 +45,15 @@ onNuxtReady(()=> {
             <div>
               <div class="mt-[10px]">
                 <div class="">
-                  <iframe
-                      v-if="blobDataFile"
-                      :src="blobDataFile"
-                      width="100%"
-                      height="600px"
-                  >
-                  </iframe>
+                  <div class="w-full h-auto lg:h-[100vh] md:h-[80vh] sm:h-[72vh] relative">
+                    <iframe
+                        v-if="blobDataFile"
+                        :src="blobDataFile"
+                        class="w-full h-full"
+                        style="border:none;"
+                    >
+                    </iframe>
+                  </div>
                 </div>
               </div>
             </div>
