@@ -8,10 +8,15 @@ use App\Exports\FullUserDetailPaymentExport;
 use App\Exports\PaymentsExport;
 use App\Exports\UsersExport;
 use App\Models\Taic\Conference;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Carbon\Carbon;
+use Exception;
+
 
 
 class FileExportController extends Controller
@@ -39,21 +44,50 @@ class FileExportController extends Controller
         // Excel::store(new PaymentsExport, $filePath);
         return response() ->json(['path' => $filePath]);
     }
-    public function exportParticipationCertificate() {
-        return view('pdf.participation_certificate');
+    public function exportParticipationCertificate($user,$conference){
+        try {
+            $user_data = User::where('verificationKey', $user)->first();
+            $conference_data = Conference::where('id', $conference)->first();
+            $logoPath = public_path('images/nembo.png');
+            if (!$user_data) {
+                return response()->json([ 'message' => "User not found"]);
+            }
+            $startDate = Carbon::createFromFormat('Y-m-d',$conference_data->startDate)->format('d M Y');
+            $endDate = Carbon::createFromFormat('Y-m-d',$conference_data->endDate)->format('d M Y');
+            $eventDate = $startDate. ' - '.$endDate;
+            $pdf =Pdf::loadView('pdf.participation_certificate_v1',[   
+                'venue' => $conference_data->venue,
+                'eventDate' => $eventDate,
+                'eventName' => $conference_data->name,
+                'participantName' => $user_data->firstName.' '. $user_data->middleName.' '.$user_data->lastName
+                ])
+             ->setPaper('a4', 'landscape');
+             return $pdf->download("TAIC-PARTICIPATION-CERTIFICATE".'.pdf');
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Certificate generation failed: " . $e->getMessage(),
+            ], 500);
+        }
     }
     public function printCertificate(){
-        $slug = 'STANLEY JUSTINE MAHENGE';
+        $fullName = 'STANLEY JUSTINE MAHENGE';
         $eventDate = "04th - 05th April 2024";
         $venue = "Gran Melia - Arusha";
         $eventName = '3rd Tanzania Cybersecurity Forum';
-        $pdf =Pdf::loadView('pdf.participation_certificate',
-        [   'venue' => $venue,
+        $pdf =Pdf::loadView('pdf.participation_certificate',[   
+            'venue' => $venue,
             'eventDate' => $eventDate,
             'eventName' => $eventName,
-            'participantName' => $slug])
-         ->setPaper('a4', 'landscape');
-        return $pdf->download($slug."-TAIC-PARTICIPATION-CERTIFICATE".'.pdf');
+            'participantName' => $fullName])
+         ->setPaper('a4', 'landscape'); 
+        //  return view('pdf.participation_certificate_v1',[
+        //     'venue' => $venue,
+        //     'eventDate' => $eventDate,
+        //     'eventName' => $eventName,
+        //     'participantName' => $fullName
+        //  ]);
+
+        return $pdf->download($fullName."-TAIC-PARTICIPATION-CERTIFICATE".'.pdf');
     }
     public function downloadFile(Request $request){
         // return $request 

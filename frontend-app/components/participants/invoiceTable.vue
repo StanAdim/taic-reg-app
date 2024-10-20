@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 const billStore = useBillStore();
+const docStore = useDocumentMaterialStore();
 
 const search = ref('')
 const filterTableData = computed(() =>
@@ -17,8 +18,13 @@ const handleBillDownloading = async (docType, row) => {
   // console.log(row.id)
   await billStore.handleInvoiceDownload(docType,row?.id);
 }
-const handleCertificateDownload = async ( row) => {
-  console.log(row)
+const handleCertificateDownload = async ( user : string, conference:string) => {
+  const passed_data = {
+    conference,
+    user
+  }
+  await docStore.handleCertificateDownload(passed_data);
+  // console.log(data)
 }
 </script>
 
@@ -48,7 +54,7 @@ const handleCertificateDownload = async ( row) => {
           </div>
           <div class="">
             <el-button class="mx-1 my-0.5"  size="default" type="info" v-if="scope.row.hasPaid">
-              <span @click="handleCertificateDownload(scope.row)"><i class="fa-solid fa-arrow-down mr-1"></i>Certificate</span>
+              <span @click="handleCertificateDownload(scope.row?.userKey, scope.row?.conference_id)"><i class="fa-solid fa-arrow-down mr-1"></i>Certificate</span>
             </el-button>
           </div>
           <div class="">

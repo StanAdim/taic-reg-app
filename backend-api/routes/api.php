@@ -114,6 +114,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::post('/bill/reconciliation', [BillController::class,'handleReconciliationRequest']);
     Route::get('/bill/cancellation/{bill_id}', [BillController::class,'handleCancellationRequest']);
     Route::get('/generate-invoice/{type}/{user_bill}', [BillController::class, 'generateInvoice']);
+    Route::get('/generate-certificate/{user}/{conference}', [FileExportController::class, 'exportParticipationCertificate']);
     
     Route::apiResource('/booth-request', ExhibitionRequestController::class);
     Route::apiResource('/exhibition-booth', ExhibitionBoothController::class);
@@ -124,7 +125,6 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::apiResource('/request-support',SupportRequestController::class);
     Route::apiResource('/respond-support-request',SupportResponseController::class);
     Route::apiResource('/sponsorship', SponsorshipController::class);
-
 
     // Gateway routes
     Route::get('/gateway/registered-system', [PaymentGatewayController::class,'registeredSystem']);
@@ -139,9 +139,7 @@ Route::get('/mail-{verificationKey}', [GeneralController::class, 'verifyUserEmai
     Route::get('/export-report-participants', [FileExportController::class, 'exportParticipants']);
     Route::get('/file-preview', [FileExportController::class, 'downloadFile']);
 });
-
  // ================ Gaywey route routes ============================================
-
 Route::middleware([ApiKeyMiddleware::class])->group(function () {
     Route::post('/v1/gateway-bill-submission', [PaymentGatewayController::class, 'handleBillSubmission']);
 });
@@ -151,10 +149,7 @@ Route::get('/certificate-participation-1', [FileExportController::class, 'printC
 
 ///Test route
 Route::get('/send-test-email', function () {
-    $details = [
-        'title' => 'Test Email from EMS',
-        'body' => 'This is a test email sent EMS system.',
-    ];
+    $details = [ 'title' => 'Test Email from EMS', 'body' => 'This is a test email sent EMS system.', ];
     Mail::to('stanjustine@gmail.com')->send(new \App\Mail\TestMail($details));
     return 'Test Email Sent!';
 });
