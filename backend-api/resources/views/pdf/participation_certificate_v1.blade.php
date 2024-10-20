@@ -7,7 +7,7 @@
     <title>Participation Certificate</title>
     <style>
         body{
-            background-image: public_path({{URL::asset('siteimg/background.jpg')}});
+            /* background-image: public_path({{URL::asset('siteimg/background.jpg')}}); */
             background-repeat: no-repeat;
         }
         .main{
@@ -132,7 +132,7 @@
             <div class="row">
                 <div class="col">
                     <div class="nembo">
-                        <img src="{{public_path('images/nembo.png')}}" alt="nembo">
+                        <img src="{{public_path('/images/nembo.png')}}" alt="nembo">
                     </div>
                 </div>
                 <div class="col">
@@ -154,7 +154,7 @@
                 </div>
                 <div class="col">
                     <div class="logo">
-                        <img src="{{public_path('images/logo.jpeg')}}" alt="logo">
+                        <img src="{{public_path('/images/logo-transparent.png')}}" alt="logo">
                     </div>
                 </div>
             </div>
@@ -162,7 +162,7 @@
                 <h1>CERTIFICATE OF ATTENDANCE</h1>
                 <p class="normal">is awarded to </p>
                 <p class="attendeeName">{{$participantName}}</p>
-                <p class="normal">with 15 Professional Development Hours (PHD) for active participation to the</p>
+                <p class="normal">with 25 Professional Development Hours (PHD) for active participation to the</p>
                 <p class="greener">{{$eventName}}</p>
                 <p class="normal">held at the</p>
                 <p class="greener">{{$venue}}</p>
@@ -171,18 +171,19 @@
             <div class="lower-row">
                 <div class="col">
                     <div class="taic-logo">
-                        <!-- {{-- <img src="{{public_path('images/taic-bg.png')}}" alt="taic-logo"> --}} -->
+                        {{-- <img src="{{public_path('/images/nembo.png')}}" alt="logo"> --}}
                     </div>
                 </div>
                 <div class="col">
                     <div class="signature">
                         <div class="sign">
-                            <img src="{{public_path('images/dg-signature.png')}}" alt="signature">                            
+                            <img src="{{public_path('/images/dg-signature.png')}}" alt="signature">                            
                         </div>
                         <hr />
                         <p class="name">Dr. N.M Mwasaga</p>
                         <p class="normal">Director General</p>
                         <p class="normal">ICT Commission</p>
+
                     </div>                    
                 </div>
             </div>

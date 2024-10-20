@@ -103,6 +103,37 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
                 globalStore.assignAlertMessage(error.value?.data?.message, 'error')
             }
         }
+    async function handleCertificateDownload(passed_data : Object) {
+        globalStore.toggleContentLoaderState('on');
+        try {
+            const { data, error } = await useApiFetch(`/api/generate-certificate/${passed_data?.user}/${passed_data?.conference}`, {
+                method: 'GET',
+                responseType: 'blob', // Ensure this is properly set
+            });
+            if(data.value){
+                // Check if the data is already a blob
+                const blob = data.value instanceof Blob ? data.value : new Blob([data.value], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `ems_participant_certificate_${passed_data?.user}_.pdf`);
+                document.body.appendChild(link);
+                link.click();
+                window.URL.revokeObjectURL(url); // Cleanup memory
+                globalStore.assignAlertMessage('Downloaded success', 'success');
+            }
+
+            if (error.value) {
+                globalStore.assignAlertMessage(`Error: ${error.value.message}`, 'error');
+                console.error('Error value:', error.value); // Log the error for debugging
+            }
+        } catch (e) {
+            console.error('Exception occurred:', e);
+            globalStore.assignAlertMessage('An error occurred while downloading the invoice', 'error');
+        } finally {
+            globalStore.toggleContentLoaderState('off');
+        }
+    }
 
     return {
         getAllDocs,getEventDocument,
@@ -110,6 +141,7 @@ export const useDocumentMaterialStore = defineStore('documentStore', () => {
         uploadNewDocument,retrieveAllDocuments,
         togglePreviewModalStatus,getPreviewModalStatus,
         deleteDoc,updateDocStatus,
-        retrieveDocByName, getDocFilePath
+        retrieveDocByName, getDocFilePath,
+        handleCertificateDownload
     }
 })

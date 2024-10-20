@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const billStore = useBillStore();
 const exportStore = useFileExportsStore();
+const docStore = useDocumentMaterialStore();
 
 const search = ref('')
 const filterTableData = computed(() =>
@@ -73,6 +74,14 @@ const handleBillDownloading = async (docType, row) => {
 
 const handleExcelExport = async  () => {
   await exportStore.handleExcelFileExport('bills', 'bill-list')
+}
+const handleCertificateDownload = async ( user : string, conference:string) => {
+  const passed_data = {
+    conference,
+    user
+  }
+  await docStore.handleCertificateDownload(passed_data);
+  // console.log(data)
 }
 
 </script>
@@ -148,6 +157,12 @@ const handleExcelExport = async  () => {
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
+          </td>
+          <td class="table-data">
+            <el-button class="mx-1 my-0.5"  size="default" >
+              <span @click="handleCertificateDownload(item?.userKey, item?.conference_id)"
+               class="text-green-600"><i class="fa-solid fa-arrow-down mr-1"></i><i class="fa-solid fa-file-invoice"></i></span>
+            </el-button>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
             <div class="flex">
